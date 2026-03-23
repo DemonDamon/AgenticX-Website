@@ -337,7 +337,7 @@ def send_email(to: str, subject: str, body: str):
           <div className="hidden md:flex items-center gap-8">
             <a href="#features" className="text-sm text-neutral-400 hover:text-white transition-colors">Features</a>
             <a href="#code" className="text-sm text-neutral-400 hover:text-white transition-colors">Examples</a>
-            <a href="https://github.com/DemonDamon/AgenticX" target="_blank" className="text-sm text-neutral-400 hover:text-white transition-colors">Documentation</a>
+            <Link href="/docs" className="text-sm text-neutral-400 hover:text-white transition-colors">Documentation</Link>
             <Link href="https://github.com/DemonDamon/AgenticX" target="_blank">
               <Button size="sm" variant="outline" className="border-neutral-800 text-neutral-300 hover:text-white hover:bg-neutral-900">
                 <Github className="w-4 h-4 mr-2" />
