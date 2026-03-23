@@ -104,9 +104,9 @@ agx serve --port 8000
 
 ## Next Steps
 
-- [Configuration →](configuration.md)
-- [Agent Core concepts →](../concepts/agent.md)
-- [Multi-Agent Collaboration →](../guides/multi-agent.md)
-- [CLI Reference →](../cli.md)
+- [Configuration →](/docs/getting-started/configuration)
+- [Agent Core concepts →](/docs/concepts/agent)
+- [Multi-Agent Collaboration →](/docs/guides/multi-agent)
+- [CLI Reference →](/docs/cli)
 `,
 };

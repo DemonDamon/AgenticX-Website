@@ -5,6 +5,12 @@ export const indexContent = {
 
 **Unified Multi-Agent Framework** — production-ready, scalable, from simple automation to complex multi-agent collaboration.
 
+[![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![PyPI version](https://img.shields.io/pypi/v/agenticx)](https://pypi.org/project/agenticx/)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/agenticx)](https://pypi.org/project/agenticx/)
+
+---
+
 ## Vision
 
 AgenticX aims to create a unified, scalable, production-ready multi-agent application development framework, empowering developers to build everything from simple automation assistants to complex collaborative intelligent agent systems.
@@ -40,6 +46,18 @@ Hierarchical memory (core / episodic / semantic), Mem0 deep integration, workspa
 
 ### 👥 Avatar & Team Collaboration
 Avatar registry (CRUD), group chat with multiple routing strategies (user-directed / meta-routed / round-robin), and Meta-Agent CEO dispatcher with dynamic sub-agent orchestration.
+
+### 📚 Knowledge & Retrieval
+Document processing pipeline with chunkers, readers, extractors, and graph builders (GraphRAG). Vector/BM25/graph/hybrid retrievers, auto-retriever, and reranker.
+
+### 🔒 Enterprise Security
+Safety layer with leak detection, input sanitizer, injection detector, policy engine, sandbox (Docker / Microsandbox / Subprocess), audit logging.
+
+### 📊 Observability & Evaluation
+Complete callback system, real-time metrics, Prometheus/OpenTelemetry integration, EvalSet-based evaluation, LLM judge, and trace analysis.
+
+### 💾 Storage Layer
+Key-Value (SQLite/Redis/PostgreSQL/MongoDB), Vector (Milvus/Qdrant/Chroma/Faiss), Graph (Neo4j/Nebula), Object (S3/GCS/Azure).
 
 ## Quick Start
 

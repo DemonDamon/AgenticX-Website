@@ -39,7 +39,7 @@ Electron + React + Zustand + Vite. Supports Pro mode (multi-pane) and Lite mode 
 ### CLI (\`agx\`)
 Full-featured command-line tool covering: serve, studio, loop, run, project, deploy, codegen, docs, skills, hooks, debug, scaffold, config management.
 
-See [CLI Reference →](../cli.md)
+See [CLI Reference →](/docs/cli)
 
 ### SDK
 Python SDK for embedding AgenticX into your own applications.
@@ -52,7 +52,7 @@ Python SDK for embedding AgenticX into your own applications.
 Manages user sessions, chat history persistence (\`messages.json\`), write locks, and in-memory state. Supports cross-session avatar status queries.
 
 ### Meta-Agent
-The CEO dispatcher. Dynamically orchestrates sub-agents, maintains active agent snapshots, and handles memory recall injection per turn.
+The CEO dispatcher. Dynamically orchestrates sub-agents, maintains active agent snapshots, and handles memory recall injection per turn. Built via \`agenticx/runtime/prompts/meta_agent.py\`.
 
 ### Team Manager (\`AgentTeamManager\`)
 Controls concurrent agent execution, archived snapshots (\`_archived_agents\`), \`owner_session_id\` session isolation, \`avatar_id\` binding, and global registry lookup.
@@ -60,14 +60,14 @@ Controls concurrent agent execution, archived snapshots (\`_archived_agents\`), 
 ### Avatar & Group Chat
 - **Avatar Registry**: CRUD operations for persistent agent identities
 - **Group Chat**: Multiple routing strategies — user-directed (\`@mention\`), meta-routed, round-robin
-- **Group Router**: Handles \`@mention\` parsing, intelligent routing to named members
+- **Group Router**: Handles \`@mention\` parsing (full name / slug ID), intelligent routing to named members
 
 ---
 
 ## Tier 3: Core Framework
 
 ### Agent Execution Engine
-Based on 12-Factor Agents methodology. The think-act loop processes tool calls, handles context overflow, and performs self-repair.
+Based on 12-Factor Agents methodology. The think-act loop processes tool calls, handles context overflow, and performs self-repair. Tool call sequences are validated to prevent provider 400 errors.
 
 ### Orchestration Engine
 Graph-based workflow with conditional routing and parallel execution. The Flow system provides decorator-based pipeline definition.

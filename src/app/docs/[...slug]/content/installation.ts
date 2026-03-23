@@ -77,7 +77,7 @@ agx version 0.x.x
 
 ## Next Steps
 
-- [Quick Start →](quickstart.md)
-- [Configuration →](configuration.md)
+- [Quick Start →](/docs/getting-started/quickstart)
+- [Configuration →](/docs/getting-started/configuration)
 `,
 };
