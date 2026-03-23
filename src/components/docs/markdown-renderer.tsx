@@ -1,14 +1,27 @@
 'use client';
 
 import React from 'react';
+import { Highlight, themes } from 'prism-react-renderer';
 
 interface MarkdownRendererProps {
   content: string;
 }
 
+// Language mapping for common aliases
+const languageMap: Record<string, string> = {
+  'js': 'javascript',
+  'ts': 'typescript',
+  'py': 'python',
+  'sh': 'bash',
+  'shell': 'bash',
+  'yml': 'yaml',
+  'md': 'markdown',
+  '': 'text',
+};
+
 /**
  * Simple Markdown renderer for documentation content
- * Supports: headers, code blocks, lists, links, bold, italic, tables
+ * Supports: headers, code blocks with syntax highlighting, lists, links, bold, italic, tables
  */
 export function MarkdownRenderer({ content }: MarkdownRendererProps) {
   const renderMarkdown = (text: string): React.ReactNode => {
@@ -57,7 +70,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
             parts.push(processInlineSimple(remaining.slice(0, codeMatch.index)));
           }
           parts.push(
-            <code key={partKey++} className="px-1.5 py-0.5 rounded bg-zinc-800 text-emerald-400 text-sm font-mono">
+            <code key={partKey++} className="px-1.5 py-0.5 rounded bg-zinc-800 text-pink-400 text-sm font-mono">
               {codeMatch[1]}
             </code>
           );
@@ -135,6 +148,49 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
       );
     };
 
+    const renderCodeBlock = (code: string, language: string): React.ReactNode => {
+      // Normalize language
+      const normalizedLang = languageMap[language.toLowerCase()] || language.toLowerCase() || 'text';
+      
+      return (
+        <div key={key++} className="my-6 rounded-lg overflow-hidden border border-zinc-700">
+          {language && (
+            <div className="bg-zinc-800 px-4 py-2 text-xs text-zinc-400 border-b border-zinc-700 flex items-center justify-between">
+              <span className="uppercase font-medium">{language || 'code'}</span>
+              <button 
+                onClick={() => navigator.clipboard.writeText(code.trim())}
+                className="text-zinc-500 hover:text-zinc-300 transition-colors"
+              >
+                Copy
+              </button>
+            </div>
+          )}
+          <Highlight
+            theme={themes.nightOwl}
+            code={code.trim()}
+            language={normalizedLang as any}
+          >
+            {({ className, style, tokens, getLineProps, getTokenProps }) => (
+              <pre className={`${className} p-4 overflow-x-auto text-sm`} style={{ ...style, backgroundColor: '#0d1117' }}>
+                {tokens.map((line, i) => (
+                  <div key={i} {...getLineProps({ line })} className="table-row">
+                    <span className="table-cell text-zinc-600 select-none pr-4 text-right" style={{ minWidth: '2.5rem' }}>
+                      {i + 1}
+                    </span>
+                    <span className="table-cell">
+                      {line.map((token, key) => (
+                        <span key={key} {...getTokenProps({ token })} />
+                      ))}
+                    </span>
+                  </div>
+                ))}
+              </pre>
+            )}
+          </Highlight>
+        </div>
+      );
+    };
+
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i];
 
@@ -146,20 +202,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
           codeContent = '';
         } else {
           inCodeBlock = false;
-          elements.push(
-            <div key={key++} className="my-6 rounded-lg overflow-hidden border border-zinc-700">
-              {codeLanguage && (
-                <div className="bg-zinc-800 px-4 py-2 text-xs text-zinc-400 border-b border-zinc-700">
-                  {codeLanguage}
-                </div>
-              )}
-              <pre className="bg-zinc-900 p-4 overflow-x-auto">
-                <code className="text-sm text-zinc-300 font-mono whitespace-pre">
-                  {codeContent.trim()}
-                </code>
-              </pre>
-            </div>
-          );
+          elements.push(renderCodeBlock(codeContent, codeLanguage));
           codeContent = '';
           codeLanguage = '';
         }
