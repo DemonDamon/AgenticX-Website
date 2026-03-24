@@ -29,6 +29,8 @@ AgenticX is organized into **5 tiers**, from user-facing interfaces down to plat
 └─────────────────────────────────────────────────────┘
 \`\`\`
 
+![AgenticX System Architecture](/docs/assets/architecture.png)
+
 ---
 
 ## Tier 1: User Interface

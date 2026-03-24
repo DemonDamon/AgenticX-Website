@@ -78,6 +78,49 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
           continue;
         }
 
+        // Linked image: [![alt](src)](href) — must run before plain links and images
+        const linkedImgMatch = remaining.match(/\[\!\[([^\]]*)\]\(([^)]+)\)\]\(([^)]+)\)/);
+        if (linkedImgMatch && linkedImgMatch.index !== undefined) {
+          if (linkedImgMatch.index > 0) {
+            parts.push(processInlineSimple(remaining.slice(0, linkedImgMatch.index)));
+          }
+          const [, alt, src, href] = linkedImgMatch;
+          parts.push(
+            <a
+              key={partKey++}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block align-middle"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={src} alt={alt} className="inline-block h-5 w-auto max-w-full align-middle" />
+            </a>
+          );
+          remaining = remaining.slice(linkedImgMatch.index + linkedImgMatch[0].length);
+          continue;
+        }
+
+        // Markdown images (optional MkDocs-style attrs: { width="600" })
+        const imgMatch = remaining.match(/!\[([^\]]*)\]\(([^)]+)\)(?:\{[^}]*\})?/);
+        if (imgMatch && imgMatch.index !== undefined) {
+          if (imgMatch.index > 0) {
+            parts.push(processInlineSimple(remaining.slice(0, imgMatch.index)));
+          }
+          const [, alt, src] = imgMatch;
+          parts.push(
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              key={partKey++}
+              src={src}
+              alt={alt}
+              className="my-2 max-h-[480px] max-w-full rounded-lg border border-zinc-700 object-contain"
+            />
+          );
+          remaining = remaining.slice(imgMatch.index + imgMatch[0].length);
+          continue;
+        }
+
         // Links
         const linkMatch = remaining.match(/\[([^\]]+)\]\(([^)]+)\)/);
         if (linkMatch && linkMatch.index !== undefined) {
@@ -304,6 +347,23 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
         }
         i--; // Back up one
         elements.push(<ol key={key++} className="my-4 space-y-2">{listItems}</ol>);
+        continue;
+      }
+
+      // Standalone image line (full-width / centered, not wrapped in <p>)
+      const standaloneImg = line.match(/^\s*!\[([^\]]*)\]\(([^)]+)\)(?:\{[^}]*\})?\s*$/);
+      if (standaloneImg) {
+        const [, alt, src] = standaloneImg;
+        elements.push(
+          <div key={key++} className="my-6 flex justify-center">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={src}
+              alt={alt}
+              className="max-h-[min(480px,70vh)] w-auto max-w-full rounded-lg border border-zinc-700 object-contain"
+            />
+          </div>
+        );
         continue;
       }
 

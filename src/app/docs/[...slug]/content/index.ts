@@ -3,6 +3,8 @@ export const indexContent = {
   description: 'Unified Multi-Agent Framework — production-ready, scalable, from simple automation to complex multi-agent collaboration.',
   content: `# AgenticX
 
+![AgenticX Logo](/docs/assets/agenticx-logo.png){ width="600" }
+
 **Unified Multi-Agent Framework** — production-ready, scalable, from simple automation to complex multi-agent collaboration.
 
 [![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
@@ -16,6 +18,8 @@ export const indexContent = {
 AgenticX aims to create a unified, scalable, production-ready multi-agent application development framework, empowering developers to build everything from simple automation assistants to complex collaborative intelligent agent systems.
 
 ## System Architecture
+
+![AgenticX System Architecture](/docs/assets/architecture.png)
 
 The framework is organized into **5 tiers**:
 
