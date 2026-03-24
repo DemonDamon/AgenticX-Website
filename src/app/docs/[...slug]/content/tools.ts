@@ -161,6 +161,47 @@ Skills follow the Anthropic-style \`SKILL.md\` layout with YAML front matter. **
 !!! note ""SkillBundle" vs loader"
     The codebase centers on \`SkillBundleLoader\` and \`SkillMetadata\`; there is no separate \`SkillBundle\` class. Conceptually a "bundle" is the loaded set of skills from configured search paths.
 
+AGX Bundle installs also land in **\`~/.agenticx/skills/bundles/\`**, which is automatically included in the scan paths, so bundled skills are discovered without any extra config.
+
+---
+
+## AGX Bundle
+
+An **AGX Bundle** (\`agenticx.extensions\`) is a distributable directory package that combines Skills, MCP server configs, Avatar presets, and Memory templates into a single distributable unit.
+
+\`\`\`
+my-bundle/
+├── agx-bundle.yaml
+├── skills/
+│   └── my-skill/SKILL.md
+├── mcp/
+│   └── server.json
+├── avatars/
+│   └── preset.yaml
+└── memory/
+    └── template.md
+\`\`\`
+
+**Key modules:**
+
+| Module | Purpose |
+|--------|---------|
+| \`agenticx.extensions.bundle\` | Parses \`agx-bundle.yaml\`, enforces safe relative paths |
+| \`agenticx.extensions.installer\` | Install / uninstall bundles, manages \`~/.agenticx/bundles.json\` |
+| \`agenticx.extensions.registry_hub\` | Multi-source marketplace search & install |
+
+**Quick install:**
+
+\`\`\`python
+from pathlib import Path
+from agenticx.extensions.installer import install_bundle
+
+result = install_bundle(Path("./my-bundle"))
+print(result.skills_installed, result.mcp_servers_installed)
+\`\`\`
+
+See [Extensions & Skill Ecosystem](/docs/guides/extensions) for the full guide including AGX Bundle format, marketplace configuration, and Desktop UI walkthrough.
+
 ---
 
 ## Tool executor

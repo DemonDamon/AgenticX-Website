@@ -20,6 +20,7 @@ import { firstAgentContent } from './content/first-agent';
 import { multiAgentContent } from './content/multi-agent';
 import { studioContent } from './content/studio';
 import { knowledgeContent } from './content/knowledge';
+import { extensionsContent } from './content/extensions';
 import { deploymentContent } from './content/deployment';
 import { apiAgentsContent } from './content/api-agents';
 import { cliContent } from './content/cli';
@@ -45,6 +46,7 @@ const docsMap: Record<string, { title: string; description?: string; content: st
   'guides/multi-agent': multiAgentContent,
   'guides/studio': studioContent,
   'guides/knowledge': knowledgeContent,
+  'guides/extensions': extensionsContent,
   'guides/deployment': deploymentContent,
   'api/agents': apiAgentsContent,
   'cli': cliContent,

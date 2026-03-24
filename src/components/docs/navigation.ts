@@ -40,6 +40,7 @@ export const docNavigation: DocNavSection[] = [
       { title: 'Multi-Agent', slug: 'guides/multi-agent' },
       { title: 'Studio Server', slug: 'guides/studio' },
       { title: 'Knowledge & RAG', slug: 'guides/knowledge' },
+      { title: 'Extensions & Skill Ecosystem', slug: 'guides/extensions' },
       { title: 'Deployment', slug: 'guides/deployment' },
     ],
   },

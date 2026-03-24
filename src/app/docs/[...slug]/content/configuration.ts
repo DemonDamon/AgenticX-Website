@@ -81,6 +81,26 @@ providers:
 
 Agent identities and memory are stored in \`~/.agenticx/workspace/\`. Each avatar gets its own subdirectory with session history, memories, and context files.
 
+## Extensions & Skill Marketplace
+
+Configure extension registries and local scan directories for the skill marketplace:
+
+\`\`\`yaml
+extensions:
+  registries:
+    - name: official
+      url: https://registry.agxbuilder.com
+      type: agx                          # AgenticX native registry
+    - name: clawhub
+      url: https://www.clawhub.io/api
+      type: clawhub                      # ClawHub skills market
+  scan_dirs:
+    - ~/.agenticx/bundles
+    - ~/.agenticx/skills/registry
+\`\`\`
+
+See [Extensions & Skill Ecosystem](/docs/guides/extensions) for full details on AGX Bundles and marketplace usage.
+
 ## Project-level Config
 
 For per-project settings, create \`agenticx.yaml\` in your project root:
