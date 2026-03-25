@@ -3,6 +3,8 @@ export interface DocNavItem {
   title: string;
   slug: string;
   children?: DocNavItem[];
+  /** Extra tokens for cmdk search (e.g. litellm for LLM Providers). */
+  searchAliases?: string;
 }
 
 export interface DocNavSection {
@@ -29,7 +31,11 @@ export const docNavigation: DocNavSection[] = [
       { title: 'Memory', slug: 'concepts/memory' },
       { title: 'Orchestration', slug: 'concepts/orchestration' },
       { title: 'Flow & Workflow', slug: 'concepts/flow' },
-      { title: 'LLM Providers', slug: 'concepts/llm-providers' },
+      {
+        title: 'LLM Providers',
+        slug: 'concepts/llm-providers',
+        searchAliases: 'litellm LiteLLM OpenAI Anthropic Ollama Gemini',
+      },
       { title: 'Hooks', slug: 'concepts/hooks' },
     ],
   },
