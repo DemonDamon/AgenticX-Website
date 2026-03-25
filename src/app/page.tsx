@@ -14,7 +14,8 @@ import {
   Terminal,
   Menu,
   X,
-  Check
+  Check,
+  TriangleAlert
 } from 'lucide-react';
 
 // 打字机效果 Hook (循环)
@@ -365,8 +366,30 @@ def send_email(to: str, subject: str, body: str):
         )}
       </nav>
 
+      <main className="pt-16">
+      {/* Security advisory */}
+      <div className="border-b border-amber-500/35 bg-amber-950/90">
+        <div className="max-w-6xl mx-auto px-6 py-3 flex gap-3 items-start">
+          <TriangleAlert className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" aria-hidden />
+          <div className="text-sm text-amber-100/90 leading-relaxed">
+            <span className="font-semibold text-amber-200">Security advisory — </span>
+            Malicious <code className="text-amber-100/95 bg-black/30 px-1 rounded">litellm</code> versions{' '}
+            <strong>1.82.7</strong> and <strong>1.82.8</strong> were removed from PyPI (potential API key exfiltration). Uninstall them, rotate exposed credentials, and upgrade to a safe release (e.g. <strong>1.82.9+</strong> per upstream). Run{' '}
+            <code className="text-amber-100/95 bg-black/30 px-1 rounded">pip show litellm</code> to verify.
+            {' '}
+            <Link href="https://pypi.org/project/litellm/" target="_blank" className="text-amber-300 underline underline-offset-2 hover:text-amber-200">
+              PyPI
+            </Link>
+            {' · '}
+            <Link href="https://github.com/DemonDamon/AgenticX/blob/main/README.md#security-advisory" target="_blank" className="text-amber-300 underline underline-offset-2 hover:text-amber-200">
+              README
+            </Link>
+          </div>
+        </div>
+      </div>
+
       {/* Hero */}
-      <section className="pt-32 pb-20 px-6">
+      <section className="pt-16 pb-20 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="max-w-3xl">
             <h1 className="text-5xl md:text-6xl font-semibold tracking-tight leading-[1.1] mb-6">
@@ -576,6 +599,7 @@ def send_email(to: str, subject: str, body: str):
           <p className="text-sm text-neutral-600">AGPL-3.0 License</p>
         </div>
       </footer>
+      </main>
     </div>
   );
 }
