@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useCallback, useMemo, useState } from "react";
+import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast, Toaster } from "sonner";
@@ -21,6 +21,7 @@ function AuthContent() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
+  const emailHashHandledRef = useRef(false);
 
   const supabaseReady = useMemo(() => {
     try {
@@ -30,6 +31,20 @@ function AuthContent() {
       return false;
     }
   }, []);
+
+  /** 确认邮件里的跳转地址：优先正式域名（Vercel 配 NEXT_PUBLIC_SITE_URL），否则用当前页 origin，避免落到 Supabase 默认的 localhost:3000 */
+  const buildEmailRedirectTo = useCallback(() => {
+    const envBase = process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/$/, "");
+    const origin =
+      envBase ||
+      (typeof window !== "undefined" ? window.location.origin.replace(/\/$/, "") : "");
+    if (!origin) return undefined;
+    const qs = new URLSearchParams();
+    if (desktop) qs.set("desktop", "1");
+    if (deviceId) qs.set("device_id", deviceId);
+    const q = qs.toString();
+    return `${origin}/auth${q ? `?${q}` : ""}`;
+  }, [desktop, deviceId]);
 
   const bindDesktopSession = useCallback(
     async (accessToken: string, refreshToken: string | null) => {
@@ -52,6 +67,38 @@ function AuthContent() {
     },
     [desktop, deviceId]
   );
+
+  /** 邮箱确认链接常带 #access_token=… 回到 /auth；消费 hash 后绑定桌面并清掉 hash */
+  useEffect(() => {
+    if (!supabaseReady || typeof window === "undefined") return;
+    const hash = window.location.hash;
+    if (!hash.includes("access_token")) return;
+    if (emailHashHandledRef.current) return;
+    emailHashHandledRef.current = true;
+
+    void (async () => {
+      try {
+        await new Promise((r) => setTimeout(r, 0));
+        const supabase = getSupabaseBrowserClient();
+        const { data, error } = await supabase.auth.getSession();
+        if (error || !data.session?.access_token) {
+          emailHashHandledRef.current = false;
+          return;
+        }
+        await bindDesktopSession(data.session.access_token, data.session.refresh_token);
+        toast.success("邮箱已确认");
+        const qs = new URLSearchParams(window.location.search);
+        const clean = `/auth${qs.toString() ? `?${qs.toString()}` : ""}`;
+        window.history.replaceState(null, "", clean);
+        router.replace("/agents");
+        router.refresh();
+      } catch (e) {
+        emailHashHandledRef.current = false;
+        const msg = e instanceof Error ? e.message : String(e);
+        toast.error(msg || "确认邮箱后绑定失败");
+      }
+    })();
+  }, [supabaseReady, bindDesktopSession, router]);
 
   const onEmailSignIn = async () => {
     if (!supabaseReady) {
@@ -88,9 +135,11 @@ function AuthContent() {
     setBusy(true);
     try {
       const supabase = getSupabaseBrowserClient();
+      const emailRedirectTo = buildEmailRedirectTo();
       const { data, error } = await supabase.auth.signUp({
         email: email.trim(),
         password,
+        options: emailRedirectTo ? { emailRedirectTo } : undefined,
       });
       if (error) throw error;
       const session = data.session;
