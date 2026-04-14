@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 
 import { getDb } from "@/db";
 import { deviceAuthRequests } from "@/db/schema";
+import { classifyDeviceAuthFailure } from "@/lib/device-auth-errors";
 
 export const runtime = "nodejs";
 
@@ -12,8 +13,14 @@ const DEVICE_ID_RE =
 const TTL_MS = 5 * 60 * 1000;
 
 export async function POST(req: Request) {
+  let body: { device_id?: string };
   try {
-    const body = (await req.json()) as { device_id?: string };
+    body = (await req.json()) as { device_id?: string };
+  } catch {
+    return NextResponse.json({ ok: false, error: "invalid_json_body" }, { status: 400 });
+  }
+
+  try {
     const deviceId = String(body?.device_id ?? "").trim();
     if (!DEVICE_ID_RE.test(deviceId)) {
       return NextResponse.json({ ok: false, error: "invalid device_id" }, { status: 400 });
@@ -52,11 +59,8 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ ok: true, expires_at: expiresAt.toISOString() });
   } catch (e) {
-    const msg = e instanceof Error ? e.message : String(e);
-    if (msg.includes("DATABASE_URL")) {
-      return NextResponse.json({ ok: false, error: "database_not_configured" }, { status: 503 });
-    }
+    const { error, httpStatus } = classifyDeviceAuthFailure(e);
     console.error("[auth/device/init]", e);
-    return NextResponse.json({ ok: false, error: "server_error" }, { status: 500 });
+    return NextResponse.json({ ok: false, error }, { status: httpStatus });
   }
 }

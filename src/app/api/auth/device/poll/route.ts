@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 
 import { getDb } from "@/db";
 import { deviceAuthRequests } from "@/db/schema";
+import { classifyDeviceAuthFailure } from "@/lib/device-auth-errors";
 
 export const runtime = "nodejs";
 
@@ -61,11 +62,8 @@ export async function GET(req: Request) {
 
     return NextResponse.json(payload);
   } catch (e) {
-    const msg = e instanceof Error ? e.message : String(e);
-    if (msg.includes("DATABASE_URL")) {
-      return NextResponse.json({ ok: false, error: "database_not_configured" }, { status: 503 });
-    }
+    const { error, httpStatus } = classifyDeviceAuthFailure(e);
     console.error("[auth/device/poll]", e);
-    return NextResponse.json({ ok: false, error: "server_error" }, { status: 500 });
+    return NextResponse.json({ ok: false, error }, { status: httpStatus });
   }
 }
