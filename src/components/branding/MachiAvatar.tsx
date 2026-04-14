@@ -10,19 +10,20 @@ type Props = {
 };
 
 /**
- * Machi 线稿头像（与当前聊天页视觉一致的暗底版本）。
- * 使用独立文件名避免旧资源缓存导致头像错位。
+ * Machi 透明线稿头像：
+ * - 资源本身为透明背景，仅保留线稿
+ * - 通过 `mix-blend-difference` 在深色背景显示亮线、浅色背景显示暗线
  */
 export function MachiAvatar({ className, size = 96, priority }: Props) {
   return (
     <Image
-      src="/machi-avatar-wireframe.png"
+      src="/machi-lineart-mask.png"
       alt="Machi"
       width={size}
       height={size}
       priority={priority}
       className={cn(
-        "rounded-full object-cover object-center select-none bg-transparent",
+        "object-contain object-center select-none bg-transparent mix-blend-difference",
         className
       )}
       sizes={`${size}px`}

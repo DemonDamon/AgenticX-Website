@@ -23,13 +23,13 @@ export function ChatWorkspace({ modelLabel, className }: Props) {
     <div className={cn("flex flex-col items-center justify-center min-h-0 flex-1 px-4 py-8", className)}>
       <div className="flex flex-col items-center max-w-xl w-full">
         <Image
-          src="/machi-avatar-wireframe.png"
+          src="/machi-lineart-mask.png"
           alt="Machi"
-          width={598}
-          height={394}
+          width={404}
+          height={379}
           priority
-          className="mb-6 w-[260px] max-w-[72vw] h-auto rounded-[26px] object-cover"
-          sizes="(max-width: 768px) 72vw, 260px"
+          className="mb-6 w-[420px] max-w-[78vw] h-auto object-contain select-none pointer-events-none mix-blend-difference"
+          sizes="(max-width: 768px) 78vw, 420px"
         />
         <h1 className="text-3xl font-bold tracking-tight text-white">Machi</h1>
         <p className="mt-2 text-xs tracking-[0.2em] text-zinc-500 uppercase text-center">

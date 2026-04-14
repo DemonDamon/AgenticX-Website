@@ -131,7 +131,7 @@ export default function AgentsHomePage() {
             onClick={() => setWorkspace("settings")}
             className="w-full flex items-center gap-2 rounded-xl px-2 py-2.5 hover:bg-zinc-900/90 transition-colors text-left"
           >
-            <div className="size-9 rounded-full overflow-hidden border border-zinc-800/40 shrink-0">
+            <div className="size-9 shrink-0">
               <MachiAvatar size={36} className="h-9 w-9" />
             </div>
             <div className="flex-1 min-w-0">
