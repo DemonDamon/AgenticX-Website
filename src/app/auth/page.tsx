@@ -150,7 +150,12 @@ function AuthContent() {
         router.refresh();
         return;
       }
-      toast.message("请查收邮箱验证链接（如项目启用了邮箱确认）");
+      // 无 session：通常表示 Supabase 开启了「邮箱确认」，应已尝试发信（也可能因策略/垃圾箱/重注册而不发）
+      toast.success("若已开启邮箱确认，请查收验证邮件", {
+        description:
+          "收不到请看垃圾箱（Hotmail/Outlook 常见）。若 Supabase 关闭了「Confirm email」，不会发邮件，请改用 Sign In 登录。",
+        duration: 10_000,
+      });
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
       toast.error(msg || "注册失败");

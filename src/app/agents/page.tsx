@@ -1,37 +1,26 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import {
-  BarChart3,
-  Code2,
-  FileText,
-  LayoutGrid,
-  Monitor,
-  Paperclip,
-  Presentation,
-  SendHorizonal,
-  Sparkles,
-  Video,
-} from "lucide-react";
+import { ChevronRight, Clock, MessageSquarePlus } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
+import { ChatWorkspace } from "@/components/agents/ChatWorkspace";
+import { ModelServicePanel } from "@/components/agents/ModelServicePanel";
+import { MachiMark } from "@/components/branding/MachiMark";
 import { getSupabaseBrowserClient } from "@/lib/supabase/browser-client";
+import { cn } from "@/lib/utils";
 
-const pills = [
-  { label: "幻灯片", icon: Presentation },
-  { label: "视频生成", icon: Video },
-  { label: "深度研究", icon: Sparkles },
-  { label: "文档处理", icon: FileText },
-  { label: "数据分析", icon: BarChart3 },
-  { label: "可视化", icon: LayoutGrid },
-];
+type SessionItem = { id: string; title: string };
 
 export default function AgentsHomePage() {
   const router = useRouter();
   const [ready, setReady] = useState(false);
-  const [mode, setMode] = useState<"code" | "office">("office");
+  const [email, setEmail] = useState<string | null>(null);
+  const [workspace, setWorkspace] = useState<"chat" | "settings">("chat");
+  const [sessions, setSessions] = useState<SessionItem[]>([]);
+  const [activeId, setActiveId] = useState<string | null>(null);
+  const [modelLabel] = useState("移动云 / minimax-m2.5");
 
   useEffect(() => {
     let cancelled = false;
@@ -43,6 +32,8 @@ export default function AgentsHomePage() {
           router.replace("/auth");
           return;
         }
+        const u = data.session.user;
+        if (!cancelled) setEmail(u.email ?? u.phone ?? "Machi 用户");
       } catch {
         router.replace("/auth");
         return;
@@ -54,87 +45,124 @@ export default function AgentsHomePage() {
     };
   }, [router]);
 
+  const onNewChat = useCallback(() => {
+    const id = crypto.randomUUID();
+    setSessions((s) => [{ id, title: "新会话" }, ...s]);
+    setActiveId(id);
+    setWorkspace("chat");
+  }, []);
+
   if (!ready) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-zinc-50 text-zinc-500 text-sm">
+      <div className="min-h-screen flex items-center justify-center bg-[#0a0a0a] text-zinc-500 text-sm">
         校验登录状态…
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-zinc-50 text-zinc-900 flex flex-col">
-      <header className="h-14 border-b border-zinc-200 bg-white flex items-center px-4 gap-3 shrink-0">
-        <span className="font-semibold tracking-tight">Machi Cloud</span>
-        <span className="text-xs text-zinc-500 ml-auto">
-          <Link href="/" className="underline-offset-2 hover:underline">
-            返回官网
-          </Link>
-        </span>
-      </header>
-      <main className="flex-1 flex flex-col items-center px-4 py-10 max-w-4xl mx-auto w-full">
-        <div className="w-20 h-20 rounded-2xl bg-zinc-900 text-white flex items-center justify-center text-2xl font-bold mb-6">
-          MX
-        </div>
-        <h1 className="text-2xl md:text-3xl font-bold text-center">Claw Your Ideas Into Reality</h1>
-        <p className="mt-2 text-sm text-zinc-600 text-center">Triggered Anywhere, Completed Locally.</p>
-
-        <div className="mt-8 flex rounded-full border border-zinc-200 bg-white p-1 shadow-sm">
-          <button
-            type="button"
-            onClick={() => setMode("code")}
-            className={`flex items-center gap-2 px-5 py-2 rounded-full text-sm font-medium transition-colors ${
-              mode === "code" ? "bg-zinc-900 text-white" : "text-zinc-600 hover:bg-zinc-100"
-            }`}
-          >
-            <Code2 className="size-4" />
-            代码开发
-          </button>
-          <button
-            type="button"
-            onClick={() => setMode("office")}
-            className={`flex items-center gap-2 px-5 py-2 rounded-full text-sm font-medium transition-colors ${
-              mode === "office" ? "bg-zinc-900 text-white" : "text-zinc-600 hover:bg-zinc-100"
-            }`}
-          >
-            <Monitor className="size-4" />
-            日常办公
-          </button>
-        </div>
-
-        <div className="mt-8 flex flex-wrap justify-center gap-2">
-          {pills.map(({ label, icon: Icon }) => (
-            <Button
-              key={label}
-              type="button"
-              variant="secondary"
-              size="sm"
-              className="rounded-full bg-white border border-zinc-200 text-zinc-800 shadow-sm"
-            >
-              <Icon className="size-4 mr-1.5 opacity-70" />
-              {label}
-            </Button>
-          ))}
-        </div>
-
-        <div className="mt-auto w-full max-w-2xl pt-16 pb-8">
-          <div className="rounded-2xl border border-zinc-200 bg-white shadow-sm p-3 flex items-end gap-2">
-            <Button type="button" size="icon" variant="ghost" className="shrink-0 text-zinc-500">
-              <Paperclip className="size-5" />
-            </Button>
-            <textarea
-              className="flex-1 min-h-[44px] max-h-40 resize-none bg-transparent text-sm outline-none px-1 py-2"
-              placeholder="输入消息…"
-              rows={2}
-            />
-            <Button type="button" size="icon" className="shrink-0 rounded-xl">
-              <SendHorizonal className="size-5" />
-            </Button>
+    <div className="h-screen flex flex-col md:flex-row bg-[#0a0a0a] text-zinc-100 overflow-hidden">
+      {/* 左侧：仅新建会话 + 历史（Kimi 式窄栏） */}
+      <aside className="w-full md:w-[260px] shrink-0 border-b md:border-b-0 md:border-r border-zinc-800/90 flex flex-col bg-[#0f0f0f] min-h-0">
+        <div className="p-3 flex items-center justify-between gap-2 border-b border-zinc-800/60">
+          <div className="flex items-center gap-2 min-w-0">
+            <MachiMark className="h-8 w-8 text-white shrink-0" />
+            <span className="text-sm font-semibold tracking-tight truncate">Machi</span>
           </div>
-          <p className="text-center text-[11px] text-zinc-400 mt-2">
-            演示工作台 · 与 Machi 桌面端登录联动后可用于后续云端能力扩展
-          </p>
+          <Link
+            href="/"
+            className="text-[11px] text-zinc-500 hover:text-zinc-300 whitespace-nowrap"
+          >
+            官网
+          </Link>
         </div>
+
+        <div className="p-2">
+          <button
+            type="button"
+            onClick={onNewChat}
+            className="w-full flex items-center justify-between gap-2 rounded-xl border border-zinc-700/80 bg-zinc-900/50 hover:bg-zinc-800/80 px-3 py-2.5 text-sm text-zinc-100 transition-colors"
+          >
+            <span className="flex items-center gap-2">
+              <MessageSquarePlus className="size-4" />
+              新建会话
+            </span>
+            <kbd className="hidden sm:inline text-[10px] text-zinc-500 px-1.5 py-0.5 rounded border border-zinc-700 font-mono">
+              ⌘K
+            </kbd>
+          </button>
+        </div>
+
+        <div className="flex-1 min-h-0 flex flex-col px-2 pb-2">
+          <div className="flex items-center gap-1.5 px-2 py-2 text-[11px] font-medium text-zinc-500 uppercase tracking-wider">
+            <Clock className="size-3.5" />
+            历史会话
+          </div>
+          <div className="flex-1 overflow-y-auto space-y-0.5 pr-1">
+            {sessions.length === 0 ? (
+              <p className="px-2 py-3 text-xs text-zinc-600">暂无历史，点击「新建会话」开始</p>
+            ) : (
+              sessions.map((s) => (
+                <button
+                  key={s.id}
+                  type="button"
+                  onClick={() => {
+                    setActiveId(s.id);
+                    setWorkspace("chat");
+                  }}
+                  className={cn(
+                    "w-full text-left px-2.5 py-2 rounded-lg text-sm truncate transition-colors",
+                    activeId === s.id
+                      ? "bg-zinc-800 text-zinc-100"
+                      : "text-zinc-400 hover:bg-zinc-900 hover:text-zinc-200"
+                  )}
+                >
+                  {s.title}
+                </button>
+              ))
+            )}
+          </div>
+        </div>
+
+        {/* 左下角：资料条 → 主区切换为设置（非弹窗、非新页面） */}
+        <div className="p-2 border-t border-zinc-800/80">
+          <button
+            type="button"
+            onClick={() => setWorkspace("settings")}
+            className="w-full flex items-center gap-2 rounded-xl px-2 py-2.5 hover:bg-zinc-900/90 transition-colors text-left"
+          >
+            <div className="size-9 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center shrink-0">
+              <MachiMark className="size-6 text-white" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="text-sm font-medium text-zinc-100 truncate">{email ?? "—"}</div>
+              <div className="text-[10px] text-zinc-500">模型服务 · 设置</div>
+            </div>
+            <ChevronRight className="size-4 text-zinc-500 shrink-0" />
+          </button>
+        </div>
+      </aside>
+
+      {/* 主区：聊天 或 Cursor 式「模型服务」 */}
+      <main className="flex-1 flex flex-col min-w-0 min-h-0 bg-[#0a0a0a]">
+        {workspace === "settings" ? (
+          <>
+            <header className="shrink-0 flex items-center gap-3 px-4 md:px-6 h-12 border-b border-zinc-800/80">
+              <button
+                type="button"
+                onClick={() => setWorkspace("chat")}
+                className="text-sm text-zinc-400 hover:text-white transition-colors"
+              >
+                ← 返回对话
+              </button>
+              <span className="text-zinc-600">|</span>
+              <span className="text-sm font-medium text-zinc-200">模型服务</span>
+            </header>
+            <ModelServicePanel className="flex-1 overflow-hidden" />
+          </>
+        ) : (
+          <ChatWorkspace modelLabel={modelLabel} className="flex-1" />
+        )}
       </main>
     </div>
   );
