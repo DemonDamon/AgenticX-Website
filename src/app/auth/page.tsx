@@ -5,8 +5,8 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast, Toaster } from "sonner";
 
+import { MachiMark } from "@/components/branding/MachiMark";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -118,62 +118,84 @@ function AuthContent() {
     <div className="min-h-screen flex flex-col lg:flex-row bg-black text-zinc-50 selection:bg-white/30">
       <Toaster richColors position="top-center" theme="dark" />
       
-      {/* 左侧：品牌与视觉 - 极客化解构、高对比度黑白 */}
+      {/* 左侧：AgenticX + Machi 自有品牌区（非第三方标语） */}
       <div className="hidden lg:flex flex-1 flex-col justify-between p-12 relative overflow-hidden border-r border-white/10">
-        {/* 背景网格点缀 */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_10%,transparent_100%)] pointer-events-none" />
-        
+
         <div className="relative z-10">
-          <div className="font-mono text-xs tracking-[0.2em] text-zinc-500 uppercase">
-            AgenticX // Core System
-          </div>
-          <h1 className="mt-12 text-[5.5rem] leading-[0.85] font-black tracking-tighter text-white">
-            MA<br />CHI<span className="text-zinc-600">.</span>
-          </h1>
-          <div className="mt-8 font-mono text-sm text-zinc-500 max-w-sm leading-relaxed">
-            <p className="text-zinc-400">"绝对理性，冷酷洞悉。"</p>
-            <div className="mt-4 space-y-1">
-              <p>&gt; 初始化本地工作区上下文...</p>
-              <p>&gt; 加载多模型调度引擎...</p>
-              <p>&gt; 建立安全端到端隧道...</p>
+          <div className="flex items-center gap-4">
+            <MachiMark className="h-14 w-14 shrink-0 text-white" />
+            <div>
+              <div className="font-mono text-[10px] tracking-[0.25em] text-zinc-500 uppercase">AgenticX</div>
+              <div className="mt-1 text-2xl font-black tracking-tight text-white">Machi</div>
+              <div className="mt-0.5 text-[11px] text-zinc-500 font-mono">runtime · desktop · agents</div>
             </div>
+          </div>
+
+          <p className="mt-14 text-2xl sm:text-3xl font-semibold tracking-tight text-zinc-100 leading-snug max-w-lg">
+            想清楚，在本机做完。
+          </p>
+          <p className="mt-3 text-sm text-zinc-500 max-w-md leading-relaxed">
+            Orchestrate locally. Keep the proof on your machine.
+          </p>
+
+          <div className="mt-10 font-mono text-xs text-zinc-500 max-w-sm space-y-1.5 border-l border-zinc-800 pl-4">
+            <p className="text-zinc-400">— AgenticX 提供统一智能体运行时；Machi 是桌面里的编排与门面。</p>
+            <p>&gt; 多模型 · 工作区 · MCP / 技能，一处调度</p>
+            <p>&gt; 会话与敏感上下文默认留在本机</p>
+            <p>&gt; 官网账号：身份与后续云端能力同步（可选）</p>
           </div>
         </div>
 
-        <div className="relative z-10">
-          <h2 className="text-2xl font-semibold tracking-tight text-zinc-200">
-            Claw Your Ideas Into Reality.
-          </h2>
-          <ul className="mt-6 space-y-4 font-mono text-xs text-zinc-400">
-            <li className="flex items-center gap-3">
-              <span className="w-1.5 h-1.5 bg-white rounded-full" /> 本地会话优先，数据安全隔离
-            </li>
-            <li className="flex items-center gap-3">
-              <span className="w-1.5 h-1.5 bg-zinc-600 rounded-full" /> 高对比度极客视觉，剥离冗余噪音
-            </li>
-            <li className="flex items-center gap-3">
-              <span className="w-1.5 h-1.5 bg-zinc-600 rounded-full" /> 桌面端一键握手，无缝能力跃迁
-            </li>
-          </ul>
+        <div className="relative z-10 text-[11px] font-mono text-zinc-600">
+          {desktop && deviceId ? (
+            <p>桌面绑定：device_id 已在链接中；登录成功后将回写 Machi。</p>
+          ) : (
+            <p>浏览器登录：进入 Machi 云端工作台（演示）。</p>
+          )}
         </div>
       </div>
 
       {/* 右侧：登录面板 */}
       <div className="flex-1 flex flex-col items-center justify-center p-6 lg:p-12 relative bg-[#050505]">
         <div className="w-full max-w-[380px] space-y-8">
+          {/* 小屏也露出自有标识（左侧栏在 lg 以下隐藏） */}
+          <div className="flex lg:hidden items-center gap-3 pb-2 border-b border-zinc-800/80">
+            <MachiMark className="h-11 w-11 shrink-0 text-white" />
+            <div>
+              <div className="text-[10px] font-mono tracking-[0.2em] text-zinc-500 uppercase">AgenticX</div>
+              <div className="text-lg font-bold text-white leading-tight">Machi</div>
+            </div>
+          </div>
+
           <div className="text-center lg:text-left space-y-2">
-            <h2 className="text-3xl font-bold tracking-tight text-white">
-              {desktop ? "Authenticate" : "System Access"}
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
+              {desktop ? "连接 Machi 桌面" : "登录 Machi"}
             </h2>
-            <p className="text-sm text-zinc-400 font-mono">
-              {desktop ? "ENTER CREDENTIALS TO BIND DESKTOP" : "IDENTIFY YOURSELF TO CONTINUE"}
+            <p className="text-sm text-zinc-400 leading-relaxed">
+              {desktop
+                ? "使用邮箱验证身份，以完成本机 Machi 绑定。"
+                : "使用 AgenticX 账号进入工作台。"}
             </p>
           </div>
 
           <div className="space-y-6">
             {!supabaseReady && (
-              <div className="p-3 bg-red-950/30 border border-red-900/50 rounded-sm text-red-400 text-xs font-mono">
-                [!] MISSING_ENV: NEXT_PUBLIC_SUPABASE_URL / ANON_KEY
+              <div className="p-3.5 border border-amber-900/50 rounded-sm bg-amber-950/25 text-amber-100/95 text-xs leading-relaxed space-y-2">
+                <p className="font-medium text-amber-50">未配置 Supabase 公钥，无法使用邮箱登录</p>
+                <p className="text-zinc-400">
+                  <strong className="text-zinc-300">本地：</strong>在{" "}
+                  <code className="px-1 py-0.5 rounded bg-black/40 text-amber-200/90">AgenticX-Website/.env.local</code>{" "}
+                  写入{" "}
+                  <code className="px-1 py-0.5 rounded bg-black/40">NEXT_PUBLIC_SUPABASE_URL</code> 与{" "}
+                  <code className="px-1 py-0.5 rounded bg-black/40">NEXT_PUBLIC_SUPABASE_ANON_KEY</code>
+                  （与 Supabase 控制台 Project Settings → API 一致），保存后<strong className="text-zinc-300">重启</strong>{" "}
+                  <code className="px-1 py-0.5 rounded bg-black/40">pnpm dev</code>。
+                </p>
+                <p className="text-zinc-400">
+                  <strong className="text-zinc-300">线上：</strong>在 Vercel → Environment Variables 配置上述两项并
+                  <strong className="text-zinc-300"> Redeploy</strong>；仅改变量不部署不会生效。
+                </p>
               </div>
             )}
 
