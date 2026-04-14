@@ -10,14 +10,13 @@ type Props = {
 };
 
 /**
- * Machi 默认头像：与 Desktop `desktop/assets/export_embedded.png`（DEFAULT_META_AVATAR_URL）同源资源，
- * 避免自截 PNG 自带灰底块与页面 `#0a0a0a` / surface 产生色差。
- * 裁切与 Desktop 侧栏一致：`rounded-full object-cover`。
+ * Machi 线稿头像（与当前聊天页视觉一致的暗底版本）。
+ * 使用独立文件名避免旧资源缓存导致头像错位。
  */
 export function MachiAvatar({ className, size = 96, priority }: Props) {
   return (
     <Image
-      src="/machi-avatar.png"
+      src="/machi-avatar-wireframe.png"
       alt="Machi"
       width={size}
       height={size}
