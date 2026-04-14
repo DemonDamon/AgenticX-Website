@@ -115,143 +115,180 @@ function AuthContent() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row bg-zinc-950 text-zinc-50">
-      <Toaster richColors position="top-center" />
-      {/* 左侧：产品介绍 */}
-      <div className="flex-1 flex flex-col justify-between p-10 lg:p-14 border-b lg:border-b-0 lg:border-r border-zinc-800">
-        <div>
-          <div className="text-sm font-semibold tracking-wide text-zinc-400">AgenticX · Machi</div>
-          <h1 className="mt-6 text-2xl lg:text-3xl font-bold leading-tight tracking-tight">
-            Claw Your Ideas Into Reality
+    <div className="min-h-screen flex flex-col lg:flex-row bg-black text-zinc-50 selection:bg-white/30">
+      <Toaster richColors position="top-center" theme="dark" />
+      
+      {/* 左侧：品牌与视觉 - 极客化解构、高对比度黑白 */}
+      <div className="hidden lg:flex flex-1 flex-col justify-between p-12 relative overflow-hidden border-r border-white/10">
+        {/* 背景网格点缀 */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_10%,transparent_100%)] pointer-events-none" />
+        
+        <div className="relative z-10">
+          <div className="font-mono text-xs tracking-[0.2em] text-zinc-500 uppercase">
+            AgenticX // Core System
+          </div>
+          <h1 className="mt-12 text-[5.5rem] leading-[0.85] font-black tracking-tighter text-white">
+            MA<br />CHI<span className="text-zinc-600">.</span>
           </h1>
-          <p className="mt-3 text-lg text-zinc-300 font-medium">随处下达，本地完成。</p>
-          <p className="mt-4 text-zinc-400 max-w-md">
-            桌面端多智能体助手：模型自选、工作区与工具链深度集成。官网账号用于后续云端能力与权益同步（可选）。
-          </p>
-          <ul className="mt-8 space-y-3 text-sm text-zinc-300">
-            <li className="rounded-lg border border-zinc-800 bg-zinc-900/60 px-4 py-3">本地会话与配置优先保留在本机</li>
-            <li className="rounded-lg border border-zinc-800 bg-zinc-900/60 px-4 py-3">支持多模型供应商与 MCP / 技能生态</li>
-            <li className="rounded-lg border border-zinc-800 bg-zinc-900/60 px-4 py-3">与 Machi 桌面端一键绑定登录</li>
-          </ul>
+          <div className="mt-8 font-mono text-sm text-zinc-500 max-w-sm leading-relaxed">
+            <p className="text-zinc-400">"绝对理性，冷酷洞悉。"</p>
+            <div className="mt-4 space-y-1">
+              <p>&gt; 初始化本地工作区上下文...</p>
+              <p>&gt; 加载多模型调度引擎...</p>
+              <p>&gt; 建立安全端到端隧道...</p>
+            </div>
+          </div>
         </div>
-        <div className="mt-10 text-xs text-zinc-500">
-          {desktop && deviceId ? (
-            <p>桌面绑定模式：device_id 已附带在链接中，登录完成后将自动回写 Machi。</p>
-          ) : (
-            <p>浏览器直接登录：登录后可使用 Machi 云端工作台（演示）。</p>
-          )}
+
+        <div className="relative z-10">
+          <h2 className="text-2xl font-semibold tracking-tight text-zinc-200">
+            Claw Your Ideas Into Reality.
+          </h2>
+          <ul className="mt-6 space-y-4 font-mono text-xs text-zinc-400">
+            <li className="flex items-center gap-3">
+              <span className="w-1.5 h-1.5 bg-white rounded-full" /> 本地会话优先，数据安全隔离
+            </li>
+            <li className="flex items-center gap-3">
+              <span className="w-1.5 h-1.5 bg-zinc-600 rounded-full" /> 高对比度极客视觉，剥离冗余噪音
+            </li>
+            <li className="flex items-center gap-3">
+              <span className="w-1.5 h-1.5 bg-zinc-600 rounded-full" /> 桌面端一键握手，无缝能力跃迁
+            </li>
+          </ul>
         </div>
       </div>
 
-      {/* 右侧：登录 */}
-      <div className="flex-1 flex items-center justify-center p-6 lg:p-12 bg-white text-zinc-900">
-        <Card className="w-full max-w-md border-zinc-200 shadow-sm">
-          <CardHeader>
-            <CardTitle className="text-2xl">欢迎回来</CardTitle>
-            <CardDescription className="text-zinc-600">
-              {desktop ? "登录以连接 Machi 桌面应用" : "登录 AgenticX 账号以继续"}
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
+      {/* 右侧：登录面板 */}
+      <div className="flex-1 flex flex-col items-center justify-center p-6 lg:p-12 relative bg-[#050505]">
+        <div className="w-full max-w-[380px] space-y-8">
+          <div className="text-center lg:text-left space-y-2">
+            <h2 className="text-3xl font-bold tracking-tight text-white">
+              {desktop ? "Authenticate" : "System Access"}
+            </h2>
+            <p className="text-sm text-zinc-400 font-mono">
+              {desktop ? "ENTER CREDENTIALS TO BIND DESKTOP" : "IDENTIFY YOURSELF TO CONTINUE"}
+            </p>
+          </div>
+
+          <div className="space-y-6">
             {!supabaseReady && (
-              <p className="text-sm text-amber-700 bg-amber-50 border border-amber-200 rounded-md px-3 py-2">
-                服务端未配置 <code className="text-xs">NEXT_PUBLIC_SUPABASE_URL</code> /{" "}
-                <code className="text-xs">NEXT_PUBLIC_SUPABASE_ANON_KEY</code>，请联系管理员。
-              </p>
+              <div className="p-3 bg-red-950/30 border border-red-900/50 rounded-sm text-red-400 text-xs font-mono">
+                [!] MISSING_ENV: NEXT_PUBLIC_SUPABASE_URL / ANON_KEY
+              </div>
             )}
+
             <Button
               type="button"
-              variant="outline"
-              className="w-full h-11 border-zinc-300"
+              className="w-full h-12 bg-white text-black hover:bg-zinc-200 font-medium rounded-sm transition-colors uppercase tracking-widest text-xs"
               onClick={onWechatMock}
               disabled={busy}
             >
-              <span className="mr-2 text-lg leading-none">💬</span>
-              微信登录（即将上线）
+              WeChat Login (Coming Soon)
             </Button>
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t border-zinc-200" />
-              </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-white px-2 text-zinc-500">或使用邮箱</span>
-              </div>
+
+            <div className="relative flex items-center py-2">
+              <div className="flex-grow border-t border-zinc-800"></div>
+              <span className="flex-shrink-0 mx-4 text-zinc-600 text-[10px] font-mono uppercase tracking-[0.2em]">
+                or use email
+              </span>
+              <div className="flex-grow border-t border-zinc-800"></div>
             </div>
-            <Tabs defaultValue="signin">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="signin">登录</TabsTrigger>
-                <TabsTrigger value="signup">注册</TabsTrigger>
+
+            <Tabs defaultValue="signin" className="w-full">
+              <TabsList className="grid w-full grid-cols-2 bg-zinc-900/50 rounded-sm p-1">
+                <TabsTrigger value="signin" className="rounded-sm data-[state=active]:bg-zinc-800 data-[state=active]:text-white text-zinc-400 transition-all font-mono text-xs uppercase tracking-wider">Sign In</TabsTrigger>
+                <TabsTrigger value="signup" className="rounded-sm data-[state=active]:bg-zinc-800 data-[state=active]:text-white text-zinc-400 transition-all font-mono text-xs uppercase tracking-wider">Sign Up</TabsTrigger>
               </TabsList>
-              <TabsContent value="signin" className="space-y-4 pt-4">
+              
+              <TabsContent value="signin" className="space-y-4 pt-4 mt-2">
                 <div className="space-y-2">
-                  <Label htmlFor="email">邮箱</Label>
+                  <Label htmlFor="email" className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest">Email</Label>
                   <Input
                     id="email"
                     type="email"
                     autoComplete="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="you@example.com"
-                    className="bg-white"
+                    placeholder="agent@agenticx.com"
+                    className="h-11 bg-zinc-900/50 border-zinc-800 text-white placeholder:text-zinc-700 rounded-sm focus-visible:ring-1 focus-visible:ring-white focus-visible:ring-offset-0 font-mono text-sm"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="password">密码</Label>
+                  <Label htmlFor="password" className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest">Password</Label>
                   <Input
                     id="password"
                     type="password"
                     autoComplete="current-password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="bg-white"
+                    className="h-11 bg-zinc-900/50 border-zinc-800 text-white rounded-sm focus-visible:ring-1 focus-visible:ring-white focus-visible:ring-offset-0 font-mono text-sm"
                   />
                 </div>
-                <Button className="w-full" disabled={busy || !supabaseReady} onClick={() => void onEmailSignIn()}>
-                  {busy ? "处理中…" : "邮箱登录"}
+                <Button 
+                  className="w-full h-11 bg-zinc-800 hover:bg-zinc-700 text-white rounded-sm font-mono text-[11px] uppercase tracking-widest mt-2 transition-colors border border-zinc-700" 
+                  disabled={busy || !supabaseReady} 
+                  onClick={() => void onEmailSignIn()}
+                >
+                  {busy ? "PROCESSING..." : "AUTHORIZE"}
                 </Button>
               </TabsContent>
-              <TabsContent value="signup" className="space-y-4 pt-4">
+
+              <TabsContent value="signup" className="space-y-4 pt-4 mt-2">
                 <div className="space-y-2">
-                  <Label htmlFor="email2">邮箱</Label>
+                  <Label htmlFor="email2" className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest">Email</Label>
                   <Input
                     id="email2"
                     type="email"
                     autoComplete="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="you@example.com"
-                    className="bg-white"
+                    placeholder="agent@agenticx.com"
+                    className="h-11 bg-zinc-900/50 border-zinc-800 text-white placeholder:text-zinc-700 rounded-sm focus-visible:ring-1 focus-visible:ring-white focus-visible:ring-offset-0 font-mono text-sm"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="password2">密码</Label>
+                  <Label htmlFor="password2" className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest">Password</Label>
                   <Input
                     id="password2"
                     type="password"
                     autoComplete="new-password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="bg-white"
+                    className="h-11 bg-zinc-900/50 border-zinc-800 text-white rounded-sm focus-visible:ring-1 focus-visible:ring-white focus-visible:ring-offset-0 font-mono text-sm"
                   />
                 </div>
-                <Button className="w-full" disabled={busy || !supabaseReady} onClick={() => void onEmailSignUp()}>
-                  {busy ? "处理中…" : "注册并登录"}
+                <Button 
+                  className="w-full h-11 bg-zinc-800 hover:bg-zinc-700 text-white rounded-sm font-mono text-[11px] uppercase tracking-widest mt-2 transition-colors border border-zinc-700" 
+                  disabled={busy || !supabaseReady} 
+                  onClick={() => void onEmailSignUp()}
+                >
+                  {busy ? "PROCESSING..." : "INITIALIZE ACCOUNT"}
                 </Button>
               </TabsContent>
             </Tabs>
-            <p className="text-center text-xs text-zinc-500">
-              继续即表示你同意我们的{" "}
-              <Link href="/terms" className="underline underline-offset-2">
-                服务条款
-              </Link>{" "}
-              与{" "}
-              <Link href="/privacy" className="underline underline-offset-2">
-                隐私政策
-              </Link>
-              。
-            </p>
-          </CardContent>
-        </Card>
+          </div>
+          
+          {desktop && deviceId && (
+             <div className="pt-4 border-t border-zinc-800/50">
+               <p className="text-[10px] font-mono text-zinc-500 leading-relaxed">
+                 [DEVICE_BINDING_ACTIVE]<br/>
+                 ID: {deviceId.split('-')[0]}***<br/>
+                 Authentication will automatically sync to Machi Desktop.
+               </p>
+             </div>
+          )}
+
+          <p className="text-center text-[10px] text-zinc-600 font-mono mt-8 uppercase tracking-wide">
+            By proceeding, you agree to our{" "}
+            <Link href="/terms" className="text-zinc-400 hover:text-white underline underline-offset-4 decoration-zinc-700 transition-colors">
+              Terms
+            </Link>{" "}
+            and{" "}
+            <Link href="/privacy" className="text-zinc-400 hover:text-white underline underline-offset-4 decoration-zinc-700 transition-colors">
+              Privacy
+            </Link>.
+          </p>
+        </div>
       </div>
     </div>
   );
