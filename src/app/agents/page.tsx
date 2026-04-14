@@ -7,7 +7,7 @@ import { ChevronRight, Clock, MessageSquarePlus } from "lucide-react";
 
 import { ChatWorkspace } from "@/components/agents/ChatWorkspace";
 import { ModelServicePanel } from "@/components/agents/ModelServicePanel";
-import { MachiMark } from "@/components/branding/MachiMark";
+import { MachiAvatar } from "@/components/branding/MachiAvatar";
 import { getSupabaseBrowserClient } from "@/lib/supabase/browser-client";
 import { cn } from "@/lib/utils";
 
@@ -66,7 +66,7 @@ export default function AgentsHomePage() {
       <aside className="w-full md:w-[260px] shrink-0 border-b md:border-b-0 md:border-r border-zinc-800/90 flex flex-col bg-[#0f0f0f] min-h-0">
         <div className="p-3 flex items-center justify-between gap-2 border-b border-zinc-800/60">
           <div className="flex items-center gap-2 min-w-0">
-            <MachiMark className="h-8 w-8 text-white shrink-0" />
+            <MachiAvatar size={32} className="h-8 w-8 shrink-0" priority />
             <span className="text-sm font-semibold tracking-tight truncate">Machi</span>
           </div>
           <Link
@@ -131,8 +131,8 @@ export default function AgentsHomePage() {
             onClick={() => setWorkspace("settings")}
             className="w-full flex items-center gap-2 rounded-xl px-2 py-2.5 hover:bg-zinc-900/90 transition-colors text-left"
           >
-            <div className="size-9 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center shrink-0">
-              <MachiMark className="size-6 text-white" />
+            <div className="size-9 rounded-full overflow-hidden border border-zinc-700 shrink-0 bg-zinc-900">
+              <MachiAvatar size={36} className="h-9 w-9" />
             </div>
             <div className="flex-1 min-w-0">
               <div className="text-sm font-medium text-zinc-100 truncate">{email ?? "—"}</div>

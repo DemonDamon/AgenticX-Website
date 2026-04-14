@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast, Toaster } from "sonner";
 
-import { MachiMark } from "@/components/branding/MachiMark";
+import { MachiAvatar } from "@/components/branding/MachiAvatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -178,7 +178,7 @@ function AuthContent() {
 
         <div className="relative z-10">
           <div className="flex items-center gap-4">
-            <MachiMark className="h-14 w-14 shrink-0 text-white" />
+            <MachiAvatar size={56} className="h-14 w-14 shrink-0" priority />
             <div>
               <div className="font-mono text-[10px] tracking-[0.25em] text-zinc-500 uppercase">AgenticX</div>
               <div className="mt-1 text-2xl font-black tracking-tight text-white">Machi</div>
@@ -215,7 +215,7 @@ function AuthContent() {
         <div className="w-full max-w-[380px] space-y-8">
           {/* 小屏也露出自有标识（左侧栏在 lg 以下隐藏） */}
           <div className="flex lg:hidden items-center gap-3 pb-2 border-b border-zinc-800/80">
-            <MachiMark className="h-11 w-11 shrink-0 text-white" />
+            <MachiAvatar size={44} className="h-11 w-11 shrink-0" />
             <div>
               <div className="text-[10px] font-mono tracking-[0.2em] text-zinc-500 uppercase">AgenticX</div>
               <div className="text-lg font-bold text-white leading-tight">Machi</div>

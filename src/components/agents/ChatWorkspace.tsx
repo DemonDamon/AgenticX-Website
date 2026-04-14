@@ -9,7 +9,7 @@ import {
   Maximize2,
 } from "lucide-react";
 
-import { MachiMark } from "@/components/branding/MachiMark";
+import { MachiAvatar } from "@/components/branding/MachiAvatar";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -22,7 +22,7 @@ export function ChatWorkspace({ modelLabel, className }: Props) {
   return (
     <div className={cn("flex flex-col items-center justify-center min-h-0 flex-1 px-4 py-8", className)}>
       <div className="flex flex-col items-center max-w-xl w-full">
-        <MachiMark className="h-24 w-24 text-white mb-6" />
+        <MachiAvatar size={160} className="h-40 w-40 mb-6" priority />
         <h1 className="text-3xl font-bold tracking-tight text-white">Machi</h1>
         <p className="mt-2 text-xs tracking-[0.2em] text-zinc-500 uppercase text-center">
           Orchestrated by Machi · Executed by AgenticX
