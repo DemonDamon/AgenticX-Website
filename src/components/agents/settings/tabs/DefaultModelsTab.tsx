@@ -31,11 +31,11 @@ function ModelSelect({
 }) {
   return (
     <div className="max-w-md">
-      <h3 className="text-sm font-semibold text-white">{label}</h3>
+      <h3 className="text-sm font-semibold text-zinc-900 dark:text-white">{label}</h3>
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="mt-2 w-full h-10 rounded-lg border border-zinc-700/80 bg-zinc-900/70 px-3 text-sm text-zinc-100 outline-none focus:border-sky-500/50 focus:ring-2 focus:ring-sky-500/20 appearance-none cursor-pointer"
+        className="mt-2 w-full h-10 rounded-lg border border-zinc-200 bg-white px-3 text-sm text-zinc-900 outline-none focus:border-sky-500/50 focus:ring-2 focus:ring-sky-500/20 appearance-none cursor-pointer dark:border-zinc-700/80 dark:bg-zinc-900/70 dark:text-zinc-100"
       >
         {options.map((o) => (
           <option key={o.value} value={o.value}>{o.label}</option>
@@ -55,7 +55,7 @@ export function DefaultModelsTab() {
 
   return (
     <div className="px-8 py-6 space-y-8">
-      <h2 className="text-xl font-semibold text-white">{t.settingsDefaultsTitle}</h2>
+      <h2 className="text-xl font-semibold text-zinc-900 dark:text-white">{t.settingsDefaultsTitle}</h2>
       <ModelSelect
         label={t.settingsDefaultChatModelLabel}
         desc={t.settingsDefaultChatModelDesc}

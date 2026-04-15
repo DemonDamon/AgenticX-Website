@@ -27,17 +27,19 @@ type Provider = {
   invertOnDark?: boolean;
 };
 
-const PROVIDERS: Provider[] = [
-  { id: "openai",     name: "OpenAI",     icon: openaiIcon,     invertOnDark: true },
-  { id: "claude",     name: "Claude",     icon: claudeIcon },
-  { id: "gemini",     name: "Gemini",     icon: geminiIcon },
-  { id: "deepseek",   name: "DeepSeek",   icon: deepseekIcon },
-  { id: "qwen",       name: "通义千问",   icon: qwenIcon },
-  { id: "zhipu",      name: "智谱 GLM",   icon: chatglmIcon },
-  { id: "volcengine", name: "火山引擎",   icon: volcengineIcon },
-  { id: "moonshot",   name: "Moonshot",   icon: kimiIcon,       invertOnDark: true },
-  { id: "minimax",    name: "MiniMax",    icon: minimaxIcon },
-];
+function getProviders(t: AgentsCopy): Provider[] {
+  return [
+    { id: "openai",     name: "OpenAI",     icon: openaiIcon,     invertOnDark: true },
+    { id: "claude",     name: "Claude",     icon: claudeIcon },
+    { id: "gemini",     name: "Gemini",     icon: geminiIcon },
+    { id: "deepseek",   name: "DeepSeek",   icon: deepseekIcon },
+    { id: "qwen",       name: t.settingsModelProviderQwen,   icon: qwenIcon },
+    { id: "zhipu",      name: t.settingsModelProviderZhipu,   icon: chatglmIcon },
+    { id: "volcengine", name: t.settingsModelProviderVolcengine,   icon: volcengineIcon },
+    { id: "moonshot",   name: "Moonshot",   icon: kimiIcon,       invertOnDark: true },
+    { id: "minimax",    name: "MiniMax",    icon: minimaxIcon },
+  ];
+}
 
 function ProviderMarkImage({
   src,
@@ -125,13 +127,14 @@ function formatModelTag(tag: string, t: AgentsCopy): string {
 
 export function ModelProviderTab() {
   const { t } = useAgentsLocale();
+  const providers = useMemo(() => getProviders(t), [t]);
   const [selectedProvider, setSelectedProvider] = useState("openai");
   const [apiKey, setApiKey] = useState("");
   const [apiHost, setApiHost] = useState("");
   const [showKey, setShowKey] = useState(false);
   const [modelSearch, setModelSearch] = useState("");
 
-  const provider = PROVIDERS.find((p) => p.id === selectedProvider)!;
+  const provider = providers.find((p) => p.id === selectedProvider)!;
   const allModels = PROVIDER_MODELS[selectedProvider] ?? [];
 
   const models = useMemo(() => {
@@ -143,8 +146,8 @@ export function ModelProviderTab() {
   return (
     <div className="flex min-h-0 h-full">
       {/* Provider 侧栏 */}
-      <div className="w-[180px] shrink-0 border-r border-zinc-800/50 overflow-y-auto py-2">
-        {PROVIDERS.map((p) => (
+      <div className="w-[180px] shrink-0 border-r border-zinc-200 dark:border-zinc-800/50 overflow-y-auto py-2">
+        {providers.map((p) => (
           <button
             key={p.id}
             type="button"
@@ -152,8 +155,8 @@ export function ModelProviderTab() {
             className={cn(
               "flex w-full items-center gap-2 px-3 py-2.5 text-sm transition-colors",
               selectedProvider === p.id
-                ? "bg-sky-600/15 text-sky-400"
-                : "text-zinc-400 hover:bg-zinc-800/50 hover:text-zinc-200"
+                ? "bg-sky-50 text-sky-600 dark:bg-sky-600/15 dark:text-sky-400"
+                : "text-zinc-600 hover:bg-gray-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800/50 dark:hover:text-zinc-200"
             )}
           >
             <ProviderMarkImage
@@ -169,7 +172,7 @@ export function ModelProviderTab() {
 
       {/* 详情区 */}
       <div className="flex-1 min-w-0 overflow-y-auto px-8 py-6">
-        <h2 className="text-xl font-semibold text-white flex items-center gap-2">
+        <h2 className="text-xl font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
           <ProviderMarkImage
             src={provider.icon}
             size={28}
@@ -181,7 +184,7 @@ export function ModelProviderTab() {
 
         {/* API Key */}
         <div className="mt-6 max-w-xl">
-          <label className="block text-sm font-medium text-zinc-300 mb-1.5">{t.settingsModelServiceApiKey}</label>
+          <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1.5">{t.settingsModelServiceApiKey}</label>
           <div className="flex gap-2">
             <div className="relative flex-1">
               <Input
@@ -189,19 +192,19 @@ export function ModelProviderTab() {
                 value={apiKey}
                 onChange={(e) => setApiKey(e.target.value)}
                 placeholder="sk-..."
-                className="h-10 pr-10 bg-zinc-900/70 border-zinc-700/80 text-sm text-zinc-100 placeholder:text-zinc-600"
+                className="h-10 pr-10 bg-white border-zinc-200 text-sm text-zinc-900 placeholder:text-zinc-400 dark:bg-zinc-900/70 dark:border-zinc-700/80 dark:text-zinc-100 dark:placeholder:text-zinc-600"
               />
               <button
                 type="button"
                 onClick={() => setShowKey((v) => !v)}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600 dark:text-zinc-500 dark:hover:text-zinc-300"
               >
                 {showKey ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
               </button>
             </div>
             <button
               type="button"
-              className="h-10 px-4 rounded-md border border-zinc-700 bg-zinc-800/80 text-sm text-zinc-300 hover:bg-zinc-700/80 hover:text-zinc-100 transition-colors"
+              className="h-10 px-4 rounded-md border border-zinc-200 bg-white text-sm text-zinc-700 hover:bg-gray-50 hover:text-zinc-900 dark:border-zinc-700 dark:bg-zinc-800/80 dark:text-zinc-300 dark:hover:bg-zinc-700/80 dark:hover:text-zinc-100 transition-colors"
             >
               {t.settingsModelServiceCheck}
             </button>
@@ -210,14 +213,14 @@ export function ModelProviderTab() {
 
         {/* API Host */}
         <div className="mt-5 max-w-xl">
-          <label className="block text-sm font-medium text-zinc-300 mb-1.5">{t.settingsModelServiceApiHost}</label>
+          <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1.5">{t.settingsModelServiceApiHost}</label>
           <Input
             value={apiHost}
             onChange={(e) => setApiHost(e.target.value)}
             placeholder={`https://api.${selectedProvider}.com`}
-            className="h-10 bg-zinc-900/70 border-zinc-700/80 text-sm text-zinc-100 placeholder:text-zinc-600"
+            className="h-10 bg-white border-zinc-200 text-sm text-zinc-900 placeholder:text-zinc-400 dark:bg-zinc-900/70 dark:border-zinc-700/80 dark:text-zinc-100 dark:placeholder:text-zinc-600"
           />
-          <p className="mt-1 text-xs text-zinc-600">
+          <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-600">
             {`https://api.${selectedProvider}.com/v1/chat/completions`}
           </p>
         </div>
@@ -225,23 +228,23 @@ export function ModelProviderTab() {
         {/* Model 列表 */}
         <div className="mt-8 max-w-xl">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm font-medium text-zinc-300">{t.settingsModelServiceModelList}</h3>
+            <h3 className="text-sm font-medium text-zinc-700 dark:text-zinc-300">{t.settingsModelServiceModelList}</h3>
             <div className="flex items-center gap-2">
               <button
                 type="button"
-                className="flex items-center gap-1 rounded-md border border-sky-600/50 bg-sky-600/15 px-2.5 py-1 text-xs font-medium text-sky-400 hover:bg-sky-600/25 transition-colors"
+                className="flex items-center gap-1 rounded-md border border-sky-200 bg-sky-50 px-2.5 py-1 text-xs font-medium text-sky-600 hover:bg-sky-100 transition-colors dark:border-sky-600/50 dark:bg-sky-600/15 dark:text-sky-400 dark:hover:bg-sky-600/25"
               >
                 {t.settingsModelServiceNew}
               </button>
               <button
                 type="button"
-                className="flex items-center gap-1 rounded-md border border-zinc-700 bg-zinc-800/80 px-2.5 py-1 text-xs text-zinc-400 hover:text-zinc-200 transition-colors"
+                className="flex items-center gap-1 rounded-md border border-zinc-200 bg-white px-2.5 py-1 text-xs text-zinc-600 hover:text-zinc-900 transition-colors dark:border-zinc-700 dark:bg-zinc-800/80 dark:text-zinc-400 dark:hover:text-zinc-200"
               >
                 <RefreshCw className="size-3" /> {t.settingsModelServiceReset}
               </button>
               <button
                 type="button"
-                className="flex items-center gap-1 rounded-md border border-zinc-700 bg-zinc-800/80 px-2.5 py-1 text-xs text-zinc-400 hover:text-zinc-200 transition-colors"
+                className="flex items-center gap-1 rounded-md border border-zinc-200 bg-white px-2.5 py-1 text-xs text-zinc-600 hover:text-zinc-900 transition-colors dark:border-zinc-700 dark:bg-zinc-800/80 dark:text-zinc-400 dark:hover:text-zinc-200"
               >
                 <Search className="size-3" /> {t.settingsModelServiceFetch}
               </button>
@@ -249,28 +252,28 @@ export function ModelProviderTab() {
           </div>
 
           <div className="relative mb-3">
-            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-zinc-500" />
+            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-zinc-400 dark:text-zinc-500" />
             <Input
               value={modelSearch}
               onChange={(e) => setModelSearch(e.target.value)}
               placeholder={t.settingsModelServiceSearchPlaceholder}
-              className="h-8 pl-8 bg-zinc-900/60 border-zinc-700/80 text-xs text-zinc-100 placeholder:text-zinc-600"
+              className="h-8 pl-8 bg-gray-50 border-zinc-200 text-xs text-zinc-900 placeholder:text-zinc-400 dark:bg-zinc-900/60 dark:border-zinc-700/80 dark:text-zinc-100 dark:placeholder:text-zinc-600"
             />
           </div>
 
-          <div className="rounded-lg border border-zinc-800/80 divide-y divide-zinc-800/70">
+          <div className="rounded-lg border border-zinc-200 divide-y divide-zinc-100 bg-white dark:border-zinc-800/80 dark:divide-zinc-800/70 dark:bg-transparent">
             {models.map((m) => (
               <div
                 key={m.id}
-                className="flex items-center justify-between gap-3 px-3 py-3 hover:bg-zinc-900/40 transition-colors"
+                className="flex items-center justify-between gap-3 px-3 py-3 hover:bg-gray-50 dark:hover:bg-zinc-900/40 transition-colors"
               >
                 <div className="min-w-0">
-                  <div className="text-sm font-medium text-zinc-100">{m.name}</div>
+                  <div className="text-sm font-medium text-zinc-900 dark:text-zinc-100">{m.name}</div>
                   <div className="flex items-center gap-1.5 mt-0.5">
                     {m.tags.map((tag, ti) => (
                       <span
                         key={`${m.id}-${tag}-${ti}`}
-                        className="text-[10px] px-1.5 py-0.5 rounded bg-zinc-800/80 text-zinc-500"
+                        className="text-[10px] px-1.5 py-0.5 rounded bg-gray-100 text-zinc-600 dark:bg-zinc-800/80 dark:text-zinc-500"
                       >
                         {formatModelTag(tag, t)}
                       </span>
@@ -278,17 +281,17 @@ export function ModelProviderTab() {
                   </div>
                 </div>
                 <div className="flex items-center gap-1.5 shrink-0">
-                  <button type="button" className="p-1 text-zinc-600 hover:text-zinc-300 rounded">
+                  <button type="button" className="p-1 text-zinc-400 hover:text-zinc-700 dark:text-zinc-600 dark:hover:text-zinc-300 rounded">
                     <Settings className="size-3.5" />
                   </button>
-                  <button type="button" className="p-1 text-zinc-600 hover:text-red-400 rounded">
+                  <button type="button" className="p-1 text-zinc-400 hover:text-red-500 dark:text-zinc-600 dark:hover:text-red-400 rounded">
                     ⊖
                   </button>
                 </div>
               </div>
             ))}
             {models.length === 0 && (
-              <p className="px-3 py-4 text-xs text-zinc-600 text-center">{t.settingsModelServiceNoMatch}</p>
+              <p className="px-3 py-4 text-xs text-zinc-500 dark:text-zinc-600 text-center">{t.settingsModelServiceNoMatch}</p>
             )}
           </div>
         </div>

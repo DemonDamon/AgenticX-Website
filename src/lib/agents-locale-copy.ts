@@ -14,6 +14,8 @@ export type AgentsCopy = {
   noHistory: string;
   upgrade: string;
   menuSettings: string;
+  /** 用户菜单 · 界面主题（与设置内「界面主题」一致） */
+  menuInterfaceTheme: string;
   menuLanguage: string;
   menuFeedback: string;
   menuAbout: string;
@@ -145,6 +147,27 @@ export type AgentsCopy = {
   settingsModelTagVision: string;
   settingsModelTagReasoning: string;
   settingsModelTagFast: string;
+  /** 设置 · 常规设置 */
+  settingsGeneralTitle: string;
+  settingsGeneralDisplayTitle: string;
+  settingsGeneralLanguage: string;
+  settingsGeneralLanguageZh: string;
+  settingsGeneralLanguageEn: string;
+  settingsGeneralTheme: string;
+  settingsGeneralThemeSystem: string;
+  settingsGeneralThemeDark: string;
+  settingsGeneralThemeLight: string;
+  settingsGeneralFontSize: string;
+  settingsGeneralNetworkTitle: string;
+  settingsGeneralNetworkProxy: string;
+  settingsGeneralDataTitle: string;
+  settingsGeneralDataExport: string;
+  settingsGeneralDataImport: string;
+  settingsGeneralDataLog: string;
+  /** 模型服务供应商名称（需翻译的） */
+  settingsModelProviderQwen: string;
+  settingsModelProviderZhipu: string;
+  settingsModelProviderVolcengine: string;
 };
 
 export const agentsLocaleCopy: Record<AgentsLocale, AgentsCopy> = {
@@ -160,6 +183,7 @@ export const agentsLocaleCopy: Record<AgentsLocale, AgentsCopy> = {
     noHistory: "暂无历史，点击「新建会话」开始",
     upgrade: "升级",
     menuSettings: "设置",
+    menuInterfaceTheme: "界面主题",
     menuLanguage: "语言切换",
     menuFeedback: "用户反馈",
     menuAbout: "关于我们",
@@ -296,6 +320,25 @@ export const agentsLocaleCopy: Record<AgentsLocale, AgentsCopy> = {
     settingsModelTagVision: "视觉",
     settingsModelTagReasoning: "推理",
     settingsModelTagFast: "快速",
+    settingsGeneralTitle: "常规设置",
+    settingsGeneralDisplayTitle: "显示设置",
+    settingsGeneralLanguage: "语言",
+    settingsGeneralLanguageZh: "简体中文",
+    settingsGeneralLanguageEn: "English",
+    settingsGeneralTheme: "界面主题",
+    settingsGeneralThemeSystem: "跟随系统",
+    settingsGeneralThemeDark: "深色",
+    settingsGeneralThemeLight: "浅色",
+    settingsGeneralFontSize: "字体大小",
+    settingsGeneralNetworkTitle: "网络代理",
+    settingsGeneralNetworkProxy: "代理地址",
+    settingsGeneralDataTitle: "数据管理",
+    settingsGeneralDataExport: "导出数据",
+    settingsGeneralDataImport: "导入与恢复",
+    settingsGeneralDataLog: "导出日志",
+    settingsModelProviderQwen: "通义千问",
+    settingsModelProviderZhipu: "智谱 GLM",
+    settingsModelProviderVolcengine: "火山引擎",
   },
   en: {
     userFallback: "Machi user",
@@ -309,6 +352,7 @@ export const agentsLocaleCopy: Record<AgentsLocale, AgentsCopy> = {
     noHistory: 'No history yet. Click "New chat" to start',
     upgrade: "Upgrade",
     menuSettings: "Settings",
+    menuInterfaceTheme: "Interface theme",
     menuLanguage: "Language",
     menuFeedback: "Feedback",
     menuAbout: "About",
@@ -445,6 +489,25 @@ export const agentsLocaleCopy: Record<AgentsLocale, AgentsCopy> = {
     settingsModelTagVision: "Vision",
     settingsModelTagReasoning: "Reasoning",
     settingsModelTagFast: "Fast",
+    settingsGeneralTitle: "General settings",
+    settingsGeneralDisplayTitle: "Display settings",
+    settingsGeneralLanguage: "Language",
+    settingsGeneralLanguageZh: "简体中文",
+    settingsGeneralLanguageEn: "English",
+    settingsGeneralTheme: "Theme",
+    settingsGeneralThemeSystem: "System",
+    settingsGeneralThemeDark: "Dark",
+    settingsGeneralThemeLight: "Light",
+    settingsGeneralFontSize: "Font size",
+    settingsGeneralNetworkTitle: "Network proxy",
+    settingsGeneralNetworkProxy: "Proxy address",
+    settingsGeneralDataTitle: "Data management",
+    settingsGeneralDataExport: "Export data",
+    settingsGeneralDataImport: "Import & Restore",
+    settingsGeneralDataLog: "Export logs",
+    settingsModelProviderQwen: "Qwen",
+    settingsModelProviderZhipu: "Zhipu GLM",
+    settingsModelProviderVolcengine: "Volcengine",
   },
 };
 

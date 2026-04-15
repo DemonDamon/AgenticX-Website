@@ -15,6 +15,7 @@ import {
   MessageSquarePlus,
   Microscope,
   Settings,
+  Sun,
 } from "lucide-react";
 
 import { ChatWorkspace } from "@/components/agents/ChatWorkspace";
@@ -22,6 +23,7 @@ import { FeedbackDialog } from "@/components/agents/FeedbackDialog";
 import { SettingsPanel } from "@/components/agents/settings/SettingsPanel";
 import { MachiAvatar } from "@/components/branding/MachiAvatar";
 import { AgentsLocaleProvider, useAgentsLocale } from "@/contexts/agents-locale-context";
+import { useAgentsUiTheme } from "@/hooks/use-agents-ui-theme";
 import { agxMarketingUrls } from "@/lib/agx-marketing-urls";
 import { getSupabaseBrowserClient } from "@/lib/supabase/browser-client";
 import { cn } from "@/lib/utils";
@@ -59,6 +61,7 @@ type SessionItem = { id: string; title: string };
 function AgentsHomePageInner() {
   const router = useRouter();
   const { t, locale, setLocale } = useAgentsLocale();
+  const { theme: uiTheme, setTheme: setUiTheme } = useAgentsUiTheme();
   const [ready, setReady] = useState(false);
   const [email, setEmail] = useState("");
   const [workspace, setWorkspace] = useState<"chat" | "settings">("chat");
@@ -109,21 +112,21 @@ function AgentsHomePageInner() {
 
   if (!ready) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#0a0a0a] text-zinc-500 text-sm">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-[#0a0a0a] text-zinc-500 text-sm">
         {t.checkingAuth}
       </div>
     );
   }
 
   return (
-    <div className="h-screen flex flex-col md:flex-row bg-[#0a0a0a] text-zinc-100 overflow-hidden">
+    <div className="h-screen flex flex-col md:flex-row bg-gray-50 text-zinc-900 dark:bg-[#0a0a0a] dark:text-zinc-100 overflow-hidden">
       <aside
         className={cn(
-          "w-full md:w-[260px] shrink-0 border-b md:border-b-0 md:border-r border-zinc-800/50 flex flex-col bg-[#141414] min-h-0 transition-[width,opacity] duration-200",
+          "w-full md:w-[260px] shrink-0 border-b md:border-b-0 md:border-r border-zinc-200/60 dark:border-zinc-800/50 flex flex-col bg-gray-100 dark:bg-[#141414] min-h-0 transition-[width,opacity] duration-200",
           navCollapsed && "hidden"
         )}
       >
-        <div className="p-3 flex items-center justify-between gap-2 border-b border-zinc-800/60">
+        <div className="p-3 flex items-center justify-between gap-2 border-b border-zinc-200/70 dark:border-zinc-800/60">
           <div className="flex items-center min-w-0">
             <Image
               src="/app-icon.png"
@@ -141,8 +144,8 @@ function AgentsHomePageInner() {
                 onClick={() => setNavCollapsed(true)}
                 className={cn(
                   "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border transition-colors",
-                  "bg-[#121212] border-zinc-800/85 text-zinc-400",
-                  "hover:bg-zinc-900 hover:border-zinc-700 hover:text-zinc-200"
+                  "bg-gray-200 border-zinc-300/85 text-zinc-500 dark:bg-[#121212] dark:border-zinc-800/85 dark:text-zinc-400",
+                  "hover:bg-gray-300 hover:border-zinc-400 hover:text-zinc-700 dark:hover:bg-zinc-900 dark:hover:border-zinc-700 dark:hover:text-zinc-200"
                 )}
                 aria-label={t.collapseNav}
               >
@@ -164,13 +167,13 @@ function AgentsHomePageInner() {
           <button
             type="button"
             onClick={onNewChat}
-            className="w-full flex items-center justify-between gap-2 rounded-xl border border-zinc-700/80 bg-zinc-900/50 hover:bg-zinc-800/80 px-3 py-2.5 text-sm text-zinc-100 transition-colors"
+            className="w-full flex items-center justify-between gap-2 rounded-xl border border-zinc-300/80 bg-white/70 hover:bg-white dark:border-zinc-700/80 dark:bg-zinc-900/50 dark:hover:bg-zinc-800/80 px-3 py-2.5 text-sm text-zinc-800 dark:text-zinc-100 transition-colors"
           >
             <span className="flex items-center gap-2">
               <MessageSquarePlus className="size-4" />
               {t.newChat}
             </span>
-            <kbd className="hidden sm:inline text-[10px] text-zinc-500 px-1.5 py-0.5 rounded border border-zinc-700 font-mono">
+            <kbd className="hidden sm:inline text-[10px] text-zinc-500 dark:text-zinc-500 px-1.5 py-0.5 rounded border border-zinc-300 dark:border-zinc-700 font-mono">
               ⌘K
             </kbd>
           </button>
@@ -183,8 +186,8 @@ function AgentsHomePageInner() {
             className={cn(
               "w-full flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm transition-colors",
               deepResearch
-                ? "bg-zinc-700/70 text-zinc-100"
-                : "text-zinc-400 hover:bg-zinc-800/60 hover:text-zinc-200"
+                ? "bg-zinc-200 text-zinc-900 dark:bg-zinc-700/70 dark:text-zinc-100"
+                : "text-zinc-500 hover:bg-zinc-200/60 hover:text-zinc-700 dark:text-zinc-400 dark:hover:bg-zinc-800/60 dark:hover:text-zinc-200"
             )}
           >
             <Microscope className="size-4 shrink-0" />
@@ -193,13 +196,13 @@ function AgentsHomePageInner() {
         </div>
 
         <div className="flex-1 min-h-0 flex flex-col px-2 pb-2">
-          <div className="flex items-center gap-1.5 px-2 py-2 text-[11px] font-medium text-zinc-500 uppercase tracking-wider">
+          <div className="flex items-center gap-1.5 px-2 py-2 text-[11px] font-medium text-zinc-400 dark:text-zinc-500 uppercase tracking-wider">
             <Clock className="size-3.5" />
             {t.historySessions}
           </div>
           <div className="flex-1 overflow-y-auto space-y-0.5 pr-1">
             {sessions.length === 0 ? (
-              <p className="px-2 py-3 text-xs text-zinc-600">{t.noHistory}</p>
+              <p className="px-2 py-3 text-xs text-zinc-400 dark:text-zinc-600">{t.noHistory}</p>
             ) : (
               sessions.map((s) => (
                 <button
@@ -212,8 +215,8 @@ function AgentsHomePageInner() {
                   className={cn(
                     "w-full text-left px-2.5 py-2 rounded-lg text-sm truncate transition-colors",
                     activeId === s.id
-                      ? "bg-zinc-800 text-zinc-100"
-                      : "text-zinc-400 hover:bg-zinc-900 hover:text-zinc-200"
+                      ? "bg-zinc-200 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100"
+                      : "text-zinc-500 hover:bg-zinc-200/80 hover:text-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-900 dark:hover:text-zinc-200"
                   )}
                 >
                   {s.title}
@@ -223,25 +226,25 @@ function AgentsHomePageInner() {
           </div>
         </div>
 
-        <div className="p-2 border-t border-zinc-800/80">
+        <div className="p-2 border-t border-zinc-200/80 dark:border-zinc-800/80">
           <DropdownMenu open={userMenuOpen} onOpenChange={setUserMenuOpen}>
             <div
               className={cn(
                 "flex items-center gap-1 rounded-2xl border px-1.5 py-1 transition-colors",
                 userMenuOpen
-                  ? "border-zinc-600/70 bg-zinc-800/70"
-                  : "border-zinc-800/80 bg-[#1a1a1a] hover:border-zinc-700/80 hover:bg-zinc-800/50"
+                  ? "border-zinc-300/70 bg-zinc-100 dark:border-zinc-600/70 dark:bg-zinc-800/70"
+                  : "border-zinc-200/80 bg-white dark:border-zinc-800/80 dark:bg-[#1a1a1a] hover:border-zinc-300/80 hover:bg-gray-50 dark:hover:border-zinc-700/80 dark:hover:bg-zinc-800/50"
               )}
             >
               <DropdownMenuTrigger asChild>
                 <button
                   type="button"
-                  className="flex min-w-0 flex-1 items-center gap-2 rounded-xl py-1 pl-0.5 pr-1 text-left outline-none focus-visible:ring-2 focus-visible:ring-zinc-500/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#141414]"
+                  className="flex min-w-0 flex-1 items-center gap-2 rounded-xl py-1 pl-0.5 pr-1 text-left outline-none focus-visible:ring-2 focus-visible:ring-zinc-500/80 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100 dark:focus-visible:ring-offset-[#141414]"
                 >
                   <div className="size-8 shrink-0">
                     <MachiAvatar size={32} className="h-8 w-8" />
                   </div>
-                  <span className="min-w-0 flex-1 truncate text-sm font-medium text-zinc-100">
+                  <span className="min-w-0 flex-1 truncate text-sm font-medium text-zinc-800 dark:text-zinc-100">
                     {displayName}
                   </span>
                   <ChevronUp
@@ -269,33 +272,65 @@ function AgentsHomePageInner() {
               side="top"
               align="start"
               sideOffset={8}
-              className="min-w-[228px] w-[min(244px,calc(100vw-2rem))] border-zinc-700/80 bg-[#1c1c1c] p-1.5 text-zinc-100 shadow-xl"
+              className="min-w-[228px] w-[min(244px,calc(100vw-2rem))] border-zinc-200/80 bg-white p-1.5 text-zinc-900 shadow-xl dark:border-zinc-700/80 dark:bg-[#1c1c1c] dark:text-zinc-100"
             >
               <DropdownMenuItem
-                className="gap-2.5 rounded-lg py-2 text-sm text-zinc-200 focus:bg-zinc-800 focus:text-zinc-50"
+                className="gap-2.5 rounded-lg py-2 text-sm text-zinc-700 focus:bg-gray-100 focus:text-zinc-900 dark:text-zinc-200 dark:focus:bg-zinc-800 dark:focus:text-zinc-50"
                 onSelect={() => setWorkspace("settings")}
               >
                 <Settings className="size-4 text-zinc-400" />
                 {t.menuSettings}
               </DropdownMenuItem>
               <DropdownMenuSub>
-                <DropdownMenuSubTrigger className="gap-2.5 rounded-lg py-2 text-sm text-zinc-200 focus:bg-zinc-800 data-[state=open]:bg-zinc-800 focus:text-zinc-50 [&_svg:last-child]:text-zinc-500">
+                <DropdownMenuSubTrigger className="gap-2.5 rounded-lg py-2 text-sm text-zinc-700 focus:bg-gray-100 data-[state=open]:bg-gray-100 focus:text-zinc-900 dark:text-zinc-200 dark:focus:bg-zinc-800 dark:data-[state=open]:bg-zinc-800 dark:focus:text-zinc-50 [&_svg:last-child]:text-zinc-400 dark:[&_svg:last-child]:text-zinc-500">
+                  <Sun className="size-4 text-zinc-400" />
+                  {t.menuInterfaceTheme}
+                </DropdownMenuSubTrigger>
+                <DropdownMenuSubContent
+                  sideOffset={6}
+                  className="min-w-[160px] border-zinc-200/80 bg-white p-1.5 text-zinc-900 shadow-xl dark:border-zinc-700/80 dark:bg-[#1c1c1c] dark:text-zinc-100"
+                >
+                  <DropdownMenuItem
+                    className="flex cursor-pointer items-center justify-between gap-6 rounded-lg py-2 pr-2 pl-2 text-sm text-zinc-700 focus:bg-gray-100 focus:text-zinc-900 dark:text-zinc-200 dark:focus:bg-zinc-800 dark:focus:text-zinc-50"
+                    onSelect={() => setUiTheme("system")}
+                  >
+                    <span>{t.settingsGeneralThemeSystem}</span>
+                    {uiTheme === "system" && <Check className="size-4 shrink-0 text-sky-500" strokeWidth={2.5} />}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    className="flex cursor-pointer items-center justify-between gap-6 rounded-lg py-2 pr-2 pl-2 text-sm text-zinc-700 focus:bg-gray-100 focus:text-zinc-900 dark:text-zinc-200 dark:focus:bg-zinc-800 dark:focus:text-zinc-50"
+                    onSelect={() => setUiTheme("dark")}
+                  >
+                    <span>{t.settingsGeneralThemeDark}</span>
+                    {uiTheme === "dark" && <Check className="size-4 shrink-0 text-sky-500" strokeWidth={2.5} />}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    className="flex cursor-pointer items-center justify-between gap-6 rounded-lg py-2 pr-2 pl-2 text-sm text-zinc-700 focus:bg-gray-100 focus:text-zinc-900 dark:text-zinc-200 dark:focus:bg-zinc-800 dark:focus:text-zinc-50"
+                    onSelect={() => setUiTheme("light")}
+                  >
+                    <span>{t.settingsGeneralThemeLight}</span>
+                    {uiTheme === "light" && <Check className="size-4 shrink-0 text-sky-500" strokeWidth={2.5} />}
+                  </DropdownMenuItem>
+                </DropdownMenuSubContent>
+              </DropdownMenuSub>
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger className="gap-2.5 rounded-lg py-2 text-sm text-zinc-700 focus:bg-gray-100 data-[state=open]:bg-gray-100 focus:text-zinc-900 dark:text-zinc-200 dark:focus:bg-zinc-800 dark:data-[state=open]:bg-zinc-800 dark:focus:text-zinc-50 [&_svg:last-child]:text-zinc-400 dark:[&_svg:last-child]:text-zinc-500">
                   <Languages className="size-4 text-zinc-400" />
                   {t.menuLanguage}
                 </DropdownMenuSubTrigger>
                 <DropdownMenuSubContent
                   sideOffset={6}
-                  className="min-w-[160px] border-zinc-700/80 bg-[#1c1c1c] p-1.5 text-zinc-100 shadow-xl"
+                  className="min-w-[160px] border-zinc-200/80 bg-white p-1.5 text-zinc-900 shadow-xl dark:border-zinc-700/80 dark:bg-[#1c1c1c] dark:text-zinc-100"
                 >
                   <DropdownMenuItem
-                    className="flex cursor-pointer items-center justify-between gap-6 rounded-lg py-2 pr-2 pl-2 text-sm text-zinc-200 focus:bg-zinc-800 focus:text-zinc-50"
+                    className="flex cursor-pointer items-center justify-between gap-6 rounded-lg py-2 pr-2 pl-2 text-sm text-zinc-700 focus:bg-gray-100 focus:text-zinc-900 dark:text-zinc-200 dark:focus:bg-zinc-800 dark:focus:text-zinc-50"
                     onSelect={() => setLocale("zh")}
                   >
                     <span>{t.langZh}</span>
                     {locale === "zh" && <Check className="size-4 shrink-0 text-sky-500" strokeWidth={2.5} />}
                   </DropdownMenuItem>
                   <DropdownMenuItem
-                    className="flex cursor-pointer items-center justify-between gap-6 rounded-lg py-2 pr-2 pl-2 text-sm text-zinc-200 focus:bg-zinc-800 focus:text-zinc-50"
+                    className="flex cursor-pointer items-center justify-between gap-6 rounded-lg py-2 pr-2 pl-2 text-sm text-zinc-700 focus:bg-gray-100 focus:text-zinc-900 dark:text-zinc-200 dark:focus:bg-zinc-800 dark:focus:text-zinc-50"
                     onSelect={() => setLocale("en")}
                   >
                     <span>{t.langEn}</span>
@@ -304,27 +339,27 @@ function AgentsHomePageInner() {
                 </DropdownMenuSubContent>
               </DropdownMenuSub>
               <DropdownMenuItem
-                className="gap-2.5 rounded-lg py-2 text-sm text-zinc-200 focus:bg-zinc-800 focus:text-zinc-50"
+                className="gap-2.5 rounded-lg py-2 text-sm text-zinc-700 focus:bg-gray-100 focus:text-zinc-900 dark:text-zinc-200 dark:focus:bg-zinc-800 dark:focus:text-zinc-50"
                 onSelect={() => setProfileDialog("feedback")}
               >
                 <MessageSquare className="size-4 text-zinc-400" />
                 {t.menuFeedback}
               </DropdownMenuItem>
               <DropdownMenuSub>
-                <DropdownMenuSubTrigger className="gap-2.5 rounded-lg py-2 text-sm text-zinc-200 focus:bg-zinc-800 data-[state=open]:bg-zinc-800 focus:text-zinc-50 [&_svg:last-child]:text-zinc-500">
+                <DropdownMenuSubTrigger className="gap-2.5 rounded-lg py-2 text-sm text-zinc-700 focus:bg-gray-100 data-[state=open]:bg-gray-100 focus:text-zinc-900 dark:text-zinc-200 dark:focus:bg-zinc-800 dark:data-[state=open]:bg-zinc-800 dark:focus:text-zinc-50 [&_svg:last-child]:text-zinc-400 dark:[&_svg:last-child]:text-zinc-500">
                   <Info className="size-4 text-zinc-400" />
                   {t.menuAbout}
                 </DropdownMenuSubTrigger>
                 <DropdownMenuSubContent
                   sideOffset={6}
-                  className="min-w-[200px] border-zinc-700/80 bg-[#1c1c1c] p-1.5 text-zinc-100 shadow-xl"
+                  className="min-w-[200px] border-zinc-200/80 bg-white p-1.5 text-zinc-900 shadow-xl dark:border-zinc-700/80 dark:bg-[#1c1c1c] dark:text-zinc-100"
                 >
                   <DropdownMenuItem asChild className="rounded-lg p-0 focus:bg-transparent">
                     <a
                       href={marketingUrls.home}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex cursor-pointer items-center justify-between gap-3 rounded-lg px-2 py-2 text-sm text-zinc-200 outline-none hover:bg-zinc-800 focus:bg-zinc-800 focus:text-zinc-50"
+                      className="flex cursor-pointer items-center justify-between gap-3 rounded-lg px-2 py-2 text-sm text-zinc-700 outline-none hover:bg-gray-100 focus:bg-gray-100 focus:text-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800 dark:focus:bg-zinc-800 dark:focus:text-zinc-50"
                     >
                       {t.aboutOfficialHome}
                       <ArrowUpRight className="size-4 shrink-0 text-zinc-500" aria-hidden />
@@ -335,7 +370,7 @@ function AgentsHomePageInner() {
                       href={marketingUrls.terms}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex cursor-pointer items-center justify-between gap-3 rounded-lg px-2 py-2 text-sm text-zinc-200 outline-none hover:bg-zinc-800 focus:bg-zinc-800 focus:text-zinc-50"
+                      className="flex cursor-pointer items-center justify-between gap-3 rounded-lg px-2 py-2 text-sm text-zinc-700 outline-none hover:bg-gray-100 focus:bg-gray-100 focus:text-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800 dark:focus:bg-zinc-800 dark:focus:text-zinc-50"
                     >
                       {t.aboutUserAgreement}
                       <ArrowUpRight className="size-4 shrink-0 text-zinc-500" aria-hidden />
@@ -346,7 +381,7 @@ function AgentsHomePageInner() {
                       href={marketingUrls.privacy}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex cursor-pointer items-center justify-between gap-3 rounded-lg px-2 py-2 text-sm text-zinc-200 outline-none hover:bg-zinc-800 focus:bg-zinc-800 focus:text-zinc-50"
+                      className="flex cursor-pointer items-center justify-between gap-3 rounded-lg px-2 py-2 text-sm text-zinc-700 outline-none hover:bg-gray-100 focus:bg-gray-100 focus:text-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800 dark:focus:bg-zinc-800 dark:focus:text-zinc-50"
                     >
                       {t.aboutPrivacyPolicy}
                       <ArrowUpRight className="size-4 shrink-0 text-zinc-500" aria-hidden />
@@ -359,7 +394,7 @@ function AgentsHomePageInner() {
         </div>
       </aside>
 
-      <main className="relative flex-1 flex flex-col min-w-0 min-h-0 bg-[#0a0a0a]">
+      <main className="relative flex-1 flex flex-col min-w-0 min-h-0 bg-gray-50 dark:bg-[#0a0a0a]">
         {navCollapsed && (
           <Tooltip delayDuration={280}>
             <TooltipTrigger asChild>
@@ -388,11 +423,11 @@ function AgentsHomePageInner() {
         )}
         {workspace === "settings" ? (
           <>
-            <header className="shrink-0 flex items-center px-4 md:px-6 h-12 border-b border-zinc-800/80">
+            <header className="shrink-0 flex items-center px-4 md:px-6 h-12 border-b border-zinc-200/80 dark:border-zinc-800/80">
               <button
                 type="button"
                 onClick={() => setWorkspace("chat")}
-                className="text-sm text-zinc-400 hover:text-white transition-colors"
+                className="text-sm text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors"
               >
                 {t.backToChat}
               </button>

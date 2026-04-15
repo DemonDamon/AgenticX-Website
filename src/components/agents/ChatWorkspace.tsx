@@ -78,26 +78,26 @@ export function ChatWorkspace({
           className="mb-3 w-full max-w-[260px] h-auto object-contain select-none pointer-events-none mix-blend-difference"
           sizes="(max-width: 768px) 90vw, 260px"
         />
-        <h1 className="text-4xl sm:text-5xl font-bold tracking-[0.12em] text-white">MACHI</h1>
+        <h1 className="text-4xl sm:text-5xl font-bold tracking-[0.12em] text-zinc-900 dark:text-white">MACHI</h1>
       </div>
 
       <div className="w-full max-w-3xl mt-12 relative">
         <div
           className={cn(
-            "rounded-[20px] overflow-visible bg-[#262626]",
-            "border border-white/[0.14]",
-            "shadow-[0_12px_40px_-12px_rgba(0,0,0,0.45),inset_0_1px_0_0_rgba(255,255,255,0.10)]"
+            "rounded-[20px] overflow-visible bg-white dark:bg-[#262626]",
+            "border border-zinc-200 dark:border-white/[0.14]",
+            "shadow-xl dark:shadow-[0_12px_40px_-12px_rgba(0,0,0,0.45),inset_0_1px_0_0_rgba(255,255,255,0.10)]"
           )}
         >
           <textarea
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
-            className="w-full min-h-[120px] max-h-[280px] resize-none bg-transparent text-zinc-100 text-sm px-4 pt-3 pb-2 outline-none placeholder:text-zinc-500"
+            className="w-full min-h-[120px] max-h-[280px] resize-none bg-transparent text-zinc-900 px-4 pt-3 pb-2 text-sm outline-none placeholder:text-zinc-400 dark:text-zinc-100 dark:placeholder:text-zinc-500"
             placeholder={deepResearch ? t.chatPlaceholderDeep : t.chatPlaceholder}
             rows={4}
           />
 
-          <div className="flex items-center gap-2 border-t border-white/[0.08] bg-[#1e1e1e] px-2 py-2 sm:px-3 rounded-b-[20px]">
+          <div className="flex items-center gap-2 border-t border-zinc-100 bg-gray-50 px-2 py-2 sm:px-3 rounded-b-[20px] dark:border-white/[0.08] dark:bg-[#1e1e1e]">
             <div className="flex min-w-0 flex-1 flex-wrap items-center gap-1">
               <Tooltip delayDuration={280}>
                 <TooltipTrigger asChild>
@@ -105,7 +105,7 @@ export function ChatWorkspace({
                     type="button"
                     size="icon"
                     variant="ghost"
-                    className="h-9 w-9 shrink-0 text-zinc-400 hover:text-zinc-100"
+                    className="h-9 w-9 shrink-0 text-zinc-500 hover:bg-gray-200 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800/50 dark:hover:text-zinc-100"
                     aria-label={t.attachAria}
                   >
                     <Paperclip className="size-4" />
@@ -115,10 +115,10 @@ export function ChatWorkspace({
                   hideArrow
                   side="top"
                   sideOffset={10}
-                  className="max-w-[min(calc(100vw-2rem),288px)] border-0 bg-[#3a3a3a] px-4 py-2.5 text-left text-xs leading-relaxed text-white shadow-xl"
+                  className="max-w-[min(calc(100vw-2rem),288px)] border border-zinc-200 bg-white px-4 py-2.5 text-left text-xs leading-relaxed text-zinc-700 shadow-xl dark:border-zinc-700/80 dark:bg-[#3a3a3a] dark:text-white"
                 >
                   <p>{t.attachTooltipLine1}</p>
-                  <p className="mt-2 text-[13px] text-zinc-200">{t.attachTooltipLine2}</p>
+                  <p className="mt-2 text-[13px] text-zinc-500 dark:text-zinc-200">{t.attachTooltipLine2}</p>
                 </TooltipContent>
               </Tooltip>
               {!deepResearch && (
@@ -128,8 +128,8 @@ export function ChatWorkspace({
                   className={cn(
                     "flex items-center gap-1.5 h-9 px-2.5 sm:px-3 rounded-xl text-xs font-medium transition-all border shrink-0",
                     webSearch
-                      ? "bg-sky-600/20 text-sky-400 border-sky-600/50"
-                      : "text-zinc-500 border-zinc-700/60 hover:text-zinc-300 hover:border-zinc-600"
+                      ? "bg-sky-50 text-sky-600 border-sky-200 dark:bg-sky-600/20 dark:text-sky-400 dark:border-sky-600/50"
+                      : "text-zinc-600 border-zinc-200 hover:bg-white hover:text-zinc-900 dark:text-zinc-500 dark:border-zinc-700/60 dark:hover:bg-zinc-800/50 dark:hover:text-zinc-300 dark:hover:border-zinc-600"
                   )}
                 >
                   {webSearch ? <Globe className="size-3.5" /> : <GlobeLock className="size-3.5" />}
@@ -142,7 +142,7 @@ export function ChatWorkspace({
                 <button
                   type="button"
                   onClick={onDeepResearchDismiss}
-                  className="group flex items-center gap-1.5 h-9 px-2.5 sm:px-3 rounded-xl text-xs font-medium bg-sky-600/20 border border-sky-600/40 text-sky-400 hover:bg-sky-600/30 transition-all shrink-0"
+                  className="group flex items-center gap-1.5 h-9 px-2.5 sm:px-3 rounded-xl text-xs font-medium bg-sky-50 border border-sky-200 text-sky-600 hover:bg-sky-100 transition-all shrink-0 dark:bg-sky-600/20 dark:border-sky-600/40 dark:text-sky-400 dark:hover:bg-sky-600/30"
                   title={t.closeDeepResearchTitle}
                 >
                   <Microscope className="size-3.5 group-hover:hidden" />
@@ -159,21 +159,20 @@ export function ChatWorkspace({
                   onClick={() => setModelOpen(!modelOpen)}
                   className={cn(
                     "flex h-9 w-full min-w-0 items-center gap-1.5 rounded-full border px-2.5 pl-2 text-xs font-medium transition-colors",
-                    "bg-[#2a2a2a] text-zinc-100 border-zinc-600/40",
-                    "hover:bg-[#323232] hover:border-zinc-500/50"
+                    "bg-white border-zinc-200 text-zinc-700 hover:bg-gray-50 dark:bg-[#2a2a2a] dark:border-zinc-600/40 dark:text-zinc-100 dark:hover:bg-[#323232] dark:hover:border-zinc-500/50"
                   )}
                 >
-                  <ModelIcon className="size-3.5 shrink-0 text-sky-400" />
+                  <ModelIcon className="size-3.5 shrink-0 text-sky-500 dark:text-sky-400" />
                   <span className="truncate">{selectedMeta?.label ?? selectedModelId}</span>
                   <ChevronDown
                     className={cn(
-                      "size-3.5 shrink-0 text-zinc-500 transition-transform duration-200",
+                      "size-3.5 shrink-0 text-zinc-400 transition-transform duration-200 dark:text-zinc-500",
                       modelOpen && "rotate-180"
                     )}
                   />
                 </button>
                 {modelOpen && (
-                  <div className="absolute bottom-full right-0 z-50 mb-2 w-[min(calc(100vw-2rem),280px)] overflow-hidden rounded-2xl border border-zinc-700/80 bg-zinc-900 py-1 shadow-2xl">
+                  <div className="absolute bottom-full right-0 z-50 mb-2 w-[min(calc(100vw-2rem),280px)] overflow-hidden rounded-2xl border border-zinc-200 bg-white py-1 shadow-2xl dark:border-zinc-700/80 dark:bg-zinc-900">
                     {MODEL_IDS.map((id) => {
                       const Icon = MODEL_ICONS[id];
                       const meta = t.models[id];
@@ -185,19 +184,19 @@ export function ChatWorkspace({
                             setSelectedModelId(id);
                             setModelOpen(false);
                           }}
-                          className="flex w-full items-start justify-between gap-3 px-4 py-3 text-left transition-colors hover:bg-zinc-800/70"
+                          className="flex w-full items-start justify-between gap-3 px-4 py-3 text-left transition-colors hover:bg-gray-50 dark:hover:bg-zinc-800/70"
                         >
                           <div className="flex min-w-0 items-start gap-2.5">
-                            <Icon className="mt-0.5 size-4 shrink-0 text-zinc-400" />
+                            <Icon className="mt-0.5 size-4 shrink-0 text-zinc-500 dark:text-zinc-400" />
                             <div className="min-w-0">
-                              <div className="truncate text-sm font-medium text-zinc-100">
+                              <div className="truncate text-sm font-medium text-zinc-900 dark:text-zinc-100">
                                 {meta?.label ?? id}
                               </div>
                               <div className="mt-0.5 text-xs text-zinc-500">{meta?.desc ?? ""}</div>
                             </div>
                           </div>
                           {selectedModelId === id && (
-                            <Check className="mt-0.5 size-4 shrink-0 text-sky-400" />
+                            <Check className="mt-0.5 size-4 shrink-0 text-sky-500 dark:text-sky-400" />
                           )}
                         </button>
                       );
@@ -214,8 +213,8 @@ export function ChatWorkspace({
                 className={cn(
                   "flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-0 transition-colors",
                   canSend
-                    ? "cursor-pointer bg-zinc-100 text-zinc-800 hover:bg-white"
-                    : "cursor-default bg-[#4a4a4a] text-zinc-800"
+                    ? "cursor-pointer bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-800 dark:hover:bg-white"
+                    : "cursor-default bg-gray-200 text-zinc-400 dark:bg-[#4a4a4a] dark:text-zinc-800"
                 )}
               >
                 <ArrowUp className="size-[18px] stroke-[2.25]" strokeLinecap="round" strokeLinejoin="round" />

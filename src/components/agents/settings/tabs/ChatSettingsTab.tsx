@@ -21,13 +21,13 @@ function SwitchRow({
   return (
     <div className="flex items-center justify-between gap-4 py-2">
       <div className="min-w-0">
-        <div className="text-sm text-zinc-200">{label}</div>
+        <div className="text-sm text-zinc-700 dark:text-zinc-200">{label}</div>
         {desc && <p className="text-xs text-zinc-500 mt-0.5">{desc}</p>}
       </div>
       <Switch
         checked={checked}
         onCheckedChange={onChange}
-        className="data-[state=checked]:bg-sky-600 data-[state=unchecked]:bg-zinc-700 shrink-0"
+        className="data-[state=checked]:bg-sky-600 data-[state=unchecked]:bg-gray-200 dark:data-[state=unchecked]:bg-zinc-700 shrink-0"
       />
     </div>
   );
@@ -52,7 +52,7 @@ function SliderRow({
 }) {
   return (
     <div className="flex items-center gap-4 py-2">
-      <div className="min-w-[150px] text-sm text-zinc-300 flex items-center gap-1.5">{label}</div>
+      <div className="min-w-[150px] text-sm text-zinc-700 dark:text-zinc-300 flex items-center gap-1.5">{label}</div>
       <div className="flex-1 flex items-center gap-4">
         <input
           type="range"
@@ -64,7 +64,7 @@ function SliderRow({
           className="w-full accent-sky-500"
         />
         <div className="w-[60px] text-right shrink-0">
-          <span className="text-xs text-zinc-400 bg-zinc-800/80 border border-zinc-700/80 px-2 py-1 rounded-md">{valueLabel}</span>
+          <span className="text-xs text-zinc-500 bg-gray-100 border border-zinc-200 px-2 py-1 rounded-md dark:bg-zinc-800/80 dark:border-zinc-700/80 dark:text-zinc-400">{valueLabel}</span>
         </div>
       </div>
     </div>
@@ -109,28 +109,28 @@ export function ChatSettingsTab() {
       
       {/* 1. 编辑头像 */}
       <section>
-        <h2 className="text-lg font-semibold text-white mb-1">{t.settingsChatAvatarTitle}</h2>
-        <p className="text-sm text-zinc-400 mb-6">{t.settingsChatAvatarDesc}</p>
+        <h2 className="text-lg font-semibold text-zinc-900 dark:text-white mb-1">{t.settingsChatAvatarTitle}</h2>
+        <p className="text-sm text-zinc-500 dark:text-zinc-400 mb-6">{t.settingsChatAvatarDesc}</p>
         
         <div className="space-y-6">
           <div>
-            <h3 className="text-sm font-medium text-zinc-300 mb-3">{t.settingsChatUserAvatar}</h3>
+            <h3 className="text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-3">{t.settingsChatUserAvatar}</h3>
             <div className="flex items-center gap-4">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-zinc-500 text-zinc-200">
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-zinc-200 text-zinc-500 dark:bg-zinc-500 dark:text-zinc-200">
                 <User className="size-8" />
               </div>
-              <button type="button" className="h-9 px-4 rounded-md border border-sky-600/40 bg-sky-600/10 text-sm font-medium text-sky-500 hover:bg-sky-600/20 transition-colors">
+              <button type="button" className="h-9 px-4 rounded-md border border-sky-200 bg-sky-50 text-sm font-medium text-sky-600 hover:bg-sky-100 transition-colors dark:border-sky-600/40 dark:bg-sky-600/10 dark:text-sky-500 dark:hover:bg-sky-600/20">
                 {t.settingsChatUploadImage}
               </button>
             </div>
           </div>
           <div>
-            <h3 className="text-sm font-medium text-zinc-300 mb-3">{t.settingsChatAssistantAvatar}</h3>
+            <h3 className="text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-3">{t.settingsChatAssistantAvatar}</h3>
             <div className="flex items-center gap-4">
               <div className="flex h-16 w-16 items-center justify-center rounded-full bg-blue-600 text-white">
                 <Bot className="size-8" />
               </div>
-              <button type="button" className="h-9 px-4 rounded-md border border-sky-600/40 bg-sky-600/10 text-sm font-medium text-sky-500 hover:bg-sky-600/20 transition-colors">
+              <button type="button" className="h-9 px-4 rounded-md border border-sky-200 bg-sky-50 text-sm font-medium text-sky-600 hover:bg-sky-100 transition-colors dark:border-sky-600/40 dark:bg-sky-600/10 dark:text-sky-500 dark:hover:bg-sky-600/20">
                 {t.settingsChatUploadImage}
               </button>
             </div>
@@ -140,19 +140,19 @@ export function ChatSettingsTab() {
 
       {/* 2. 新对话默认设置 */}
       <section>
-        <h2 className="text-lg font-semibold text-white mb-4">{t.settingsChatNewDefaults}</h2>
+        <h2 className="text-lg font-semibold text-zinc-900 dark:text-white mb-4">{t.settingsChatNewDefaults}</h2>
         
         <div className="mb-6">
-          <label className="block text-sm font-medium text-zinc-300 mb-1.5">{t.settingsChatPromptLabel}</label>
+          <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1.5">{t.settingsChatPromptLabel}</label>
           <textarea
             value={systemPrompt}
             onChange={(e) => setSystemPrompt(e.target.value)}
             rows={3}
-            className="w-full resize-y rounded-lg border border-zinc-700/80 bg-zinc-900/70 px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-600 outline-none focus:border-sky-500/50 focus:ring-2 focus:ring-sky-500/20"
+            className="w-full resize-y rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none focus:border-sky-500/50 focus:ring-2 focus:ring-sky-500/20 dark:border-zinc-700/80 dark:bg-zinc-900/70 dark:text-zinc-100 dark:placeholder:text-zinc-600"
           />
           <button
             type="button"
-            className="mt-1 text-xs text-zinc-500 hover:text-zinc-300 underline underline-offset-2"
+            className="mt-1 text-xs text-zinc-500 hover:text-zinc-700 underline underline-offset-2 dark:hover:text-zinc-300"
             onClick={() => setSystemPrompt(t.settingsChatDefaultPrompt)}
           >
             {t.settingsChatResetDefault}
@@ -205,23 +205,23 @@ export function ChatSettingsTab() {
         </div>
 
         <div className="mb-6 flex items-center justify-between gap-4">
-          <h3 className="text-sm font-medium text-zinc-300">{t.settingsChatBgImageLabel}</h3>
-          <button type="button" className="h-8 px-3 rounded-md border border-sky-600/40 bg-sky-600/10 text-xs font-medium text-sky-500 hover:bg-sky-600/20 transition-colors">
+          <h3 className="text-sm font-medium text-zinc-700 dark:text-zinc-300">{t.settingsChatBgImageLabel}</h3>
+          <button type="button" className="h-8 px-3 rounded-md border border-sky-200 bg-sky-50 text-xs font-medium text-sky-600 hover:bg-sky-100 transition-colors dark:border-sky-600/40 dark:bg-sky-600/10 dark:text-sky-500 dark:hover:bg-sky-600/20">
             {t.settingsChatUploadImage}
           </button>
         </div>
 
-        <div className="divide-y divide-zinc-800/60 border-t border-zinc-800/60">
+        <div className="divide-y divide-zinc-200 border-t border-zinc-200 dark:divide-zinc-800/60 dark:border-zinc-800/60">
           <SwitchRow label={t.settingsChatStreamingLabel} checked={streaming} onChange={setStreaming} />
         </div>
       </section>
 
       {/* 3. 对话设置 */}
       <section>
-        <h2 className="text-lg font-semibold text-white mb-4">{t.settingsChatSubTitle}</h2>
+        <h2 className="text-lg font-semibold text-zinc-900 dark:text-white mb-4">{t.settingsChatSubTitle}</h2>
         
         <div className="mb-6">
-          <h3 className="text-sm font-medium text-zinc-300 mb-3">{t.settingsChatDisplayLabel}</h3>
+          <h3 className="text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-3">{t.settingsChatDisplayLabel}</h3>
           
           <div className="flex gap-4 mb-6">
             <button
@@ -232,8 +232,8 @@ export function ChatSettingsTab() {
               )}
             >
               <div className={cn(
-                "w-44 h-28 rounded-lg border-2 bg-[#1c1c1e] p-3 flex flex-col gap-2 transition-colors",
-                displayMode === "classic" ? "border-sky-500" : "border-zinc-700 hover:border-zinc-600"
+                "w-44 h-28 rounded-lg border-2 bg-gray-50 p-3 flex flex-col gap-2 transition-colors dark:bg-[#1c1c1e]",
+                displayMode === "classic" ? "border-sky-500" : "border-zinc-200 hover:border-zinc-300 dark:border-zinc-700 dark:hover:border-zinc-600"
               )}>
                 <div className="flex items-center gap-2">
                   <div className="size-6 rounded-full bg-sky-500" />
@@ -263,15 +263,15 @@ export function ChatSettingsTab() {
               )}
             >
               <div className={cn(
-                "w-44 h-28 rounded-lg border-2 bg-[#1c1c1e] p-4 flex flex-col justify-center gap-3 transition-colors",
-                displayMode === "bubble" ? "border-sky-500" : "border-zinc-700 hover:border-zinc-600"
+                "w-44 h-28 rounded-lg border-2 bg-gray-50 p-4 flex flex-col justify-center gap-3 transition-colors dark:bg-[#1c1c1e]",
+                displayMode === "bubble" ? "border-sky-500" : "border-zinc-200 hover:border-zinc-300 dark:border-zinc-700 dark:hover:border-zinc-600"
               )}>
                 <div className="h-5 w-24 rounded-full bg-sky-500 self-end" />
-                <div className="h-5 w-28 rounded-full bg-zinc-600 self-start" />
-                <div className="h-5 w-20 rounded-full bg-zinc-600 self-start" />
+                <div className="h-5 w-28 rounded-full bg-zinc-200 dark:bg-zinc-600 self-start" />
+                <div className="h-5 w-20 rounded-full bg-zinc-200 dark:bg-zinc-600 self-start" />
               </div>
-              <span className={cn("text-xs flex items-center gap-1.5", displayMode === "bubble" ? "text-sky-500" : "text-zinc-400")}>
-                <span className={cn("flex items-center justify-center size-4 rounded-full border", displayMode === "bubble" ? "border-sky-500 bg-sky-500 text-white" : "border-zinc-500")}>
+              <span className={cn("text-xs flex items-center gap-1.5", displayMode === "bubble" ? "text-sky-500" : "text-zinc-500 dark:text-zinc-400")}>
+                <span className={cn("flex items-center justify-center size-4 rounded-full border", displayMode === "bubble" ? "border-sky-500 bg-sky-500 text-white" : "border-zinc-300 dark:border-zinc-500")}>
                   {displayMode === "bubble" && <Check className="size-3" strokeWidth={3} />}
                 </span>
                 {t.settingsChatDisplayBubble}
@@ -279,7 +279,7 @@ export function ChatSettingsTab() {
             </button>
           </div>
 
-          <div className="divide-y divide-zinc-800/60 border-t border-zinc-800/60">
+          <div className="divide-y divide-zinc-200 border-t border-zinc-200 dark:divide-zinc-800/60 dark:border-zinc-800/60">
             <SwitchRow label={t.settingsChatShowAvatar} checked={showAvatar} onChange={setShowAvatar} />
             <SwitchRow label={t.settingsChatShowWordCount} checked={showWordCount} onChange={setShowWordCount} />
             <SwitchRow label={t.settingsChatShowTokenUsage} checked={showTokens} onChange={setShowTokens} />
@@ -290,8 +290,8 @@ export function ChatSettingsTab() {
         </div>
 
         <div>
-          <h3 className="text-sm font-medium text-zinc-300 mb-2">{t.settingsChatFeaturesLabel}</h3>
-          <div className="divide-y divide-zinc-800/60 border-t border-zinc-800/60">
+          <h3 className="text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">{t.settingsChatFeaturesLabel}</h3>
+          <div className="divide-y divide-zinc-200 border-t border-zinc-200 dark:divide-zinc-800/60 dark:border-zinc-800/60">
             <SwitchRow label={t.settingsChatAutoCollapse} checked={autoCollapse} onChange={setAutoCollapse} />
             <SwitchRow label={t.settingsChatAutoTitle} checked={autoTitle} onChange={setAutoTitle} />
             <SwitchRow label={t.settingsChatSpellCheck} checked={spellCheck} onChange={setSpellCheck} />
@@ -307,8 +307,8 @@ export function ChatSettingsTab() {
 
       {/* 4. 上下文管理 */}
       <section>
-        <h2 className="text-lg font-semibold text-white mb-4">{t.settingsChatContextMgmtTitle}</h2>
-        <div className="divide-y divide-zinc-800/60 border-t border-zinc-800/60 border-b mb-4">
+        <h2 className="text-lg font-semibold text-zinc-900 dark:text-white mb-4">{t.settingsChatContextMgmtTitle}</h2>
+        <div className="divide-y divide-zinc-200 border-t border-zinc-200 border-b mb-4 dark:divide-zinc-800/60 dark:border-zinc-800/60">
           <SwitchRow 
             label={
               <span className="flex items-center gap-1.5">
