@@ -28,8 +28,8 @@ export function ChatWorkspace({ modelLabel, className }: Props) {
           width={404}
           height={379}
           priority
-          className="mb-6 w-[420px] max-w-[78vw] h-auto object-contain select-none pointer-events-none mix-blend-difference"
-          sizes="(max-width: 768px) 78vw, 420px"
+          className="mb-6 w-full max-w-[210px] h-auto object-contain select-none pointer-events-none mix-blend-difference"
+          sizes="(max-width: 768px) 90vw, 210px"
         />
         <h1 className="text-3xl font-bold tracking-tight text-white">Machi</h1>
         <p className="mt-2 text-xs tracking-[0.2em] text-zinc-500 uppercase text-center">
