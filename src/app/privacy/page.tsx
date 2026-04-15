@@ -17,7 +17,7 @@ export default function PrivacyPage() {
       <h1 className="text-2xl font-bold mb-4">隐私政策（摘要）</h1>
       <div className="space-y-4 text-sm text-zinc-300 leading-relaxed">
         <p>
-          完整版请以仓库内 <code className="text-zinc-400">docs/legal/privacy_policy.md</code>（AgenticX 主仓库）为准。
+          完整版请以仓库内 <code className="text-zinc-400">docs/legal/privacy_policy.md</code>（隐私协议，AgenticX 主仓库）为准。
         </p>
         <p>
           本网站登录使用 Supabase Auth；为完成 Machi 桌面端绑定，我们可能在短时间内暂存与你的设备 ID 关联的会话令牌，并在桌面端成功拉取后删除该记录。

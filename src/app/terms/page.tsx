@@ -18,7 +18,7 @@ export default function TermsPage() {
       <div className="space-y-4 text-sm text-zinc-300 leading-relaxed">
         <p>
           完整版法律文本请以仓库内{" "}
-          <code className="text-zinc-400">docs/legal/eula.md</code>（AgenticX 主仓库）为准；线上版将随产品迭代更新。
+          <code className="text-zinc-400">docs/legal/user_agreement.md</code>（AgenticX 主仓库）为准；线上版将随产品迭代更新。
         </p>
         <p>
           使用本网站与 Machi 相关产品即表示你理解：软件按「现状」提供；AI 输出可能存在错误；涉及本地文件与系统操作时请自行承担数据与安全风险。
