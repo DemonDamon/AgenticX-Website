@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getSupabaseBrowserClient } from "@/lib/supabase/browser-client";
+import { cn } from "@/lib/utils";
 
 function AuthContent() {
   const router = useRouter();
@@ -20,6 +21,9 @@ function AuthContent() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  /** 仅 Sign Up 使用：展示名 / 用户名将写入 Supabase user_metadata */
+  const [username, setUsername] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const emailHashHandledRef = useRef(false);
 
@@ -31,6 +35,12 @@ function AuthContent() {
       return false;
     }
   }, []);
+
+  /** Sign Up：确认框已输入且与密码不一致时展示内联错误（不依赖点击提交后的 toast） */
+  const signupPasswordMismatch = useMemo(
+    () => confirmPassword.length > 0 && password !== confirmPassword,
+    [password, confirmPassword]
+  );
 
   /**
    * 确认邮件回跳地址：
@@ -137,6 +147,23 @@ function AuthContent() {
       toast.error("未配置 Supabase 环境变量，无法注册");
       return;
     }
+    const name = username.trim();
+    if (!name) {
+      toast.error("请填写用户名");
+      return;
+    }
+    if (name.length > 64) {
+      toast.error("用户名请控制在 64 个字符以内");
+      return;
+    }
+    if (password !== confirmPassword) {
+      toast.error("两次输入的密码不一致");
+      return;
+    }
+    if (password.length < 6) {
+      toast.error("密码至少 6 位");
+      return;
+    }
     setBusy(true);
     try {
       const supabase = getSupabaseBrowserClient();
@@ -144,7 +171,13 @@ function AuthContent() {
       const { data, error } = await supabase.auth.signUp({
         email: email.trim(),
         password,
-        options: emailRedirectTo ? { emailRedirectTo } : undefined,
+        options: {
+          ...(emailRedirectTo ? { emailRedirectTo } : {}),
+          data: {
+            username: name,
+            display_name: name,
+          },
+        },
       });
       if (error) throw error;
       const session = data.session;
@@ -316,6 +349,21 @@ function AuthContent() {
 
               <TabsContent value="signup" className="space-y-4 pt-4 mt-2">
                 <div className="space-y-2">
+                  <Label htmlFor="username-signup" className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest">
+                    Username
+                  </Label>
+                  <Input
+                    id="username-signup"
+                    type="text"
+                    autoComplete="username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder="your_name"
+                    maxLength={64}
+                    className="h-11 bg-zinc-900/50 border-zinc-800 text-white placeholder:text-zinc-700 rounded-sm focus-visible:ring-1 focus-visible:ring-white focus-visible:ring-offset-0 font-mono text-sm"
+                  />
+                </div>
+                <div className="space-y-2">
                   <Label htmlFor="email2" className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest">Email</Label>
                   <Input
                     id="email2"
@@ -335,12 +383,42 @@ function AuthContent() {
                     autoComplete="new-password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="h-11 bg-zinc-900/50 border-zinc-800 text-white rounded-sm focus-visible:ring-1 focus-visible:ring-white focus-visible:ring-offset-0 font-mono text-sm"
+                    aria-invalid={signupPasswordMismatch}
+                    className={cn(
+                      "h-11 bg-zinc-900/50 text-white rounded-sm focus-visible:ring-offset-0 font-mono text-sm",
+                      signupPasswordMismatch
+                        ? "border-red-500/90 focus-visible:ring-1 focus-visible:ring-red-400"
+                        : "border-zinc-800 focus-visible:ring-1 focus-visible:ring-white"
+                    )}
                   />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="password-confirm" className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest">
+                    Confirm Password
+                  </Label>
+                  <Input
+                    id="password-confirm"
+                    type="password"
+                    autoComplete="new-password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    aria-invalid={signupPasswordMismatch}
+                    className={cn(
+                      "h-11 bg-zinc-900/50 text-white rounded-sm focus-visible:ring-offset-0 font-mono text-sm",
+                      signupPasswordMismatch
+                        ? "border-red-500/90 focus-visible:ring-1 focus-visible:ring-red-400"
+                        : "border-zinc-800 focus-visible:ring-1 focus-visible:ring-white"
+                    )}
+                  />
+                  {signupPasswordMismatch ? (
+                    <p className="text-[11px] font-mono text-red-400 leading-snug" role="alert">
+                      两次输入的密码不一致，请检查
+                    </p>
+                  ) : null}
                 </div>
                 <Button 
                   className="w-full h-11 bg-zinc-800 hover:bg-zinc-700 text-white rounded-sm font-mono text-[11px] uppercase tracking-widest mt-2 transition-colors border border-zinc-700" 
-                  disabled={busy || !supabaseReady} 
+                  disabled={busy || !supabaseReady || signupPasswordMismatch} 
                   onClick={() => void onEmailSignUp()}
                 >
                   {busy ? "PROCESSING..." : "INITIALIZE ACCOUNT"}

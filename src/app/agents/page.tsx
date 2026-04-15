@@ -28,6 +28,19 @@ import { useAgentsUiTheme } from "@/hooks/use-agents-ui-theme";
 import { agxMarketingUrls } from "@/lib/agx-marketing-urls";
 import { getSupabaseBrowserClient } from "@/lib/supabase/browser-client";
 import { cn } from "@/lib/utils";
+import type { User } from "@supabase/supabase-js";
+
+/** 侧栏展示名：优先注册时写入的 username / display_name（user_metadata） */
+function pickProfileDisplayName(user: User): string {
+  const m = user.user_metadata as Record<string, unknown> | null | undefined;
+  if (!m) return "";
+  const keys = ["username", "display_name", "full_name", "name", "preferred_username"] as const;
+  for (const k of keys) {
+    const v = m[k];
+    if (typeof v === "string" && v.trim()) return v.trim();
+  }
+  return "";
+}
 import {
   Dialog,
   DialogContent,
@@ -66,6 +79,8 @@ function AgentsHomePageInner() {
   const { theme: uiTheme, setTheme: setUiTheme } = useAgentsUiTheme();
   const [ready, setReady] = useState(false);
   const [email, setEmail] = useState("");
+  /** Supabase user_metadata 中的展示名（与邮箱独立） */
+  const [profileName, setProfileName] = useState("");
   const [workspace, setWorkspace] = useState<"chat" | "settings">("chat");
   const [sessions, setSessions] = useState<SessionItem[]>([]);
   const [activeId, setActiveId] = useState<string | null>(null);
@@ -77,11 +92,13 @@ function AgentsHomePageInner() {
 
   const marketingUrls = agxMarketingUrls();
 
-  const displayName = email
-    ? email.includes("@")
-      ? (email.split("@")[0] || email)
-      : email
-    : t.userFallback;
+  const displayName =
+    profileName.trim() ||
+    (email
+      ? email.includes("@")
+        ? email.split("@")[0] || email
+        : email
+      : t.userFallback);
 
   useEffect(() => {
     let cancelled = false;
@@ -94,7 +111,10 @@ function AgentsHomePageInner() {
           return;
         }
         const u = data.session.user;
-        if (!cancelled) setEmail(u.email ?? u.phone ?? "");
+        if (!cancelled) {
+          setEmail(u.email ?? u.phone ?? "");
+          setProfileName(pickProfileDisplayName(u));
+        }
       } catch {
         router.replace("/auth");
         return;
@@ -105,6 +125,20 @@ function AgentsHomePageInner() {
       cancelled = true;
     };
   }, [router]);
+
+  /** 登录态或 user_metadata 变更时同步侧栏名称 */
+  useEffect(() => {
+    const supabase = getSupabaseBrowserClient();
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!session?.user) return;
+      const u = session.user;
+      setEmail(u.email ?? u.phone ?? "");
+      setProfileName(pickProfileDisplayName(u));
+    });
+    return () => subscription.unsubscribe();
+  }, []);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
