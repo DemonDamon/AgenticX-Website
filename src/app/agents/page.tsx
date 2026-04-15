@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ChevronRight, Clock, MessageSquarePlus } from "lucide-react";
+import { ChevronRight, Clock, MessageSquarePlus, Microscope } from "lucide-react";
 
 import { ChatWorkspace } from "@/components/agents/ChatWorkspace";
 import { ModelServicePanel } from "@/components/agents/ModelServicePanel";
@@ -21,6 +21,7 @@ export default function AgentsHomePage() {
   const [sessions, setSessions] = useState<SessionItem[]>([]);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [modelLabel] = useState("移动云 / minimax-m2.5");
+  const [deepResearch, setDeepResearch] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -40,9 +41,7 @@ export default function AgentsHomePage() {
       }
       if (!cancelled) setReady(true);
     })();
-    return () => {
-      cancelled = true;
-    };
+    return () => { cancelled = true; };
   }, [router]);
 
   const onNewChat = useCallback(() => {
@@ -62,21 +61,20 @@ export default function AgentsHomePage() {
 
   return (
     <div className="h-screen flex flex-col md:flex-row bg-[#0a0a0a] text-zinc-100 overflow-hidden">
-      {/* 左侧：仅新建会话 + 历史（Kimi 式窄栏） */}
+      {/* 左侧窄栏 */}
       <aside className="w-full md:w-[260px] shrink-0 border-b md:border-b-0 md:border-r border-zinc-800/90 flex flex-col bg-[#0f0f0f] min-h-0">
+        {/* 顶部：品牌 + 官网 */}
         <div className="p-3 flex items-center justify-between gap-2 border-b border-zinc-800/60">
           <div className="flex items-center gap-2 min-w-0">
             <MachiAvatar size={32} className="h-8 w-8 shrink-0" priority />
             <span className="text-sm font-semibold tracking-tight truncate">Machi</span>
           </div>
-          <Link
-            href="/"
-            className="text-[11px] text-zinc-500 hover:text-zinc-300 whitespace-nowrap"
-          >
+          <Link href="/" className="text-[11px] text-zinc-500 hover:text-zinc-300 whitespace-nowrap">
             官网
           </Link>
         </div>
 
+        {/* 新建会话 */}
         <div className="p-2">
           <button
             type="button"
@@ -93,6 +91,24 @@ export default function AgentsHomePage() {
           </button>
         </div>
 
+        {/* 深度研究入口 */}
+        <div className="px-2 pb-1">
+          <button
+            type="button"
+            onClick={() => setDeepResearch((v) => !v)}
+            className={cn(
+              "w-full flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm transition-colors",
+              deepResearch
+                ? "bg-zinc-700/70 text-zinc-100"
+                : "text-zinc-400 hover:bg-zinc-800/60 hover:text-zinc-200"
+            )}
+          >
+            <Microscope className="size-4 shrink-0" />
+            深度研究
+          </button>
+        </div>
+
+        {/* 历史会话 */}
         <div className="flex-1 min-h-0 flex flex-col px-2 pb-2">
           <div className="flex items-center gap-1.5 px-2 py-2 text-[11px] font-medium text-zinc-500 uppercase tracking-wider">
             <Clock className="size-3.5" />
@@ -106,10 +122,7 @@ export default function AgentsHomePage() {
                 <button
                   key={s.id}
                   type="button"
-                  onClick={() => {
-                    setActiveId(s.id);
-                    setWorkspace("chat");
-                  }}
+                  onClick={() => { setActiveId(s.id); setWorkspace("chat"); }}
                   className={cn(
                     "w-full text-left px-2.5 py-2 rounded-lg text-sm truncate transition-colors",
                     activeId === s.id
@@ -124,7 +137,7 @@ export default function AgentsHomePage() {
           </div>
         </div>
 
-        {/* 左下角：资料条 → 主区切换为设置（非弹窗、非新页面） */}
+        {/* 左下角：用户资料 → 设置 */}
         <div className="p-2 border-t border-zinc-800/80">
           <button
             type="button"
@@ -143,7 +156,7 @@ export default function AgentsHomePage() {
         </div>
       </aside>
 
-      {/* 主区：聊天 或 Cursor 式「模型服务」 */}
+      {/* 主区 */}
       <main className="flex-1 flex flex-col min-w-0 min-h-0 bg-[#0a0a0a]">
         {workspace === "settings" ? (
           <>
@@ -161,7 +174,12 @@ export default function AgentsHomePage() {
             <ModelServicePanel className="flex-1 overflow-hidden" />
           </>
         ) : (
-          <ChatWorkspace modelLabel={modelLabel} className="flex-1" />
+          <ChatWorkspace
+            modelLabel={modelLabel}
+            deepResearch={deepResearch}
+            onDeepResearchDismiss={() => setDeepResearch(false)}
+            className="flex-1"
+          />
         )}
       </main>
     </div>

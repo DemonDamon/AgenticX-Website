@@ -13,7 +13,7 @@ import {
   Brain,
   Cpu,
   SendHorizontal,
-  Bot,
+  XCircle,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -22,23 +22,31 @@ import { cn } from "@/lib/utils";
 type Model = { id: string; label: string; desc: string; icon: React.ElementType };
 
 const MODELS: Model[] = [
-  { id: "minimax-m2.5",  label: "移动云 / minimax-m2.5", desc: "适用于大部分情况",  icon: Zap   },
-  { id: "deepseek-r1",   label: "DeepSeek R1",            desc: "擅长解决更难的问题", icon: Brain },
-  { id: "qwen-max",      label: "通义千问 Max",            desc: "研究级智能模型",    icon: Cpu   },
+  { id: "minimax-m2.5", label: "移动云 / minimax-m2.5", desc: "适用于大部分情况",   icon: Zap   },
+  { id: "deepseek-r1",  label: "DeepSeek R1",            desc: "擅长解决更难的问题", icon: Brain },
+  { id: "qwen-max",     label: "通义千问 Max",            desc: "研究级智能模型",    icon: Cpu   },
 ];
 
 type Props = {
   modelLabel?: string;
+  /** 由父级（侧栏）控制是否启用深度研究 */
+  deepResearch?: boolean;
+  /** 叉掉 chip 时通知父级关闭深度研究 */
+  onDeepResearchDismiss?: () => void;
   className?: string;
 };
 
-export function ChatWorkspace({ modelLabel = "移动云 / minimax-m2.5", className }: Props) {
+export function ChatWorkspace({
+  modelLabel = "移动云 / minimax-m2.5",
+  deepResearch = false,
+  onDeepResearchDismiss,
+  className,
+}: Props) {
   const [selectedModel, setSelectedModel] = useState<Model>(
     MODELS.find((m) => m.label === modelLabel) ?? MODELS[0]
   );
-  const [modelOpen,    setModelOpen]    = useState(false);
-  const [webSearch,    setWebSearch]    = useState(false);
-  const [deepResearch, setDeepResearch] = useState(false);
+  const [modelOpen, setModelOpen] = useState(false);
+  const [webSearch, setWebSearch] = useState(false);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -82,38 +90,23 @@ export function ChatWorkspace({ modelLabel = "移动云 / minimax-m2.5", classNa
             rows={4}
           />
 
-          {/* Toolbar */}
+          {/* ── Toolbar ── */}
           <div className="flex items-center justify-between gap-2 px-3 py-2.5 border-t border-zinc-800/80 bg-black/20 rounded-b-2xl">
-            {/* Left: attach + deep research */}
-            <div className="flex items-center gap-1">
+
+            {/* Left: 附件 · 模型选择 · 联网 · [深度研究 chip] */}
+            <div className="flex items-center gap-1 flex-wrap">
+              {/* 附件 */}
               <Button
                 type="button"
                 size="icon"
                 variant="ghost"
-                className="text-zinc-400 hover:text-zinc-100 h-9 w-9"
+                className="text-zinc-400 hover:text-zinc-100 h-9 w-9 shrink-0"
               >
                 <Paperclip className="size-4" />
               </Button>
 
-              <button
-                type="button"
-                onClick={() => setDeepResearch(!deepResearch)}
-                className={cn(
-                  "flex items-center gap-1.5 h-9 px-3 rounded-xl text-xs font-medium transition-all",
-                  deepResearch
-                    ? "bg-zinc-700/80 text-zinc-100 border border-zinc-600"
-                    : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60"
-                )}
-              >
-                <Microscope className="size-3.5" />
-                深度研究
-              </button>
-            </div>
-
-            {/* Right: model selector + web search + send */}
-            <div className="flex items-center gap-1.5">
-              {/* Model selector */}
-              <div className="relative" ref={dropdownRef}>
+              {/* 模型选择 */}
+              <div className="relative shrink-0" ref={dropdownRef}>
                 <button
                   type="button"
                   onClick={() => setModelOpen(!modelOpen)}
@@ -130,7 +123,7 @@ export function ChatWorkspace({ modelLabel = "移动云 / minimax-m2.5", classNa
                 </button>
 
                 {modelOpen && (
-                  <div className="absolute bottom-full mb-2 right-0 w-68 min-w-[240px] rounded-2xl border border-zinc-700/80 bg-zinc-900 shadow-2xl z-50 py-1 overflow-hidden">
+                  <div className="absolute bottom-full mb-2 left-0 min-w-[240px] rounded-2xl border border-zinc-700/80 bg-zinc-900 shadow-2xl z-50 py-1 overflow-hidden">
                     {MODELS.map((m) => {
                       const Icon = m.icon;
                       return (
@@ -157,12 +150,12 @@ export function ChatWorkspace({ modelLabel = "移动云 / minimax-m2.5", classNa
                 )}
               </div>
 
-              {/* Web search toggle */}
+              {/* 联网搜索 */}
               <button
                 type="button"
                 onClick={() => setWebSearch(!webSearch)}
                 className={cn(
-                  "flex items-center gap-1.5 h-9 px-3 rounded-xl text-xs font-medium transition-all border",
+                  "flex items-center gap-1.5 h-9 px-3 rounded-xl text-xs font-medium transition-all border shrink-0",
                   webSearch
                     ? "bg-sky-600/20 text-sky-400 border-sky-600/50"
                     : "text-zinc-500 border-zinc-700/60 hover:text-zinc-300 hover:border-zinc-600"
@@ -175,31 +168,34 @@ export function ChatWorkspace({ modelLabel = "移动云 / minimax-m2.5", classNa
                 <span>{webSearch ? "联网已开启" : "联网搜索"}</span>
               </button>
 
-              {/* Send */}
-              <Button
-                type="button"
-                size="icon"
-                className="h-9 w-9 bg-sky-600 hover:bg-sky-500 text-white border-0 rounded-xl"
-              >
-                <SendHorizontal className="size-4" />
-              </Button>
+              {/* 深度研究 chip：仅当父级激活时出现，hover 显示叉号 */}
+              {deepResearch && (
+                <button
+                  type="button"
+                  onClick={onDeepResearchDismiss}
+                  className="group flex items-center gap-1.5 h-9 px-3 rounded-xl text-xs font-medium bg-sky-600/20 border border-sky-600/40 text-sky-400 hover:bg-sky-600/30 transition-all shrink-0"
+                  title="关闭深度研究"
+                >
+                  {/* 正常态：显微镜图标；hover 态：叉号 */}
+                  <Microscope className="size-3.5 group-hover:hidden" />
+                  <XCircle    className="size-3.5 hidden group-hover:block" />
+                  <span>Agent</span>
+                  <span className="text-sky-500/60 mx-0.5">|</span>
+                  <span>深度研究</span>
+                </button>
+              )}
             </div>
+
+            {/* Right: 发送 */}
+            <Button
+              type="button"
+              size="icon"
+              className="h-9 w-9 bg-sky-600 hover:bg-sky-500 text-white border-0 rounded-xl shrink-0"
+            >
+              <SendHorizontal className="size-4" />
+            </Button>
           </div>
         </div>
-
-        {/* Agent | 深度研究 chip — shown only when deep research is on */}
-        {deepResearch && (
-          <div className="mt-3 flex items-center gap-2.5 px-1">
-            <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-sky-600/20 border border-sky-600/40 text-xs text-sky-400 font-medium">
-              <Bot className="size-3.5" />
-              <span>Agent</span>
-              <span className="mx-0.5 text-sky-500/60">|</span>
-              <Microscope className="size-3" />
-              <span>深度研究</span>
-            </span>
-            <span className="text-xs text-zinc-600">免费试用</span>
-          </div>
-        )}
       </div>
     </div>
   );
