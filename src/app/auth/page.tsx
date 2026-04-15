@@ -32,12 +32,17 @@ function AuthContent() {
     }
   }, []);
 
-  /** 确认邮件里的跳转地址：优先正式域名（Vercel 配 NEXT_PUBLIC_SITE_URL），否则用当前页 origin，避免落到 Supabase 默认的 localhost:3000 */
+  /**
+   * 确认邮件回跳地址：
+   * - 浏览器端优先使用当前页面 origin（最稳，避免生产环境误用 localhost 配置）
+   * - 仅在无 window 环境下兜底用 NEXT_PUBLIC_SITE_URL
+   */
   const buildEmailRedirectTo = useCallback(() => {
-    const envBase = process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/$/, "");
-    const origin =
-      envBase ||
-      (typeof window !== "undefined" ? window.location.origin.replace(/\/$/, "") : "");
+    const fromWindow =
+      typeof window !== "undefined" ? window.location.origin.replace(/\/$/, "") : "";
+    const envBase = process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/$/, "") ?? "";
+    const envLooksLocal = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(envBase);
+    const origin = fromWindow || (!envLooksLocal ? envBase : "");
     if (!origin) return undefined;
     const qs = new URLSearchParams();
     if (desktop) qs.set("desktop", "1");
