@@ -14,6 +14,8 @@ import {
   Brain,
   Cpu,
   ArrowUp,
+  FileText,
+  X,
   XCircle,
 } from "lucide-react";
 
@@ -39,6 +41,15 @@ type Props = {
   className?: string;
 };
 
+const MAX_INLINE_TEXT_BYTES = 4000;
+const MAX_TEXTAREA_HEIGHT_PX = 420;
+
+type TextAttachment = {
+  name: string;
+  bytes: number;
+  content: string;
+};
+
 export function ChatWorkspace({
   deepResearch = false,
   onDeepResearchDismiss,
@@ -49,9 +60,13 @@ export function ChatWorkspace({
   const [modelOpen, setModelOpen] = useState(false);
   const [webSearch, setWebSearch] = useState(true);
   const [draft, setDraft] = useState("");
+  const [textAttachment, setTextAttachment] = useState<TextAttachment | null>(null);
+  const [inlineNotice, setInlineNotice] = useState<string | null>(null);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const canSend = draft.trim().length > 0;
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const inlineNoticeTimerRef = useRef<number | null>(null);
+  const canSend = draft.trim().length > 0 || !!textAttachment;
 
   const selectedMeta = t.models[selectedModelId];
   const ModelIcon = MODEL_ICONS[selectedModelId];
@@ -65,6 +80,69 @@ export function ChatWorkspace({
     document.addEventListener("mousedown", onOutsideClick);
     return () => document.removeEventListener("mousedown", onOutsideClick);
   }, []);
+
+  useEffect(() => {
+    const textarea = textareaRef.current;
+    if (!textarea) return;
+    textarea.style.height = "auto";
+    const nextHeight = Math.min(Math.max(textarea.scrollHeight, 120), MAX_TEXTAREA_HEIGHT_PX);
+    textarea.style.height = `${nextHeight}px`;
+  }, [draft]);
+
+  useEffect(() => {
+    return () => {
+      if (inlineNoticeTimerRef.current) {
+        window.clearTimeout(inlineNoticeTimerRef.current);
+      }
+    };
+  }, []);
+
+  function getUtf8Bytes(text: string): number {
+    return new TextEncoder().encode(text).length;
+  }
+
+  function showInlineNotice(message: string) {
+    setInlineNotice(message);
+    if (inlineNoticeTimerRef.current) {
+      window.clearTimeout(inlineNoticeTimerRef.current);
+    }
+    inlineNoticeTimerRef.current = window.setTimeout(() => {
+      setInlineNotice(null);
+      inlineNoticeTimerRef.current = null;
+    }, 2600);
+  }
+
+  function formatBytes(bytes: number): string {
+    if (bytes < 1024) return `${bytes} B`;
+    const kb = bytes / 1024;
+    if (kb < 1024) return `${kb.toFixed(2)} KB`;
+    return `${(kb / 1024).toFixed(2)} MB`;
+  }
+
+  function convertLongTextToAttachment(content: string) {
+    const bytes = getUtf8Bytes(content);
+    const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+    setTextAttachment({
+      name: `long-text-${timestamp}.txt`,
+      bytes,
+      content,
+    });
+    setDraft("");
+    showInlineNotice(`粘贴内容超过 ${MAX_INLINE_TEXT_BYTES} 字节，已自动转换为 txt 附件`);
+  }
+
+  function handleDraftChange(next: string) {
+    if (!next) {
+      setDraft("");
+      return;
+    }
+    const bytes = getUtf8Bytes(next);
+    if (bytes > MAX_INLINE_TEXT_BYTES) {
+      convertLongTextToAttachment(next);
+      return;
+    }
+    setDraft(next);
+  }
 
   return (
     <div className={cn("flex flex-col items-center justify-center min-h-0 flex-1 px-4 py-8", className)}>
@@ -81,6 +159,14 @@ export function ChatWorkspace({
         <h1 className="text-4xl sm:text-5xl font-bold tracking-[0.12em] text-zinc-900 dark:text-white">MACHI</h1>
       </div>
 
+      {inlineNotice && (
+        <div className="pointer-events-none fixed top-4 left-1/2 z-[60] -translate-x-1/2">
+          <div className="rounded-full bg-zinc-800 px-5 py-2.5 text-center text-sm text-zinc-100 shadow-2xl dark:bg-zinc-700">
+            {inlineNotice}
+          </div>
+        </div>
+      )}
+
       <div className="w-full max-w-3xl mt-12 relative">
         <div
           className={cn(
@@ -89,10 +175,37 @@ export function ChatWorkspace({
             "shadow-xl dark:shadow-[0_12px_40px_-12px_rgba(0,0,0,0.45),inset_0_1px_0_0_rgba(255,255,255,0.10)]"
           )}
         >
+          {textAttachment && (
+            <div className="pt-4 px-4 pb-1">
+              <div className="inline-flex items-center gap-3 rounded-2xl border border-zinc-200/80 bg-gray-50 p-2 dark:border-zinc-700/50 dark:bg-[#333333]">
+                <div className="rounded-xl border border-zinc-200/80 bg-white p-2.5 dark:border-zinc-700/80 dark:bg-[#262626]">
+                  <FileText className="size-5 text-zinc-500 dark:text-zinc-400" />
+                </div>
+                <div className="flex flex-col justify-center min-w-0 pr-1">
+                  <div className="truncate text-[13px] font-medium text-zinc-900 dark:text-zinc-100 max-w-[160px] sm:max-w-[240px]">
+                    {textAttachment.name}
+                  </div>
+                  <div className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400 uppercase">
+                    TXT {formatBytes(textAttachment.bytes)}
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  className="rounded-full p-1 text-zinc-400 hover:bg-gray-200 hover:text-zinc-700 dark:text-zinc-500 dark:hover:bg-zinc-700 dark:hover:text-zinc-300 self-start"
+                  onClick={() => setTextAttachment(null)}
+                  aria-label="移除文本附件"
+                >
+                  <X className="size-4" />
+                </button>
+              </div>
+            </div>
+          )}
+
           <textarea
+            ref={textareaRef}
             value={draft}
-            onChange={(e) => setDraft(e.target.value)}
-            className="w-full min-h-[120px] max-h-[280px] resize-none bg-transparent text-zinc-900 px-4 pt-3 pb-2 text-sm outline-none placeholder:text-zinc-400 dark:text-zinc-100 dark:placeholder:text-zinc-500"
+            onChange={(e) => handleDraftChange(e.target.value)}
+            className="w-full min-h-[120px] resize-none overflow-y-auto bg-transparent text-zinc-900 px-4 pt-3 pb-2 text-sm outline-none placeholder:text-zinc-400 dark:text-zinc-100 dark:placeholder:text-zinc-500"
             placeholder={deepResearch ? t.chatPlaceholderDeep : t.chatPlaceholder}
             rows={4}
           />

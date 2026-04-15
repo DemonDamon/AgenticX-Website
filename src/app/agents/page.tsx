@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import {
@@ -14,6 +14,7 @@ import {
   MessageSquare,
   MessageSquarePlus,
   Microscope,
+  LogOut,
   Settings,
   Sun,
 } from "lucide-react";
@@ -57,6 +58,7 @@ function AgentsToaster() {
 }
 
 type SessionItem = { id: string; title: string };
+const NAV_AUTO_COLLAPSE_BREAKPOINT = 1180;
 
 function AgentsHomePageInner() {
   const router = useRouter();
@@ -69,6 +71,7 @@ function AgentsHomePageInner() {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [deepResearch, setDeepResearch] = useState(false);
   const [navCollapsed, setNavCollapsed] = useState(false);
+  const autoCollapseStateRef = useRef<boolean | null>(null);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [profileDialog, setProfileDialog] = useState<null | "feedback" | "upgrade">(null);
 
@@ -103,12 +106,35 @@ function AgentsHomePageInner() {
     };
   }, [router]);
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const applyAutoCollapse = () => {
+      const shouldCollapse = window.innerWidth < NAV_AUTO_COLLAPSE_BREAKPOINT;
+      if (autoCollapseStateRef.current === shouldCollapse) return;
+      autoCollapseStateRef.current = shouldCollapse;
+      setNavCollapsed(shouldCollapse);
+    };
+
+    applyAutoCollapse();
+    window.addEventListener("resize", applyAutoCollapse);
+    return () => window.removeEventListener("resize", applyAutoCollapse);
+  }, []);
+
   const onNewChat = useCallback(() => {
     const id = crypto.randomUUID();
     setSessions((s) => [{ id, title: t.newSessionTitle }, ...s]);
     setActiveId(id);
     setWorkspace("chat");
   }, [t.newSessionTitle]);
+
+  const onSignOut = useCallback(async () => {
+    try {
+      const supabase = getSupabaseBrowserClient();
+      await supabase.auth.signOut();
+    } finally {
+      router.replace("/auth");
+    }
+  }, [router]);
 
   if (!ready) {
     return (
@@ -256,17 +282,6 @@ function AgentsHomePageInner() {
                   />
                 </button>
               </DropdownMenuTrigger>
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setProfileDialog("upgrade");
-                }}
-                className="shrink-0 rounded-lg border border-zinc-700/70 bg-zinc-800/90 px-2 py-0.5 text-[11px] font-medium text-zinc-300 transition-colors hover:border-zinc-600 hover:bg-zinc-700/90 hover:text-zinc-100"
-              >
-                {t.upgrade}
-              </button>
             </div>
             <DropdownMenuContent
               side="top"
@@ -389,6 +404,13 @@ function AgentsHomePageInner() {
                   </DropdownMenuItem>
                 </DropdownMenuSubContent>
               </DropdownMenuSub>
+              <DropdownMenuItem
+                className="gap-2.5 rounded-lg py-2 text-sm text-zinc-700 focus:bg-gray-100 focus:text-zinc-900 dark:text-zinc-200 dark:focus:bg-zinc-800 dark:focus:text-zinc-50"
+                onSelect={() => void onSignOut()}
+              >
+                <LogOut className="size-4 text-zinc-400" />
+                {t.menuSignOut}
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

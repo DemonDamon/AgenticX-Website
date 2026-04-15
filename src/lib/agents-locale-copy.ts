@@ -19,6 +19,7 @@ export type AgentsCopy = {
   menuLanguage: string;
   menuFeedback: string;
   menuAbout: string;
+  menuSignOut: string;
   aboutOfficialHome: string;
   aboutUserAgreement: string;
   aboutPrivacyPolicy: string;
@@ -187,6 +188,7 @@ export const agentsLocaleCopy: Record<AgentsLocale, AgentsCopy> = {
     menuLanguage: "语言切换",
     menuFeedback: "用户反馈",
     menuAbout: "关于我们",
+    menuSignOut: "退出登录",
     aboutOfficialHome: "官网首页",
     aboutUserAgreement: "用户协议",
     aboutPrivacyPolicy: "隐私协议",
@@ -356,6 +358,7 @@ export const agentsLocaleCopy: Record<AgentsLocale, AgentsCopy> = {
     menuLanguage: "Language",
     menuFeedback: "Feedback",
     menuAbout: "About",
+    menuSignOut: "Sign out",
     aboutOfficialHome: "Website",
     aboutUserAgreement: "Terms of service",
     aboutPrivacyPolicy: "Privacy policy",
