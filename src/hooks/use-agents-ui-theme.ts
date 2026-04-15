@@ -9,14 +9,14 @@ export type AgentsUiTheme = "system" | "dark" | "light";
 const listeners = new Set<() => void>();
 
 export function readAgentsUiTheme(): AgentsUiTheme {
-  if (typeof window === "undefined") return "system";
+  if (typeof window === "undefined") return "light";
   try {
     const v = window.localStorage.getItem(AGENTS_UI_THEME_STORAGE_KEY);
     if (v === "dark" || v === "light" || v === "system") return v;
   } catch {
     /* ignore */
   }
-  return "system";
+  return "light";
 }
 
 function effectiveIsDark(theme: AgentsUiTheme): boolean {
@@ -56,7 +56,7 @@ export function useAgentsUiTheme(): {
   theme: AgentsUiTheme;
   setTheme: (next: AgentsUiTheme) => void;
 } {
-  const [theme, setThemeState] = useState<AgentsUiTheme>("system");
+  const [theme, setThemeState] = useState<AgentsUiTheme>("light");
 
   useLayoutEffect(() => {
     const t = readAgentsUiTheme();

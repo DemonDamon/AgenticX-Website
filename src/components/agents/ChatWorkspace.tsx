@@ -153,7 +153,7 @@ export function ChatWorkspace({
           width={404}
           height={379}
           priority
-          className="mb-3 w-full max-w-[260px] h-auto object-contain select-none pointer-events-none mix-blend-difference"
+          className="mb-3 w-full max-w-[260px] h-auto object-contain select-none pointer-events-none invert dark:invert-0"
           sizes="(max-width: 768px) 90vw, 260px"
         />
         <h1 className="text-4xl sm:text-5xl font-bold tracking-[0.12em] text-zinc-900 dark:text-white">MACHI</h1>
