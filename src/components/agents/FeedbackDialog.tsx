@@ -77,8 +77,9 @@ export function FeedbackDialog({ open, onOpenChange }: Props) {
       position: "top-center",
       classNames: {
         toast:
-          "bg-[#18181b] border border-zinc-600/80 text-zinc-100 shadow-xl rounded-2xl",
-        title: "text-[15px] font-medium text-zinc-100",
+          "bg-white border border-zinc-200 text-zinc-900 shadow-xl rounded-2xl dark:bg-[#18181b] dark:border-zinc-600/80 dark:text-zinc-100",
+        title:
+          "text-[15px] font-medium text-zinc-900 dark:text-zinc-100",
         icon: "text-emerald-500",
       },
     });
@@ -89,14 +90,14 @@ export function FeedbackDialog({ open, onOpenChange }: Props) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         showCloseButton
-        className="gap-0 border-zinc-700/80 bg-[#141414] p-0 text-zinc-100 sm:max-w-[540px] overflow-hidden shadow-2xl"
+        className="gap-0 border-zinc-200 bg-white p-0 text-zinc-900 shadow-2xl dark:border-zinc-700/80 dark:bg-[#141414] dark:text-zinc-100 sm:max-w-[540px] overflow-hidden"
       >
         <div className="px-6 pt-6 pb-4">
           <DialogHeader className="gap-1 text-left">
-            <DialogTitle className="text-lg font-semibold tracking-tight text-zinc-50">
+            <DialogTitle className="text-lg font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
               {t.dialogFeedbackTitle}
             </DialogTitle>
-            <DialogDescription className="text-sm text-zinc-500">
+            <DialogDescription className="text-sm text-zinc-600 dark:text-zinc-500">
               {t.feedbackSubtitle}
             </DialogDescription>
           </DialogHeader>
@@ -110,14 +111,14 @@ export function FeedbackDialog({ open, onOpenChange }: Props) {
             placeholder={t.feedbackPlaceholder}
             rows={6}
             className={cn(
-              "w-full min-h-[140px] resize-y rounded-xl border bg-zinc-900/50 px-3 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-600 outline-none transition-[box-shadow,border-color]",
+              "w-full min-h-[140px] resize-y rounded-xl border bg-white px-3 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none transition-[box-shadow,border-color] dark:bg-zinc-900/50 dark:text-zinc-100 dark:placeholder:text-zinc-600",
               hasText
-                ? "border-sky-500/50 shadow-[0_0_0_1px_rgba(56,189,248,0.25)]"
-                : "border-zinc-700/80 focus-visible:border-zinc-500 focus-visible:ring-2 focus-visible:ring-zinc-500/20"
+                ? "border-sky-500/50 shadow-[0_0_0_1px_rgba(56,189,248,0.25)] dark:border-sky-500/50"
+                : "border-zinc-200 focus-visible:border-zinc-400 focus-visible:ring-2 focus-visible:ring-zinc-400/20 dark:border-zinc-700/80 dark:focus-visible:border-zinc-500 dark:focus-visible:ring-zinc-500/20"
             )}
           />
 
-          <p className="text-xs text-zinc-500">{t.feedbackImageHint}</p>
+          <p className="text-xs text-zinc-500 dark:text-zinc-500">{t.feedbackImageHint}</p>
 
           <input
             ref={fileInputRef}
@@ -138,7 +139,7 @@ export function FeedbackDialog({ open, onOpenChange }: Props) {
             {previewUrls.map((url, i) => (
               <div
                 key={`${url}-${i}`}
-                className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl border border-zinc-700/80 bg-zinc-900/50"
+                className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl border border-zinc-200 bg-gray-50 dark:border-zinc-700/80 dark:bg-zinc-900/50"
               >
                 <Image src={url} alt="" fill className="object-cover" sizes="80px" unoptimized />
                 <button
@@ -155,7 +156,7 @@ export function FeedbackDialog({ open, onOpenChange }: Props) {
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="flex h-20 w-20 shrink-0 flex-col items-center justify-center rounded-xl border border-dashed border-zinc-600/80 bg-zinc-900/40 text-zinc-500 transition-colors hover:border-zinc-500 hover:bg-zinc-800/50 hover:text-zinc-300"
+                className="flex h-20 w-20 shrink-0 flex-col items-center justify-center rounded-xl border border-dashed border-zinc-300 bg-gray-50 text-zinc-400 transition-colors hover:border-zinc-400 hover:bg-white hover:text-zinc-600 dark:border-zinc-600/80 dark:bg-zinc-900/40 dark:text-zinc-500 dark:hover:border-zinc-500 dark:hover:bg-zinc-800/50 dark:hover:text-zinc-300"
                 aria-label={t.feedbackAddImageAria}
               >
                 <Plus className="size-7 stroke-[1.25]" />
@@ -164,11 +165,11 @@ export function FeedbackDialog({ open, onOpenChange }: Props) {
           </div>
         </div>
 
-        <div className="flex items-center justify-end gap-2 border-t border-zinc-800/90 bg-[#121212] px-6 py-4">
+        <div className="flex items-center justify-end gap-2 border-t border-zinc-200 bg-gray-50 px-6 py-4 dark:border-zinc-800/90 dark:bg-[#121212]">
           <button
             type="button"
             onClick={() => onOpenChange(false)}
-            className="rounded-lg border border-zinc-700/80 bg-zinc-800/80 px-4 py-2 text-sm font-medium text-zinc-200 transition-colors hover:bg-zinc-700/90"
+            className="rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-gray-100 dark:border-zinc-700/80 dark:bg-zinc-800/80 dark:text-zinc-200 dark:hover:bg-zinc-700/90"
           >
             {t.feedbackCancel}
           </button>
@@ -180,7 +181,7 @@ export function FeedbackDialog({ open, onOpenChange }: Props) {
               "rounded-lg px-4 py-2 text-sm font-medium transition-colors",
               canSubmit
                 ? "bg-blue-600 text-white hover:bg-blue-500"
-                : "cursor-not-allowed bg-zinc-800 text-zinc-500 opacity-60"
+                : "cursor-not-allowed bg-gray-200 text-zinc-400 dark:bg-zinc-800 dark:text-zinc-500 opacity-80 dark:opacity-60"
             )}
           >
             {t.feedbackSubmit}
