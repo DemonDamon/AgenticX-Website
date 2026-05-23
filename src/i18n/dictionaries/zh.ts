@@ -1,0 +1,282 @@
+const sidebarItems: Record<string, string> = {
+  index: '简介',
+  'architecture/overview': '架构概览',
+  'architecture/data-flow': '数据流',
+  'architecture/plugin-runtime': '插件运行时',
+  'architecture/mcp-hosting': 'MCP 托管',
+  'architecture/cache-and-pricing': '缓存与定价',
+  'architecture/protocol-translation': '协议转换',
+  apps: '应用',
+  features: '功能模块',
+  packages: '共享包',
+  api: 'API 索引',
+  'api/web-portal': 'Web Portal',
+  'api/admin-console': 'Admin Console',
+  'api/gateway': 'Gateway',
+  'api/internal-api': 'Internal API',
+  'gateway/overview': '网关概览',
+  'gateway/policy-engine': '策略引擎',
+  'gateway/runtime-config': '运行时配置',
+  'gateway/api-tokens': 'API Tokens',
+  'gateway/keypool-pat-overview': 'Keypool / PAT',
+  'gateway/mcp-hosting-overview': 'MCP 托管',
+  'database/schema': '数据库 Schema',
+  'rbac/scopes': 'RBAC Scopes',
+  'configuration/env-vars': '环境变量',
+  'plugin-protocol': '插件协议',
+  'development/local-dev': '本地开发',
+  'development/troubleshooting': '故障排查',
+  testing: '测试',
+  'perf-baselines': '性能基线',
+  observability: '可观测性概览',
+  deployment: '部署索引',
+  'deployment/vercel-env-checklist': 'Vercel 环境清单',
+  'deployment/vercel-git-autodeploy': 'Vercel Git 自动部署',
+  'deployment/supabase-migration-guide': 'Supabase 迁移指南',
+  'deployment/2026-05-12-supabase-seed-tls-pitfall': 'Supabase Seed TLS 陷阱',
+  'runbooks/sso-oidc-setup': 'SSO OIDC 配置',
+  'runbooks/sso-saml-setup': 'SSO SAML 配置',
+  'runbooks/sso-acceptance-checklist': 'SSO 验收清单',
+  'runbooks/audit-pg-backfill': '审计 PG 回灌',
+  'runbooks/policy-snapshot-rollback': '策略快照回滚',
+  'runbooks/gateway-channel-relay': 'Gateway Channel 中继',
+  'runbooks/cloudflare-quick-tunnel-setup': 'Cloudflare Quick Tunnel',
+  'runbooks/ngrok-demo-setup': 'ngrok Demo 配置',
+  'runbooks/ai-cache': 'AI 缓存',
+  'runbooks/multi-protocol': '多协议',
+  'runbooks/mcp-hosting': 'MCP 托管 Runbook',
+  'runbooks/wasm-plugins': 'WASM 插件',
+  'adr/0001-oss-foundations-selection': '0001 OSS 基础选型',
+  'mvp-acceptance-checklist-v20260422': 'MVP 验收清单',
+  'sales/sso-demo-script': 'SSO 演示脚本',
+  'guides/enterprise-customers-collaboration': '企业客户协作指南',
+  'legal/third-party-implementation-policy': '第三方实现政策',
+};
+
+export default {
+  common: {
+    home: '首页',
+    enterprise: '企业版',
+    docs: '文档',
+    documentation: '文档',
+    github: 'GitHub',
+    backToHome: '返回首页',
+    search: '搜索',
+    loading: '加载中…',
+    previous: '上一篇',
+    next: '下一篇',
+    learnMore: '了解更多',
+    license: 'License',
+    pypi: 'PyPI',
+  },
+  nav: {
+    features: '功能',
+    enterprise: '企业版',
+    examples: '示例',
+    documentation: '文档',
+    getStarted: '开始使用',
+    viewOnGithub: '在 GitHub 查看',
+  },
+  localeSwitcher: {
+    label: '语言',
+    zh: '中文',
+    en: 'English',
+  },
+  securityBanner: {
+    title: '安全公告 — ',
+    bodyBefore: '恶意 ',
+    bodyAfter:
+      ' 版本 1.82.7 与 1.82.8 已从 PyPI 移除（存在 API 密钥外泄风险）。请卸载、轮换已暴露凭据，并升级至安全版本（如 1.82.9+）。运行 ',
+    bodyVerify: ' 以确认。',
+  },
+  sidebar: {
+    brand: 'Enterprise',
+    sections: {
+      overview: '概览',
+      architecture: '架构',
+      appsModules: '应用与模块',
+      apiReference: 'API 参考',
+      gateway: 'AI 网关',
+      dataPermissions: '数据与权限',
+      configuration: '配置',
+      plugins: '插件',
+      devTesting: '开发与测试',
+      observability: '可观测性',
+      deployment: '部署',
+      runbooks: 'Runbook',
+      adr: '架构决策',
+      sales: '销售与验收',
+      legal: '法务',
+    },
+    items: sidebarItems,
+    searchPlaceholder: '搜索企业文档…',
+    searchTitle: '搜索企业文档',
+    searchDescription: '跳转到企业文档页面。',
+    searchEmpty: '未找到结果。',
+    backToEnterprise: '← 返回企业版概览',
+  },
+  docs: {
+    breadcrumbHome: '首页',
+    breadcrumbEnterprise: '企业版',
+    breadcrumbDocs: '文档',
+    englishUnavailableBanner: '本页暂未提供英文版本，正在显示中文原文。',
+    supportingAssets: '配套资产',
+    metadataTitle: '文档 | AgenticX Enterprise',
+    metadataDescription:
+      'AgenticX Enterprise 文档中心：架构、API、AI 网关、部署与运维指南。',
+  },
+  home: {
+    metadata: {
+      title: 'AgenticX | 统一多智能体框架',
+      description:
+        '统一、可扩展、生产就绪的多智能体应用开发框架。从简单自动化助手到复杂协作智能体系统，一站式构建。',
+    },
+    hero: {
+      titleLine1: '构建多智能体系统',
+      titleLine2: '无需复杂配置',
+      subtitle:
+        '统一、生产就绪的智能体应用框架。从简单自动化到复杂多智能体协作，一应俱全。',
+      getStarted: '开始使用',
+      viewGithub: '在 GitHub 查看',
+    },
+    features: {
+      title: '核心能力',
+      subtitle: '构建生产级智能体系统所需的一切。',
+      agentCore: {
+        title: 'Agent Core',
+        description: '生产级执行引擎，内置重试与错误处理。',
+      },
+      orchestration: {
+        title: '编排',
+        description: '基于图的工作流，支持条件路由与并行执行。',
+      },
+      memory: {
+        title: '记忆系统',
+        description: '长期记忆，Mem0 集成，兼容任意 LLM 后端。',
+      },
+      stepDemo: {
+        parse: '解析任务',
+        parseDesc: '分析用户请求并提取意图',
+        select: '选择工具',
+        selectDesc: '从注册表选择合适的工具',
+        execute: '执行并响应',
+        executeDesc: '运行工具并格式化输出',
+        processing: '处理中…',
+      },
+      memoryDemo: {
+        stored: '会话已存储',
+        retrieved: '上下文已检索',
+        consolidated: '记忆已整合',
+      },
+    },
+    grid: {
+      a2a: { title: 'A2A 通信', desc: '智能体间消息协议' },
+      mcp: { title: 'MCP 协议', desc: 'Model Context Protocol 支持' },
+      observability: { title: '可观测性', desc: '链路追踪、指标与监控' },
+      gui: { title: 'GUI Agent', desc: '桌面自动化框架' },
+      tools: { title: '工具系统', desc: '函数装饰器与远程工具' },
+      validation: { title: '任务校验', desc: 'Pydantic 输出解析' },
+    },
+    code: {
+      title: '简单易用',
+      subtitle: '用最少代码构建复杂系统。',
+      tabs: { agent: 'Agent', workflow: 'Workflow', tools: 'Tools' },
+    },
+    quickstart: {
+      title: '快速开始',
+      subtitle: '几分钟内跑起来。',
+      install: '安装',
+      configure: '配置',
+      build: '运行',
+    },
+    cta: {
+      title: '今天就开始构建',
+      subtitle: '加入正在构建下一代 AI 应用的开发者行列。',
+      starGithub: '在 GitHub Star',
+      pypiPackage: 'PyPI 包',
+    },
+    footer: {
+      license: 'AGPL-3.0 License',
+    },
+  },
+  enterprisePage: {
+    metadata: {
+      title: '企业版 | AgenticX',
+      description:
+        '企业级大模型应用一体化平台：员工前台、管理后台与 AI 网关三端联动。',
+    },
+    badge: 'AgenticX Enterprise',
+    hero: {
+      titleLine1: '企业级大模型应用',
+      titleLine2: '一体化平台',
+      subtitle:
+        '员工前台、管理后台与 AI 网关三端联动，共享 Postgres 多租户数据层与统一 RBAC。面向企业 Web 端管控与模型接入，与 Machi Desktop 端侧闭环互补。',
+      viewDocs: '查看文档',
+    },
+    pillars: {
+      webPortal: {
+        title: 'Web Portal',
+        description:
+          '员工前台：Web 聊天工作区、模型选择、会话历史与合规拦截体验，面向企业终端用户。',
+      },
+      adminConsole: {
+        title: 'Admin Console',
+        description:
+          '管理后台：IAM、策略规则、审计、计量、模型服务与 Channel 管理，面向运维与管理员。',
+      },
+      aiGateway: {
+        title: 'AI Gateway',
+        description:
+          'OpenAI 兼容 API、三通道策略评估、审计链、Token 计量与多上游路由，统一模型接入与管控。',
+      },
+    },
+    architecture: {
+      title: '三端架构',
+      subtitle:
+        'web-portal（:3000）面向员工，admin-console（:3001）面向管理员，gateway（:8088）统一模型 API 与策略执行。',
+      diagram: `员工浏览器 ──► web-portal (Next.js :3000)
+管理员浏览器 ──► admin-console (Next.js :3001)
+                    │
+                    ├── PostgreSQL (IAM · Chat · Policy · Audit · Usage)
+                    └── gateway (Go :8088) ──► OpenAI 兼容上游`,
+      overviewTitle: '架构概览',
+      readFull: '阅读完整架构文档',
+    },
+    capabilities: {
+      title: '核心能力',
+      iam: 'IAM & RBAC',
+      policy: 'Policy Engine',
+      routing: 'Gateway Routing',
+      sso: 'SSO / OIDC',
+    },
+    footer: {
+      brand: 'AgenticX Enterprise',
+    },
+  },
+  privacy: {
+    metadata: {
+      title: '隐私政策 — Machi',
+      description: 'Machi 隐私政策',
+    },
+    backToLogin: '← 返回登录',
+    title: 'Machi 隐私政策',
+    effectiveDate: '生效日期：2025 年 4 月 15 日 ｜ 最后更新：2025 年 4 月 15 日',
+  },
+  terms: {
+    metadata: {
+      title: '用户协议 — Machi',
+      description: 'Machi 用户协议',
+    },
+    backToLogin: '← 返回登录',
+    title: 'Machi 用户协议',
+    effectiveDate: '生效日期：2025 年 4 月 15 日 ｜ 最后更新：2025 年 4 月 15 日',
+  },
+  site: {
+    metadata: {
+      titleDefault: 'AgenticX | 统一多智能体框架',
+      titleTemplate: '%s | AgenticX',
+      description:
+        '统一、可扩展、生产就绪的多智能体应用开发框架。从简单自动化助手到复杂协作智能体系统，一站式构建。',
+    },
+  },
+};

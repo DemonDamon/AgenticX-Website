@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import {
   CommandDialog,
   CommandEmpty,
@@ -10,10 +10,13 @@ import {
   CommandItem,
   CommandList,
 } from '@/components/ui/command';
-import { enterpriseDocNavigation } from '@/components/enterprise-docs/navigation';
+import { getEnterpriseDocNavigation } from '@/components/enterprise-docs/navigation';
+import { localizedPath, localeFromPathname } from '@/i18n/config';
+import { useTranslations } from '@/i18n/locale-context';
 
-function docHref(slug: string): string {
-  return slug === 'index' ? '/enterprise/docs' : `/enterprise/docs/${slug}`;
+function docHref(slug: string, locale: ReturnType<typeof localeFromPathname>): string {
+  const path = slug === 'index' ? '/enterprise/docs' : `/enterprise/docs/${slug}`;
+  return localizedPath(path, locale);
 }
 
 export function EnterpriseDocSearchCommand({
@@ -24,6 +27,10 @@ export function EnterpriseDocSearchCommand({
   onOpenChange: (open: boolean) => void;
 }) {
   const router = useRouter();
+  const pathname = usePathname();
+  const locale = localeFromPathname(pathname);
+  const t = useTranslations();
+  const navigation = getEnterpriseDocNavigation(t);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -40,20 +47,20 @@ export function EnterpriseDocSearchCommand({
     <CommandDialog
       open={open}
       onOpenChange={onOpenChange}
-      title="Search enterprise documentation"
-      description="Jump to an enterprise documentation page."
+      title={t.sidebar.searchTitle}
+      description={t.sidebar.searchDescription}
     >
-      <CommandInput placeholder="Search enterprise docs..." />
+      <CommandInput placeholder={t.sidebar.searchPlaceholder} />
       <CommandList>
-        <CommandEmpty>No results found.</CommandEmpty>
-        {enterpriseDocNavigation.map((section) => (
+        <CommandEmpty>{t.sidebar.searchEmpty}</CommandEmpty>
+        {navigation.map((section) => (
           <CommandGroup key={section.title} heading={section.title}>
             {section.items.map((item) => (
               <CommandItem
                 key={item.slug}
                 value={`${item.title} ${item.slug} ${section.title} ${item.searchAliases ?? ''}`}
                 onSelect={() => {
-                  router.push(docHref(item.slug));
+                  router.push(docHref(item.slug, locale));
                   onOpenChange(false);
                 }}
               >

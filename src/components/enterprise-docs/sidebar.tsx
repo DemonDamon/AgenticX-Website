@@ -3,25 +3,30 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { enterpriseDocNavigation } from './navigation';
+import { getEnterpriseDocNavigation } from './navigation';
 import { EnterpriseDocSearchCommand } from './doc-search-command';
+import { LocaleSwitcher } from '@/components/locale-switcher';
 import { useState } from 'react';
 import { ChevronDown, ChevronRight, Search, FileText } from 'lucide-react';
+import { localizedPath, localeFromPathname } from '@/i18n/config';
+import { useTranslations } from '@/i18n/locale-context';
 
 interface SidebarItemProps {
   title: string;
   slug: string;
   isActive: boolean;
+  locale: ReturnType<typeof localeFromPathname>;
 }
 
-function sidebarHref(slug: string): string {
-  return slug === 'index' ? '/enterprise/docs' : `/enterprise/docs/${slug}`;
+function sidebarHref(slug: string, locale: ReturnType<typeof localeFromPathname>): string {
+  const path = slug === 'index' ? '/enterprise/docs' : `/enterprise/docs/${slug}`;
+  return localizedPath(path, locale);
 }
 
-function SidebarItem({ title, slug, isActive }: SidebarItemProps) {
+function SidebarItem({ title, slug, isActive, locale }: SidebarItemProps) {
   return (
     <Link
-      href={sidebarHref(slug)}
+      href={sidebarHref(slug, locale)}
       className={cn(
         'flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm transition-colors',
         isActive
@@ -39,9 +44,10 @@ interface SidebarSectionProps {
   title: string;
   items: { title: string; slug: string }[];
   currentSlug: string;
+  locale: ReturnType<typeof localeFromPathname>;
 }
 
-function SidebarSection({ title, items, currentSlug }: SidebarSectionProps) {
+function SidebarSection({ title, items, currentSlug, locale }: SidebarSectionProps) {
   const [isOpen, setIsOpen] = useState(true);
 
   return (
@@ -66,6 +72,7 @@ function SidebarSection({ title, items, currentSlug }: SidebarSectionProps) {
                 title={item.title}
                 slug={item.slug}
                 isActive={item.slug === currentSlug}
+                locale={locale}
               />
             </li>
           ))}
@@ -76,31 +83,36 @@ function SidebarSection({ title, items, currentSlug }: SidebarSectionProps) {
 }
 
 function resolveCurrentSlug(pathname: string): string {
-  if (pathname === '/enterprise/docs') {
+  const docsPath = pathname.replace(/^\/en/, '').replace(/^\/enterprise\/docs\/?/, '');
+  if (!docsPath || pathname.endsWith('/enterprise/docs')) {
     return 'index';
   }
-  return pathname.replace(/^\/enterprise\/docs\/?/, '') || 'index';
+  return docsPath;
 }
 
 export function EnterpriseDocSidebar() {
   const pathname = usePathname();
+  const locale = localeFromPathname(pathname);
+  const t = useTranslations();
+  const navigation = getEnterpriseDocNavigation(t);
   const currentSlug = resolveCurrentSlug(pathname);
   const [searchOpen, setSearchOpen] = useState(false);
 
   return (
     <aside className="fixed left-0 top-0 z-40 flex h-screen w-64 flex-col overflow-hidden border-r border-gray-800 bg-[#0a0a0a]">
-      <div className="flex h-16 items-center border-b border-gray-800 px-6">
-        <Link href="/" className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-violet-500 to-indigo-600 text-sm font-bold">
+      <div className="flex h-16 items-center justify-between border-b border-gray-800 px-4">
+        <Link href={localizedPath('/', locale)} className="flex items-center gap-2 min-w-0">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-violet-500 to-indigo-600 text-sm font-bold">
             AX
           </div>
-          <div className="flex flex-col leading-tight">
-            <span className="text-lg font-semibold text-white">AgenticX</span>
+          <div className="flex min-w-0 flex-col leading-tight">
+            <span className="truncate text-lg font-semibold text-white">AgenticX</span>
             <span className="text-[10px] font-medium uppercase tracking-wider text-violet-400">
-              Enterprise
+              {t.sidebar.brand}
             </span>
           </div>
         </Link>
+        <LocaleSwitcher className="shrink-0 px-2 py-1 text-xs" />
       </div>
 
       <div className="border-b border-gray-800 p-4">
@@ -111,7 +123,7 @@ export function EnterpriseDocSidebar() {
           className="relative w-full rounded-lg border border-gray-800 bg-gray-900/50 py-2 pl-10 pr-14 text-left text-sm text-gray-500 hover:border-gray-700 hover:bg-gray-900 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500"
         >
           <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
-          <span>Search enterprise docs...</span>
+          <span>{t.sidebar.searchPlaceholder}</span>
           <kbd className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 rounded bg-gray-800 px-1.5 py-0.5 text-xs text-gray-500">
             ⌘K
           </kbd>
@@ -119,22 +131,23 @@ export function EnterpriseDocSidebar() {
       </div>
 
       <nav className="flex-1 overflow-y-auto px-3 py-4">
-        {enterpriseDocNavigation.map((section) => (
+        {navigation.map((section) => (
           <SidebarSection
             key={section.title}
             title={section.title}
             items={section.items}
             currentSlug={currentSlug}
+            locale={locale}
           />
         ))}
       </nav>
 
       <div className="border-t border-gray-800 p-4">
         <Link
-          href="/enterprise"
+          href={localizedPath('/enterprise', locale)}
           className="text-xs text-gray-500 transition-colors hover:text-violet-300"
         >
-          ← Back to Enterprise overview
+          {t.sidebar.backToEnterprise}
         </Link>
       </div>
     </aside>

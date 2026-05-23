@@ -28,7 +28,7 @@ function walkMarkdownFiles(dir: string, base = ''): string[] {
     const full = path.join(dir, entry.name);
     if (entry.isDirectory()) {
       files.push(...walkMarkdownFiles(full, relative));
-    } else if (entry.isFile() && entry.name.endsWith('.md')) {
+    } else if (entry.isFile() && entry.name.endsWith('.md') && !entry.name.endsWith('.en.md')) {
       files.push(relative.replace(/\\/g, '/'));
     }
   }

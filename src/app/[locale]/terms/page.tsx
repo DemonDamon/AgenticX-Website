@@ -1,23 +1,43 @@
-import type { Metadata } from "next";
 import Link from "next/link";
+import { getDictionary } from "@/i18n/get-dictionary";
+import { isLocale, localizedPath, type Locale } from "@/i18n/config";
+import { notFound } from "next/navigation";
 
-export const metadata: Metadata = {
-  title: "用户协议 — Machi",
-  description: "Machi 用户服务协议",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale: rawLocale } = await params;
+  if (!isLocale(rawLocale)) return {};
+  const t = await getDictionary(rawLocale as Locale);
+  return {
+    title: t.terms.metadata.title,
+    description: t.terms.metadata.description,
+  };
+}
 
-export default function TermsPage() {
+export default async function TermsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale: rawLocale } = await params;
+  if (!isLocale(rawLocale)) notFound();
+  const locale = rawLocale as Locale;
+  const t = await getDictionary(locale);
+
   return (
     <div className="min-h-screen bg-gray-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 px-6 py-12">
       <article className="mx-auto max-w-3xl">
         <p className="text-sm text-zinc-500 mb-8">
-          <Link href="/auth" className="underline underline-offset-2 hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors">
-            ← 返回登录
+          <Link href={localizedPath("/auth", locale)} className="underline underline-offset-2 hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors">
+            {t.terms.backToLogin}
           </Link>
         </p>
 
-        <h1 className="text-3xl font-bold mb-2">Machi 用户服务协议</h1>
-        <p className="text-sm text-zinc-500 mb-10">生效日期：2025 年 4 月 15 日 ｜ 最后更新：2025 年 4 月 15 日</p>
+        <h1 className="text-3xl font-bold mb-2">{t.terms.title}</h1>
+        <p className="text-sm text-zinc-500 mb-10">{t.terms.effectiveDate}</p>
 
         <div className="space-y-8 text-[15px] leading-relaxed text-zinc-700 dark:text-zinc-300">
 

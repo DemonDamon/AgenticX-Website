@@ -3,28 +3,31 @@
 import Link from 'next/link';
 import { TriangleAlert } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useTranslations } from '@/i18n/locale-context';
 
 export function SecurityAdvisoryBanner({
   align = 'marketing',
 }: {
   align?: 'marketing' | 'docs';
 }) {
+  const t = useTranslations();
+
   return (
     <div className="border-b border-amber-500/35 bg-amber-950/90">
       <div
         className={cn(
           'mx-auto flex items-start gap-3 py-3',
-          align === 'docs' ? 'max-w-4xl px-8' : 'max-w-6xl px-6'
+          align === 'docs' ? 'max-w-4xl px-8' : 'max-w-6xl px-6',
         )}
       >
         <TriangleAlert className="mt-0.5 h-5 w-5 shrink-0 text-amber-400" aria-hidden />
         <div className="text-sm leading-relaxed text-amber-100/90">
-          <span className="font-semibold text-amber-200">Security advisory — </span>
-          Malicious <code className="rounded bg-black/30 px-1 text-amber-100/95">litellm</code> versions{' '}
-          <strong>1.82.7</strong> and <strong>1.82.8</strong> were removed from PyPI (potential API key
-          exfiltration). Uninstall them, rotate exposed credentials, and upgrade to a safe release (e.g.{' '}
-          <strong>1.82.9+</strong> per upstream). Run{' '}
-          <code className="rounded bg-black/30 px-1 text-amber-100/95">pip show litellm</code> to verify.{' '}
+          <span className="font-semibold text-amber-200">{t.securityBanner.title}</span>
+          {t.securityBanner.bodyBefore}
+          <code className="rounded bg-black/30 px-1 text-amber-100/95">litellm</code>
+          {t.securityBanner.bodyAfter}
+          <code className="rounded bg-black/30 px-1 text-amber-100/95">pip show litellm</code>
+          {t.securityBanner.bodyVerify}{' '}
           <Link
             href="https://pypi.org/project/litellm/"
             target="_blank"

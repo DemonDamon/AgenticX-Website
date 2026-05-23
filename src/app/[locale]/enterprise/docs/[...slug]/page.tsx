@@ -7,9 +7,11 @@ import {
   enterpriseDocsRootExists,
 } from '@/lib/enterprise-docs/load-doc';
 import { rewriteEnterpriseDocLinks } from '@/lib/enterprise-docs/rewrite-links';
+import { isLocale, locales, type Locale } from '@/i18n/config';
 
 interface PageProps {
   params: Promise<{
+    locale: string;
     slug: string[];
   }>;
 }
@@ -19,15 +21,21 @@ export async function generateStaticParams() {
     return [];
   }
 
-  return listEnterpriseDocSlugs().map((slug) => ({
-    slug: slug.split('/'),
-  }));
+  const slugs = listEnterpriseDocSlugs();
+  return locales.flatMap((locale) =>
+    slugs.map((slug) => ({
+      locale,
+      slug: slug.split('/'),
+    })),
+  );
 }
 
 export async function generateMetadata({ params }: PageProps) {
-  const { slug } = await params;
+  const { locale: rawLocale, slug } = await params;
+  if (!isLocale(rawLocale)) return { title: 'Documentation | AgenticX Enterprise' };
+  const locale = rawLocale as Locale;
   const slugPath = slug.join('/');
-  const doc = loadEnterpriseDocBySlug(slugPath);
+  const doc = loadEnterpriseDocBySlug(slugPath, locale);
 
   if (!doc) {
     return {
@@ -42,25 +50,28 @@ export async function generateMetadata({ params }: PageProps) {
 }
 
 export default async function EnterpriseDocPage({ params }: PageProps) {
-  const { slug } = await params;
+  const { locale: rawLocale, slug } = await params;
+  if (!isLocale(rawLocale)) notFound();
+  const locale = rawLocale as Locale;
   const slugPath = slug.join('/');
 
   if (!enterpriseDocsRootExists()) {
     notFound();
   }
 
-  const doc = loadEnterpriseDocBySlug(slugPath);
+  const doc = loadEnterpriseDocBySlug(slugPath, locale);
   if (!doc) {
     notFound();
   }
 
-  const content = rewriteEnterpriseDocLinks(doc.content, slugPath);
+  const content = rewriteEnterpriseDocLinks(doc.content, slugPath, locale);
 
   return (
     <EnterpriseDocContent
       title={doc.title}
       description={doc.description}
       slug={slugPath}
+      fallbackUsed={doc.fallbackUsed}
     >
       <MarkdownRenderer content={content} />
     </EnterpriseDocContent>

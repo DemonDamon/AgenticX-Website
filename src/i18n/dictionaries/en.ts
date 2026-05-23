@@ -1,0 +1,283 @@
+const sidebarItems: Record<string, string> = {
+  index: 'Introduction',
+  'architecture/overview': 'Overview',
+  'architecture/data-flow': 'Data Flow',
+  'architecture/plugin-runtime': 'Plugin Runtime',
+  'architecture/mcp-hosting': 'MCP Hosting',
+  'architecture/cache-and-pricing': 'Cache & Pricing',
+  'architecture/protocol-translation': 'Protocol Translation',
+  apps: 'Apps',
+  features: 'Features',
+  packages: 'Packages',
+  api: 'Index',
+  'api/web-portal': 'Web Portal',
+  'api/admin-console': 'Admin Console',
+  'api/gateway': 'Gateway',
+  'api/internal-api': 'Internal API',
+  'gateway/overview': 'Overview',
+  'gateway/policy-engine': 'Policy Engine',
+  'gateway/runtime-config': 'Runtime Config',
+  'gateway/api-tokens': 'API Tokens',
+  'gateway/keypool-pat-overview': 'Keypool / PAT',
+  'gateway/mcp-hosting-overview': 'MCP Hosting',
+  'database/schema': 'Database Schema',
+  'rbac/scopes': 'RBAC Scopes',
+  'configuration/env-vars': 'Env Vars',
+  'plugin-protocol': 'Plugin Protocol',
+  'development/local-dev': 'Local Dev',
+  'development/troubleshooting': 'Troubleshooting',
+  testing: 'Testing',
+  'perf-baselines': 'Perf Baselines',
+  observability: 'Overview',
+  deployment: 'Deployment Index',
+  'deployment/vercel-env-checklist': 'Vercel Env Checklist',
+  'deployment/vercel-git-autodeploy': 'Vercel Git Autodeploy',
+  'deployment/supabase-migration-guide': 'Supabase Migration Guide',
+  'deployment/2026-05-12-supabase-seed-tls-pitfall': 'Supabase Seed TLS Pitfall',
+  'runbooks/sso-oidc-setup': 'SSO OIDC Setup',
+  'runbooks/sso-saml-setup': 'SSO SAML Setup',
+  'runbooks/sso-acceptance-checklist': 'SSO Acceptance Checklist',
+  'runbooks/audit-pg-backfill': 'Audit PG Backfill',
+  'runbooks/policy-snapshot-rollback': 'Policy Snapshot Rollback',
+  'runbooks/gateway-channel-relay': 'Gateway Channel Relay',
+  'runbooks/cloudflare-quick-tunnel-setup': 'Cloudflare Quick Tunnel',
+  'runbooks/ngrok-demo-setup': 'ngrok Demo Setup',
+  'runbooks/ai-cache': 'AI Cache',
+  'runbooks/multi-protocol': 'Multi-Protocol',
+  'runbooks/mcp-hosting': 'MCP Hosting',
+  'runbooks/wasm-plugins': 'WASM Plugins',
+  'adr/0001-oss-foundations-selection': '0001 OSS Foundations Selection',
+  'mvp-acceptance-checklist-v20260422': 'MVP Acceptance Checklist',
+  'sales/sso-demo-script': 'SSO Demo Script',
+  'guides/enterprise-customers-collaboration': 'Enterprise Customers Collaboration',
+  'legal/third-party-implementation-policy': 'Third-Party Implementation Policy',
+};
+
+export default {
+  common: {
+    home: 'Home',
+    enterprise: 'Enterprise',
+    docs: 'Docs',
+    documentation: 'Documentation',
+    github: 'GitHub',
+    backToHome: 'Back to home',
+    search: 'Search',
+    loading: 'Loading…',
+    previous: 'Previous',
+    next: 'Next',
+    learnMore: 'Learn more',
+    license: 'License',
+    pypi: 'PyPI',
+  },
+  nav: {
+    features: 'Features',
+    enterprise: 'Enterprise',
+    examples: 'Examples',
+    documentation: 'Documentation',
+    getStarted: 'Get Started',
+    viewOnGithub: 'View on GitHub',
+  },
+  localeSwitcher: {
+    label: 'Language',
+    zh: '中文',
+    en: 'English',
+  },
+  securityBanner: {
+    title: 'Security advisory — ',
+    bodyBefore: 'Malicious ',
+    bodyAfter:
+      ' versions 1.82.7 and 1.82.8 were removed from PyPI (potential API key exfiltration). Uninstall them, rotate exposed credentials, and upgrade to a safe release (e.g. 1.82.9+). Run ',
+    bodyVerify: ' to verify.',
+  },
+  sidebar: {
+    brand: 'Enterprise',
+    sections: {
+      overview: 'Overview',
+      architecture: 'Architecture',
+      appsModules: 'Apps & Modules',
+      apiReference: 'API Reference',
+      gateway: 'AI Gateway',
+      dataPermissions: 'Data & Permissions',
+      configuration: 'Configuration',
+      plugins: 'Plugins',
+      devTesting: 'Development & Testing',
+      observability: 'Observability',
+      deployment: 'Deployment',
+      runbooks: 'Runbooks',
+      adr: 'ADR',
+      sales: 'Sales & Acceptance',
+      legal: 'Legal',
+    },
+    items: sidebarItems,
+    searchPlaceholder: 'Search enterprise docs...',
+    searchTitle: 'Search enterprise documentation',
+    searchDescription: 'Jump to an enterprise documentation page.',
+    searchEmpty: 'No results found.',
+    backToEnterprise: '← Back to Enterprise overview',
+  },
+  docs: {
+    breadcrumbHome: 'Home',
+    breadcrumbEnterprise: 'Enterprise',
+    breadcrumbDocs: 'Docs',
+    englishUnavailableBanner:
+      'This page is not yet available in English. Showing the Chinese original.',
+    supportingAssets: 'Supporting assets',
+    metadataTitle: 'Documentation | AgenticX Enterprise',
+    metadataDescription:
+      'AgenticX Enterprise documentation: architecture, API, AI gateway, deployment, and operations.',
+  },
+  home: {
+    metadata: {
+      title: 'AgenticX | Unified Multi-Agent Framework',
+      description:
+        'A unified, scalable, production-ready multi-agent application development framework. Build everything from simple automation assistants to complex collaborative intelligent agent systems.',
+    },
+    hero: {
+      titleLine1: 'Build multi-agent systems',
+      titleLine2: 'without the complexity',
+      subtitle:
+        'A unified, production-ready framework for building intelligent agent applications. From simple automation to complex multi-agent collaboration.',
+      getStarted: 'Get Started',
+      viewGithub: 'View on GitHub',
+    },
+    features: {
+      title: 'Core capabilities',
+      subtitle: 'Everything you need to build production agent systems.',
+      agentCore: {
+        title: 'Agent Core',
+        description: 'Production-ready execution engine with retry logic and error handling.',
+      },
+      orchestration: {
+        title: 'Orchestration',
+        description: 'Graph-based workflow with conditional routing and parallel execution.',
+      },
+      memory: {
+        title: 'Memory System',
+        description: 'Long-term memory with Mem0 integration, any LLM backend.',
+      },
+      stepDemo: {
+        parse: 'Parse task',
+        parseDesc: 'Analyze user request and extract intent',
+        select: 'Select tools',
+        selectDesc: 'Choose appropriate tools from registry',
+        execute: 'Execute & respond',
+        executeDesc: 'Run tools and format output',
+        processing: 'Processing...',
+      },
+      memoryDemo: {
+        stored: 'Session stored',
+        retrieved: 'Context retrieved',
+        consolidated: 'Memory consolidated',
+      },
+    },
+    grid: {
+      a2a: { title: 'A2A Communication', desc: 'Inter-agent messaging protocol' },
+      mcp: { title: 'MCP Protocol', desc: 'Model Context Protocol support' },
+      observability: { title: 'Observability', desc: 'Tracing, metrics, monitoring' },
+      gui: { title: 'GUI Agent', desc: 'Desktop automation framework' },
+      tools: { title: 'Tool System', desc: 'Function decorators & remote tools' },
+      validation: { title: 'Task Validation', desc: 'Pydantic output parsing' },
+    },
+    code: {
+      title: 'Simple to use',
+      subtitle: 'Build complex systems with minimal code.',
+      tabs: { agent: 'Agent', workflow: 'Workflow', tools: 'Tools' },
+    },
+    quickstart: {
+      title: 'Quick start',
+      subtitle: 'Get up and running in minutes.',
+      install: 'Install',
+      configure: 'Configure',
+      build: 'Build',
+    },
+    cta: {
+      title: 'Start building today',
+      subtitle: 'Join developers building the next generation of AI applications.',
+      starGithub: 'Star on GitHub',
+      pypiPackage: 'PyPI Package',
+    },
+    footer: {
+      license: 'AGPL-3.0 License',
+    },
+  },
+  enterprisePage: {
+    metadata: {
+      title: 'Enterprise | AgenticX',
+      description:
+        'Enterprise LLM application platform: employee portal, admin console, and AI gateway in one stack.',
+    },
+    badge: 'AgenticX Enterprise',
+    hero: {
+      titleLine1: 'Enterprise LLM applications',
+      titleLine2: 'all in one platform',
+      subtitle:
+        'Employee portal, admin console, and AI gateway share a Postgres multi-tenant data layer and unified RBAC. Web-side governance and model access, complementary to Machi Desktop.',
+      viewDocs: 'View documentation',
+    },
+    pillars: {
+      webPortal: {
+        title: 'Web Portal',
+        description:
+          'Employee-facing web chat workspace, model selection, session history, and compliance UX for end users.',
+      },
+      adminConsole: {
+        title: 'Admin Console',
+        description:
+          'Admin console: IAM, policy rules, audit, metering, model services, and channel management for operators.',
+      },
+      aiGateway: {
+        title: 'AI Gateway',
+        description:
+          'OpenAI-compatible API, three-channel policy evaluation, audit chain, token metering, and multi-upstream routing.',
+      },
+    },
+    architecture: {
+      title: 'Three-tier architecture',
+      subtitle:
+        'web-portal (:3000) for employees, admin-console (:3001) for admins, gateway (:8088) for unified model API and policy enforcement.',
+      diagram: `Employee browser ──► web-portal (Next.js :3000)
+Admin browser ──► admin-console (Next.js :3001)
+                    │
+                    ├── PostgreSQL (IAM · Chat · Policy · Audit · Usage)
+                    └── gateway (Go :8088) ──► OpenAI-compatible upstream`,
+      overviewTitle: 'Architecture overview',
+      readFull: 'Read full architecture docs',
+    },
+    capabilities: {
+      title: 'Core capabilities',
+      iam: 'IAM & RBAC',
+      policy: 'Policy Engine',
+      routing: 'Gateway Routing',
+      sso: 'SSO / OIDC',
+    },
+    footer: {
+      brand: 'AgenticX Enterprise',
+    },
+  },
+  privacy: {
+    metadata: {
+      title: 'Privacy Policy — Machi',
+      description: 'Machi Privacy Policy',
+    },
+    backToLogin: '← Back to login',
+    title: 'Machi Privacy Policy',
+    effectiveDate: 'Effective: April 15, 2025 | Last updated: April 15, 2025',
+  },
+  terms: {
+    metadata: {
+      title: 'Terms of Service — Machi',
+      description: 'Machi Terms of Service',
+    },
+    backToLogin: '← Back to login',
+    title: 'Machi Terms of Service',
+    effectiveDate: 'Effective: April 15, 2025 | Last updated: April 15, 2025',
+  },
+  site: {
+    metadata: {
+      titleDefault: 'AgenticX | Unified Multi-Agent Framework',
+      titleTemplate: '%s | AgenticX',
+      description:
+        'A unified, scalable, production-ready multi-agent application development framework. Build everything from simple automation assistants to complex collaborative intelligent agent systems.',
+    },
+  },
+};

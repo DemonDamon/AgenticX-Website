@@ -1,4 +1,6 @@
 import fs from 'fs';
+import path from 'path';
+import type { Locale } from '@/i18n/config';
 import {
   ENTERPRISE_DOCS_ROOT,
   loadRootReadmePath,
@@ -11,6 +13,7 @@ export interface EnterpriseDoc {
   description?: string;
   content: string;
   filePath: string;
+  fallbackUsed: boolean;
 }
 
 function stripFrontmatter(text: string): string {
@@ -58,7 +61,7 @@ function extractDescription(markdown: string): string | undefined {
   return undefined;
 }
 
-function readDocFile(filePath: string, slug: string): EnterpriseDoc {
+function readDocFile(filePath: string, slug: string, fallbackUsed: boolean): EnterpriseDoc {
   const raw = fs.readFileSync(filePath, 'utf8');
   const content = stripFrontmatter(raw);
   return {
@@ -67,23 +70,50 @@ function readDocFile(filePath: string, slug: string): EnterpriseDoc {
     description: extractDescription(content),
     content,
     filePath,
+    fallbackUsed,
   };
 }
 
-export function loadEnterpriseDocBySlug(slug: string): EnterpriseDoc | null {
-  const filePath = slugToFilePath(slug);
-  if (!filePath) {
+function slugToEnglishFilePath(slug: string): string | null {
+  if (slug === 'index') {
+    const rootEn = path.join(ENTERPRISE_DOCS_ROOT, 'README.en.md');
+    if (fs.existsSync(rootEn)) {
+      return rootEn;
+    }
     return null;
   }
-  return readDocFile(filePath, slug);
+
+  const direct = path.join(ENTERPRISE_DOCS_ROOT, `${slug}.en.md`);
+  if (fs.existsSync(direct)) {
+    return direct;
+  }
+
+  const readme = path.join(ENTERPRISE_DOCS_ROOT, slug, 'README.en.md');
+  if (fs.existsSync(readme)) {
+    return readme;
+  }
+
+  return null;
 }
 
-export function loadEnterpriseDocIndex(): EnterpriseDoc | null {
-  const filePath = loadRootReadmePath();
-  if (!fs.existsSync(filePath)) {
+export function loadEnterpriseDocBySlug(slug: string, locale: Locale = 'zh'): EnterpriseDoc | null {
+  if (locale === 'en') {
+    const enPath = slugToEnglishFilePath(slug);
+    if (enPath) {
+      return readDocFile(enPath, slug, false);
+    }
+  }
+
+  const filePath = slug === 'index' ? loadRootReadmePath() : slugToFilePath(slug);
+  if (!filePath || !fs.existsSync(filePath)) {
     return null;
   }
-  return readDocFile(filePath, 'index');
+
+  return readDocFile(filePath, slug, locale === 'en');
+}
+
+export function loadEnterpriseDocIndex(locale: Locale = 'zh'): EnterpriseDoc | null {
+  return loadEnterpriseDocBySlug('index', locale);
 }
 
 export function enterpriseDocsRootExists(): boolean {

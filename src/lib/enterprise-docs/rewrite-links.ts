@@ -1,4 +1,6 @@
 import path from 'path';
+import type { Locale } from '@/i18n/config';
+import { localizedPath } from '@/i18n/config';
 
 const GITHUB_MAIN_TREE =
   'https://github.com/DemonDamon/AgenticX/tree/main';
@@ -39,12 +41,13 @@ function resolveRelativeSlug(currentSlug: string, linkPath: string): string | nu
   return normalizeResolvedSlug(resolved);
 }
 
-function toEnterpriseHref(slug: string, anchor?: string): string {
-  const base =
+function toEnterpriseHref(slug: string, anchor: string | undefined, locale: Locale): string {
+  const basePath =
     slug === '' || slug === 'index'
       ? ENTERPRISE_DOCS_PREFIX
       : `${ENTERPRISE_DOCS_PREFIX}/${slug}`;
-  return anchor ? `${base}#${anchor}` : base;
+  const localized = localizedPath(basePath, locale);
+  return anchor ? `${localized}#${anchor}` : localized;
 }
 
 function toGithubFallback(linkPath: string, currentSlug: string): string {
@@ -60,6 +63,7 @@ function toGithubFallback(linkPath: string, currentSlug: string): string {
 export function rewriteEnterpriseDocLinks(
   markdown: string,
   currentSlug: string,
+  locale: Locale = 'zh',
 ): string {
   return markdown.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (full, label, rawPath) => {
     const trimmed = rawPath.trim();
@@ -79,6 +83,6 @@ export function rewriteEnterpriseDocLinks(
       return `[${label}](${fallback}${anchor ? `#${anchor}` : ''})`;
     }
 
-    return `[${label}](${toEnterpriseHref(resolvedSlug, anchor)})`;
+    return `[${label}](${toEnterpriseHref(resolvedSlug, anchor, locale)})`;
   });
 }
