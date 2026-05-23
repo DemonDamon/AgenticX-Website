@@ -14,6 +14,22 @@ coze dev
 
 开发服务器支持热更新，修改代码后页面会自动刷新。
 
+### 更新 Enterprise 文档
+
+Enterprise 文档源自主仓 `AgenticX/enterprise/docs/`，同步到本站 `content/enterprise/` 后提交：
+
+```bash
+# 默认从 ../AgenticX/enterprise/docs 同步；可设 ENTERPRISE_DOCS_SRC 覆盖
+pnpm sync:enterprise-docs
+git add content/enterprise/
+git commit -m "docs(enterprise): sync enterprise docs"
+```
+
+站点路由：
+
+- `/enterprise` — Enterprise 产品介绍
+- `/enterprise/docs` — Enterprise 文档中心（52 篇 Markdown + 索引页）
+
 ### 构建生产版本
 
 ```bash

@@ -8,6 +8,7 @@
     "preinstall": "npx only-allow pnpm",
     "lint": "eslint",
     "start": "bash ./scripts/start.sh",
+    "sync:enterprise-docs": "bash ./scripts/sync-enterprise-docs.sh",
     "ts-check": "tsc -p tsconfig.json",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",

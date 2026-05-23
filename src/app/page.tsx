@@ -337,6 +337,7 @@ def send_email(to: str, subject: str, body: str):
 
           <div className="hidden md:flex items-center gap-8">
             <a href="#features" className="text-sm text-neutral-400 hover:text-white transition-colors">Features</a>
+            <Link href="/enterprise" className="text-sm text-neutral-400 hover:text-white transition-colors">Enterprise</Link>
             <a href="#code" className="text-sm text-neutral-400 hover:text-white transition-colors">Examples</a>
             <Link href="/docs" className="text-sm text-neutral-400 hover:text-white transition-colors">Documentation</Link>
             <Link href="https://github.com/DemonDamon/AgenticX" target="_blank">
@@ -359,6 +360,7 @@ def send_email(to: str, subject: str, body: str):
           <div className="md:hidden border-t border-neutral-900 bg-black">
             <div className="px-6 py-4 space-y-4">
               <a href="#features" className="block text-sm text-neutral-400">Features</a>
+              <Link href="/enterprise" className="block text-sm text-neutral-400">Enterprise</Link>
               <a href="#code" className="block text-sm text-neutral-400">Examples</a>
               <a href="https://github.com/DemonDamon/AgenticX" target="_blank" className="block text-sm text-neutral-400">Documentation</a>
             </div>
