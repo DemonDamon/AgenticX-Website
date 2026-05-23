@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Highlight, themes } from 'prism-react-renderer';
+import { MermaidBlock } from '@/components/docs/mermaid-block';
 
 interface MarkdownRendererProps {
   content: string;
@@ -192,8 +193,14 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
     };
 
     const renderCodeBlock = (code: string, language: string): React.ReactNode => {
-      // Normalize language
-      const normalizedLang = languageMap[language.toLowerCase()] || language.toLowerCase() || 'text';
+      const normalizedLang = language.toLowerCase();
+
+      if (normalizedLang === 'mermaid') {
+        return <MermaidBlock key={key++} chart={code} />;
+      }
+
+      // Normalize language for syntax highlighting
+      const highlightLang = languageMap[normalizedLang] || normalizedLang || 'text';
       
       return (
         <div key={key++} className="my-6 rounded-lg overflow-hidden border border-zinc-700">
@@ -211,7 +218,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
           <Highlight
             theme={themes.nightOwl}
             code={code.trim()}
-            language={normalizedLang as any}
+            language={highlightLang as 'text'}
           >
             {({ className, style, tokens, getLineProps, getTokenProps }) => (
               <pre className={`${className} p-4 overflow-x-auto text-sm`} style={{ ...style, backgroundColor: '#0d1117' }}>
