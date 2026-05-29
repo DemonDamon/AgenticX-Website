@@ -1,7 +1,185 @@
 export const cliContent = {
-  title: 'CLI Reference',
-  description: 'AgenticX CLI commands and usage.',
-  content: `# AgenticX CLI 使用指南
+  en: {
+    title: 'CLI Reference',
+    description: 'AgenticX CLI commands and usage.',
+    content: `# AgenticX CLI Guide
+
+AgenticX provides a full-featured command-line tool \`agx\` covering project creation, agent management, workflow orchestration, deployment, monitoring, and more.
+
+---
+
+## 5-Minute Quick Start
+
+### 1. Install
+
+\`\`\`bash
+pip install agenticx
+agx --version
+\`\`\`
+
+### 2. Create a Project
+
+\`\`\`bash
+agx project create my-first-agent --template basic
+cd my-first-agent
+agx project info
+\`\`\`
+
+### 3. Add an Agent
+
+\`\`\`bash
+agx agent create researcher --role "Senior Research Analyst"
+agx agent list
+\`\`\`
+
+### 4. Run a Workflow
+
+\`\`\`bash
+agx workflow create research-pipeline --agents "researcher"
+agx run workflows/research-pipeline.py --verbose
+\`\`\`
+
+---
+
+## Command Overview
+
+\`\`\`
+agx
+├── version              # Show version info
+├── serve                # Start API server
+├── run                  # Execute workflow file
+├── validate             # Validate config files
+├── test                 # Run test suite
+│
+├── project              # Project management
+│   ├── create           # Create new project
+│   └── info             # Show project info
+│
+├── agent                # Agent management
+│   ├── create           # Create agent
+│   └── list             # List all agents
+│
+├── workflow             # Workflow management
+│   ├── create           # Create workflow
+│   └── list             # List all workflows
+│
+├── deploy               # Deployment
+├── monitor              # Monitoring
+├── docs                 # Documentation generation
+├── mineru               # Document parsing
+├── skills               # Skills registry
+└── hooks                # Hook management
+\`\`\`
+
+---
+
+## serve - Start Server
+
+\`\`\`bash
+agx serve --port 8000 --host 0.0.0.0 --reload
+\`\`\`
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| \`--port\` | 8000 | Listen port |
+| \`--host\` | 0.0.0.0 | Listen address |
+| \`--reload\` | False | Hot reload in dev mode |
+
+---
+
+## project - Project Management
+
+### project create
+
+\`\`\`bash
+agx project create my-agent --template basic
+\`\`\`
+
+| Template | Description |
+|----------|-------------|
+| \`basic\` | Basic single-agent project |
+| \`basic_stream\` | Streaming output agent project |
+| \`a2a\` | Agent-to-Agent multi-agent communication |
+| \`mcp\` | MCP protocol integration project |
+| \`knowledge\` | Knowledge base RAG project |
+
+---
+
+## agent - Agent Management
+
+\`\`\`bash
+# Create agent
+agx agent create researcher --role "Research Analyst"
+
+# Interactive create
+agx agent create my-agent --interactive
+
+# List agents
+agx agent list
+\`\`\`
+
+---
+
+## workflow - Workflow Management
+
+\`\`\`bash
+# Create workflow
+agx workflow create research-pipeline --template sequential
+
+# Attach multiple agents
+agx workflow create data-pipeline --template parallel --agents "agent1,agent2"
+
+# Run workflow
+agx run workflows/my_pipeline.py --verbose
+\`\`\`
+
+---
+
+## skills - Skills Management
+
+\`\`\`bash
+# List skills
+agx skills list
+
+# Search skills
+agx skills search "data analysis"
+
+# Install skill
+agx skills install web-scraper
+
+# Publish skill
+agx skills publish ./my-skill
+\`\`\`
+
+---
+
+## hooks - Hook Management
+
+\`\`\`bash
+# List hooks
+agx hooks list
+
+# Enable/disable hooks
+agx hooks enable user-prompt-submit
+agx hooks disable user-prompt-submit
+\`\`\`
+
+---
+
+## Optional Dependencies
+
+| Extra | Install command |
+|-------|-----------------|
+| \`server\` | \`pip install "agenticx[server]"\` |
+| \`document\` | \`pip install "agenticx[document]"\` |
+| \`volcengine\` | \`pip install "agenticx[volcengine]"\` |
+| \`all\` | \`pip install "agenticx[all]"\` |
+`,
+  },
+  zh: {
+    title: 'CLI 参考',
+    description: 'AgenticX CLI 命令与用法。',
+    content: `# AgenticX CLI 使用指南
 
 AgenticX 提供了功能完整的命令行工具 \`agx\`，涵盖项目创建、智能体管理、工作流编排、部署、监控等全流程操作。
 
@@ -174,4 +352,5 @@ agx hooks disable user-prompt-submit
 | \`volcengine\` | \`pip install "agenticx[volcengine]"\` |
 | \`all\` | \`pip install "agenticx[all]"\` |
 `,
+  },
 };

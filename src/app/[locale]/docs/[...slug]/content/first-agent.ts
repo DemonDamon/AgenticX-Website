@@ -1,7 +1,8 @@
 export const firstAgentContent = {
-  title: 'Building Your First Agent',
-  description: 'Step-by-step guide to building a research agent.',
-  content: `# Building Your First Agent
+  en: {
+    title: 'Building Your First Agent',
+    description: 'Step-by-step guide to building a research agent.',
+    content: `# Building Your First Agent
 
 This guide walks through building a real-world research agent step by step.
 
@@ -172,4 +173,180 @@ agx run agent.py --verbose
 - [Tool System →](../concepts/tools.md)
 - [Memory System →](../concepts/memory.md)
 `,
+  },
+  zh: {
+    title: '构建你的第一个智能体',
+    description: '分步指南：构建研究型智能体。',
+    content: `# 构建你的第一个智能体
+
+本指南分步演示如何构建一个真实可用的研究型智能体。
+
+## 我们要构建什么
+
+一个研究型智能体，能够：
+1. 接收研究主题
+2. 在网络上搜索信息
+3. 将发现综合为结构化报告
+
+---
+
+## 第 1 步：环境准备
+
+\`\`\`bash
+pip install agenticx
+export OPENAI_API_KEY="your-key"
+\`\`\`
+
+---
+
+## 第 2 步：定义工具
+
+\`\`\`python
+# tools.py
+from agenticx.tools import tool
+import httpx
+
+@tool
+def search_web(query: str) -> str:
+    """Search the web for information about a topic.
+    
+    Args:
+        query: The search query
+    
+    Returns:
+        Search results as text
+    """
+    # Replace with your preferred search API
+    response = httpx.get(
+        "https://api.search.com/search",
+        params={"q": query, "key": "your-api-key"}
+    )
+    return response.text
+
+@tool
+def fetch_page(url: str) -> str:
+    """Fetch the content of a web page.
+    
+    Args:
+        url: The URL to fetch
+    
+    Returns:
+        Page content as text
+    """
+    response = httpx.get(url, follow_redirects=True)
+    return response.text[:5000]  # First 5000 chars
+\`\`\`
+
+---
+
+## 第 3 步：定义智能体
+
+\`\`\`python
+# agent.py
+from agenticx import Agent
+
+research_agent = Agent(
+    id="research-agent",
+    name="Research Assistant",
+    role="Senior Research Analyst",
+    goal=(
+        "Conduct thorough research on any given topic. "
+        "Find authoritative sources, synthesize information, "
+        "and produce clear, well-structured reports."
+    ),
+    backstory=(
+        "You are an expert researcher with a background in "
+        "information synthesis and critical analysis."
+    ),
+    organization_id="my-research-org",
+    max_iter=15,
+    verbose=True
+)
+\`\`\`
+
+---
+
+## 第 4 步：创建并运行任务
+
+\`\`\`python
+# main.py
+from agenticx import Task, AgentExecutor
+from agenticx.llms import OpenAIProvider
+from tools import search_web, fetch_page
+from agent import research_agent
+
+def research(topic: str) -> str:
+    task = Task(
+        id="research-task",
+        description=f"Research: {topic}",
+        expected_output=(
+            "A structured research report with:\\n"
+            "1. Executive summary\\n"
+            "2. Key findings\\n"
+            "3. Detailed analysis\\n"
+            "4. Sources and references"
+        )
+    )
+    
+    llm = OpenAIProvider(model="gpt-4o")
+    executor = AgentExecutor(
+        agent=research_agent,
+        llm=llm,
+        tools=[search_web, fetch_page]
+    )
+    
+    return executor.run(task)
+
+if __name__ == "__main__":
+    result = research("Multi-agent AI systems impact on software development")
+    print(result)
+\`\`\`
+
+---
+
+## 第 5 步：运行
+
+\`\`\`bash
+python main.py
+\`\`\`
+
+---
+
+## 增强能力
+
+### 添加记忆
+
+\`\`\`python
+from agenticx.memory import MemoryManager
+
+memory = MemoryManager()
+executor = AgentExecutor(agent=research_agent, llm=llm, tools=[...], memory=memory)
+\`\`\`
+
+### 添加可观测性
+
+\`\`\`python
+from agenticx.observability import ConsoleTracer
+
+tracer = ConsoleTracer()
+executor = AgentExecutor(agent=research_agent, llm=llm, tools=[...], tracer=tracer)
+\`\`\`
+
+### 使用 CLI
+
+\`\`\`bash
+agx project create research-bot --template basic
+cd research-bot
+agx run agent.py --verbose
+\`\`\`
+
+---
+
+## 下一步
+
+- [多智能体协作 →](multi-agent.md)
+- [工具系统 →](../concepts/tools.md)
+- [记忆系统 →](../concepts/memory.md)
+`,
+  },
 };
