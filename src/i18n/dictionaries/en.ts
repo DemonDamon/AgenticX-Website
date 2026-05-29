@@ -126,6 +126,53 @@ export default {
     metadataDescription:
       'AgenticX Enterprise documentation: architecture, API, AI gateway, deployment, and operations.',
   },
+  frameworkDocs: {
+    brand: 'AgenticX',
+    breadcrumbDocs: 'Docs',
+    searchButton: 'Search docs...',
+    searchTitle: 'Search documentation',
+    searchDescription: 'Jump to a documentation page.',
+    searchEmpty: 'No results found.',
+    version: 'Version',
+    comingSoonTitle: 'Coming Soon',
+    comingSoonBodyBefore:
+      'This documentation page is being written. Please check back later or contribute on ',
+    comingSoonBodyAfter: '.',
+    expectedPath: 'Expected path:',
+    metadataTitle: 'Documentation | AgenticX',
+    zhFallbackNotice:
+      'A Chinese version of this page is not yet available. Showing the English original.',
+    enFallbackNotice:
+      'This page is not yet available in English. Showing the Chinese original.',
+    landing: {
+      title: 'Documentation',
+      description:
+        'Welcome to AgenticX documentation. Build multi-agent systems without the complexity.',
+      intro:
+        'AgenticX is a unified, production-ready framework for building intelligent agent applications. From simple automation to complex multi-agent collaboration.',
+      quickStartHeading: 'Quick Start',
+      coreConceptsHeading: 'Core Concepts',
+      referenceHeading: 'Reference',
+      resourcesHeading: 'Resources',
+      installation: 'Installation',
+      installationDesc: 'Get started with AgenticX in minutes',
+      quickstart: 'Quick Start',
+      quickstartDesc: 'Create your first agent and run tasks',
+      agent: 'Agent',
+      agentDesc: 'The fundamental building block for intelligent agents',
+      tools: 'Tools',
+      toolsDesc: 'Extend agent capabilities with function tools',
+      workflow: 'Workflow',
+      workflowDesc: 'Orchestrate complex multi-agent interactions',
+      cliRef: 'CLI Reference',
+      cliRefDesc: 'Complete command-line interface documentation',
+      faq: 'FAQ',
+      faqDesc: 'Frequently asked questions and answers',
+      githubRepo: 'GitHub Repository',
+      pypiPackage: 'PyPI Package',
+      communityDiscussions: 'Community Discussions',
+    },
+  },
   home: {
     metadata: {
       title: 'AgenticX | Unified Multi-Agent Framework',

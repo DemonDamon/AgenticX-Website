@@ -3,22 +3,26 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { docNavigation } from './navigation';
+import { docNavigation, navTitle } from './navigation';
 import { DocSearchCommand } from './doc-search-command';
 import { useState } from 'react';
 import { ChevronDown, ChevronRight, Search, FileText } from 'lucide-react';
+import { useLocale } from '@/i18n/locale-context';
+import { localizedPath } from '@/i18n/config';
+import { LocaleSwitcher } from '@/components/locale-switcher';
 
 interface SidebarItemProps {
   title: string;
   slug: string;
+  href: string;
   isActive: boolean;
   depth?: number;
 }
 
-function SidebarItem({ title, slug, isActive, depth = 0 }: SidebarItemProps) {
+function SidebarItem({ title, href, isActive, depth = 0 }: SidebarItemProps) {
   return (
     <Link
-      href={`/docs/${slug}`}
+      href={href}
       className={cn(
         'flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm transition-colors',
         isActive
@@ -35,14 +39,13 @@ function SidebarItem({ title, slug, isActive, depth = 0 }: SidebarItemProps) {
 
 interface SidebarSectionProps {
   title: string;
-  items: { title: string; slug: string }[];
+  items: { title: string; slug: string; href: string }[];
   currentSlug: string;
   defaultOpen?: boolean;
 }
 
 function SidebarSection({ title, items, currentSlug, defaultOpen = true }: SidebarSectionProps) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
-  const hasActiveItem = items.some((item) => item.slug === currentSlug);
 
   return (
     <div className="mb-4">
@@ -64,6 +67,7 @@ function SidebarSection({ title, items, currentSlug, defaultOpen = true }: Sideb
               <SidebarItem
                 title={item.title}
                 slug={item.slug}
+                href={item.href}
                 isActive={item.slug === currentSlug}
               />
             </li>
@@ -76,18 +80,25 @@ function SidebarSection({ title, items, currentSlug, defaultOpen = true }: Sideb
 
 export function DocSidebar() {
   const pathname = usePathname();
-  const currentSlug = pathname.replace('/docs/', '') || 'index';
+  const { locale, dictionary: t } = useLocale();
+  const td = t.frameworkDocs;
+  // Strip locale prefix and the `/docs` base to derive the active slug.
+  const currentSlug =
+    pathname
+      .replace(/^\/en(?=\/|$)/, '')
+      .replace(/^\/docs\/?/, '')
+      .replace(/\/$/, '') || 'index';
   const [searchOpen, setSearchOpen] = useState(false);
 
   return (
     <aside className="fixed left-0 top-0 z-40 h-screen w-64 border-r border-gray-800 bg-[#0a0a0a] overflow-hidden flex flex-col">
       {/* Logo */}
       <div className="flex h-16 items-center border-b border-gray-800 px-6">
-        <Link href="/" className="flex items-center gap-2">
+        <Link href={localizedPath('/', locale)} className="flex items-center gap-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 text-sm font-bold">
             AX
           </div>
-          <span className="text-lg font-semibold text-white">AgenticX</span>
+          <span className="text-lg font-semibold text-white">{td.brand}</span>
         </Link>
       </div>
 
@@ -100,7 +111,7 @@ export function DocSidebar() {
           className="relative w-full rounded-lg border border-gray-800 bg-gray-900/50 py-2 pl-10 pr-14 text-left text-sm text-gray-500 hover:border-gray-700 hover:bg-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
         >
           <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
-          <span>Search docs...</span>
+          <span>{td.searchButton}</span>
           <kbd className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 rounded bg-gray-800 px-1.5 py-0.5 text-xs text-gray-500">
             ⌘K
           </kbd>
@@ -112,8 +123,12 @@ export function DocSidebar() {
         {docNavigation.map((section) => (
           <SidebarSection
             key={section.title}
-            title={section.title}
-            items={section.items}
+            title={navTitle(section, locale)}
+            items={section.items.map((item) => ({
+              title: navTitle(item, locale),
+              slug: item.slug,
+              href: localizedPath(`/docs/${item.slug}`, locale),
+            }))}
             currentSlug={currentSlug}
             defaultOpen={true}
           />
@@ -121,9 +136,10 @@ export function DocSidebar() {
       </nav>
 
       {/* Footer */}
-      <div className="border-t border-gray-800 p-4">
+      <div className="space-y-3 border-t border-gray-800 p-4">
+        <LocaleSwitcher className="w-full justify-center" />
         <div className="flex items-center justify-between text-xs text-gray-500">
-          <span>Version</span>
+          <span>{td.version}</span>
           <select className="rounded border border-gray-800 bg-gray-900 px-2 py-1 text-xs text-white focus:outline-none">
             <option value="latest">latest</option>
             <option value="v0.1.0">v0.1.0</option>

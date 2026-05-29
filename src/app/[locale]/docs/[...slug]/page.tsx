@@ -1,7 +1,9 @@
-import { notFound } from 'next/navigation';
 import { DocContent } from '@/components/docs/content';
 import { flatNavigation } from '@/components/docs/navigation';
 import { MarkdownRenderer } from '@/components/docs/markdown-renderer';
+import { defaultLocale, isLocale, localizedPath, type Locale } from '@/i18n/config';
+import { getDictionary } from '@/i18n/get-dictionary';
+import { resolveDoc, type LocalizedDoc } from './content/_types';
 
 // Import document content
 import { indexContent } from './content/index';
@@ -28,8 +30,9 @@ import { faqContent } from './content/faq';
 import { changelogContent } from './content/changelog';
 import { roadmapContent } from './content/roadmap';
 
-// Document content map
-const docsMap: Record<string, { title: string; description?: string; content: string }> = {
+// Document content map. Entries may be a bare English `DocEntry` (legacy) or a
+// bilingual `{ en, zh }` object; `resolveDoc` handles both with fallback.
+const docsMap: Record<string, LocalizedDoc> = {
   'index': indexContent,
   'getting-started/installation': installationContent,
   'getting-started/quickstart': quickstartContent,
@@ -57,8 +60,13 @@ const docsMap: Record<string, { title: string; description?: string; content: st
 
 interface PageProps {
   params: Promise<{
+    locale: string;
     slug?: string[];
   }>;
+}
+
+function resolveLocale(raw: string): Locale {
+  return isLocale(raw) ? raw : defaultLocale;
 }
 
 export async function generateStaticParams() {
@@ -68,57 +76,72 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: PageProps) {
-  const { slug } = await params;
+  const { locale: rawLocale, slug } = await params;
+  const locale = resolveLocale(rawLocale);
   const slugPath = slug?.join('/') || 'index';
-  const doc = docsMap[slugPath];
+  const resolved = resolveDoc(docsMap[slugPath], locale);
+  const t = await getDictionary(locale);
 
-  if (!doc) {
+  if (!resolved) {
     return {
-      title: 'Documentation | AgenticX',
+      title: t.frameworkDocs.metadataTitle,
     };
   }
 
   return {
-    title: `${doc.title} | AgenticX Docs`,
-    description: doc.description,
+    title: `${resolved.entry.title} | ${t.frameworkDocs.brand}`,
+    description: resolved.entry.description,
   };
 }
 
 export default async function DocPage({ params }: PageProps) {
-  const { slug } = await params;
+  const { locale: rawLocale, slug } = await params;
+  const locale = resolveLocale(rawLocale);
   const slugPath = slug?.join('/') || 'index';
-  const doc = docsMap[slugPath];
+  const resolved = resolveDoc(docsMap[slugPath], locale);
+  const t = await getDictionary(locale);
+  const td = t.frameworkDocs;
 
-  if (!doc) {
+  if (!resolved) {
     // Return a placeholder page for missing docs
     return (
-      <DocContent title="Coming Soon" slug={slugPath}>
+      <DocContent title={td.comingSoonTitle} slug={slugPath}>
         <p className="text-zinc-400">
-          This documentation page is being written. Please check back later or 
-          contribute on{' '}
-          <a 
-            href="https://github.com/DemonDamon/AgenticX" 
-            target="_blank" 
+          {td.comingSoonBodyBefore}
+          <a
+            href="https://github.com/DemonDamon/AgenticX"
+            target="_blank"
             rel="noopener noreferrer"
             className="text-emerald-400 hover:text-emerald-300 underline"
           >
             GitHub
-          </a>.
+          </a>
+          {td.comingSoonBodyAfter}
         </p>
         <p className="mt-4 text-zinc-500">
-          <strong>Expected path:</strong> <code className="px-2 py-1 bg-zinc-800 rounded text-emerald-400">{slugPath}</code>
+          <strong>{td.expectedPath}</strong>{' '}
+          <code className="px-2 py-1 bg-zinc-800 rounded text-emerald-400">
+            {localizedPath(`/docs/${slugPath}`, locale)}
+          </code>
         </p>
       </DocContent>
     );
   }
 
+  const fallbackNotice = resolved.fellBack
+    ? locale === 'zh'
+      ? td.zhFallbackNotice
+      : td.enFallbackNotice
+    : undefined;
+
   return (
-    <DocContent 
-      title={doc.title} 
-      description={doc.description}
+    <DocContent
+      title={resolved.entry.title}
+      description={resolved.entry.description}
       slug={slugPath}
+      fallbackNotice={fallbackNotice}
     >
-      <MarkdownRenderer content={doc.content} />
+      <MarkdownRenderer content={resolved.entry.content} />
     </DocContent>
   );
 }

@@ -1,8 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { getPrevNext } from './navigation';
+import { getPrevNext, navTitle } from './navigation';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useLocale } from '@/i18n/locale-context';
+import { localizedPath } from '@/i18n/config';
 
 interface DocContentProps {
   title: string;
@@ -10,6 +12,8 @@ interface DocContentProps {
   lastUpdated?: string;
   children: React.ReactNode;
   slug: string;
+  /** Localized notice shown when the requested locale fell back to another. */
+  fallbackNotice?: string;
 }
 
 export function DocContent({
@@ -18,14 +22,16 @@ export function DocContent({
   lastUpdated,
   children,
   slug,
+  fallbackNotice,
 }: DocContentProps) {
+  const { locale, dictionary: t } = useLocale();
   const { prev, next } = getPrevNext(slug);
 
   return (
     <article className="prose prose-invert prose-blue max-w-none">
       {/* Breadcrumb */}
       <nav className="mb-4 flex items-center gap-2 text-sm text-gray-400 not-prose">
-        <Link href="/" className="hover:text-white transition-colors">
+        <Link href={localizedPath('/', locale)} className="hover:text-white transition-colors">
           <svg
             className="h-4 w-4"
             fill="none"
@@ -41,8 +47,8 @@ export function DocContent({
           </svg>
         </Link>
         <span className="text-gray-600">/</span>
-        <Link href="/docs" className="hover:text-white transition-colors">
-          Docs
+        <Link href={localizedPath('/docs', locale)} className="hover:text-white transition-colors">
+          {t.frameworkDocs.breadcrumbDocs}
         </Link>
         <span className="text-gray-600">/</span>
         <span className="text-white">{title}</span>
@@ -56,10 +62,17 @@ export function DocContent({
         )}
         {lastUpdated && (
           <p className="mt-4 text-sm text-gray-500">
-            Last updated: {lastUpdated}
+            {lastUpdated}
           </p>
         )}
       </header>
+
+      {/* Locale fallback notice */}
+      {fallbackNotice && (
+        <div className="mb-8 rounded-lg border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-300 not-prose">
+          {fallbackNotice}
+        </div>
+      )}
 
       {/* Content */}
       <div className="doc-content">
@@ -70,13 +83,13 @@ export function DocContent({
       <nav className="mt-16 flex items-center justify-between border-t border-gray-800 pt-8 not-prose">
         {prev ? (
           <Link
-            href={`/docs/${prev.slug}`}
+            href={localizedPath(`/docs/${prev.slug}`, locale)}
             className="group flex items-center gap-3 rounded-lg border border-gray-800 bg-gray-900/50 px-4 py-3 transition-colors hover:border-gray-700 hover:bg-gray-900"
           >
             <ChevronLeft className="h-5 w-5 text-gray-500 transition-transform group-hover:-translate-x-1" />
             <div>
-              <div className="text-xs text-gray-500">Previous</div>
-              <div className="font-medium text-white">{prev.title}</div>
+              <div className="text-xs text-gray-500">{t.common.previous}</div>
+              <div className="font-medium text-white">{navTitle(prev, locale)}</div>
             </div>
           </Link>
         ) : (
@@ -84,12 +97,12 @@ export function DocContent({
         )}
         {next ? (
           <Link
-            href={`/docs/${next.slug}`}
+            href={localizedPath(`/docs/${next.slug}`, locale)}
             className="group flex items-center gap-3 rounded-lg border border-gray-800 bg-gray-900/50 px-4 py-3 text-right transition-colors hover:border-gray-700 hover:bg-gray-900"
           >
             <div>
-              <div className="text-xs text-gray-500">Next</div>
-              <div className="font-medium text-white">{next.title}</div>
+              <div className="text-xs text-gray-500">{t.common.next}</div>
+              <div className="font-medium text-white">{navTitle(next, locale)}</div>
             </div>
             <ChevronRight className="h-5 w-5 text-gray-500 transition-transform group-hover:translate-x-1" />
           </Link>
