@@ -30,6 +30,7 @@ const sidebarItems: Record<string, string> = {
   'perf-baselines': 'Perf Baselines',
   observability: 'Overview',
   deployment: 'Deployment Index',
+  'deployment/local-selfhost': 'Local / Self-Hosted (Docker)',
   'deployment/vercel-env-checklist': 'Vercel Env Checklist',
   'deployment/vercel-git-autodeploy': 'Vercel Git Autodeploy',
   'deployment/supabase-migration-guide': 'Supabase Migration Guide',

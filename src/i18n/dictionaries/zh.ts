@@ -30,6 +30,7 @@ const sidebarItems: Record<string, string> = {
   'perf-baselines': '性能基线',
   observability: '可观测性概览',
   deployment: '部署索引',
+  'deployment/local-selfhost': '本地化部署（Docker 自托管）',
   'deployment/vercel-env-checklist': 'Vercel 环境清单',
   'deployment/vercel-git-autodeploy': 'Vercel Git 自动部署',
   'deployment/supabase-migration-guide': 'Supabase 迁移指南',

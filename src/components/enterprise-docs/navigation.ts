@@ -100,6 +100,11 @@ export function getEnterpriseDocNavigation(t: Dictionary): EnterpriseDocNavSecti
       title: s.deployment,
       items: [
         { title: i.deployment, slug: 'deployment' },
+        {
+          title: i['deployment/local-selfhost'],
+          slug: 'deployment/local-selfhost',
+          searchAliases: '本地 本地化 私有化 docker self-host selfhost 自托管 部署',
+        },
         { title: i['deployment/vercel-env-checklist'], slug: 'deployment/vercel-env-checklist' },
         { title: i['deployment/vercel-git-autodeploy'], slug: 'deployment/vercel-git-autodeploy' },
         { title: i['deployment/supabase-migration-guide'], slug: 'deployment/supabase-migration-guide' },
