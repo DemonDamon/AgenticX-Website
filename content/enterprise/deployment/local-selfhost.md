@@ -22,18 +22,45 @@ Vercel 托管部署见 [README.md](./README.md) 与 [vercel-env-checklist.md](./
 
 ---
 
-## 二、从零启动（最短路径）
+## 二、从零启动（推荐路径）
+
+先判断你是哪一种场景：
+
+| 场景 | 推荐命令 | 说明 |
+|---|---|---|
+| 第一次在这台机器上部署 | `bash scripts/bootstrap.sh` | 初始化 `.env.local`、密钥、Postgres/Redis、迁移和种子数据 |
+| 测试环境想清空重来 | `bash scripts/bootstrap.sh --reset-db` | 会删除本地 Postgres 数据卷后重建，仅限开发 / POC |
+| 已有外部 Postgres | `bash scripts/bootstrap.sh --mode=server` | 不起 Docker 中间件，要求外部注入 `DATABASE_URL` 和密钥 |
+
+> 注意：删除 Docker 镜像不等于清空数据库。Postgres 数据通常保存在 Docker volume 里；如果旧库里残留半成品迁移、旧表或异常连接，单纯删镜像再重跑仍可能失败。测试环境要重建，请用 `--reset-db`。
+
+### 1. 首次初始化
 
 ```bash
-# 1. 进入 enterprise 目录
 cd enterprise
 
-# 2. 首次初始化（交互式设置两个登录密码，各 ≥14 位，含大小写/数字/符号）
+# 交互式设置两个登录密码，各 ≥14 位，含大小写 / 数字 / 符号
 bash scripts/bootstrap.sh
+```
 
-# 3. 拉起中间件 + 三端应用（推荐纯日志模式）
+如果是测试环境重装，明确允许清库时用：
+
+```bash
+cd enterprise
+bash scripts/bootstrap.sh --reset-db
+```
+
+### 2. 启动三端服务
+
+`bootstrap.sh` 成功后，再启动应用：
+
+```bash
 bash scripts/start-dev-with-infra.sh --ui=stream
 ```
+
+`--ui=stream` 会直接输出三端日志，现场排障比 Turbo TUI 更清晰。
+
+### 3. 成功标准
 
 启动后访问：
 
@@ -50,6 +77,28 @@ grep -E 'ADMIN_CONSOLE_LOGIN_PASSWORD|AUTH_DEV_OWNER_PASSWORD' .env.local
 ```
 
 > `staff@agenticx.local` **不在**默认种子里，需登录后台手动创建。
+
+### 4. 如果 `bootstrap.sh` 中途失败
+
+先不要反复重跑。按下面顺序采集信息：
+
+```bash
+cd enterprise
+ls -lt .runtime/logs/
+tail -n 120 .runtime/logs/bootstrap-*.log
+tail -n 120 .runtime/logs/db-migrate-*.log 2>/dev/null || true
+docker ps
+docker logs --tail=120 agenticx-postgres-dev
+```
+
+如果终端只看到类似：
+
+```text
+ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL @agenticx/db-schema@0.1.0 db:migrate: `drizzle-kit migrate`
+Exit status 1
+```
+
+这只是 pnpm/drizzle 的摘要，不是真正原因。真正的 PostgreSQL 错误通常在 `.runtime/logs/bootstrap-*.log` 或 Postgres 容器日志里。
 
 ---
 
@@ -70,6 +119,8 @@ bash scripts/bootstrap.sh --reset-db      # 销毁 PG 数据卷后重建（仅�
 bash scripts/bootstrap.sh --skip-docker   # 本机已有独立 Postgres，不经 compose
 bash scripts/bootstrap.sh --mode=server   # 非交互；所有密钥/密码须从外部环境变量注入
 ```
+
+`bootstrap.sh` 是初始化脚本，不是长期服务启动命令。生产 / 客户测试环境应把数据库迁移作为单独发布步骤执行一次，不要让多个应用副本启动时同时跑迁移。
 
 ---
 
@@ -135,6 +186,8 @@ bash scripts/bootstrap.sh --mode=server
 | 前台 `chat history operation failed` | PG/Redis 没起 → 用 `start-dev-with-infra.sh` |
 | admin 登录密码错误 | seed 后改过 env → 重跑 bootstrap 或 `reset-dev-data.sh --with-seed` |
 | 前台无模型可选 | admin 未配模型 / 未分配可见模型 → 配置后或 `pnpm migrate:legacy-runtime` |
+| `db:migrate` 只有 `ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL` | 先看 `.runtime/logs/bootstrap-*.log` / `db-migrate-*.log`，不要只看终端摘要 |
+| 清镜像后仍迁移失败 | 镜像不是数据；测试环境可用 `bash scripts/bootstrap.sh --reset-db` 清 PG 数据卷 |
 | 端口被占（3000/3001/8088） | `lsof -i :8088` 后 kill 旧进程 |
 | Docker CLI 卡住无响应 | 见 [../development/troubleshooting.md](../development/troubleshooting.md#docker-cli-卡住--daemon-无响应) |
 

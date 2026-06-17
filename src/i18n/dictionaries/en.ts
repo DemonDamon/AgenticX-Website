@@ -40,6 +40,7 @@ const sidebarItems: Record<string, string> = {
   'runbooks/sso-acceptance-checklist': 'SSO Acceptance Checklist',
   'runbooks/audit-pg-backfill': 'Audit PG Backfill',
   'runbooks/policy-snapshot-rollback': 'Policy Snapshot Rollback',
+  'runbooks/postgres-ddl-lock-waiting': 'PostgreSQL DDL Lock Waiting',
   'runbooks/gateway-channel-relay': 'Gateway Channel Relay',
   'runbooks/cloudflare-quick-tunnel-setup': 'Cloudflare Quick Tunnel',
   'runbooks/ngrok-demo-setup': 'ngrok Demo Setup',

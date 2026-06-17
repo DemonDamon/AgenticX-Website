@@ -93,6 +93,67 @@ Runbooks：[sso-oidc-setup.md](../runbooks/sso-oidc-setup.md) · [sso-saml-setup
 
 ---
 
+## 数据库迁移
+
+### `db:migrate` 失败但终端几乎无报错
+
+现象：`pnpm --filter @agenticx/db-schema db:migrate` 或 `bootstrap.sh` 在迁移阶段以
+`Exit status 1` / `ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL` 退出，终端只有一行失败摘要，看不到具体 SQL 错误。
+
+如果日志停在这里：
+
+```text
+postgres is ready
+running db:migrate
+...
+ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL ... drizzle-kit migrate
+```
+
+说明 Docker 和 Postgres 已经起来了，失败点是数据库迁移。不要继续反复执行 `bootstrap.sh`，先拿到底层错误。
+
+**第一步：看脚本落盘日志**
+
+```bash
+cd enterprise
+ls -lt .runtime/logs/
+tail -n 120 .runtime/logs/bootstrap-*.log
+tail -n 120 .runtime/logs/db-migrate-*.log 2>/dev/null || true
+docker logs --tail=120 agenticx-postgres-dev
+```
+
+终端摘要不是根因。真正的 PostgreSQL 错误通常在 `.runtime/logs/bootstrap-*.log`、`db-migrate-*.log` 或 Postgres 容器日志里。
+
+**第二步：确认是不是“只清镜像，没有清数据库”**
+
+Docker 镜像和 Postgres 数据卷是两回事。执行过 `docker rmi` 或“清镜像”后，旧数据库数据通常仍在 Docker volume 里。旧表、半成品迁移或旧迁移记录仍可能导致 `db:migrate` 失败。
+
+开发 / POC 环境如果可以清库，直接走重建路径：
+
+```bash
+cd enterprise
+bash scripts/bootstrap.sh --reset-db
+bash scripts/start-dev-with-infra.sh --ui=stream
+```
+
+`--reset-db` 会删除本地 Postgres 数据卷后重新建库。不要在需要保留数据的环境使用。
+
+**第三步：不能清库时，保留现场继续查**
+
+```bash
+cd enterprise
+docker ps
+docker exec -it agenticx-postgres-dev psql -U postgres -d agenticx -c '\dt'
+docker exec -it agenticx-postgres-dev psql -U postgres -d agenticx -c 'select * from drizzle.__drizzle_migrations order by created_at desc limit 5;'
+```
+
+如果 `drizzle.__drizzle_migrations` 不存在或表结构与预期不一致，把输出和日志一起回传。
+
+**第四步：排查是否有并发迁移**
+
+如果同时出现大量 `CREATE TABLE waiting` 或 `too many clients already`，参考 [PostgreSQL DDL 锁等待 Runbook](../runbooks/postgres-ddl-lock-waiting.md)。这通常是多个进程 / 多个副本同时执行迁移，不是正常应用访问。
+
+---
+
 ## 获取帮助
 
 1. 确认 `DATABASE_URL` 指向预期库（尤其 reset 脚本会 echo URL）

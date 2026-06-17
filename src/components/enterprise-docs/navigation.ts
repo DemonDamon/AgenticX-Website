@@ -122,6 +122,11 @@ export function getEnterpriseDocNavigation(t: Dictionary): EnterpriseDocNavSecti
         { title: i['runbooks/sso-acceptance-checklist'], slug: 'runbooks/sso-acceptance-checklist' },
         { title: i['runbooks/audit-pg-backfill'], slug: 'runbooks/audit-pg-backfill', searchAliases: 'audit 审计' },
         { title: i['runbooks/policy-snapshot-rollback'], slug: 'runbooks/policy-snapshot-rollback', searchAliases: 'policy 策略' },
+        {
+          title: i['runbooks/postgres-ddl-lock-waiting'],
+          slug: 'runbooks/postgres-ddl-lock-waiting',
+          searchAliases: 'postgres postgresql ddl lock create table waiting migrate 迁移 锁 等待',
+        },
         { title: i['runbooks/gateway-channel-relay'], slug: 'runbooks/gateway-channel-relay' },
         { title: i['runbooks/cloudflare-quick-tunnel-setup'], slug: 'runbooks/cloudflare-quick-tunnel-setup' },
         { title: i['runbooks/ngrok-demo-setup'], slug: 'runbooks/ngrok-demo-setup' },
