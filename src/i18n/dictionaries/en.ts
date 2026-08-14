@@ -75,6 +75,7 @@ export default {
     features: 'Features',
     enterprise: 'Enterprise',
     examples: 'Examples',
+    ontology: 'Ontology',
     documentation: 'Documentation',
     getStarted: 'Get Started',
     viewOnGithub: 'View on GitHub',

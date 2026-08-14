@@ -75,6 +75,7 @@ export default {
     features: '功能',
     enterprise: '企业版',
     examples: '示例',
+    ontology: '本体论',
     documentation: '文档',
     getStarted: '开始使用',
     viewOnGithub: '在 GitHub 查看',

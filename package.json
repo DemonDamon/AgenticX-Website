@@ -9,6 +9,7 @@
     "lint": "eslint",
     "start": "bash ./scripts/start.sh",
     "sync:enterprise-docs": "bash ./scripts/sync-enterprise-docs.sh",
+    "sync:orion-prototype": "bash ./scripts/sync-orion-prototype.sh",
     "ts-check": "tsc -p tsconfig.json",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",

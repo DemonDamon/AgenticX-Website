@@ -8,7 +8,7 @@ import { localizedPath } from '@/i18n/config';
 import { useLocale, useTranslations } from '@/i18n/locale-context';
 import { useState } from 'react';
 
-export function SiteNav({ active }: { active?: 'enterprise' | 'home' }) {
+export function SiteNav({ active }: { active?: 'enterprise' | 'home' | 'ontology' }) {
   const { locale } = useLocale();
   const t = useTranslations();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -35,6 +35,9 @@ export function SiteNav({ active }: { active?: 'enterprise' | 'home' }) {
           </Link>
           <a href={localizedPath('/#code', locale)} className={linkClass(false)}>
             {t.nav.examples}
+          </a>
+          <a href="/prototype/orion/" className={linkClass(active === 'ontology')}>
+            {t.nav.ontology}
           </a>
           <Link href={localizedPath('/docs', locale)} className={linkClass(false)}>
             {t.nav.documentation}
@@ -75,6 +78,9 @@ export function SiteNav({ active }: { active?: 'enterprise' | 'home' }) {
             </Link>
             <a href={localizedPath('/#code', locale)} className="block text-sm text-neutral-400">
               {t.nav.examples}
+            </a>
+            <a href="/prototype/orion/" className="block text-sm text-neutral-400">
+              {t.nav.ontology}
             </a>
             <Link href={localizedPath('/docs', locale)} className="block text-sm text-neutral-400">
               {t.nav.documentation}
