@@ -48,7 +48,11 @@ import sys
 html = Path(sys.argv[1])
 text = html.read_text(encoding="utf-8")
 needle = '    <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>\n'
-html.write_text(text.replace(needle, ""), encoding="utf-8")
+text = text.replace(needle, "")
+base = '    <base href="/prototype/orion/" />\n'
+if 'href="/prototype/orion/"' not in text:
+    text = text.replace("    <title>", base + "    <title>", 1)
+html.write_text(text, encoding="utf-8")
 PY
 
 echo "Synced $SRC -> $DEST"

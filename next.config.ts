@@ -5,6 +5,14 @@ const nextConfig: NextConfig = {
   // outputFileTracingRoot: path.resolve(__dirname, '../../'),
   /* config options here */
   allowedDevOrigins: ['*.dev.coze.site'],
+  async rewrites() {
+    return [
+      {
+        source: '/prototype/orion',
+        destination: '/prototype/orion/index.html',
+      },
+    ];
+  },
   images: {
     remotePatterns: [
       {

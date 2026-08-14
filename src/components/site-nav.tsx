@@ -36,7 +36,7 @@ export function SiteNav({ active }: { active?: 'enterprise' | 'home' | 'ontology
           <a href={localizedPath('/#code', locale)} className={linkClass(false)}>
             {t.nav.examples}
           </a>
-          <a href="/prototype/orion/" className={linkClass(active === 'ontology')}>
+          <a href="/prototype/orion" className={linkClass(active === 'ontology')}>
             {t.nav.ontology}
           </a>
           <Link href={localizedPath('/docs', locale)} className={linkClass(false)}>
@@ -79,7 +79,7 @@ export function SiteNav({ active }: { active?: 'enterprise' | 'home' | 'ontology
             <a href={localizedPath('/#code', locale)} className="block text-sm text-neutral-400">
               {t.nav.examples}
             </a>
-            <a href="/prototype/orion/" className="block text-sm text-neutral-400">
+            <a href="/prototype/orion" className="block text-sm text-neutral-400">
               {t.nav.ontology}
             </a>
             <Link href={localizedPath('/docs', locale)} className="block text-sm text-neutral-400">
