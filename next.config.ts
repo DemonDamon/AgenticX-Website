@@ -4,6 +4,7 @@ import path from 'path';
 const nextConfig: NextConfig = {
   // outputFileTracingRoot: path.resolve(__dirname, '../../'),
   /* config options here */
+  transpilePackages: ['ogl'],
   allowedDevOrigins: ['*.dev.coze.site'],
   async rewrites() {
     return [

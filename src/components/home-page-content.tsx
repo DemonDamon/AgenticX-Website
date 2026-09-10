@@ -14,6 +14,10 @@ import {
   Terminal,
   Check,
 } from 'lucide-react';
+import { FadeContent } from '@/components/bits/fade-content';
+import { HeroBackdrop } from '@/components/bits/hero-backdrop';
+import { SplitHeading } from '@/components/bits/split-heading';
+import { SpotlightCard } from '@/components/bits/spotlight-card';
 import { SecurityAdvisoryBanner } from '@/components/security-advisory-banner';
 import { SiteNav } from '@/components/site-nav';
 import { useTranslations } from '@/i18n/locale-context';
@@ -63,14 +67,6 @@ function useTypewriter(text: string, speed: number = 50, delay: number = 0, paus
   return displayText;
 }
 
-function GradientBorder({ children, className = '' }: { children: React.ReactNode; className?: string }) {
-  return (
-    <div className={`relative group ${className}`}>
-      <div className="absolute -inset-[1px] rounded-xl bg-gradient-to-r from-blue-500 via-violet-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-gradient-x" />
-      <div className="relative bg-neutral-950 rounded-xl">{children}</div>
-    </div>
-  );
-}
 
 function StepDemo() {
   const t = useTranslations();
@@ -201,13 +197,6 @@ function MemoryDemo() {
   );
 }
 
-function GradientText({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="bg-gradient-to-r from-blue-400 via-violet-400 to-pink-400 bg-[length:200%_auto] bg-clip-text text-transparent animate-gradient">
-      {children}
-    </span>
-  );
-}
 
 export function HomePageContent() {
   const t = useTranslations();
@@ -286,16 +275,6 @@ def send_email(to: str, subject: str, body: str):
   return (
     <div className="min-h-screen bg-black text-white">
       <style jsx global>{`
-        @keyframes gradient {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
-        @keyframes gradient-x {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
         @keyframes fade-in {
           from { opacity: 0; transform: translateY(10px); }
           to { opacity: 1; transform: translateY(0); }
@@ -304,8 +283,6 @@ def send_email(to: str, subject: str, body: str):
           0%, 50% { opacity: 1; }
           51%, 100% { opacity: 0; }
         }
-        .animate-gradient { animation: gradient 3s ease infinite; }
-        .animate-gradient-x { animation: gradient-x 3s ease infinite; }
         .animate-fade-in { animation: fade-in 0.5s ease forwards; }
         .animate-blink { animation: blink 1s infinite; }
       `}</style>
@@ -315,13 +292,18 @@ def send_email(to: str, subject: str, body: str):
       <main className="pt-16">
         <SecurityAdvisoryBanner align="marketing" />
 
-        <section className="pt-16 pb-20 px-6">
-          <div className="max-w-6xl mx-auto">
+        <section className="relative overflow-hidden pt-16 pb-20 px-6">
+          <HeroBackdrop />
+          <div className="relative z-10 max-w-6xl mx-auto">
             <div className="max-w-3xl">
-              <h1 className="text-5xl md:text-6xl font-semibold tracking-tight leading-[1.1] mb-6">
-                {t.home.hero.titleLine1}
+              <h1 className="text-5xl md:text-6xl font-semibold tracking-tight leading-[1.15] mb-6">
+                <SplitHeading text={t.home.hero.titleLine1} />
                 <br />
-                <GradientText>{t.home.hero.titleLine2}</GradientText>
+                <SplitHeading
+                  text={t.home.hero.titleLine2}
+                  className="text-neutral-200"
+                  delayMs={t.home.hero.titleLine1.length * 32}
+                />
               </h1>
               <p className="text-lg text-neutral-400 leading-relaxed mb-8 max-w-2xl">{t.home.hero.subtitle}</p>
               <div className="flex flex-wrap gap-3">
@@ -343,31 +325,35 @@ def send_email(to: str, subject: str, body: str):
 
         <section id="features" className="py-20 px-6 border-t border-neutral-900">
           <div className="max-w-6xl mx-auto">
-            <div className="mb-12">
-              <h2 className="text-3xl font-semibold mb-3">{t.home.features.title}</h2>
-              <p className="text-neutral-400">{t.home.features.subtitle}</p>
-            </div>
+            <FadeContent>
+              <div className="mb-12">
+                <h2 className="text-3xl font-semibold mb-3">{t.home.features.title}</h2>
+                <p className="text-neutral-400">{t.home.features.subtitle}</p>
+              </div>
+            </FadeContent>
             <div className="grid md:grid-cols-3 gap-6 items-stretch">
               {features.map((feature, index) => (
-                <GradientBorder key={index}>
-                  <div className="p-6 h-full flex flex-col">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 rounded-lg bg-neutral-900 flex items-center justify-center text-neutral-400 group-hover:text-white transition-colors">
-                        {feature.icon}
+                <FadeContent key={feature.title} delayMs={index * 40}>
+                  <SpotlightCard className="h-full group">
+                    <div className="p-6 h-full flex flex-col">
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="w-10 h-10 rounded-lg bg-neutral-900 flex items-center justify-center text-neutral-400 group-hover:text-white transition-colors">
+                          {feature.icon}
+                        </div>
+                        <h3 className="font-medium">{feature.title}</h3>
                       </div>
-                      <h3 className="font-medium">{feature.title}</h3>
+                      <p className="text-sm text-neutral-400 mb-4">{feature.description}</p>
+                      <div className="mt-auto">{feature.demo}</div>
                     </div>
-                    <p className="text-sm text-neutral-400 mb-4">{feature.description}</p>
-                    <div className="mt-auto">{feature.demo}</div>
-                  </div>
-                </GradientBorder>
+                  </SpotlightCard>
+                </FadeContent>
               ))}
             </div>
           </div>
         </section>
 
         <section className="py-20 px-6 border-t border-neutral-900">
-          <div className="max-w-6xl mx-auto">
+          <FadeContent className="max-w-6xl mx-auto">
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-neutral-900">
               {[
                 { icon: <MessageSquare className="w-5 h-5" />, title: t.home.grid.a2a.title, desc: t.home.grid.a2a.desc },
@@ -386,11 +372,11 @@ def send_email(to: str, subject: str, body: str):
                 </div>
               ))}
             </div>
-          </div>
+          </FadeContent>
         </section>
 
         <section id="code" className="py-20 px-6 border-t border-neutral-900">
-          <div className="max-w-6xl mx-auto">
+          <FadeContent className="max-w-6xl mx-auto">
             <div className="mb-12">
               <h2 className="text-3xl font-semibold mb-3">{t.home.code.title}</h2>
               <p className="text-neutral-400">{t.home.code.subtitle}</p>
@@ -408,45 +394,47 @@ def send_email(to: str, subject: str, body: str):
                 </button>
               ))}
             </div>
-            <GradientBorder>
-              <div className="rounded-xl overflow-hidden">
-                <div className="flex items-center gap-2 px-4 py-3 border-b border-neutral-900">
-                  <div className="flex gap-1.5">
-                    <div className="w-3 h-3 rounded-full bg-neutral-700" />
-                    <div className="w-3 h-3 rounded-full bg-neutral-700" />
-                    <div className="w-3 h-3 rounded-full bg-neutral-700" />
-                  </div>
-                  <span className="text-xs text-neutral-500 ml-2 font-mono">example.py</span>
+            <div className="overflow-hidden rounded-xl border border-neutral-800 bg-neutral-950">
+              <div className="flex items-center gap-2 px-4 py-3 border-b border-neutral-900">
+                <div className="flex gap-1.5">
+                  <div className="w-3 h-3 rounded-full bg-neutral-700" />
+                  <div className="w-3 h-3 rounded-full bg-neutral-700" />
+                  <div className="w-3 h-3 rounded-full bg-neutral-700" />
                 </div>
-                <pre className="p-6 text-sm overflow-x-auto bg-neutral-950">
-                  <code className="font-mono text-neutral-300 leading-relaxed">
-                    {codeExamples[activeTab as keyof typeof codeExamples]}
-                  </code>
-                </pre>
+                <span className="text-xs text-neutral-500 ml-2 font-mono">example.py</span>
               </div>
-            </GradientBorder>
-          </div>
+              <pre className="p-6 text-sm overflow-x-auto bg-neutral-950">
+                <code className="font-mono text-neutral-300 leading-relaxed">
+                  {codeExamples[activeTab as keyof typeof codeExamples]}
+                </code>
+              </pre>
+            </div>
+          </FadeContent>
         </section>
 
         <section id="quickstart" className="py-20 px-6 border-t border-neutral-900">
           <div className="max-w-6xl mx-auto">
-            <div className="mb-12">
-              <h2 className="text-3xl font-semibold mb-3">{t.home.quickstart.title}</h2>
-              <p className="text-neutral-400">{t.home.quickstart.subtitle}</p>
-            </div>
+            <FadeContent>
+              <div className="mb-12">
+                <h2 className="text-3xl font-semibold mb-3">{t.home.quickstart.title}</h2>
+                <p className="text-neutral-400">{t.home.quickstart.subtitle}</p>
+              </div>
+            </FadeContent>
             <div className="grid md:grid-cols-3 gap-6">
               {[
                 { step: '01', title: t.home.quickstart.install, code: 'pip install agenticx' },
                 { step: '02', title: t.home.quickstart.configure, code: 'export OPENAI_API_KEY="..."' },
                 { step: '03', title: t.home.quickstart.build, code: 'python your_agent.py' },
               ].map((item, index) => (
-                <GradientBorder key={index}>
-                  <div className="p-6">
-                    <div className="text-xs text-neutral-600 font-mono mb-3">{item.step}</div>
-                    <h3 className="font-medium mb-3">{item.title}</h3>
-                    <div className="bg-neutral-900 rounded-lg px-4 py-3 font-mono text-sm text-green-400">$ {item.code}</div>
-                  </div>
-                </GradientBorder>
+                <FadeContent key={item.step} delayMs={index * 40}>
+                  <SpotlightCard>
+                    <div className="p-6">
+                      <div className="text-xs text-neutral-600 font-mono mb-3">{item.step}</div>
+                      <h3 className="font-medium mb-3">{item.title}</h3>
+                      <div className="bg-neutral-900 rounded-lg px-4 py-3 font-mono text-sm text-green-400">$ {item.code}</div>
+                    </div>
+                  </SpotlightCard>
+                </FadeContent>
               ))}
             </div>
           </div>
