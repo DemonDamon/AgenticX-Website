@@ -8,7 +8,7 @@ export const faqContent = {
 
 ### What is AgenticX?
 
-AgenticX is a unified, production-ready Python framework for building multi-agent AI applications. It provides everything from a single-agent execution engine to complex multi-agent orchestration, memory systems, tool integration, and a full Studio UI.
+AgenticX is a unified agent stack: Python SDK and Agent Runtime, Near Desktop as a local-first workspace, and Enterprise for access, governance, and audit. Studio is the local REST API + SSE backend behind Near and the SDK.
 
 ### How is AgenticX different from LangChain or CrewAI?
 
@@ -20,7 +20,7 @@ AgenticX is designed for production from day one:
 
 ### Is AgenticX open source?
 
-Yes. AgenticX is licensed under [AGPL-3.0](https://www.gnu.org/licenses/agpl-3.0).
+Yes. AgenticX is licensed under [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0). See the repository \`LICENSE\` file.
 
 ---
 
@@ -87,16 +87,17 @@ Yes. All memory backends (SQLite, Redis, PostgreSQL) persist data between sessio
 
 ## Studio & Desktop
 
-### How do I start the Studio UI?
+### How do I start the local backend?
 
 \`\`\`bash
-agx serve --port 8000
-# Open http://localhost:8000
+agx serve --host 127.0.0.1 --port 8000
 \`\`\`
 
-### What is the Desktop app?
+\`agx serve\` is a REST API + SSE backend. It does not ship a built-in web chat UI. Use **Near Desktop** as the local workspace, or talk to Studio from the Python SDK / \`agx\` CLI.
 
-The Machi Desktop app is an Electron-based application that wraps the Studio UI with native OS features like system tray, notifications, and multi-window support. It supports session restoration after restart.
+### What is Near Desktop?
+
+Near is the local-first Electron workspace. The default path starts a local \`agx serve / agx-server\`, then keeps multi-pane chat, avatars, group chat, workspace, terminal, and session restore on that backend.
 
 ---
 
@@ -120,7 +121,7 @@ Open an issue on [GitHub Issues](https://github.com/DemonDamon/AgenticX/issues).
 
 ### AgenticX 是什么？
 
-AgenticX 是一套面向生产环境、统一的 Python 多智能体应用框架，覆盖从单智能体执行引擎到复杂多智能体编排、记忆系统、工具集成以及完整 Studio UI 的全链路能力。
+AgenticX 是一套统一智能体技术栈：Python SDK 与 Agent Runtime、本地优先的 Near 桌面，以及面向访问、治理与审计的 Enterprise。Studio 是 Near 与 SDK 背后的本机 REST API + SSE 后端。
 
 ### AgenticX 与 LangChain 或 CrewAI 有何不同？
 
@@ -132,7 +133,7 @@ AgenticX 从设计之初即面向生产落地：
 
 ### AgenticX 是否开源？
 
-是的。AgenticX 采用 [AGPL-3.0](https://www.gnu.org/licenses/agpl-3.0) 许可证。
+是的。AgenticX 采用 [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0) 许可证，以仓库 \`LICENSE\` 为准。
 
 ---
 
@@ -199,16 +200,17 @@ llm = OllamaProvider(model="llama3.2", base_url="http://localhost:11434")
 
 ## Studio 与 Desktop
 
-### 如何启动 Studio UI？
+### 如何启动本机后端？
 
 \`\`\`bash
-agx serve --port 8000
-# Open http://localhost:8000
+agx serve --host 127.0.0.1 --port 8000
 \`\`\`
 
-### Desktop 应用是什么？
+\`agx serve\` 是 REST API + SSE 后端，不内置网页聊天界面。本地工作区请用 **Near 桌面**，或通过 Python SDK / \`agx\` CLI 对接 Studio。
 
-Machi Desktop 是基于 Electron 的应用，在 Studio UI 之上提供系统托盘、通知、多窗口等原生 OS 能力，并支持重启后会话恢复。
+### Near 桌面是什么？
+
+Near 是本地优先的 Electron 工作区。默认路径会拉起本机 \`agx serve / agx-server\`，再在其上提供多窗格聊天、分身、群聊、工作区、终端与会话恢复。
 
 ---
 

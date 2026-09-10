@@ -3,9 +3,9 @@ import { DocContent } from '@/components/docs/content';
 import {
   Rocket,
   Code,
-  Wrench,
   Cpu,
-  Network,
+  Layers,
+  Monitor,
   Terminal,
   HelpCircle,
 } from 'lucide-react';
@@ -30,34 +30,35 @@ export default async function DocsPage({ params }: PageProps) {
     >
       <p>{d.intro}</p>
 
+      <div className="not-prose my-8 overflow-hidden rounded-xl border border-neutral-800 bg-neutral-950">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/diagrams/product-stack.svg" alt={d.architecture} className="block h-auto w-full" />
+      </div>
+
       <h2>{d.quickStartHeading}</h2>
       <div className="grid gap-4 not-prose md:grid-cols-2">
         <Link
           href={localizedPath('/docs/getting-started/installation', locale)}
-          className="group flex items-start gap-4 rounded-lg border border-gray-800 bg-gray-900/50 p-6 transition-colors hover:border-blue-500/50 hover:bg-gray-900"
+          className="group flex items-start gap-4 rounded-lg border border-neutral-800 bg-neutral-950 p-6 transition-colors hover:border-neutral-700 hover:bg-neutral-900"
         >
-          <div className="rounded-lg bg-blue-500/20 p-3">
-            <Rocket className="h-6 w-6 text-blue-400" />
+          <div className="rounded-lg bg-neutral-900 p-3">
+            <Rocket className="h-6 w-6 text-neutral-300" />
           </div>
           <div>
-            <h3 className="font-medium text-white group-hover:text-blue-400">
-              {d.installation}
-            </h3>
-            <p className="mt-1 text-sm text-gray-400">{d.installationDesc}</p>
+            <h3 className="font-medium text-white">{d.installation}</h3>
+            <p className="mt-1 text-sm text-neutral-400">{d.installationDesc}</p>
           </div>
         </Link>
         <Link
           href={localizedPath('/docs/getting-started/quickstart', locale)}
-          className="group flex items-start gap-4 rounded-lg border border-gray-800 bg-gray-900/50 p-6 transition-colors hover:border-blue-500/50 hover:bg-gray-900"
+          className="group flex items-start gap-4 rounded-lg border border-neutral-800 bg-neutral-950 p-6 transition-colors hover:border-neutral-700 hover:bg-neutral-900"
         >
-          <div className="rounded-lg bg-green-500/20 p-3">
-            <Code className="h-6 w-6 text-green-400" />
+          <div className="rounded-lg bg-neutral-900 p-3">
+            <Code className="h-6 w-6 text-neutral-300" />
           </div>
           <div>
-            <h3 className="font-medium text-white group-hover:text-green-400">
-              {d.quickstart}
-            </h3>
-            <p className="mt-1 text-sm text-gray-400">{d.quickstartDesc}</p>
+            <h3 className="font-medium text-white">{d.quickstart}</h3>
+            <p className="mt-1 text-sm text-neutral-400">{d.quickstartDesc}</p>
           </div>
         </Link>
       </div>
@@ -65,28 +66,28 @@ export default async function DocsPage({ params }: PageProps) {
       <h2>{d.coreConceptsHeading}</h2>
       <div className="grid gap-4 not-prose md:grid-cols-3">
         <Link
+          href={localizedPath('/docs/concepts/architecture', locale)}
+          className="group rounded-lg border border-neutral-800 bg-neutral-950 p-6 transition-colors hover:border-neutral-700 hover:bg-neutral-900"
+        >
+          <Layers className="h-8 w-8 text-neutral-300" />
+          <h3 className="mt-4 font-medium text-white">{d.architecture}</h3>
+          <p className="mt-2 text-sm text-neutral-400">{d.architectureDesc}</p>
+        </Link>
+        <Link
+          href={localizedPath('/docs/concepts/near', locale)}
+          className="group rounded-lg border border-neutral-800 bg-neutral-950 p-6 transition-colors hover:border-neutral-700 hover:bg-neutral-900"
+        >
+          <Monitor className="h-8 w-8 text-neutral-300" />
+          <h3 className="mt-4 font-medium text-white">{d.near}</h3>
+          <p className="mt-2 text-sm text-neutral-400">{d.nearDesc}</p>
+        </Link>
+        <Link
           href={localizedPath('/docs/concepts/agent', locale)}
-          className="group rounded-lg border border-gray-800 bg-gray-900/50 p-6 transition-colors hover:border-gray-700 hover:bg-gray-900"
+          className="group rounded-lg border border-neutral-800 bg-neutral-950 p-6 transition-colors hover:border-neutral-700 hover:bg-neutral-900"
         >
-          <Cpu className="h-8 w-8 text-purple-400" />
+          <Cpu className="h-8 w-8 text-neutral-300" />
           <h3 className="mt-4 font-medium text-white">{d.agent}</h3>
-          <p className="mt-2 text-sm text-gray-400">{d.agentDesc}</p>
-        </Link>
-        <Link
-          href={localizedPath('/docs/concepts/tools', locale)}
-          className="group rounded-lg border border-gray-800 bg-gray-900/50 p-6 transition-colors hover:border-gray-700 hover:bg-gray-900"
-        >
-          <Wrench className="h-8 w-8 text-orange-400" />
-          <h3 className="mt-4 font-medium text-white">{d.tools}</h3>
-          <p className="mt-2 text-sm text-gray-400">{d.toolsDesc}</p>
-        </Link>
-        <Link
-          href={localizedPath('/docs/concepts/flow', locale)}
-          className="group rounded-lg border border-gray-800 bg-gray-900/50 p-6 transition-colors hover:border-gray-700 hover:bg-gray-900"
-        >
-          <Network className="h-8 w-8 text-cyan-400" />
-          <h3 className="mt-4 font-medium text-white">{d.workflow}</h3>
-          <p className="mt-2 text-sm text-gray-400">{d.workflowDesc}</p>
+          <p className="mt-2 text-sm text-neutral-400">{d.agentDesc}</p>
         </Link>
       </div>
 
@@ -94,7 +95,7 @@ export default async function DocsPage({ params }: PageProps) {
       <div className="grid gap-4 not-prose md:grid-cols-2">
         <Link
           href={localizedPath('/docs/cli', locale)}
-          className="group flex items-start gap-4 rounded-lg border border-gray-800 bg-gray-900/50 p-6 transition-colors hover:border-gray-700 hover:bg-gray-900"
+          className="group flex items-start gap-4 rounded-lg border border-neutral-800 bg-neutral-950 p-6 transition-colors hover:border-neutral-700 hover:bg-neutral-900"
         >
           <Terminal className="h-6 w-6 text-gray-400" />
           <div>
@@ -104,7 +105,7 @@ export default async function DocsPage({ params }: PageProps) {
         </Link>
         <Link
           href={localizedPath('/docs/faq', locale)}
-          className="group flex items-start gap-4 rounded-lg border border-gray-800 bg-gray-900/50 p-6 transition-colors hover:border-gray-700 hover:bg-gray-900"
+          className="group flex items-start gap-4 rounded-lg border border-neutral-800 bg-neutral-950 p-6 transition-colors hover:border-neutral-700 hover:bg-neutral-900"
         >
           <HelpCircle className="h-6 w-6 text-gray-400" />
           <div>

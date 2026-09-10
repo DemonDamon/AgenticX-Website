@@ -11,6 +11,7 @@ import { installationContent } from './content/installation';
 import { quickstartContent } from './content/quickstart';
 import { configurationContent } from './content/configuration';
 import { architectureContent } from './content/architecture';
+import { nearContent } from './content/near';
 import { agentContent } from './content/agent';
 import { toolsContent } from './content/tools';
 import { memoryContent } from './content/memory';
@@ -18,6 +19,8 @@ import { orchestrationContent } from './content/orchestration';
 import { flowContent } from './content/flow';
 import { llmProvidersContent } from './content/llm-providers';
 import { hooksContent } from './content/hooks';
+import { skillsContent } from './content/skills';
+import { longRunContent } from './content/long-run';
 import { firstAgentContent } from './content/first-agent';
 import { multiAgentContent } from './content/multi-agent';
 import { studioContent } from './content/studio';
@@ -38,6 +41,7 @@ const docsMap: Record<string, LocalizedDoc> = {
   'getting-started/quickstart': quickstartContent,
   'getting-started/configuration': configurationContent,
   'concepts/architecture': architectureContent,
+  'concepts/near': nearContent,
   'concepts/agent': agentContent,
   'concepts/tools': toolsContent,
   'concepts/memory': memoryContent,
@@ -45,6 +49,8 @@ const docsMap: Record<string, LocalizedDoc> = {
   'concepts/flow': flowContent,
   'concepts/llm-providers': llmProvidersContent,
   'concepts/hooks': hooksContent,
+  'concepts/skills': skillsContent,
+  'concepts/long-run': longRunContent,
   'guides/first-agent': firstAgentContent,
   'guides/multi-agent': multiAgentContent,
   'guides/studio': studioContent,

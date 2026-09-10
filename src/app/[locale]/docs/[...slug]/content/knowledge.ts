@@ -119,7 +119,23 @@ Supported embedding providers: OpenAI, Bailian, SiliconFlow, LiteLLM.
 | **PgVector** | PostgreSQL extension |
 | **Pinecone** | Managed cloud |
 | **Weaviate** | Managed cloud with GraphQL |
-`,
+
+Desktop knowledge base defaults to **Chroma**. Extra vector adapters exist in the tree; they are not all wired into the Studio main path.
+
+---
+
+## Multi-brain knowledge
+
+![Document brain and code brain](/diagrams/knowledge-brains.svg)
+
+Current tree can isolate and mount a **document brain** plus a **code brain**, then optionally search across mounted brains.
+
+- Document brain: ingest, chunk, embed, retrieve
+- Code brain: hybrid semantic index over one or more codebases
+- Cross-brain search is optional, not a forced merge of every index
+
+See [Skills](/docs/concepts/skills) and [Long-horizon coding](/docs/concepts/long-run) for neighboring v0.5 capabilities.
+`
   },
   zh: {
     title: '知识与 RAG',
@@ -241,6 +257,22 @@ kb = KnowledgeBase(name="my-docs", embeddings=embeddings)
 | **PgVector** | PostgreSQL 扩展 |
 | **Pinecone** | 托管云服务 |
 | **Weaviate** | 托管云服务，支持 GraphQL |
-`,
+
+桌面知识库默认向量后端是 **Chroma**。仓库里还有其它向量适配器，并非都已接到 Studio 主路径。
+
+---
+
+## 多脑知识库
+
+![文档脑与代码脑](/diagrams/knowledge-brains.svg)
+
+当前代码树可以把 **文档脑** 与 **代码脑** 隔离挂载，并可选地做跨脑检索。
+
+- 文档脑：入库、分块、嵌入、检索
+- 代码脑：对一个或多个代码库做混合语义索引
+- 跨脑检索是可选能力，不会强制合并所有索引
+
+相邻的 v0.5 能力见 [技能](/docs/concepts/skills) 与 [长周期编码](/docs/concepts/long-run)。
+`
   },
 };

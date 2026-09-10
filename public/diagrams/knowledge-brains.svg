@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" role="img" aria-labelledby="title desc">
+  <title id="title">Multi-brain knowledge</title>
+  <desc id="desc">Isolatable document brain and code brain with optional cross-brain search. Desktop knowledge base defaults to Chroma.</desc>
+  <rect width="1200" height="400" fill="#0a0a0a"/>
+  <text x="40" y="42" fill="#737373" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13">Multi-brain knowledge  ·  多脑知识库</text>
+  <text x="40" y="72" fill="#f5f5f5" font-family="ui-sans-serif, system-ui, sans-serif" font-size="20" font-weight="600">Doc brain + Code brain</text>
+
+  <rect x="40" y="108" width="360" height="200" rx="14" fill="#111111" stroke="#2a2a2a"/>
+  <text x="64" y="148" fill="#737373" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">01</text>
+  <text x="64" y="180" fill="#f5f5f5" font-family="ui-sans-serif, system-ui, sans-serif" font-size="20" font-weight="600">Document brain</text>
+  <text x="64" y="206" fill="#a3a3a3" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13">文档脑</text>
+  <text x="64" y="240" fill="#d4d4d4" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13">Ingest, chunk, embed, retrieve.</text>
+  <text x="64" y="264" fill="#737373" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">Desktop 默认向量后端：Chroma</text>
+
+  <rect x="420" y="108" width="360" height="200" rx="14" fill="#111111" stroke="#2a2a2a"/>
+  <text x="444" y="148" fill="#737373" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">02</text>
+  <text x="444" y="180" fill="#f5f5f5" font-family="ui-sans-serif, system-ui, sans-serif" font-size="20" font-weight="600">Code brain</text>
+  <text x="444" y="206" fill="#a3a3a3" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13">代码脑</text>
+  <text x="444" y="240" fill="#d4d4d4" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13">Hybrid semantic index over codebases.</text>
+  <text x="444" y="264" fill="#737373" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">可按仓库隔离挂载</text>
+
+  <rect x="800" y="108" width="360" height="200" rx="14" fill="#111111" stroke="#2a2a2a"/>
+  <text x="824" y="148" fill="#737373" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">03</text>
+  <text x="824" y="180" fill="#f5f5f5" font-family="ui-sans-serif, system-ui, sans-serif" font-size="20" font-weight="600">Cross-brain search</text>
+  <text x="824" y="206" fill="#a3a3a3" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13">跨脑检索</text>
+  <text x="824" y="240" fill="#d4d4d4" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13">Optional query across mounted brains.</text>
+  <text x="824" y="264" fill="#737373" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">未接入 Studio 主路径的适配器仍是占位</text>
+
+  <text x="40" y="352" fill="#737373" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13">Chroma is the Desktop knowledge-base default. Extra vector adapters are optional, not all on the Studio main path.</text>
+  <text x="40" y="374" fill="#525252" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">Chroma 是桌面知识库默认后端。其余向量适配器可选，并非都已接到 Studio 主路径。</text>
+</svg>

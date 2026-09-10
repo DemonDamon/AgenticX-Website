@@ -18,9 +18,11 @@ import { FadeContent } from '@/components/bits/fade-content';
 import { HeroBackdrop } from '@/components/bits/hero-backdrop';
 import { SplitHeading } from '@/components/bits/split-heading';
 import { SpotlightCard } from '@/components/bits/spotlight-card';
+import { DiagramFigure } from '@/components/diagram-figure';
 import { SecurityAdvisoryBanner } from '@/components/security-advisory-banner';
 import { SiteNav } from '@/components/site-nav';
-import { useTranslations } from '@/i18n/locale-context';
+import { localizedPath } from '@/i18n/config';
+import { useLocale, useTranslations } from '@/i18n/locale-context';
 
 function useTypewriter(text: string, speed: number = 50, delay: number = 0, pauseDuration: number = 2000) {
   const [displayText, setDisplayText] = useState('');
@@ -200,6 +202,7 @@ function MemoryDemo() {
 
 export function HomePageContent() {
   const t = useTranslations();
+  const { locale } = useLocale();
   const [activeTab, setActiveTab] = useState('agent');
 
   const features = [
@@ -323,6 +326,32 @@ def send_email(to: str, subject: str, body: str):
           </div>
         </section>
 
+        <section id="stack" className="border-t border-neutral-900 px-6 py-20">
+          <div className="mx-auto max-w-6xl">
+            <FadeContent>
+              <div className="mb-10">
+                <h2 className="mb-3 text-3xl font-semibold">{t.home.stack.title}</h2>
+                <p className="max-w-2xl text-neutral-400">{t.home.stack.subtitle}</p>
+              </div>
+            </FadeContent>
+            <FadeContent>
+              <DiagramFigure name="product-stack" alt={t.home.stack.title} caption={t.home.stack.caption} />
+            </FadeContent>
+            <div className="mt-8 grid gap-6 md:grid-cols-3">
+              {[
+                { title: t.home.stack.core.title, description: t.home.stack.core.description, href: localizedPath('/docs/concepts/architecture', locale) },
+                { title: t.home.stack.near.title, description: t.home.stack.near.description, href: localizedPath('/docs/concepts/near', locale) },
+                { title: t.home.stack.enterprise.title, description: t.home.stack.enterprise.description, href: localizedPath('/enterprise', locale) },
+              ].map((item) => (
+                <Link key={item.title} href={item.href} className="block rounded-xl border border-neutral-800 bg-neutral-950 p-6 transition-colors hover:border-neutral-700 hover:bg-neutral-900">
+                  <h3 className="mb-2 font-medium">{item.title}</h3>
+                  <p className="text-sm leading-relaxed text-neutral-400">{item.description}</p>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
         <section id="features" className="py-20 px-6 border-t border-neutral-900">
           <div className="max-w-6xl mx-auto">
             <FadeContent>
@@ -359,11 +388,11 @@ def send_email(to: str, subject: str, body: str):
                 { icon: <MessageSquare className="w-5 h-5" />, title: t.home.grid.a2a.title, desc: t.home.grid.a2a.desc },
                 { icon: <Terminal className="w-5 h-5" />, title: t.home.grid.mcp.title, desc: t.home.grid.mcp.desc },
                 { icon: <Activity className="w-5 h-5" />, title: t.home.grid.observability.title, desc: t.home.grid.observability.desc },
-                { icon: <Cpu className="w-5 h-5" />, title: t.home.grid.gui.title, desc: t.home.grid.gui.desc },
-                { icon: <Database className="w-5 h-5" />, title: t.home.grid.tools.title, desc: t.home.grid.tools.desc },
-                { icon: <Layers className="w-5 h-5" />, title: t.home.grid.validation.title, desc: t.home.grid.validation.desc },
-              ].map((item, index) => (
-                <div key={index} className="p-6 bg-black hover:bg-neutral-950 transition-all duration-300 group cursor-default">
+                { icon: <Cpu className="w-5 h-5" />, title: t.home.grid.skills.title, desc: t.home.grid.skills.desc },
+                { icon: <Database className="w-5 h-5" />, title: t.home.grid.brains.title, desc: t.home.grid.brains.desc },
+                { icon: <Layers className="w-5 h-5" />, title: t.home.grid.longrun.title, desc: t.home.grid.longrun.desc },
+              ].map((item) => (
+                <div key={item.title} className="p-6 bg-black hover:bg-neutral-950 transition-all duration-300 group cursor-default">
                   <div className="w-10 h-10 rounded-lg bg-neutral-900 flex items-center justify-center text-neutral-500 group-hover:text-white group-hover:bg-neutral-800 transition-all duration-300 mb-4">
                     {item.icon}
                   </div>
@@ -424,7 +453,7 @@ def send_email(to: str, subject: str, body: str):
               {[
                 { step: '01', title: t.home.quickstart.install, code: 'pip install agenticx' },
                 { step: '02', title: t.home.quickstart.configure, code: 'export OPENAI_API_KEY="..."' },
-                { step: '03', title: t.home.quickstart.build, code: 'python your_agent.py' },
+                { step: '03', title: t.home.quickstart.build, code: 'agx serve' },
               ].map((item, index) => (
                 <FadeContent key={item.step} delayMs={index * 40}>
                   <SpotlightCard>

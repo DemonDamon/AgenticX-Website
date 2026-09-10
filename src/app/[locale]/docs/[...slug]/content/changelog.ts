@@ -4,47 +4,34 @@ export const changelogContent = {
     description: 'AgenticX version history and changes.',
     content: `# Changelog
 
-All notable changes to AgenticX are documented here.
+All notable product changes are summarized here. Full history stays on [GitHub Releases](https://github.com/DemonDamon/AgenticX/releases).
 
----
+## Capability snapshot
 
-## Latest
+These items are in the current tree, not a marketing roadmap.
 
-See [GitHub Releases](https://github.com/DemonDamon/AgenticX/releases) for the full changelog.
+| Capability | Notes |
+|---|---|
+| Embeddable ReActAgent | Async function-calling loop, typed events, optional loop-detector / compactor / offloader |
+| Unified offload | Large tool results leave live history and come back on demand |
+| Skill self-evolution | Tool-call observations, session review, quality gate |
+| Multi-brain knowledge | Isolatable doc brain + code brain, hybrid code index |
+| Long-horizon coding | Isolated workspaces, stall healing, disk project state machine |
+| Near Desktop | Local-first workspace over \`agx serve\` |
+| IM channels | Feishu / WeCom / DingTalk / personal WeChat sidecar |
+| Claude Code Bridge | Local HTTP / NDJSON control plane |
+| AGX Bundles | Skills, MCP servers, avatars, memory templates |
 
----
+## Earlier foundation
 
-## Recent Highlights
+Avatar and group chat, MCP Hub, hierarchical memory, Studio SSE, and the Desktop workspace landed before the snapshot above. See [Roadmap](/docs/roadmap) for the M1-M17 module map.
 
-### Multi-Agent Native
+## Honesty notes
 
-- Avatar system for persistent agent identities
-- Group chat with multiple routing strategies
-- Meta-Agent CEO pattern for dynamic orchestration
-
-### Tool System
-
-- MCP Hub for multi-server aggregation
-- OpenAPI toolset for auto-generated tools
-- Skill bundles for packaged capabilities
-
-### Memory System
-
-- Hierarchical memory (core / episodic / semantic)
-- Mem0 deep integration
-- Context compaction for long conversations
-
-### Studio & Desktop
-
-- SSE streaming endpoints
-- Electron + React Desktop app
-- Session persistence and restoration
-
----
-
-## Roadmap
-
-See [Roadmap →](roadmap.md) for upcoming features.
+- Studio does not yet send every operation through one complete \`SafetyLayer\`
+- Some storage adapters are placeholders
+- Enterprise Gateway is not the Python Agent Runtime
+- Cluster / HA runtime remains planned
 `,
   },
   zh: {
@@ -52,47 +39,34 @@ See [Roadmap →](roadmap.md) for upcoming features.
     description: 'AgenticX 版本历史与变更记录。',
     content: `# 更新日志
 
-AgenticX 的所有重要变更均记录于此。
+产品侧重要变更汇总如下。完整历史仍以 [GitHub Releases](https://github.com/DemonDamon/AgenticX/releases) 为准。
 
----
+## 能力快照
 
-## 最新版本
+这些项已经在当前代码树里，不是宣传用路线图。
 
-完整更新日志请参见 [GitHub Releases](https://github.com/DemonDamon/AgenticX/releases)。
+| 能力 | 说明 |
+|---|---|
+| 可嵌入 ReActAgent | 异步 function-calling 循环、类型化事件、可选 loop-detector / compactor / offloader |
+| 统一卸载 | 大工具结果离开热历史，需要时再取回 |
+| 技能自进化 | 工具调用观察、会话复盘、质量门禁 |
+| 多脑知识库 | 可隔离的文档脑 + 代码脑，混合代码索引 |
+| 长周期编码 | 隔离工作区、停滞自愈、磁盘项目状态机 |
+| Near 桌面 | 本地优先工作区，默认连 \`agx serve\` |
+| IM 通道 | 飞书 / 企业微信 / 钉钉 / 个人微信 sidecar |
+| Claude Code Bridge | 本机 HTTP / NDJSON 控制面 |
+| AGX Bundle | skills、MCP、avatars、memory templates |
 
----
+## 更早的基础
 
-## 近期亮点
+分身与群聊、MCP Hub、分层记忆、Studio SSE 与桌面工作区，都在上表之前落地。模块对照见 [路线图](/docs/roadmap)。
 
-### 多智能体原生
+## 边界说明
 
-- 分身（Avatar）系统，持久化智能体身份
-- 群聊与多种路由策略
-- Meta-Agent CEO 模式，动态编排子智能体
-
-### 工具系统
-
-- MCP Hub 多服务器聚合
-- OpenAPI 工具集，自动生成工具
-- Skill 技能包，打包能力分发
-
-### 记忆系统
-
-- 分层记忆（核心 / 情景 / 语义）
-- Mem0 深度集成
-- 长对话上下文压缩
-
-### Studio 与 Desktop
-
-- SSE 流式端点
-- Electron + React 桌面应用
-- 会话持久化与断点恢复
-
----
-
-## 路线图
-
-即将推出的功能请参见 [路线图 →](roadmap.md)。
+- Studio 尚未把每次操作都送进完整的 \`SafetyLayer\`
+- 部分存储适配器仍是占位
+- Enterprise 网关不是 Python Agent Runtime
+- 集群 / 高可用 Runtime 仍在规划中
 `,
   },
 };

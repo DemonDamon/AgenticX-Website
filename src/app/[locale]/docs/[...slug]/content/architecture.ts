@@ -6,38 +6,28 @@ export const architectureContent = {
 
 ## Overview
 
-AgenticX is organized into **5 tiers**, from user-facing interfaces down to platform services.
+AgenticX is one capability core with three product forms on top:
 
-\`\`\`
-┌─────────────────────────────────────────────────────┐
-│                  User Interface                      │
-│         Desktop App │ CLI (agx) │ SDK               │
-├─────────────────────────────────────────────────────┤
-│                 Studio Runtime                       │
-│   Session Manager │ Meta-Agent │ Team Manager        │
-│         Avatar Registry │ Group Chat                 │
-├─────────────────────────────────────────────────────┤
-│                 Core Framework                       │
-│  Orchestration │ Execution │ Agent │ Memory          │
-│       Tools │ LLM Providers │ Hooks                  │
-├─────────────────────────────────────────────────────┤
-│               Platform Services                      │
-│  Observability │ Protocols (A2A/MCP) │ Security      │
-│              Storage Layer                           │
-├─────────────────────────────────────────────────────┤
-│               Domain Extensions                      │
-│    GUI Agent │ Knowledge & GraphRAG │ AgentKit        │
-└─────────────────────────────────────────────────────┘
-\`\`\`
+- **Core / Runtime**: Python SDK, Studio Server, and Agent Runtime
+- **Near Desktop**: local-first workspace; default path is local \`agx serve\`
+- **Enterprise**: Portal, Admin Console, and Go AI Gateway for governed web access
 
-![AgenticX System Architecture](/docs/assets/architecture.png)
+Near and Enterprise share abstractions. Their current deploy paths are independent. The Gateway is compliance and model relay, not a full Agent Runtime.
+
+![AgenticX product stack](/diagrams/product-stack.svg)
+
+![Near and Studio runtime path](/diagrams/runtime-path.svg)
+
+![Enterprise online path](/diagrams/enterprise-path.svg)
+
+The Runtime itself is still easiest to read as five layers, from the user interface down to platform services.
 
 ---
 
 ## Tier 1: User Interface
 
-### Desktop App
-Electron + React + Zustand + Vite. Supports Pro mode (multi-pane) and Lite mode (single-pane). Features include command palette, settings panel, avatar sidebar, sub-agent panel, session history, and workspace panel.
+### Near Desktop
+Electron + React + Zustand + Vite. Multi-pane chat, avatars, group chat, workspace, terminal, automation, and Voice Focus. See [Near Desktop](/docs/concepts/near).
 
 ### CLI (\`agx\`)
 Full-featured command-line tool covering: serve, studio, loop, run, project, deploy, codegen, docs, skills, hooks, debug, scaffold, config management.
@@ -101,13 +91,15 @@ Callback system, real-time metrics, Prometheus/OpenTelemetry integration, trajec
 - **MCP**: Model Context Protocol for tool and resource access
 
 ### Security
-Leak detection, injection detector, policy engine, audit logging, sandbox (Docker / Microsandbox / Subprocess).
+Leak detection, injection detector, policy engine, audit logging, sandbox (Docker / Microsandbox / Subprocess). Studio combines hooks, permissions, and path protection. It does not yet route every operation through one complete \`SafetyLayer\`.
 
 ### Storage
 - **KV**: SQLite, Redis, PostgreSQL, MongoDB, InMemory
 - **Vector**: Milvus, Qdrant, Chroma, Faiss, PgVector, Pinecone, Weaviate
 - **Graph**: Neo4j, Nebula
 - **Object**: S3, GCS, Azure
+
+Default Studio persistence is the \`~/.agenticx\` file tree plus SQLite. Some third-party adapters remain placeholders and are not on the Studio main path.
 
 ---
 
@@ -130,38 +122,28 @@ Pluggable integration layer for external agent frameworks.
 
 ## 概述
 
-AgenticX 分为 **5 层**，从用户界面一直延伸到平台服务。
+AgenticX 是一套能力核心，上面叠三种产品形态：
 
-\`\`\`
-┌─────────────────────────────────────────────────────┐
-│                  User Interface                      │
-│         Desktop App │ CLI (agx) │ SDK               │
-├─────────────────────────────────────────────────────┤
-│                 Studio Runtime                       │
-│   Session Manager │ Meta-Agent │ Team Manager        │
-│         Avatar Registry │ Group Chat                 │
-├─────────────────────────────────────────────────────┤
-│                 Core Framework                       │
-│  Orchestration │ Execution │ Agent │ Memory          │
-│       Tools │ LLM Providers │ Hooks                  │
-├─────────────────────────────────────────────────────┤
-│               Platform Services                      │
-│  Observability │ Protocols (A2A/MCP) │ Security      │
-│              Storage Layer                           │
-├─────────────────────────────────────────────────────┤
-│               Domain Extensions                      │
-│    GUI Agent │ Knowledge & GraphRAG │ AgentKit        │
-└─────────────────────────────────────────────────────┘
-\`\`\`
+- **Core / Runtime**：Python SDK、Studio Server 与 Agent Runtime
+- **Near Desktop**：本地优先工作区，默认走本机 \`agx serve\`
+- **Enterprise**：Portal、Admin Console 与 Go AI 网关，面向受管控的 Web 访问
 
-![AgenticX System Architecture](/docs/assets/architecture.png)
+Near 与 Enterprise 共用抽象，当前部署路径彼此独立。网关是合规与模型中继，不是完整的 Agent Runtime。
+
+![AgenticX 产品栈](/diagrams/product-stack.svg)
+
+![Near 与 Studio 运行路径](/diagrams/runtime-path.svg)
+
+![Enterprise 在线路径](/diagrams/enterprise-path.svg)
+
+Runtime 内部仍可按五层来读，从用户界面到平台服务。
 
 ---
 
 ## 第 1 层：用户界面
 
-### Desktop App
-Electron + React + Zustand + Vite。支持 Pro 模式（多窗格）与 Lite 模式（单窗格）。功能包括命令面板、设置面板、分身侧栏、子智能体面板、会话历史与工作区面板。
+### Near Desktop
+Electron + React + Zustand + Vite。多窗格聊天、分身、群聊、工作区、终端、自动化与语音焦点。详见 [Near 桌面](/docs/concepts/near)。
 
 ### CLI（\`agx\`）
 功能完整的命令行工具，涵盖：serve、studio、loop、run、project、deploy、codegen、docs、skills、hooks、debug、scaffold、配置管理等。
@@ -225,13 +207,15 @@ CEO 调度器。动态编排子智能体、维护活跃智能体快照，并在�
 - **MCP**：Model Context Protocol，用于工具与资源访问
 
 ### 安全
-泄漏检测、注入检测器、策略引擎、审计日志、沙箱（Docker / Microsandbox / Subprocess）。
+泄漏检测、注入检测器、策略引擎、审计日志、沙箱（Docker / Microsandbox / Subprocess）。Studio 路径由 hooks、权限与路径保护组合而成，尚未把每次操作都送进完整的 \`SafetyLayer\`。
 
 ### 存储
 - **KV**：SQLite、Redis、PostgreSQL、MongoDB、InMemory
 - **Vector**：Milvus、Qdrant、Chroma、Faiss、PgVector、Pinecone、Weaviate
 - **Graph**：Neo4j、Nebula
 - **Object**：S3、GCS、Azure
+
+Studio 默认持久化是 \`~/.agenticx\` 文件树加 SQLite。部分第三方适配器仍是占位，未接到 Studio 主路径。
 
 ---
 

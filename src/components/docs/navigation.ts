@@ -41,6 +41,7 @@ export const docNavigation: DocNavSection[] = [
     titleZh: '核心概念',
     items: [
       { title: 'Architecture', titleZh: '架构', slug: 'concepts/architecture' },
+      { title: 'Near Desktop', titleZh: 'Near 桌面', slug: 'concepts/near' },
       { title: 'Agent Runtime', titleZh: '智能体运行时', slug: 'concepts/agent' },
       { title: 'Tools', titleZh: '工具', slug: 'concepts/tools' },
       { title: 'Memory', titleZh: '记忆', slug: 'concepts/memory' },
@@ -53,6 +54,8 @@ export const docNavigation: DocNavSection[] = [
         searchAliases: 'litellm LiteLLM OpenAI Anthropic Ollama Gemini',
       },
       { title: 'Hooks', titleZh: 'Hooks', slug: 'concepts/hooks' },
+      { title: 'Skills & Evolution', titleZh: '技能与自进化', slug: 'concepts/skills' },
+      { title: 'Long-Horizon Coding', titleZh: '长周期编码', slug: 'concepts/long-run' },
     ],
   },
   {

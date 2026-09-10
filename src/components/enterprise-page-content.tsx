@@ -12,6 +12,7 @@ import {
   Users,
 } from 'lucide-react';
 import { HeroBackdrop } from '@/components/bits/hero-backdrop';
+import { DiagramFigure } from '@/components/diagram-figure';
 import { SecurityAdvisoryBanner } from '@/components/security-advisory-banner';
 import { SiteNav } from '@/components/site-nav';
 import { localizedPath } from '@/i18n/config';
@@ -105,12 +106,12 @@ export function EnterprisePageContent() {
                 <Link
                   key={pillar.title}
                   href={pillar.href}
-                  className="group rounded-xl border border-neutral-800 bg-neutral-950 p-6 transition-colors hover:border-violet-500/40 hover:bg-neutral-900/50"
+                  className="group rounded-xl border border-neutral-800 bg-neutral-950 p-6 transition-colors hover:border-neutral-700 hover:bg-neutral-900"
                 >
-                  <pillar.icon className="mb-4 h-8 w-8 text-violet-400" />
+                  <pillar.icon className="mb-4 h-8 w-8 text-neutral-400" />
                   <h3 className="mb-2 text-xl font-medium">{pillar.title}</h3>
                   <p className="mb-4 text-sm leading-relaxed text-neutral-400">{pillar.description}</p>
-                  <span className="inline-flex items-center text-sm text-violet-300 group-hover:text-violet-200">
+                  <span className="inline-flex items-center text-sm text-neutral-300 group-hover:text-white">
                     {t.common.learnMore}
                     <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </span>
@@ -130,7 +131,7 @@ export function EnterprisePageContent() {
                   href={cap.href}
                   className="flex items-center gap-3 rounded-lg border border-neutral-800 bg-neutral-950 px-4 py-4 transition-colors hover:border-neutral-700 hover:bg-neutral-900"
                 >
-                  <cap.icon className="h-5 w-5 text-violet-400" />
+                  <cap.icon className="h-5 w-5 text-neutral-400" />
                   <span className="text-sm font-medium text-neutral-200">{cap.label}</span>
                 </Link>
               ))}
@@ -141,9 +142,7 @@ export function EnterprisePageContent() {
         <section className="border-t border-neutral-900 px-6 py-20">
           <div className="mx-auto max-w-6xl rounded-2xl border border-neutral-800 bg-neutral-950 p-8 md:p-12">
             <h2 className="mb-4 text-2xl font-semibold">{ep.architecture.overviewTitle}</h2>
-            <pre className="overflow-x-auto rounded-lg border border-neutral-800 bg-black p-4 text-sm leading-relaxed text-neutral-300">
-              {ep.architecture.diagram}
-            </pre>
+            <DiagramFigure name="enterprise-path" alt={ep.architecture.overviewTitle} caption={ep.architecture.caption} />
             <div className="mt-6">
               <Link href={localizedPath('/enterprise/docs/architecture/overview', locale)}>
                 <Button variant="outline" className="border-neutral-700 text-neutral-300 hover:text-white">

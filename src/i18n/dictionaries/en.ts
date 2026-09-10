@@ -150,9 +150,9 @@ export default {
     landing: {
       title: 'Documentation',
       description:
-        'Welcome to AgenticX documentation. Build multi-agent systems without the complexity.',
+        'Read AgenticX by product form: Python Runtime, Near Desktop, and Enterprise.',
       intro:
-        'AgenticX is a unified, production-ready framework for building intelligent agent applications. From simple automation to complex multi-agent collaboration.',
+        'AgenticX is one agent stack. The Python SDK and Studio Runtime are the capability core, Near is the local-first workspace, and Enterprise adds a portal, admin console, and compliance gateway.',
       quickStartHeading: 'Quick Start',
       coreConceptsHeading: 'Core Concepts',
       referenceHeading: 'Reference',
@@ -161,6 +161,10 @@ export default {
       installationDesc: 'Get started with AgenticX in minutes',
       quickstart: 'Quick Start',
       quickstartDesc: 'Create your first agent and run tasks',
+      architecture: 'Architecture',
+      architectureDesc: 'Three product forms and runtime paths',
+      near: 'Near Desktop',
+      nearDesc: 'Local-first multi-agent workspace',
       agent: 'Agent',
       agentDesc: 'The fundamental building block for intelligent agents',
       tools: 'Tools',
@@ -178,32 +182,49 @@ export default {
   },
   home: {
     metadata: {
-      title: 'AgenticX | Unified Multi-Agent Framework',
+      title: 'AgenticX | Unified Agent Stack',
       description:
-        'A unified, scalable, production-ready multi-agent application development framework. Build everything from simple automation assistants to complex collaborative intelligent agent systems.',
+        'One agent stack across the Python Runtime, Near Desktop, and Enterprise. Local-first workspace, enterprise compliance gateway.',
     },
     hero: {
-      titleLine1: 'Build multi-agent systems',
-      titleLine2: 'without the complexity',
+      titleLine1: 'One agent stack',
+      titleLine2: 'three product forms',
       subtitle:
-        'A unified, production-ready framework for building intelligent agent applications. From simple automation to complex multi-agent collaboration.',
+        'Python Runtime, Near Desktop, and Enterprise share one capability core with independent deploy paths.',
       getStarted: 'Get Started',
       viewGithub: 'View on GitHub',
     },
+    stack: {
+      title: 'Product forms',
+      subtitle: 'Use the SDK and Studio to build, Near as a local workspace, and Enterprise for governed web access.',
+      caption: 'Near talks to the local Runtime by default. Enterprise currently uses a separate Go gateway path.',
+      core: {
+        title: 'Core / Runtime',
+        description: 'Python SDK, Studio Server, and Agent Runtime for orchestration, tools, memory, knowledge, and skills.',
+      },
+      near: {
+        title: 'Near Desktop',
+        description: 'Electron local-first workspace with multi-pane chat, avatars, group chat, terminal, automation, and Voice Focus.',
+      },
+      enterprise: {
+        title: 'Enterprise',
+        description: 'Employee portal, admin console, and Go AI Gateway for identity, policy, quota, audit, and model relay.',
+      },
+    },
     features: {
       title: 'Core capabilities',
-      subtitle: 'Everything you need to build production agent systems.',
+      subtitle: 'From an embeddable ReAct loop to long-horizon coding, on one set of abstractions.',
       agentCore: {
         title: 'Agent Core',
-        description: 'Production-ready execution engine with retry logic and error handling.',
+        description: 'Meta-Agent dispatch, an embeddable ReActAgent, plus self-repair and overflow recovery.',
       },
       orchestration: {
         title: 'Orchestration',
-        description: 'Graph-based workflow with conditional routing and parallel execution.',
+        description: 'Graph workflows and Flow decorators with conditional routing and parallel execution.',
       },
       memory: {
         title: 'Memory System',
-        description: 'Long-term memory with Mem0 integration, any LLM backend.',
+        description: 'Hierarchical memory, workspace memory, and Mem0 with compaction and hybrid search.',
       },
       stepDemo: {
         parse: 'Parse task',
@@ -222,11 +243,11 @@ export default {
     },
     grid: {
       a2a: { title: 'A2A Communication', desc: 'Inter-agent messaging protocol' },
-      mcp: { title: 'MCP Protocol', desc: 'Model Context Protocol support' },
-      observability: { title: 'Observability', desc: 'Tracing, metrics, monitoring' },
-      gui: { title: 'GUI Agent', desc: 'Desktop automation framework' },
-      tools: { title: 'Tool System', desc: 'Function decorators & remote tools' },
-      validation: { title: 'Task Validation', desc: 'Pydantic output parsing' },
+      mcp: { title: 'MCP Protocol', desc: 'Multi-server aggregation and resource access' },
+      observability: { title: 'Observability', desc: 'Traces, metrics, and evaluation' },
+      skills: { title: 'Skill evolution', desc: 'Observe tool calls and distill new skills' },
+      brains: { title: 'Multi-brain knowledge', desc: 'Mountable doc brain and code brain' },
+      longrun: { title: 'Long-horizon coding', desc: 'Isolated workspaces and a disk state machine' },
     },
     code: {
       title: 'Simple to use',
@@ -247,21 +268,21 @@ export default {
       pypiPackage: 'PyPI Package',
     },
     footer: {
-      license: 'AGPL-3.0 License',
+      license: 'Apache-2.0 License',
     },
   },
   enterprisePage: {
     metadata: {
       title: 'Enterprise | AgenticX',
       description:
-        'Enterprise LLM application platform: employee portal, admin console, and AI gateway in one stack.',
+        'Employee portal, admin console, and Go AI Gateway for identity, policy, quota, audit, and model relay.',
     },
     badge: 'AgenticX Enterprise',
     hero: {
       titleLine1: 'Enterprise LLM applications',
-      titleLine2: 'all in one platform',
+      titleLine2: 'one control plane',
       subtitle:
-        'Employee portal, admin console, and AI gateway share a Postgres multi-tenant data layer and unified RBAC. Web-side governance and model access, complementary to Machi Desktop.',
+        'Portal, admin console, and gateway share Postgres and unified RBAC. The gateway is compliance and model relay, not the Python Agent Runtime.',
       viewDocs: 'View documentation',
     },
     pillars: {
@@ -284,13 +305,9 @@ export default {
     architecture: {
       title: 'Three-tier architecture',
       subtitle:
-        'web-portal (:3000) for employees, admin-console (:3001) for admins, gateway (:8088) for unified model API and policy enforcement.',
-      diagram: `Employee browser ──► web-portal (Next.js :3000)
-Admin browser ──► admin-console (Next.js :3001)
-                    │
-                    ├── PostgreSQL (IAM · Chat · Policy · Audit · Usage)
-                    └── gateway (Go :8088) ──► OpenAI-compatible upstream`,
-      overviewTitle: 'Architecture overview',
+        'Portal for employees, Admin Console for operators, and the Go gateway for auth, policy, quota, and model relay.',
+      caption: 'Edge Agent is a non-default MVP. Cluster Agent Runtime remains planned.',
+      overviewTitle: 'Current online path',
       readFull: 'Read full architecture docs',
     },
     capabilities: {
@@ -324,10 +341,10 @@ Admin browser ──► admin-console (Next.js :3001)
   },
   site: {
     metadata: {
-      titleDefault: 'AgenticX | Unified Multi-Agent Framework',
+      titleDefault: 'AgenticX | Unified Agent Stack',
       titleTemplate: '%s | AgenticX',
       description:
-        'A unified, scalable, production-ready multi-agent application development framework. Build everything from simple automation assistants to complex collaborative intelligent agent systems.',
+        'One agent stack across the Python Runtime, Near Desktop, and Enterprise.',
     },
   },
 };

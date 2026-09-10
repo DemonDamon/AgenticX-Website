@@ -2,14 +2,12 @@ export const indexContent = {
   en: {
     title: 'AgenticX',
     description:
-      'Unified Multi-Agent Framework — production-ready, scalable, from simple automation to complex multi-agent collaboration.',
+      'Unified agent stack: Python Runtime, Near Desktop, and Enterprise.',
     content: `# AgenticX
 
-![AgenticX Logo](/docs/assets/agenticx-logo.png){ width="600" }
+**Unified agent stack** covering the Python Runtime, Near Desktop, and Enterprise.
 
-**Unified Multi-Agent Framework** — production-ready, scalable, from simple automation to complex multi-agent collaboration.
-
-[![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 [![PyPI version](https://img.shields.io/pypi/v/agenticx)](https://pypi.org/project/agenticx/)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/agenticx)](https://pypi.org/project/agenticx/)
 
@@ -17,21 +15,19 @@ export const indexContent = {
 
 ## Vision
 
-AgenticX aims to create a unified, scalable, production-ready multi-agent application development framework, empowering developers to build everything from simple automation assistants to complex collaborative intelligent agent systems.
+AgenticX is a unified, production-ready agent stack. Build with the Python SDK and \`agx\` CLI, use **Near Desktop** as a local-first workspace, or deploy **Enterprise** for access, governance, and audit.
 
 ## System Architecture
 
-![AgenticX System Architecture](/docs/assets/architecture.png)
+![AgenticX product stack](/diagrams/product-stack.svg)
 
-The framework is organized into **5 tiers**:
-
-| Tier | Components |
+| Form | Role |
 |------|-----------|
-| **User Interface** | Desktop App / CLI (\`agx\`) / SDK |
-| **Studio Runtime** | Session Manager, Meta-Agent, Team Manager, Avatar & Group Chat |
-| **Core Framework** | Orchestration, Execution, Agent, Memory, Tools, LLM Providers, Hooks |
-| **Platform Services** | Observability, Protocols, Security, Storage |
-| **Domain Extensions** | GUI Agent, Knowledge & GraphRAG, AgentKit Integration |
+| **Core / Runtime** | Python SDK, Studio Server, Agent Runtime |
+| **Near Desktop** | Local-first Electron workspace over \`agx serve\` |
+| **Enterprise** | Portal, Admin Console, Go AI Gateway |
+
+Inside the Runtime, the older five-layer map still holds: UI, Studio, core framework, platform services, and domain extensions. See [Architecture](/docs/concepts/architecture).
 
 ## Core Features
 
@@ -53,8 +49,11 @@ Hierarchical memory (core / episodic / semantic), Mem0 deep integration, workspa
 ### 👥 Avatar & Team Collaboration
 Avatar registry (CRUD), group chat with multiple routing strategies (user-directed / meta-routed / round-robin), and Meta-Agent CEO dispatcher with dynamic sub-agent orchestration.
 
-### 📚 Knowledge & Retrieval
-Document processing pipeline with chunkers, readers, extractors, and graph builders (GraphRAG). Vector/BM25/graph/hybrid retrievers, auto-retriever, and reranker.
+### Knowledge & Retrieval
+Document processing pipeline with chunkers, readers, extractors, and graph builders (GraphRAG). Isolatable doc brain + code brain, hybrid code index, and vector / BM25 / graph / hybrid retrievers.
+
+### Skills & Long-horizon
+Skill lifecycle with a security scan and observation-driven self-evolution. Long-run orchestration plus a disk-backed project state machine.
 
 ### 🔒 Enterprise Security
 Safety layer with leak detection, input sanitizer, injection detector, policy engine, sandbox (Docker / Microsandbox / Subprocess), audit logging.
@@ -98,14 +97,12 @@ result = executor.run(task)
   zh: {
     title: 'AgenticX',
     description:
-      '统一多智能体框架 — 生产就绪、可扩展，从简单自动化到复杂多智能体协作。',
+      '统一智能体技术栈：Python Runtime、Near 桌面与 Enterprise。',
     content: `# AgenticX
 
-![AgenticX Logo](/docs/assets/agenticx-logo.png){ width="600" }
+**统一智能体技术栈**，覆盖 Python Runtime、Near 桌面与 Enterprise。
 
-**统一多智能体框架** — 生产就绪、可扩展，从简单自动化到复杂多智能体协作。
-
-[![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 [![PyPI version](https://img.shields.io/pypi/v/agenticx)](https://pypi.org/project/agenticx/)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/agenticx)](https://pypi.org/project/agenticx/)
 
@@ -113,21 +110,19 @@ result = executor.run(task)
 
 ## 愿景
 
-AgenticX 旨在打造统一、可扩展、生产就绪的多智能体应用开发框架，帮助开发者构建从简单自动化助手到复杂协作智能体系统的一切应用。
+AgenticX 是一套统一、生产就绪的智能体技术栈。开发者用 Python SDK 与 \`agx\` CLI 构建，用 **Near 桌面** 做本地优先工作区，或部署 **Enterprise** 做访问、治理与审计。
 
 ## 系统架构
 
-![AgenticX System Architecture](/docs/assets/architecture.png)
+![AgenticX 产品栈](/diagrams/product-stack.svg)
 
-框架分为 **5 层**：
-
-| 层级 | 组件 |
+| 形态 | 职责 |
 |------|------|
-| **用户界面** | Desktop 应用 / CLI（\`agx\`）/ SDK |
-| **Studio 运行时** | 会话管理、Meta-Agent、团队管理、分身与群聊 |
-| **核心框架** | 编排、执行、Agent、记忆、工具、LLM 供应商、Hooks |
-| **平台服务** | 可观测性、协议、安全、存储 |
-| **领域扩展** | GUI Agent、知识库与 GraphRAG、AgentKit 集成 |
+| **Core / Runtime** | Python SDK、Studio Server、Agent Runtime |
+| **Near Desktop** | 本地优先 Electron 工作区，默认连 \`agx serve\` |
+| **Enterprise** | Portal、Admin Console、Go AI 网关 |
+
+Runtime 内部仍可按五层理解：界面、Studio、核心框架、平台服务、领域扩展。详见 [架构](/docs/concepts/architecture)。
 
 ## 核心能力
 
@@ -149,8 +144,11 @@ AgenticX 旨在打造统一、可扩展、生产就绪的多智能体应用开�
 ### 👥 分身与团队协作
 分身注册表（CRUD）、群聊多种路由策略（用户定向 / Meta 路由 / 轮询），Meta-Agent CEO 调度与动态子智能体编排。
 
-### 📚 知识库与检索
-文档处理流水线（分块、读取、抽取、图构建 GraphRAG），向量/BM25/图/混合检索、自动检索与重排序。
+### 知识库与检索
+文档处理流水线（分块、读取、抽取、GraphRAG），可隔离的文档脑 + 代码脑，以及向量 / BM25 / 图 / 混合检索。
+
+### 技能与长周期
+技能生命周期含安全扫描与观察驱动自进化。长任务编排加上磁盘项目状态机。
 
 ### 🔒 企业级安全
 安全层：泄露检测、输入清洗、注入检测、策略引擎、沙箱（Docker / Microsandbox / 子进程）、审计日志。

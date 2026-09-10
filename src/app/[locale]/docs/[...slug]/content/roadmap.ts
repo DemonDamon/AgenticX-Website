@@ -23,7 +23,8 @@ export const roadmapContent = {
 | **M14** | Avatar & Group Chat — Registry, routing strategies, delegation |
 | **M15** | Studio Runtime — Session manager, Meta-Agent, team manager |
 | **M16** | GUI Agent — Desktop automation, VLM reflection |
-| **M17** | Desktop App — Electron + React, Pro/Lite mode, multi-pane UI |
+| **M17** | Near Desktop — Electron + React, multi-pane workspace |
+| **v0.5** | Embeddable ReActAgent, unified offload, skill self-evolution, multi-brain knowledge, long-horizon coding |
 
 ---
 
@@ -31,8 +32,10 @@ export const roadmapContent = {
 
 | Module | Description |
 |--------|-------------|
-| **M12** | Agent Evolution — Architecture search, knowledge distillation, adaptive planning |
-| **M18** | Multi-tenancy & RBAC — Per-tenant data isolation, fine-grained permission control |
+| **M12** | Agent Evolution: architecture search, knowledge distillation, adaptive planning. Skill self-evolution already shipped as a narrower loop. |
+| **M18** | Core / Studio multi-tenancy and RBAC on the Studio main path. Enterprise IAM already lives on a separate product line. |
+
+Cluster / HA Agent Runtime and a default Edge Agent path are also planned. They are not the current Near or Enterprise default.
 
 ---
 
@@ -71,7 +74,8 @@ Want to help build these features? See [CONTRIBUTING.md](https://github.com/Demo
 | **M14** | 分身与群聊 — 注册表、路由策略、委派 |
 | **M15** | Studio 运行时 — 会话管理、Meta-Agent、团队管理 |
 | **M16** | GUI Agent — 桌面自动化、VLM 反思 |
-| **M17** | Desktop 应用 — Electron + React、Pro/Lite 模式、多窗格 UI |
+| **M17** | Near Desktop — Electron + React、多窗格工作区 |
+| **v0.5** | 可嵌入 ReActAgent、统一卸载、技能自进化、多脑知识库、长周期编码 |
 
 ---
 
@@ -79,8 +83,10 @@ Want to help build these features? See [CONTRIBUTING.md](https://github.com/Demo
 
 | 模块 | 说明 |
 |------|------|
-| **M12** | 智能体进化 — 架构搜索、知识蒸馏、自适应规划 |
-| **M18** | 多租户与 RBAC — 租户级数据隔离、细粒度权限控制 |
+| **M12** | 智能体进化：架构搜索、知识蒸馏、自适应规划。技能自进化已作为更窄的闭环落地。 |
+| **M18** | Core / Studio 主路径上的多租户与 RBAC。Enterprise IAM 已在另一条产品线落地。 |
+
+集群 / 高可用 Agent Runtime 与默认 Edge Agent 路径也在规划中，它们不是当前 Near 或 Enterprise 的默认路径。
 
 ---
 

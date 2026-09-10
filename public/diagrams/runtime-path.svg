@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" role="img" aria-labelledby="title desc">
+  <title id="title">Near and SDK runtime path</title>
+  <desc id="desc">Near Desktop and the Python SDK talk to Studio Server, then Agent Runtime and shared capabilities.</desc>
+  <rect width="1200" height="360" fill="#0a0a0a"/>
+  <text x="40" y="42" fill="#737373" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13">Default local path  ·  默认本机路径</text>
+  <text x="40" y="72" fill="#f5f5f5" font-family="ui-sans-serif, system-ui, sans-serif" font-size="20" font-weight="600">Studio + Agent Runtime</text>
+
+  <rect x="40" y="112" width="210" height="132" rx="12" fill="#111111" stroke="#2a2a2a"/>
+  <text x="60" y="154" fill="#f5f5f5" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" font-weight="600">Near Desktop</text>
+  <text x="60" y="180" fill="#a3a3a3" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">Electron workspace</text>
+  <text x="60" y="204" fill="#737373" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">本地优先工作区</text>
+
+  <rect x="40" y="256" width="210" height="64" rx="12" fill="#111111" stroke="#2a2a2a"/>
+  <text x="60" y="282" fill="#f5f5f5" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="600">SDK / agx CLI</text>
+  <text x="60" y="304" fill="#737373" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">Embeddable ReActAgent</text>
+
+  <path d="M250 178 H300" stroke="#3f3f3f" stroke-width="1.5"/>
+  <path d="M250 288 H300 V178" stroke="#3f3f3f" stroke-width="1.5"/>
+  <polygon points="300,178 292,174 292,182" fill="#737373"/>
+
+  <rect x="312" y="128" width="250" height="148" rx="12" fill="#111111" stroke="#2a2a2a"/>
+  <text x="332" y="170" fill="#f5f5f5" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" font-weight="600">Studio Server</text>
+  <text x="332" y="196" fill="#a3a3a3" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">REST API + SSE</text>
+  <text x="332" y="224" fill="#d4d4d4" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">Sessions · Avatars · Group chat</text>
+  <text x="332" y="246" fill="#737373" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">会话 · 分身 · 群聊 · MCP</text>
+
+  <path d="M562 202 H612" stroke="#3f3f3f" stroke-width="1.5"/>
+  <polygon points="612,202 604,198 604,206" fill="#737373"/>
+
+  <rect x="624" y="128" width="250" height="148" rx="12" fill="#111111" stroke="#2a2a2a"/>
+  <text x="644" y="170" fill="#f5f5f5" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" font-weight="600">Agent Runtime</text>
+  <text x="644" y="196" fill="#a3a3a3" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">Meta-Agent · Team manager</text>
+  <text x="644" y="224" fill="#d4d4d4" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">Orchestration · Delegation</text>
+  <text x="644" y="246" fill="#737373" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">编排 · 委派 · 记忆召回</text>
+
+  <path d="M874 202 H924" stroke="#3f3f3f" stroke-width="1.5"/>
+  <polygon points="924,202 916,198 916,206" fill="#737373"/>
+
+  <rect x="936" y="112" width="224" height="180" rx="12" fill="#111111" stroke="#2a2a2a"/>
+  <text x="956" y="150" fill="#f5f5f5" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" font-weight="600">Capabilities</text>
+  <text x="956" y="180" fill="#d4d4d4" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">Tools · MCP · Memory</text>
+  <text x="956" y="202" fill="#d4d4d4" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">KB · Skills · Hooks · LLM</text>
+  <text x="956" y="232" fill="#737373" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">工具 · 记忆 · 技能</text>
+  <text x="956" y="254" fill="#737373" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">Sandbox · Offload · Eval</text>
+</svg>

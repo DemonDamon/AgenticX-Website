@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 420" role="img" aria-labelledby="title desc">
+  <title id="title">Enterprise online path</title>
+  <desc id="desc">Employees go Portal to BFF to Go AI Gateway. Admins use Admin Console against Postgres, Redis, and the same gateway.</desc>
+  <rect width="1200" height="420" fill="#0a0a0a"/>
+  <text x="40" y="42" fill="#737373" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13">Current enterprise online path  ·  当前企业在线路径</text>
+  <text x="40" y="72" fill="#f5f5f5" font-family="ui-sans-serif, system-ui, sans-serif" font-size="20" font-weight="600">Portal · Admin · Go AI Gateway</text>
+
+  <rect x="40" y="112" width="220" height="88" rx="12" fill="#111111" stroke="#2a2a2a"/>
+  <text x="60" y="148" fill="#f5f5f5" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" font-weight="600">Web Portal</text>
+  <text x="60" y="174" fill="#a3a3a3" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">Employee chat workspace</text>
+  <text x="60" y="190" fill="#737373" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11">员工聊天工作区</text>
+
+  <rect x="40" y="220" width="220" height="88" rx="12" fill="#111111" stroke="#2a2a2a"/>
+  <text x="60" y="256" fill="#f5f5f5" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" font-weight="600">Admin Console</text>
+  <text x="60" y="282" fill="#a3a3a3" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">IAM · Policy · Audit · Quota</text>
+  <text x="60" y="298" fill="#737373" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11">身份 · 策略 · 审计 · 额度</text>
+
+  <path d="M260 156 H310" stroke="#3f3f3f" stroke-width="1.5"/>
+  <polygon points="310,156 302,152 302,160" fill="#737373"/>
+
+  <rect x="322" y="118" width="210" height="76" rx="12" fill="#111111" stroke="#2a2a2a"/>
+  <text x="342" y="152" fill="#f5f5f5" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" font-weight="600">Portal BFF</text>
+  <text x="342" y="176" fill="#737373" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">会话与鉴权中转</text>
+
+  <path d="M532 156 H582" stroke="#3f3f3f" stroke-width="1.5"/>
+  <path d="M260 264 H582 V200" stroke="#3f3f3f" stroke-width="1.5"/>
+  <polygon points="582,156 574,152 574,160" fill="#737373"/>
+
+  <rect x="594" y="118" width="280" height="196" rx="12" fill="#111111" stroke="#2a2a2a"/>
+  <text x="618" y="160" fill="#f5f5f5" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="600">Go AI Gateway</text>
+  <text x="618" y="188" fill="#a3a3a3" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13">Auth · Policy · Quota · Cache</text>
+  <text x="618" y="212" fill="#a3a3a3" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13">Routing · Stream governance</text>
+  <text x="618" y="236" fill="#a3a3a3" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13">Audit chain · Token usage</text>
+  <text x="618" y="272" fill="#737373" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">合规与模型中继</text>
+  <text x="618" y="292" fill="#737373" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">Not the Python Agent Runtime</text>
+
+  <path d="M874 216 H924" stroke="#3f3f3f" stroke-width="1.5"/>
+  <polygon points="924,216 916,212 916,220" fill="#737373"/>
+
+  <rect x="936" y="132" width="224" height="88" rx="12" fill="#111111" stroke="#2a2a2a"/>
+  <text x="956" y="168" fill="#f5f5f5" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" font-weight="600">Model services</text>
+  <text x="956" y="194" fill="#a3a3a3" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">OpenAI-compatible upstream</text>
+
+  <rect x="936" y="236" width="224" height="78" rx="12" fill="#111111" stroke="#2a2a2a"/>
+  <text x="956" y="270" fill="#f5f5f5" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" font-weight="600">Postgres · Redis · JSONL</text>
+  <text x="956" y="294" fill="#737373" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">PG 主写，JSONL 兜底</text>
+
+  <text x="40" y="368" fill="#737373" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13">Edge Agent is a non-default MVP. Cluster Agent Runtime remains planned.</text>
+  <text x="40" y="390" fill="#525252" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">Edge Agent 是非默认 MVP。集群 Runtime 仍在规划中。</text>
+</svg>

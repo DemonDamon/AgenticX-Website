@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 420" role="img" aria-labelledby="title desc">
+  <title id="title">AgenticX product stack</title>
+  <desc id="desc">One capability core with three product forms: Python Runtime, Near Desktop, and Enterprise.</desc>
+  <rect width="1200" height="420" fill="#0a0a0a"/>
+  <text x="40" y="42" fill="#737373" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13">Shared capability core  ·  共享能力核心</text>
+  <text x="40" y="72" fill="#f5f5f5" font-family="ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600">AgenticX</text>
+  <text x="160" y="72" fill="#a3a3a3" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14">Tools · MCP · Memory · KB · Skills · Hooks · LLM</text>
+
+  <rect x="40" y="108" width="360" height="236" rx="14" fill="#111111" stroke="#2a2a2a"/>
+  <text x="64" y="148" fill="#737373" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">01</text>
+  <text x="64" y="180" fill="#f5f5f5" font-family="ui-sans-serif, system-ui, sans-serif" font-size="20" font-weight="600">Core / Runtime</text>
+  <text x="64" y="208" fill="#a3a3a3" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13">Python SDK · Studio Server · Agent Runtime</text>
+  <text x="64" y="248" fill="#d4d4d4" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13">Orchestration, tools, memory, knowledge,</text>
+  <text x="64" y="270" fill="#d4d4d4" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13">skills, sandboxes, and evaluation.</text>
+  <text x="64" y="308" fill="#737373" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">编排 · 工具 · 记忆 · 知识库 · 技能 · 评测</text>
+
+  <rect x="420" y="108" width="360" height="236" rx="14" fill="#111111" stroke="#2a2a2a"/>
+  <text x="444" y="148" fill="#737373" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">02</text>
+  <text x="444" y="180" fill="#f5f5f5" font-family="ui-sans-serif, system-ui, sans-serif" font-size="20" font-weight="600">Near Desktop</text>
+  <text x="444" y="208" fill="#a3a3a3" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13">Local-first Electron workspace</text>
+  <text x="444" y="248" fill="#d4d4d4" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13">Multi-pane chat, avatars, group chat,</text>
+  <text x="444" y="270" fill="#d4d4d4" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13">terminal, automation, and Voice Focus.</text>
+  <text x="444" y="308" fill="#737373" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">默认连接本机 agx serve / agx-server</text>
+
+  <rect x="800" y="108" width="360" height="236" rx="14" fill="#111111" stroke="#2a2a2a"/>
+  <text x="824" y="148" fill="#737373" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">03</text>
+  <text x="824" y="180" fill="#f5f5f5" font-family="ui-sans-serif, system-ui, sans-serif" font-size="20" font-weight="600">Enterprise</text>
+  <text x="824" y="208" fill="#a3a3a3" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13">Portal · Admin Console · Go AI Gateway</text>
+  <text x="824" y="248" fill="#d4d4d4" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13">Identity, policy, quota, audit, and</text>
+  <text x="824" y="270" fill="#d4d4d4" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13">model relay for enterprise web access.</text>
+  <text x="824" y="308" fill="#737373" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">合规与模型中继，不是 Agent Runtime</text>
+
+  <text x="40" y="388" fill="#737373" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13">Near and Enterprise share abstractions. Current deploy paths stay independent.</text>
+  <text x="40" y="408" fill="#525252" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12">Near 与 Enterprise 共用抽象，当前部署路径彼此独立。</text>
+</svg>

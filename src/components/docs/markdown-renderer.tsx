@@ -109,13 +109,18 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
             parts.push(processInlineSimple(remaining.slice(0, imgMatch.index)));
           }
           const [, alt, src] = imgMatch;
+          const isDiagram = src.startsWith('/diagrams/');
           parts.push(
             // eslint-disable-next-line @next/next/no-img-element
             <img
               key={partKey++}
               src={src}
               alt={alt}
-              className="my-2 max-h-[480px] max-w-full rounded-lg border border-zinc-700 object-contain"
+              className={
+                isDiagram
+                  ? 'my-2 h-auto w-full max-w-full rounded-lg border border-zinc-700'
+                  : 'my-2 max-h-[480px] max-w-full rounded-lg border border-zinc-700 object-contain'
+              }
             />
           );
           remaining = remaining.slice(imgMatch.index + imgMatch[0].length);
@@ -361,13 +366,18 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
       const standaloneImg = line.match(/^\s*!\[([^\]]*)\]\(([^)]+)\)(?:\{[^}]*\})?\s*$/);
       if (standaloneImg) {
         const [, alt, src] = standaloneImg;
+        const isDiagram = src.startsWith('/diagrams/');
         elements.push(
-          <div key={key++} className="my-6 flex justify-center">
+          <div key={key++} className={isDiagram ? 'my-6 w-full' : 'my-6 flex justify-center'}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={src}
               alt={alt}
-              className="max-h-[min(480px,70vh)] w-auto max-w-full rounded-lg border border-zinc-700 object-contain"
+              className={
+                isDiagram
+                  ? 'h-auto w-full rounded-lg border border-zinc-700'
+                  : 'max-h-[min(480px,70vh)] w-auto max-w-full rounded-lg border border-zinc-700 object-contain'
+              }
             />
           </div>
         );

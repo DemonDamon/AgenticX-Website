@@ -145,9 +145,9 @@ export default {
     enFallbackNotice: '本页暂未提供英文版本，正在显示中文原文。',
     landing: {
       title: '文档',
-      description: '欢迎阅读 AgenticX 文档。无需复杂配置即可构建多智能体系统。',
+      description: '从 Python Runtime、Near 桌面到 Enterprise，按产品形态查阅 AgenticX。',
       intro:
-        'AgenticX 是一个统一、生产就绪的智能体应用开发框架。从简单的自动化到复杂的多智能体协作，一应俱全。',
+        'AgenticX 是一套统一的智能体技术栈：Python SDK 与 Studio Runtime 是能力核心，Near 是本地优先工作区，Enterprise 提供门户、管理台与合规网关。',
       quickStartHeading: '快速开始',
       coreConceptsHeading: '核心概念',
       referenceHeading: '参考',
@@ -156,6 +156,10 @@ export default {
       installationDesc: '几分钟内开始使用 AgenticX',
       quickstart: '快速上手',
       quickstartDesc: '创建你的第一个智能体并运行任务',
+      architecture: '架构',
+      architectureDesc: '三形态产品栈与运行路径',
+      near: 'Near 桌面',
+      nearDesc: '本地优先的多智能体工作区',
       agent: '智能体',
       agentDesc: '构建智能体的基础构件',
       tools: '工具',
@@ -173,32 +177,49 @@ export default {
   },
   home: {
     metadata: {
-      title: 'AgenticX | 统一多智能体框架',
+      title: 'AgenticX | 统一智能体技术栈',
       description:
-        '统一、可扩展、生产就绪的多智能体应用开发框架。从简单自动化助手到复杂协作智能体系统，一站式构建。',
+        '覆盖 Python Runtime、Near 桌面与 Enterprise 的统一智能体技术栈。本地优先工作区，企业侧合规网关。',
     },
     hero: {
-      titleLine1: '构建多智能体系统',
-      titleLine2: '无需复杂配置',
+      titleLine1: '一套智能体技术栈',
+      titleLine2: '三种产品形态',
       subtitle:
-        '统一、生产就绪的智能体应用框架。从简单自动化到复杂多智能体协作，一应俱全。',
+        'Python Runtime、Near 桌面与 Enterprise 共用能力核心，部署路径各自独立。',
       getStarted: '开始使用',
       viewGithub: '在 GitHub 查看',
     },
+    stack: {
+      title: '产品形态',
+      subtitle: '开发者走 SDK 与 Studio，个人工作区走 Near，企业 Web 走 Portal 与网关。',
+      caption: 'Near 默认连接本机 Runtime。Enterprise 当前走独立的 Go 网关路径。',
+      core: {
+        title: 'Core / Runtime',
+        description: 'Python SDK、Studio Server 与 Agent Runtime，覆盖编排、工具、记忆、知识库与技能。',
+      },
+      near: {
+        title: 'Near Desktop',
+        description: 'Electron 本地优先工作区：多窗格、分身、群聊、终端、自动化与语音焦点。',
+      },
+      enterprise: {
+        title: 'Enterprise',
+        description: '员工门户、管理台与 Go AI 网关，负责身份、策略、配额、审计与模型中继。',
+      },
+    },
     features: {
       title: '核心能力',
-      subtitle: '构建生产级智能体系统所需的一切。',
+      subtitle: '从可嵌入 ReAct 循环到长周期编码，都在同一套抽象上。',
       agentCore: {
         title: 'Agent Core',
-        description: '生产级执行引擎，内置重试与错误处理。',
+        description: 'Meta-Agent 调度、可嵌入 ReActAgent，以及自愈与溢出恢复。',
       },
       orchestration: {
         title: '编排',
-        description: '基于图的工作流，支持条件路由与并行执行。',
+        description: '图工作流与 Flow 装饰器，支持条件路由与并行执行。',
       },
       memory: {
         title: '记忆系统',
-        description: '长期记忆，Mem0 集成，兼容任意 LLM 后端。',
+        description: '分层记忆、工作区记忆与 Mem0，支持压缩与混合检索。',
       },
       stepDemo: {
         parse: '解析任务',
@@ -217,11 +238,11 @@ export default {
     },
     grid: {
       a2a: { title: 'A2A 通信', desc: '智能体间消息协议' },
-      mcp: { title: 'MCP 协议', desc: 'Model Context Protocol 支持' },
-      observability: { title: '可观测性', desc: '链路追踪、指标与监控' },
-      gui: { title: 'GUI Agent', desc: '桌面自动化框架' },
-      tools: { title: '工具系统', desc: '函数装饰器与远程工具' },
-      validation: { title: '任务校验', desc: 'Pydantic 输出解析' },
+      mcp: { title: 'MCP 协议', desc: '多服务器聚合与资源访问' },
+      observability: { title: '可观测性', desc: '轨迹、指标与评估框架' },
+      skills: { title: '技能自进化', desc: '观察工具调用并蒸馏新技能' },
+      brains: { title: '多脑知识库', desc: '文档脑与代码脑可隔离挂载' },
+      longrun: { title: '长周期编码', desc: '隔离工作区与磁盘状态机' },
     },
     code: {
       title: '简单易用',
@@ -242,21 +263,21 @@ export default {
       pypiPackage: 'PyPI 包',
     },
     footer: {
-      license: 'AGPL-3.0 License',
+      license: 'Apache-2.0 License',
     },
   },
   enterprisePage: {
     metadata: {
       title: '企业版 | AgenticX',
       description:
-        '企业级大模型应用一体化平台：员工前台、管理后台与 AI 网关三端联动。',
+        '员工门户、管理台与 Go AI 网关：身份、策略、配额、审计与模型中继。',
     },
     badge: 'AgenticX Enterprise',
     hero: {
       titleLine1: '企业级大模型应用',
-      titleLine2: '一体化平台',
+      titleLine2: '一体化管控平面',
       subtitle:
-        '员工前台、管理后台与 AI 网关三端联动，共享 Postgres 多租户数据层与统一 RBAC。面向企业 Web 端管控与模型接入，与 Machi Desktop 端侧闭环互补。',
+        '员工门户、管理台与网关共享 Postgres 与统一 RBAC。网关做合规与模型中继，不替代 Python Agent Runtime。',
       viewDocs: '查看文档',
     },
     pillars: {
@@ -279,13 +300,9 @@ export default {
     architecture: {
       title: '三端架构',
       subtitle:
-        'web-portal（:3000）面向员工，admin-console（:3001）面向管理员，gateway（:8088）统一模型 API 与策略执行。',
-      diagram: `员工浏览器 ──► web-portal (Next.js :3000)
-管理员浏览器 ──► admin-console (Next.js :3001)
-                    │
-                    ├── PostgreSQL (IAM · Chat · Policy · Audit · Usage)
-                    └── gateway (Go :8088) ──► OpenAI 兼容上游`,
-      overviewTitle: '架构概览',
+        'Portal 面向员工，Admin Console 面向管理员，Go 网关统一鉴权、策略、配额与模型中继。',
+      caption: 'Edge Agent 是非默认 MVP。集群 Agent Runtime 仍在规划中。',
+      overviewTitle: '当前在线路径',
       readFull: '阅读完整架构文档',
     },
     capabilities: {
@@ -319,10 +336,10 @@ export default {
   },
   site: {
     metadata: {
-      titleDefault: 'AgenticX | 统一多智能体框架',
+      titleDefault: 'AgenticX | 统一智能体技术栈',
       titleTemplate: '%s | AgenticX',
       description:
-        '统一、可扩展、生产就绪的多智能体应用开发框架。从简单自动化助手到复杂协作智能体系统，一站式构建。',
+        '覆盖 Python Runtime、Near 桌面与 Enterprise 的统一智能体技术栈。',
     },
   },
 };
