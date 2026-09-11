@@ -6,15 +6,9 @@ export const firstAgentContent = {
 
 Build a research agent that takes a topic, calls tools, and returns a structured report. This is the **SDK** path: \`Agent\` + \`Task\` + \`AgentExecutor\`. For Near chat, start \`agx serve\` instead — see [Quickstart](/docs/getting-started/quickstart).
 
-\`\`\`mermaid
-flowchart LR
-  topic["Topic"] --> task["Task"]
-  task --> exec["AgentExecutor.run"]
-  exec --> llm["LLM"]
-  llm -->|tool_calls| tools["search / fetch"]
-  tools --> llm
-  llm -->|text| report["Report"]
-\`\`\`
+![SDK research loop from topic to report](/docs/svg/first-agent-loop-en.svg?v=2)
+
+*Diagram: Task into AgentExecutor.run; tool_calls loop until a text report.*
 
 !!! warning "Constructor vs run"
     \`AgentExecutor\` takes \`llm_provider=\`. Pass the agent into \`run(agent=, task=)\`. There is no \`max_iter\` or \`verbose\` on \`Agent\` — use \`max_iterations\`.
@@ -134,15 +128,9 @@ print(result)
 
 做一个研究型智能体：接收主题、调用工具、产出结构化报告。这是 **SDK** 路径：\`Agent\` + \`Task\` + \`AgentExecutor\`。Near 聊天请走 \`agx serve\`，见 [快速上手](/docs/getting-started/quickstart)。
 
-\`\`\`mermaid
-flowchart LR
-  topic["主题"] --> task["Task"]
-  task --> exec["AgentExecutor.run"]
-  exec --> llm["LLM"]
-  llm -->|tool_calls| tools["搜索 / 抓取"]
-  tools --> llm
-  llm -->|文本| report["报告"]
-\`\`\`
+![从主题到报告的 SDK 研究环](/docs/svg/first-agent-loop-zh.svg?v=2)
+
+*示意图：Task 进入 AgentExecutor.run；tool_calls 回环直到文本报告。*
 
 !!! warning "构造与 run 分开"
     \`AgentExecutor\` 收 \`llm_provider=\`。智能体要传给 \`run(agent=, task=)\`。\`Agent\` 上没有 \`max_iter\` 或 \`verbose\`，请用 \`max_iterations\`。

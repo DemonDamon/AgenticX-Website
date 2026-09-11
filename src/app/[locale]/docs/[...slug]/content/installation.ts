@@ -8,14 +8,9 @@ Install the **Python package** first. Near Desktop embeds the same backend; the 
 
 ## What you are installing
 
-\`\`\`mermaid
-flowchart TB
-  pip["pip install agenticx"] --> cli["agx CLI"]
-  pip --> sdk["Python SDK"]
-  cli --> serve["agx serve"]
-  serve --> near["Near Desktop"]
-  sdk --> app["Your Python app"]
-\`\`\`
+![One pip install gives CLI and SDK](/docs/svg/install-paths-en.svg?v=2)
+
+*Diagram: the CLI starts agx serve for Near; the SDK embeds in your Python process.*
 
 ## Requirements
 
@@ -87,14 +82,9 @@ npm i -g @llamaindex/liteparse
 
 ## 你在装什么
 
-\`\`\`mermaid
-flowchart TB
-  pip["pip install agenticx"] --> cli["agx CLI"]
-  pip --> sdk["Python SDK"]
-  cli --> serve["agx serve"]
-  serve --> near["Near 桌面"]
-  sdk --> app["你的 Python 应用"]
-\`\`\`
+![一次 pip 安装同时给出 CLI 和 SDK](/docs/svg/install-paths-zh.svg?v=2)
+
+*示意图：CLI 拉起 agx serve 给 Near；SDK 嵌进你的 Python 进程。*
 
 ## 环境要求
 

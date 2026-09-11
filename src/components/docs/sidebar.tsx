@@ -41,27 +41,42 @@ function SidebarItem({ title, href, isActive, depth = 0 }: SidebarItemProps) {
 
 interface SidebarSectionProps {
   title: string;
+  href?: string;
   items: { title: string; slug: string; href: string }[];
   currentSlug: string;
   defaultOpen?: boolean;
 }
 
-function SidebarSection({ title, items, currentSlug, defaultOpen = true }: SidebarSectionProps) {
+function SidebarSection({ title, href, items, currentSlug, defaultOpen = true }: SidebarSectionProps) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
+  const headingClass =
+    'text-xs font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground';
 
   return (
     <div className="mb-4">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex w-full items-center justify-between px-3 py-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground"
-      >
-        {title}
-        {isOpen ? (
-          <ChevronDown className="h-4 w-4" />
+      <div className="flex w-full items-center justify-between px-3 py-2">
+        {href ? (
+          <Link href={href} className={headingClass}>
+            {title}
+          </Link>
         ) : (
-          <ChevronRight className="h-4 w-4" />
+          <button type="button" onClick={() => setIsOpen(!isOpen)} className={headingClass}>
+            {title}
+          </button>
         )}
-      </button>
+        <button
+          type="button"
+          onClick={() => setIsOpen(!isOpen)}
+          className="text-muted-foreground hover:text-foreground"
+          aria-label={isOpen ? 'Collapse section' : 'Expand section'}
+        >
+          {isOpen ? (
+            <ChevronDown className="h-4 w-4" />
+          ) : (
+            <ChevronRight className="h-4 w-4" />
+          )}
+        </button>
+      </div>
       {isOpen && (
         <ul className="space-y-0.5">
           {items.map((item) => (
@@ -124,6 +139,7 @@ export function DocSidebar() {
           <SidebarSection
             key={section.title}
             title={navTitle(section, locale)}
+            href={section.slug ? localizedPath(`/docs/${section.slug}`, locale) : undefined}
             items={section.items.map((item) => ({
               title: navTitle(item, locale),
               slug: item.slug,

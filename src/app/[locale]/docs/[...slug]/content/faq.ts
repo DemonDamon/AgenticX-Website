@@ -6,15 +6,9 @@ export const faqContent = {
 
 Pick a form first, then a page. Most “it disappeared” bugs are a wrong process (\`agx studio\` vs \`agx serve\`) or a wrong session file.
 
-\`\`\`mermaid
-flowchart TB
-  q["What are you doing?"] --> sdk["Embed in Python"]
-  q --> desk["Local workspace"]
-  q --> ent["Governed web"]
-  sdk --> qs["Quickstart SDK"]
-  desk --> serve["agx serve + Near"]
-  ent --> gw["Enterprise Gateway"]
-\`\`\`
+![Pick SDK, Near, or Enterprise](/docs/svg/faq-doors-en.svg?v=2)
+
+*Diagram: pick SDK, Near, or Enterprise — they are different processes.*
 
 ## General
 
@@ -129,15 +123,9 @@ Open an issue on [GitHub Issues](https://github.com/DemonDamon/AgenticX/issues).
 
 先选形态再选文档。多数「突然没了」是进程选错（\`agx studio\` vs \`agx serve\`）或会话文件看错。
 
-\`\`\`mermaid
-flowchart TB
-  q["你在做什么？"] --> sdk["嵌进 Python"]
-  q --> desk["本地工作区"]
-  q --> ent["受治理的 Web"]
-  sdk --> qs["快速上手 SDK"]
-  desk --> serve["agx serve + Near"]
-  ent --> gw["Enterprise 网关"]
-\`\`\`
+![在 SDK、Near 或 Enterprise 里选一扇门](/docs/svg/faq-doors-zh.svg?v=2)
+
+*示意图：先选 SDK、Near 或 Enterprise——它们是不同进程。*
 
 ## 通用
 

@@ -7,16 +7,9 @@ export const extensionsContent = {
 
 Extensions add **knowledge and procedures** (skills), **external tools** (MCP), or a packaged mix (AGX Bundle). They do not replace \`STUDIO_TOOLS\` and they are not a second Agent Runtime.
 
-\`\`\`mermaid
-flowchart LR
-  scan["build_skill_search_paths"] --> guard["scan_skill / should_allow"]
-  guard --> list["skill list"]
-  list --> use["skill_use path 1"]
-  list --> prompt["active_skill path 2"]
-  mcp["MCP marketplace / mcp.json"] --> hub["MCPHub"]
-  bundle["AGX Bundle"] --> scan
-  bundle --> mcp
-\`\`\`
+![Scan and guard before skill_use or MCP](/docs/svg/extensions-bundle-en.svg?v=2)
+
+*Diagram: scan and guard before skill_use; bundles can also install MCP.*
 
 !!! tip "Default market view"
     The empty search view is curated. A user search must return the **full** result set, not a second curated filter.
@@ -350,16 +343,9 @@ Then search in **Settings → 技能 → 浏览市场**.
 
 扩展补的是**知识与流程**（技能）、**外部工具**（MCP），或打包组合（AGX Bundle）。它们不替代 \`STUDIO_TOOLS\`，也不是第二套 Agent Runtime。
 
-\`\`\`mermaid
-flowchart LR
-  scan["build_skill_search_paths"] --> guard["scan_skill / should_allow"]
-  guard --> list["技能列表"]
-  list --> use["skill_use 路径 1"]
-  list --> prompt["active_skill 路径 2"]
-  mcp["MCP 市场 / mcp.json"] --> hub["MCPHub"]
-  bundle["AGX Bundle"] --> scan
-  bundle --> mcp
-\`\`\`
+![先扫描门禁，再 skill_use 或 MCP](/docs/svg/extensions-bundle-zh.svg?v=2)
+
+*示意图：先扫描和门禁再 skill_use；Bundle 也可以带上 MCP。*
 
 !!! tip "市场默认视图"
     未搜索时只展示精选。用户主动搜索必须返回**全量**结果，不能再套一层精选过滤。

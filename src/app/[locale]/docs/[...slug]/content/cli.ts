@@ -6,12 +6,9 @@ export const cliContent = {
 
 \`agx\` is the Typer CLI in \`agenticx/cli/main.py\`. Daily commands are \`serve\`, \`studio\`, \`config\`, \`skills\`, \`hooks\`, \`feishu\`. Scaffold groups (\`project\` / \`agent\` / \`workflow\`) exist — run \`agx --help\` for the live list.
 
-\`\`\`mermaid
-flowchart LR
-  serve["agx serve"] --> http["Studio FastAPI"]
-  studio["agx studio"] --> repl["Terminal REPL"]
-  feishu["agx feishu"] --> http
-\`\`\`
+![agx serve, studio, and feishu](/docs/svg/cli-commands-en.svg?v=2)
+
+*Diagram: agx serve is HTTP; agx studio is a REPL; feishu talks to serve.*
 
 !!! warning "serve vs studio"
     \`agx serve\` is HTTP + SSE. \`agx studio\` is an interactive REPL. Near talks to \`serve\`.
@@ -164,12 +161,9 @@ agx hooks disable user-prompt-submit
 
 \`agx\` 是 \`agenticx/cli/main.py\` 里的 Typer CLI。日常命令是 \`serve\`、\`studio\`、\`config\`、\`skills\`、\`hooks\`、\`feishu\`。脚手架分组（\`project\` / \`agent\` / \`workflow\`）也在——以 \`agx --help\` 为准。
 
-\`\`\`mermaid
-flowchart LR
-  serve["agx serve"] --> http["Studio FastAPI"]
-  studio["agx studio"] --> repl["终端 REPL"]
-  feishu["agx feishu"] --> http
-\`\`\`
+![agx serve、studio 与飞书](/docs/svg/cli-commands-zh.svg?v=2)
+
+*示意图：agx serve 是 HTTP；agx studio 是 REPL；飞书挂在 serve 上。*
 
 !!! warning "serve 与 studio"
     \`agx serve\` 是 HTTP + SSE。\`agx studio\` 是交互式 REPL。Near 连的是 \`serve\`。

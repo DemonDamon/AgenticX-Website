@@ -8,15 +8,9 @@ Near's knowledge panel manages **brains**: a document brain for \`knowledge_sear
 
 The Python \`KnowledgeBase\` helper below is the library API (\`agenticx/memory/knowledge_base.py\`). Studio ingest goes through \`agenticx/studio/kb/\` and \`LiteParseAdapter\`. Do not treat them as one object.
 
-\`\`\`mermaid
-flowchart LR
-  files["Files / folders"] --> parse["LiteParseAdapter"]
-  parse --> chunk["chunk"]
-  chunk --> embed["embedding batches"]
-  embed --> store["Chroma default"]
-  store --> search["knowledge_search"]
-  code["Repo index"] --> codeSearch["code_search"]
-\`\`\`
+![Parse, chunk, embed, then knowledge_search](/docs/svg/knowledge-ingest-en.svg?v=2)
+
+*Diagram: LiteParse → chunk → embed ≤10 → Chroma; repo index is a second path.*
 
 !!! warning "Embedding batch size"
     Bailian / DashScope embeddings reject batches larger than **10**. The provider layer must split to ≤10 or ingest fails with \`InvalidParameter: batch size is invalid\`.
@@ -155,15 +149,9 @@ Near 知识库面板管的是**脑**：文档脑走 \`knowledge_search\`，代�
 
 下面的 Python \`KnowledgeBase\` 是库 API（\`agenticx/memory/knowledge_base.py\`）。Studio 入库走 \`agenticx/studio/kb/\` 和 \`LiteParseAdapter\`。不要把它们当成同一个对象。
 
-\`\`\`mermaid
-flowchart LR
-  files["文件 / 文件夹"] --> parse["LiteParseAdapter"]
-  parse --> chunk["分块"]
-  chunk --> embed["embedding 分批"]
-  embed --> store["默认 Chroma"]
-  store --> search["knowledge_search"]
-  code["仓库索引"] --> codeSearch["code_search"]
-\`\`\`
+![解析、分块、向量化，再 knowledge_search](/docs/svg/knowledge-ingest-zh.svg?v=2)
+
+*示意图：LiteParse → 分块 → embedding≤10 → Chroma；仓库索引是另一条路。*
 
 !!! warning "Embedding 批量上限"
     百炼 / DashScope embedding 拒绝大于 **10** 的 batch。提供方必须按 ≤10 拆批，否则入库会报 \`InvalidParameter: batch size is invalid\`。

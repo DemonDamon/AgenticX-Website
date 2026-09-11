@@ -6,13 +6,9 @@ export const deploymentContent = {
 
 Near's default is **local** \`agx serve\`. Treat remote/HA as an extra path, not the product default. There is no \`agenticx.server:app\` module — the FastAPI app is \`create_studio_app()\` in \`agenticx.studio.server\`.
 
-\`\`\`mermaid
-flowchart LR
-  near["Near / clients"] --> serve["agx serve"]
-  serve --> api["create_studio_app"]
-  api --> disk["~/.agenticx"]
-  proxy["Nginx optional"] --> serve
-\`\`\`
+![Clients hit agx serve; state stays in ~/.agenticx](/docs/svg/deploy-serve-en.svg?v=2)
+
+*Diagram: clients hit agx serve; optional Nginx; state stays in ~/.agenticx.*
 
 !!! warning "Health path"
     Liveness is \`GET /api/health\` → \`{"status":"ok"}\`. There is no \`GET /health\` on Studio.
@@ -99,13 +95,9 @@ See [Studio](/docs/guides/studio), [Configuration](/docs/getting-started/configu
 
 Near 默认是**本机** \`agx serve\`。远程 / 高可用是额外路径，不是产品默认。没有 \`agenticx.server:app\` 模块——FastAPI 应用是 \`agenticx.studio.server\` 里的 \`create_studio_app()\`。
 
-\`\`\`mermaid
-flowchart LR
-  near["Near / 客户端"] --> serve["agx serve"]
-  serve --> api["create_studio_app"]
-  api --> disk["~/.agenticx"]
-  proxy["可选 Nginx"] --> serve
-\`\`\`
+![客户端打 agx serve；状态留在 ~/.agenticx](/docs/svg/deploy-serve-zh.svg?v=2)
+
+*示意图：客户端打 agx serve；Nginx 可选；状态留在 ~/.agenticx。*
 
 !!! warning "健康检查路径"
     存活探针是 \`GET /api/health\` → \`{"status":"ok"}\`。Studio 没有 \`GET /health\`。

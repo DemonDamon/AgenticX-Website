@@ -528,6 +528,408 @@ function longrunCycle(L) {
   return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
 }
 
+function introPath(L) {
+  const w = 800;
+  const h = 430;
+  const body = [
+    header(w, L.header),
+    rowCards(
+      [
+        { n: 1, title: L.you.title, kicker: L.you.kicker },
+        { n: 2, title: L.door.title, kicker: L.door.kicker },
+        { n: 3, title: L.studio.title, kicker: L.studio.kicker },
+        { n: 4, title: L.rt.title, kicker: L.rt.kicker },
+      ],
+      { y: 108, width: w, h: 108 },
+    ),
+    vArrow(400, 216, 236),
+    rowCards(
+      [
+        { title: L.tools.title, lines: L.tools.lines },
+        { title: L.llm.title, lines: L.llm.lines },
+        { title: L.mem.title, lines: L.mem.lines },
+      ],
+      { y: 236, width: w, h: 112, arrows: false },
+    ),
+    footer(w, h, L.note),
+  ];
+  return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
+}
+
+function installPaths(L) {
+  const w = 800;
+  const h = 430;
+  const body = [
+    header(w, L.header),
+    nodeCard(236, 108, 328, 80, { n: 1, title: L.pip.title, lines: L.pip.lines }),
+    vArrow(300, 188, 208),
+    vArrow(500, 188, 208),
+    rowCards(
+      [
+        { n: 2, title: L.cli.title, kicker: L.cli.kicker, lines: L.cli.lines },
+        { n: 3, title: L.sdk.title, kicker: L.sdk.kicker, lines: L.sdk.lines },
+      ],
+      { y: 208, width: w, h: 120, arrows: false },
+    ),
+    footer(w, h, L.note),
+  ];
+  return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
+}
+
+function quickstartPaths(L) {
+  const w = 800;
+  const h = 430;
+  const body = [
+    header(w, L.header),
+    text(24, 108, L.trackA, { size: 12, weight: 600, fill: 'var(--muted-foreground)' }),
+    rowCards(
+      [
+        { n: 1, title: L.a.title, lines: L.a.lines },
+        { n: 2, title: L.b.title, lines: L.b.lines },
+        { n: 3, title: L.c.title, lines: L.c.lines },
+      ],
+      { y: 118, width: w, h: 100 },
+    ),
+    text(24, 240, L.trackB, { size: 12, weight: 600, fill: 'var(--muted-foreground)' }),
+    rowCards(
+      [
+        { n: 1, title: L.d.title, lines: L.d.lines },
+        { n: 2, title: L.e.title, lines: L.e.lines },
+        { n: 3, title: L.f.title, lines: L.f.lines },
+      ],
+      { y: 250, width: w, h: 100 },
+    ),
+    footer(w, h, L.note),
+  ];
+  return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
+}
+
+function configYaml(L) {
+  const w = 800;
+  const h = 430;
+  const body = [
+    header(w, L.header),
+    nodeCard(24, 108, 752, 78, { n: 1, title: L.yaml.title, kicker: L.yaml.kicker, lines: L.yaml.lines }),
+    vArrow(400, 186, 206),
+    rowCards(
+      [
+        { title: L.serve.title, lines: L.serve.lines },
+        { title: L.runtime.title, lines: L.runtime.lines },
+        { title: L.providers.title, lines: L.providers.lines },
+        { title: L.skills.title, lines: L.skills.lines },
+      ],
+      { y: 206, width: w, h: 120, arrows: false },
+    ),
+    pill(616, 196, L.env, { minW: 88 }),
+    footer(w, h, L.note),
+  ];
+  return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
+}
+
+function firstAgentLoop(L) {
+  const w = 800;
+  const h = 430;
+  const body = [
+    header(w, L.header),
+    rowCards(
+      [
+        { n: 1, title: L.topic.title, lines: L.topic.lines },
+        { n: 2, title: L.task.title, lines: L.task.lines },
+        { n: 3, title: L.exec.title, lines: L.exec.lines },
+      ],
+      { y: 108, width: w, h: 110 },
+    ),
+    vArrow(400, 218, 238),
+    rowCards(
+      [
+        { n: 4, title: L.llm.title, lines: L.llm.lines },
+        { n: 5, title: L.tools.title, lines: L.tools.lines },
+      ],
+      { y: 238, width: w, h: 100 },
+    ),
+    pill(400, 228, L.loop, { minW: 90 }),
+    footer(w, h, L.note),
+  ];
+  return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
+}
+
+function multiAgentRoute(L) {
+  const w = 800;
+  const h = 440;
+  const body = [
+    header(w, L.header),
+    rowCards(
+      [
+        { n: 1, title: L.user.title, kicker: L.user.kicker },
+        { n: 2, title: L.meta.title, kicker: L.meta.kicker, lines: L.meta.lines },
+      ],
+      { y: 108, width: w, h: 100 },
+    ),
+    vArrow(400, 208, 228),
+    rowCards(
+      [
+        { title: L.mention.title, kicker: L.mention.kicker, lines: L.mention.lines },
+        { title: L.delegate.title, kicker: L.delegate.kicker, lines: L.delegate.lines },
+        { title: L.spawn.title, kicker: L.spawn.kicker, lines: L.spawn.lines },
+      ],
+      { y: 228, width: w, h: 118, arrows: false },
+    ),
+    footer(w, h, L.note),
+  ];
+  return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
+}
+
+function studioSse(L) {
+  const w = 800;
+  const h = 440;
+  const body = [
+    header(w, L.header),
+    rowCards(
+      [
+        { n: 1, title: L.ui.title, kicker: L.ui.kicker, lines: L.ui.lines },
+        { n: 2, title: L.main.title, kicker: L.main.kicker, lines: L.main.lines },
+        { n: 3, title: L.api.title, kicker: L.api.kicker, lines: L.api.lines },
+      ],
+      { y: 108, width: w, h: 118 },
+    ),
+    vArrow(400, 226, 246),
+    rowCards(
+      [
+        { n: 4, title: L.sm.title, lines: L.sm.lines },
+        { n: 5, title: L.ar.title, lines: L.ar.lines },
+        { n: 6, title: L.sse.title, lines: L.sse.lines },
+      ],
+      { y: 246, width: w, h: 110 },
+    ),
+    footer(w, h, L.note),
+  ];
+  return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
+}
+
+function knowledgeIngest(L) {
+  const w = 800;
+  const h = 450;
+  const body = [
+    header(w, L.header),
+    rowCards(
+      [
+        { n: 1, title: L.files.title, lines: L.files.lines },
+        { n: 2, title: L.parse.title, lines: L.parse.lines },
+        { n: 3, title: L.chunk.title, lines: L.chunk.lines },
+      ],
+      { y: 108, width: w, h: 100 },
+    ),
+    vArrow(400, 208, 228),
+    rowCards(
+      [
+        { n: 4, title: L.embed.title, lines: L.embed.lines },
+        { n: 5, title: L.store.title, lines: L.store.lines },
+        { n: 6, title: L.search.title, lines: L.search.lines },
+      ],
+      { y: 228, width: w, h: 100 },
+    ),
+    nodeCard(24, 344, 752, 56, { title: `${L.code.title}  ·  ${L.code.lines[0] ?? ''}` }),
+    footer(w, h, L.note),
+  ];
+  return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
+}
+
+function extensionsBundle(L) {
+  const w = 800;
+  const h = 440;
+  const body = [
+    header(w, L.header),
+    rowCards(
+      [
+        { n: 1, title: L.scan.title, lines: L.scan.lines },
+        { n: 2, title: L.guard.title, lines: L.guard.lines },
+        { n: 3, title: L.list.title, lines: L.list.lines },
+      ],
+      { y: 108, width: w, h: 110 },
+    ),
+    vArrow(400, 218, 238),
+    rowCards(
+      [
+        { title: L.use.title, kicker: L.use.kicker, lines: L.use.lines },
+        { title: L.prompt.title, kicker: L.prompt.kicker, lines: L.prompt.lines },
+        { title: L.mcp.title, kicker: L.mcp.kicker, lines: L.mcp.lines },
+      ],
+      { y: 238, width: w, h: 118, arrows: false },
+    ),
+    footer(w, h, L.note),
+  ];
+  return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
+}
+
+function deployServe(L) {
+  const w = 800;
+  const h = 400;
+  const body = [
+    header(w, L.header),
+    rowCards(
+      [
+        { n: 1, title: L.client.title, lines: L.client.lines },
+        { n: 2, title: L.serve.title, lines: L.serve.lines },
+        { n: 3, title: L.app.title, lines: L.app.lines },
+        { n: 4, title: L.disk.title, lines: L.disk.lines },
+      ],
+      { y: 108, width: w, h: 130 },
+    ),
+    pill(400, 250, L.proxy, { minW: 100 }),
+    footer(w, h, L.note),
+  ];
+  return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
+}
+
+function apiExecutor(L) {
+  const w = 800;
+  const h = 400;
+  const body = [
+    header(w, L.header),
+    rowCards(
+      [
+        { n: 1, title: L.agent.title, lines: L.agent.lines },
+        { n: 2, title: L.task.title, lines: L.task.lines },
+      ],
+      { y: 108, width: w, h: 100, arrows: false },
+    ),
+    vArrow(216, 208, 228),
+    vArrow(584, 208, 228),
+    rowCards(
+      [
+        { n: 3, title: L.exec.title, kicker: L.exec.kicker, lines: L.exec.lines },
+        { n: 4, title: L.result.title, kicker: L.result.kicker, lines: L.result.lines },
+      ],
+      { y: 228, width: w, h: 100 },
+    ),
+    footer(w, h, L.note),
+  ];
+  return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
+}
+
+function cliCommands(L) {
+  const w = 800;
+  const h = 360;
+  const body = [
+    header(w, L.header),
+    rowCards(
+      [
+        { n: 1, title: L.serve.title, kicker: L.serve.kicker, lines: L.serve.lines },
+        { n: 2, title: L.studio.title, kicker: L.studio.kicker, lines: L.studio.lines },
+        { n: 3, title: L.feishu.title, kicker: L.feishu.kicker, lines: L.feishu.lines },
+      ],
+      { y: 108, width: w, h: 160, arrows: false },
+    ),
+    footer(w, h, L.note),
+  ];
+  return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
+}
+
+function faqDoors(L) {
+  const w = 800;
+  const h = 420;
+  const body = [
+    header(w, L.header),
+    nodeCard(236, 108, 328, 72, { n: 1, title: L.q.title }),
+    vArrow(400, 180, 200),
+    rowCards(
+      [
+        { title: L.sdk.title, kicker: L.sdk.kicker, lines: L.sdk.lines },
+        { title: L.desk.title, kicker: L.desk.kicker, lines: L.desk.lines },
+        { title: L.ent.title, kicker: L.ent.kicker, lines: L.ent.lines },
+      ],
+      { y: 200, width: w, h: 140, arrows: false },
+    ),
+    footer(w, h, L.note),
+  ];
+  return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
+}
+
+function changelogArc(L) {
+  const w = 800;
+  const h = 340;
+  const body = [
+    header(w, L.header),
+    rowCards(
+      [
+        { n: 1, title: L.a.title, lines: L.a.lines },
+        { n: 2, title: L.b.title, lines: L.b.lines },
+        { n: 3, title: L.c.title, lines: L.c.lines },
+        { n: 4, title: L.d.title, lines: L.d.lines },
+      ],
+      { y: 108, width: w, h: 150 },
+    ),
+    footer(w, h, L.note),
+  ];
+  return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
+}
+
+function roadmapNext(L) {
+  const w = 800;
+  const h = 360;
+  const body = [
+    header(w, L.header),
+    nodeCard(24, 108, 752, 72, { n: 1, title: L.done.title, lines: L.done.lines }),
+    vArrow(400, 180, 200),
+    rowCards(
+      [
+        { title: L.m12.title, lines: L.m12.lines },
+        { title: L.m18.title, lines: L.m18.lines },
+        { title: L.cluster.title, lines: L.cluster.lines },
+      ],
+      { y: 200, width: w, h: 88, arrows: false },
+    ),
+    footer(w, h, L.note),
+  ];
+  return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
+}
+
+function guidesMap(L) {
+  const w = 800;
+  const h = 400;
+  const body = [
+    header(w, L.header),
+    rowCards(
+      [
+        { n: 1, title: L.a.title, lines: L.a.lines },
+        { n: 2, title: L.b.title, lines: L.b.lines },
+        { n: 3, title: L.c.title, lines: L.c.lines },
+      ],
+      { y: 108, width: w, h: 110, arrows: false },
+    ),
+    rowCards(
+      [
+        { n: 4, title: L.d.title, lines: L.d.lines },
+        { n: 5, title: L.e.title, lines: L.e.lines },
+        { n: 6, title: L.f.title, lines: L.f.lines },
+      ],
+      { y: 232, width: w, h: 110, arrows: false },
+    ),
+    footer(w, h, L.note),
+  ];
+  return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
+}
+
+function apiMap(L) {
+  const w = 800;
+  const h = 400;
+  const body = [
+    header(w, L.header),
+    nodeCard(24, 108, 752, 80, { n: 1, title: L.sdk.title, kicker: L.sdk.kicker, lines: L.sdk.lines }),
+    vArrow(400, 188, 208),
+    rowCards(
+      [
+        { title: L.agents.title, lines: L.agents.lines },
+        { title: L.concepts.title, lines: L.concepts.lines },
+        { title: L.runtime.title, lines: L.runtime.lines },
+      ],
+      { y: 208, width: w, h: 120, arrows: false },
+    ),
+    footer(w, h, L.note),
+  ];
+  return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
+}
+
 const copy = {
   'architecture-forms': {
     fn: architectureForms,
@@ -939,6 +1341,403 @@ const copy = {
       commit: { title: '提交', lines: ['token 账本'] },
       retry: '重试',
       note: '崩溃后同一功能目录和状态文件还应在。进度卡要写出阶段，不是静止沙漏。',
+    },
+  },
+  'intro-path': {
+    fn: introPath,
+    en: {
+      header: { eyebrow: 'Introduction', title: 'How a request moves', subtitle: 'Near and the SDK are doors. Studio + AgentRuntime is the loop.' },
+      desc: 'You pick Near or the SDK, then Studio calls AgentRuntime, which talks to tools, models, and memory.',
+      you: { kicker: 'Human', title: 'You' },
+      door: { kicker: 'Door', title: 'Near or SDK' },
+      studio: { kicker: 'Process', title: 'Studio Server' },
+      rt: { kicker: 'Loop', title: 'AgentRuntime' },
+      tools: { title: 'Tools / MCP / Skills', lines: ['dispatch_tool_async'] },
+      llm: { title: 'Model provider', lines: ['BaseLLMProvider'] },
+      mem: { title: 'Memory / KB', lines: ['MEMORY.md · brains'] },
+      note: 'Enterprise Gateway is a different process. It relays models; it does not run this loop.',
+    },
+    zh: {
+      header: { eyebrow: '简介', title: '一轮请求怎么走', subtitle: 'Near 和 SDK 是门。Studio + AgentRuntime 才是循环。' },
+      desc: '先选 Near 或 SDK，再由 Studio 调用 AgentRuntime，去打工具、模型和记忆。',
+      you: { kicker: '人', title: '你' },
+      door: { kicker: '入口', title: 'Near 或 SDK' },
+      studio: { kicker: '进程', title: 'Studio Server' },
+      rt: { kicker: '循环', title: 'AgentRuntime' },
+      tools: { title: '工具 / MCP / 技能', lines: ['dispatch_tool_async'] },
+      llm: { title: '模型供应商', lines: ['BaseLLMProvider'] },
+      mem: { title: '记忆 / 知识库', lines: ['MEMORY.md · 知识脑'] },
+      note: 'Enterprise 网关是另一个进程。它做模型中继，不跑这套循环。',
+    },
+  },
+  'install-paths': {
+    fn: installPaths,
+    en: {
+      header: { eyebrow: 'Install', title: 'One package, two ways to start', subtitle: 'pip install agenticx gives the CLI and the Python SDK.' },
+      desc: 'CLI starts agx serve for Near. The SDK embeds AgentExecutor in your process.',
+      pip: { title: 'pip install agenticx', lines: ['Public Python package'] },
+      cli: { kicker: 'CLI', title: 'agx', lines: ['agx serve', 'Near attaches here'] },
+      sdk: { kicker: 'SDK', title: 'Python import', lines: ['AgentExecutor', 'Your process'] },
+      note: 'Near Desktop embeds the same backend. A machine without Python still needs the packaged server, not a second runtime.',
+    },
+    zh: {
+      header: { eyebrow: '安装', title: '一个包，两条起步路', subtitle: 'pip install agenticx 同时给出 CLI 和 Python SDK。' },
+      desc: 'CLI 拉起 agx serve 给 Near。SDK 在你的进程里嵌入 AgentExecutor。',
+      pip: { title: 'pip install agenticx', lines: ['公开 Python 包'] },
+      cli: { kicker: 'CLI', title: 'agx', lines: ['agx serve', 'Near 挂在这里'] },
+      sdk: { kicker: 'SDK', title: 'Python import', lines: ['AgentExecutor', '你的进程'] },
+      note: 'Near 桌面内嵌同一套后端。没有 Python 的机器用打包好的 server，不是第二套运行时。',
+    },
+  },
+  'quickstart-paths': {
+    fn: quickstartPaths,
+    en: {
+      header: { eyebrow: 'Quick start', title: 'Two first runs — they are not the same loop', subtitle: 'Do not mix AgentExecutor constructor args with AgentRuntime.' },
+      desc: 'SDK path returns a dict. Studio path streams SSE to Near or an HTTP client.',
+      trackA: 'SDK path',
+      trackB: 'Studio / Near path',
+      a: { title: 'Agent + Task', lines: ['agenticx.core'] },
+      b: { title: 'AgentExecutor.run', lines: ['llm_provider=', 'run(agent=, task=)'] },
+      c: { title: 'dict result', lines: ['In your process'] },
+      d: { title: 'agx serve', lines: ['create_studio_app'] },
+      e: { title: 'Near or HTTP', lines: ['REST + SSE'] },
+      f: { title: 'AgentRuntime.run_turn', lines: ['messages.json'] },
+      note: 'agx studio is a terminal REPL, not the FastAPI process Near talks to.',
+    },
+    zh: {
+      header: { eyebrow: '快速上手', title: '两种第一次运行——不是同一套循环', subtitle: '不要把 AgentExecutor 的构造参数和 AgentRuntime 混用。' },
+      desc: 'SDK 路径返回 dict。Studio 路径把 SSE 推给 Near 或 HTTP 客户端。',
+      trackA: 'SDK 路径',
+      trackB: 'Studio / Near 路径',
+      a: { title: 'Agent + Task', lines: ['agenticx.core'] },
+      b: { title: 'AgentExecutor.run', lines: ['llm_provider=', 'run(agent=, task=)'] },
+      c: { title: 'dict 结果', lines: ['在你的进程里'] },
+      d: { title: 'agx serve', lines: ['create_studio_app'] },
+      e: { title: 'Near 或 HTTP', lines: ['REST + SSE'] },
+      f: { title: 'AgentRuntime.run_turn', lines: ['messages.json'] },
+      note: 'agx studio 是终端 REPL，不是 Near 连接的 FastAPI 进程。',
+    },
+  },
+  'config-yaml': {
+    fn: configYaml,
+    en: {
+      header: { eyebrow: 'Configuration', title: 'One YAML file, plus env overrides', subtitle: 'Green provider status needs a key or a custom base — not the official default URL alone.' },
+      desc: 'config.yaml drives serve, tool rounds, providers, and skill scan paths.',
+      yaml: { kicker: 'Disk', title: '~/.agenticx/config.yaml', lines: ['providers.* · skills.disabled · runtime.max_tool_rounds'] },
+      serve: { title: 'agx serve / Near', lines: ['Reads on boot'] },
+      runtime: { title: 'runtime.*', lines: ['max_tool_rounds'] },
+      providers: { title: 'providers.*', lines: ['Key or custom base'] },
+      skills: { title: 'skills.*', lines: ['disabled · scan paths'] },
+      env: 'env vars',
+      note: 'Clearing both the key and the custom base turns the provider off. Ollama still needs a reachable URL.',
+    },
+    zh: {
+      header: { eyebrow: '配置', title: '一份 YAML，环境变量可以覆盖', subtitle: '供应商绿灯要密钥或自定义地址——不是只用官方默认 URL。' },
+      desc: 'config.yaml 驱动 serve、工具轮次、供应商和技能扫描路径。',
+      yaml: { kicker: '磁盘', title: '~/.agenticx/config.yaml', lines: ['providers.* · skills.disabled · runtime.max_tool_rounds'] },
+      serve: { title: 'agx serve / Near', lines: ['启动时读取'] },
+      runtime: { title: 'runtime.*', lines: ['max_tool_rounds'] },
+      providers: { title: 'providers.*', lines: ['密钥或自定义地址'] },
+      skills: { title: 'skills.*', lines: ['disabled · 扫描路径'] },
+      env: '环境变量',
+      note: '密钥和自定义地址都清空视为关闭。Ollama 仍要可访问的地址。',
+    },
+  },
+  'first-agent-loop': {
+    fn: firstAgentLoop,
+    en: {
+      header: { eyebrow: 'First agent', title: 'SDK research loop: task in, report out', subtitle: 'This is AgentExecutor, not a Near pane.' },
+      desc: 'Topic becomes a Task; tool_calls loop until the model returns text.',
+      topic: { title: 'Topic', lines: ['Your question'] },
+      task: { title: 'Task', lines: ['description', 'expected_output'] },
+      exec: { title: 'AgentExecutor.run', lines: ['llm_provider='] },
+      llm: { title: 'LLM', lines: ['text → report'] },
+      tools: { title: 'search / fetch', lines: ['@tool functions'] },
+      loop: 'tool_calls',
+      note: 'There is no max_iter or verbose on Agent. Use max_iterations on the executor.',
+    },
+    zh: {
+      header: { eyebrow: '第一个智能体', title: 'SDK 研究环：任务进，报告出', subtitle: '这是 AgentExecutor，不是 Near 窗格。' },
+      desc: '主题变成 Task；tool_calls 回环直到模型吐出文本。',
+      topic: { title: '主题', lines: ['你的问题'] },
+      task: { title: 'Task', lines: ['description', 'expected_output'] },
+      exec: { title: 'AgentExecutor.run', lines: ['llm_provider='] },
+      llm: { title: 'LLM', lines: ['文本 → 报告'] },
+      tools: { title: '搜索 / 抓取', lines: ['@tool 函数'] },
+      loop: 'tool_calls',
+      note: 'Agent 上没有 max_iter 或 verbose。轮次上限用执行器的 max_iterations。',
+    },
+  },
+  'multi-agent-route': {
+    fn: multiAgentRoute,
+    en: {
+      header: { eyebrow: 'Multi-agent', title: 'Meta routes; avatars actually run', subtitle: 'Do not construct AgentTeamManager(agents=[...]).' },
+      desc: '@mention, delegate_to_avatar, or spawn_subagent — replies land in a pane or group.',
+      user: { kicker: 'Chat', title: 'User' },
+      meta: { kicker: 'Router', title: 'Meta-Agent', lines: ['Default if no @'] },
+      mention: { kicker: '@name', title: 'Named avatar', lines: ['Speaks in the group'] },
+      delegate: { kicker: 'Tool', title: 'delegate_to_avatar', lines: ['Real avatar session'] },
+      spawn: { kicker: 'Tool', title: 'spawn_subagent', lines: ['AgentTeamManager'] },
+      note: 'Spawn will refuse a registered avatar name and tell you to delegate instead.',
+    },
+    zh: {
+      header: { eyebrow: '多智能体', title: 'Meta 负责路由；分身真正去跑', subtitle: '不要写 AgentTeamManager(agents=[...])。' },
+      desc: '@提及、delegate_to_avatar 或 spawn_subagent —— 回复落在窗格或群里。',
+      user: { kicker: '对话', title: '用户' },
+      meta: { kicker: '路由', title: 'Meta-Agent', lines: ['没 @ 时兜底'] },
+      mention: { kicker: '@名字', title: '具名分身', lines: ['在群里发言'] },
+      delegate: { kicker: '工具', title: 'delegate_to_avatar', lines: ['真分身会话'] },
+      spawn: { kicker: '工具', title: 'spawn_subagent', lines: ['AgentTeamManager'] },
+      note: 'spawn 会拦截已注册分身名，并让你改走委派。',
+    },
+  },
+  'studio-sse': {
+    fn: studioSse,
+    en: {
+      header: { eyebrow: 'Studio', title: 'Near talks HTTP + SSE to one local process', subtitle: 'agx studio (REPL) is a different command.' },
+      desc: 'Renderer → Electron main → FastAPI → SessionManager / AgentRuntime → SSE back.',
+      ui: { kicker: 'Renderer', title: 'Near UI', lines: ['React panes'] },
+      main: { kicker: 'Main', title: 'Electron', lines: ['spawn / fetch'] },
+      api: { kicker: 'HTTP', title: 'Studio FastAPI', lines: ['create_studio_app'] },
+      sm: { title: 'SessionManager', lines: ['messages.json'] },
+      ar: { title: 'AgentRuntime', lines: ['run_turn'] },
+      sse: { title: 'SSE events', lines: ['Back to the pane'] },
+      note: 'Leaving a pane may abort the browser fetch while the turn still finishes on disk.',
+    },
+    zh: {
+      header: { eyebrow: 'Studio', title: 'Near 用 HTTP + SSE 连本机这一份进程', subtitle: 'agx studio（REPL）是另一条命令。' },
+      desc: '渲染进程 → Electron 主进程 → FastAPI → SessionManager / AgentRuntime → SSE 回来。',
+      ui: { kicker: '渲染', title: 'Near 界面', lines: ['React 窗格'] },
+      main: { kicker: '主进程', title: 'Electron', lines: ['拉起 / 请求'] },
+      api: { kicker: 'HTTP', title: 'Studio FastAPI', lines: ['create_studio_app'] },
+      sm: { title: 'SessionManager', lines: ['messages.json'] },
+      ar: { title: 'AgentRuntime', lines: ['run_turn'] },
+      sse: { title: 'SSE 事件', lines: ['回到窗格'] },
+      note: '离开窗格可能中止浏览器 fetch，但这一轮仍可能在磁盘上跑完。',
+    },
+  },
+  'knowledge-ingest': {
+    fn: knowledgeIngest,
+    en: {
+      header: { eyebrow: 'Knowledge', title: 'Parse, chunk, embed, then search', subtitle: 'DashScope embedding batches must stay ≤ 10.' },
+      desc: 'LiteParseAdapter is the only parse path. Repo index is a second search tool.',
+      files: { title: 'Files / folders', lines: ['md / pdf / office'] },
+      parse: { title: 'LiteParseAdapter', lines: ['No raw-text fallback'] },
+      chunk: { title: 'chunk', lines: ['Then embed'] },
+      embed: { title: 'embedding', lines: ['Batches of ≤10'] },
+      store: { title: 'Chroma default', lines: ['Optional other stores'] },
+      search: { title: 'knowledge_search', lines: ['Studio tool'] },
+      code: { title: 'Repo index', lines: ['code_search is a separate path'] },
+      note: 'Ingest must show real percent or stage text. Failures need the filename and the exception chain, not a single token.',
+    },
+    zh: {
+      header: { eyebrow: '知识库', title: '解析、分块、向量化，再检索', subtitle: '百炼 embedding 批量必须 ≤ 10。' },
+      desc: '解析只走 LiteParseAdapter。仓库索引是另一条检索工具。',
+      files: { title: '文件 / 文件夹', lines: ['md / pdf / office'] },
+      parse: { title: 'LiteParseAdapter', lines: ['不回退纯文本直读'] },
+      chunk: { title: '分块', lines: ['然后向量化'] },
+      embed: { title: 'embedding', lines: ['每批 ≤10'] },
+      store: { title: '默认 Chroma', lines: ['可换其他库'] },
+      search: { title: 'knowledge_search', lines: ['Studio 工具'] },
+      code: { title: '仓库索引', lines: ['code_search 是另一条路'] },
+      note: '入库必须露出真实百分比或阶段。失败要带文件名和异常链，不能只丢一个 token。',
+    },
+  },
+  'extensions-bundle': {
+    fn: extensionsBundle,
+    en: {
+      header: { eyebrow: 'Extensions', title: 'Scan and guard before a skill is visible', subtitle: 'An AGX Bundle can also drop MCP servers.' },
+      desc: 'skill_use is path 1. active_skill in the system prompt is path 2.',
+      scan: { title: 'Scan roots', lines: ['build_skill_search_paths'] },
+      guard: { title: 'scan_skill', lines: ['should_allow'] },
+      list: { title: 'Skill list', lines: ['Per-skill toggles'] },
+      use: { kicker: 'Path 1', title: 'skill_use', lines: ['Progressive disclose'] },
+      prompt: { kicker: 'Path 2', title: 'active_skill', lines: ['System prompt'] },
+      mcp: { kicker: 'Also', title: 'MCPHub', lines: ['marketplace / mcp.json'] },
+      note: 'Empty marketplace search must return the full catalog, not a curated slice.',
+    },
+    zh: {
+      header: { eyebrow: '扩展', title: '先扫描和门禁，技能才进入可见集', subtitle: 'AGX Bundle 也可以带上 MCP。' },
+      desc: 'skill_use 是路径 1。系统提示里的 active_skill 是路径 2。',
+      scan: { title: '扫描根目录', lines: ['build_skill_search_paths'] },
+      guard: { title: 'scan_skill', lines: ['should_allow'] },
+      list: { title: '技能列表', lines: ['单技能开关'] },
+      use: { kicker: '路径 1', title: 'skill_use', lines: ['渐进披露'] },
+      prompt: { kicker: '路径 2', title: 'active_skill', lines: ['系统提示'] },
+      mcp: { kicker: '另外', title: 'MCPHub', lines: ['市场 / mcp.json'] },
+      note: '市场搜索为空时必须回全量，不能继续只展示精选。',
+    },
+  },
+  'deploy-serve': {
+    fn: deployServe,
+    en: {
+      header: { eyebrow: 'Deploy', title: 'Clients hit agx serve; state stays on disk', subtitle: 'Nginx is optional. The app is still create_studio_app().' },
+      desc: 'Near or other clients call Studio. ~/.agenticx holds sessions and config.',
+      client: { title: 'Near / clients', lines: ['REST + SSE'] },
+      serve: { title: 'agx serve', lines: ['Host + port'] },
+      app: { title: 'create_studio_app', lines: ['FastAPI'] },
+      disk: { title: '~/.agenticx', lines: ['config · sessions'] },
+      proxy: 'Nginx optional',
+      note: 'Do not put a long-run job on a laptop that will sleep the lid. Desktop still binds localhost by default.',
+    },
+    zh: {
+      header: { eyebrow: '部署', title: '客户端打 agx serve；状态留在磁盘', subtitle: 'Nginx 可选。应用仍是 create_studio_app()。' },
+      desc: 'Near 或其他客户端调用 Studio。~/.agenticx 放会话和配置。',
+      client: { title: 'Near / 客户端', lines: ['REST + SSE'] },
+      serve: { title: 'agx serve', lines: ['地址 + 端口'] },
+      app: { title: 'create_studio_app', lines: ['FastAPI'] },
+      disk: { title: '~/.agenticx', lines: ['配置 · 会话'] },
+      proxy: '可选 Nginx',
+      note: '长任务不要放在会合盖休眠的笔记本上。桌面端默认仍只绑本机。',
+    },
+  },
+  'api-executor': {
+    fn: apiExecutor,
+    en: {
+      header: { eyebrow: 'Agents API', title: 'Construct the executor, pass the agent at run()', subtitle: 'This page is agenticx.core — not AgentRuntime.' },
+      desc: 'Agent + Task + llm_provider + tools go into AgentExecutor.run and return a dict.',
+      agent: { title: 'Agent', lines: ['name · role · goal', 'tools · max_iterations'] },
+      task: { title: 'Task', lines: ['description', 'expected_output'] },
+      exec: { kicker: 'Python', title: 'AgentExecutor', lines: ['llm_provider=', 'run(agent=, task=)'] },
+      result: { kicker: 'Return', title: 'dict result', lines: ['Same process'] },
+      note: 'There is no agent=, llm=, or verbose= on the constructor. Source is agenticx/core/, not agenticx/agents/.',
+    },
+    zh: {
+      header: { eyebrow: 'Agents API', title: '先构造执行器，run() 时再传入 agent', subtitle: '本页是 agenticx.core，不是 AgentRuntime。' },
+      desc: 'Agent + Task + llm_provider + tools 进入 AgentExecutor.run，返回 dict。',
+      agent: { title: 'Agent', lines: ['name · role · goal', 'tools · max_iterations'] },
+      task: { title: 'Task', lines: ['description', 'expected_output'] },
+      exec: { kicker: 'Python', title: 'AgentExecutor', lines: ['llm_provider=', 'run(agent=, task=)'] },
+      result: { kicker: '返回', title: 'dict 结果', lines: ['同一进程'] },
+      note: '构造器没有 agent=、llm=、verbose=。源码在 agenticx/core/，不是 agenticx/agents/。',
+    },
+  },
+  'cli-commands': {
+    fn: cliCommands,
+    en: {
+      header: { eyebrow: 'CLI', title: 'Daily commands vs the REPL', subtitle: 'Near talks to agx serve, not agx studio.' },
+      desc: 'serve is FastAPI. studio is a terminal REPL. feishu attaches to the same HTTP process.',
+      serve: { kicker: 'HTTP + SSE', title: 'agx serve', lines: ['create_studio_app', 'Writes serve.port'] },
+      studio: { kicker: 'REPL', title: 'agx studio', lines: ['Interactive terminal', 'Not the desktop backend'] },
+      feishu: { kicker: 'IM', title: 'agx feishu', lines: ['Long connection', 'Uses serve.port / token'] },
+      note: 'Scaffold groups (project / agent / workflow) exist. Run agx --help for the live list.',
+    },
+    zh: {
+      header: { eyebrow: 'CLI', title: '日常命令和 REPL 不是一回事', subtitle: 'Near 连的是 agx serve，不是 agx studio。' },
+      desc: 'serve 是 FastAPI。studio 是终端 REPL。飞书挂在同一份 HTTP 进程上。',
+      serve: { kicker: 'HTTP + SSE', title: 'agx serve', lines: ['create_studio_app', '写入 serve.port'] },
+      studio: { kicker: 'REPL', title: 'agx studio', lines: ['交互终端', '不是桌面后端'] },
+      feishu: { kicker: 'IM', title: 'agx feishu', lines: ['长连接', '读 serve.port / token'] },
+      note: '脚手架分组（project / agent / workflow）也在。以 agx --help 为准。',
+    },
+  },
+  'faq-doors': {
+    fn: faqDoors,
+    en: {
+      header: { eyebrow: 'FAQ', title: 'What are you actually doing?', subtitle: 'Pick one door. They do not share a process.' },
+      desc: 'Embed in Python, use the local workspace, or put a governed web portal in front.',
+      q: { title: 'What are you doing?' },
+      sdk: { kicker: 'Embed', title: 'Python SDK', lines: ['AgentExecutor', 'Quickstart SDK'] },
+      desk: { kicker: 'Local', title: 'Near workspace', lines: ['agx serve + Near'] },
+      ent: { kicker: 'Governed', title: 'Enterprise', lines: ['Portal + Gateway'] },
+      note: 'The Gateway is not AgentRuntime. Empty lists in Near usually mean serve crashed, not deleted data.',
+    },
+    zh: {
+      header: { eyebrow: '常见问题', title: '你到底在做什么？', subtitle: '先选一扇门。它们不共享一个进程。' },
+      desc: '嵌进 Python、用本机工作区，或在前面放受治理的 Web 门户。',
+      q: { title: '你在做什么？' },
+      sdk: { kicker: '嵌入', title: 'Python SDK', lines: ['AgentExecutor', '快速上手 SDK'] },
+      desk: { kicker: '本机', title: 'Near 工作区', lines: ['agx serve + Near'] },
+      ent: { kicker: '治理', title: 'Enterprise', lines: ['Portal + 网关'] },
+      note: '网关不是 AgentRuntime。Near 列表全空通常是 serve 崩了，不是数据被删。',
+    },
+  },
+  'changelog-arc': {
+    fn: changelogArc,
+    en: {
+      header: { eyebrow: 'Changelog', title: 'How the shipped arc reads', subtitle: 'Milestones are product slices, not marketing versions.' },
+      desc: 'Core M1–M11, then Near/Studio, then v0.5 brains / long-run / learning.',
+      a: { title: 'M1–M11', lines: ['Capability core'] },
+      b: { title: 'M14–M17', lines: ['Near / Studio'] },
+      c: { title: 'v0.5', lines: ['Brains · long-run', 'Learning'] },
+      d: { title: 'Next', lines: ['M12 / M18', 'Cluster planned'] },
+      note: 'Read the GitHub releases for exact tags. This diagram is the story, not a substitute for the log.',
+    },
+    zh: {
+      header: { eyebrow: '更新日志', title: '已落地的弧怎么读', subtitle: '里程碑是产品切片，不是营销版本号。' },
+      desc: '核心 M1–M11，然后 Near/Studio，然后 v0.5 多脑 / 长周期 / 自进化。',
+      a: { title: 'M1–M11', lines: ['能力核心'] },
+      b: { title: 'M14–M17', lines: ['Near / Studio'] },
+      c: { title: 'v0.5', lines: ['多脑 · 长周期', '自进化'] },
+      d: { title: '接下来', lines: ['M12 / M18', '集群规划中'] },
+      note: '具体 tag 看 GitHub releases。这张图是故事线，不能代替更新日志。',
+    },
+  },
+  'roadmap-next': {
+    fn: roadmapNext,
+    en: {
+      header: { eyebrow: 'Roadmap', title: 'Shipped vs still planned', subtitle: 'M12, M18, and cluster runtime are not in the current Near loop.' },
+      desc: 'Core + Near/Studio + v0.5 are out. Evolution, Studio RBAC, and cluster are next.',
+      done: { title: 'Shipped: M1–M11 / M13–M17 / v0.5', lines: ['Core · Near · Studio · brains · long-run · learning'] },
+      m12: { title: 'M12 evolution', lines: ['Control-plane work'] },
+      m18: { title: 'M18 Studio RBAC', lines: ['Not Desktop ACL'] },
+      cluster: { title: 'Cluster Runtime', lines: ['Planned'] },
+      note: 'Do not treat a planned box as a live API. If a page says planned, the code path is not the default product.',
+    },
+    zh: {
+      header: { eyebrow: '路线图', title: '已落地和还在规划', subtitle: 'M12、M18、集群 Runtime 还不在当前 Near 循环里。' },
+      desc: '核心 + Near/Studio + v0.5 已出。进化、Studio RBAC、集群是下一步。',
+      done: { title: '已落地：M1–M11 / M13–M17 / v0.5', lines: ['核心 · Near · Studio · 多脑 · 长周期 · 自进化'] },
+      m12: { title: 'M12 进化', lines: ['控制面工作'] },
+      m18: { title: 'M18 Studio RBAC', lines: ['不是桌面 ACL'] },
+      cluster: { title: '集群 Runtime', lines: ['规划中'] },
+      note: '规划框不是现成 API。页面写了规划中，就不要当默认产品路径。',
+    },
+  },
+  'guides-map': {
+    fn: guidesMap,
+    en: {
+      header: { eyebrow: 'Guides', title: 'Six how-to pages, one job each', subtitle: 'These are walks. Concepts explain the loop; guides show the first successful run.' },
+      desc: 'First agent, multi-agent, Studio, knowledge, extensions, deploy.',
+      a: { title: 'First agent', lines: ['SDK research loop'] },
+      b: { title: 'Multi-agent', lines: ['Meta · @ · delegate'] },
+      c: { title: 'Studio', lines: ['agx serve + SSE'] },
+      d: { title: 'Knowledge', lines: ['LiteParse · Chroma'] },
+      e: { title: 'Extensions', lines: ['Skills · MCP · Bundle'] },
+      f: { title: 'Deploy', lines: ['serve + disk'] },
+      note: 'Enterprise portal deploy is a different docs set. This section stays on the Python / Near path.',
+    },
+    zh: {
+      header: { eyebrow: '指南', title: '六篇 HOWTO，各做一件事', subtitle: '概念页讲循环；指南页带你跑通第一次。' },
+      desc: '第一个智能体、多智能体、Studio、知识库、扩展、部署。',
+      a: { title: '第一个智能体', lines: ['SDK 研究环'] },
+      b: { title: '多智能体', lines: ['Meta · @ · 委派'] },
+      c: { title: 'Studio', lines: ['agx serve + SSE'] },
+      d: { title: '知识库', lines: ['LiteParse · Chroma'] },
+      e: { title: '扩展', lines: ['技能 · MCP · Bundle'] },
+      f: { title: '部署', lines: ['serve + 磁盘'] },
+      note: 'Enterprise 门户部署是另一套文档。本节只走 Python / Near 这条路。',
+    },
+  },
+  'api-map': {
+    fn: apiMap,
+    en: {
+      header: { eyebrow: 'API reference', title: 'SDK types live here; the chat loop lives in Concepts', subtitle: 'Only the Agents page is a field-level SDK reference today.' },
+      desc: 'Agent / Task / AgentExecutor are documented. LLMs, Tools, Memory, Flow point at the concept pages.',
+      sdk: { kicker: 'agenticx.core', title: 'Public SDK constructors', lines: ['Agent · Task · AgentExecutor(llm_provider=)'] },
+      agents: { title: 'Agents page', lines: ['Fields and run()'] },
+      concepts: { title: 'Concept pages', lines: ['LLMs · Tools', 'Memory · Flow'] },
+      runtime: { title: 'Near / Studio', lines: ['AgentRuntime', 'Not this executor'] },
+      note: 'Sidebar LLMs / Tools / Memory / Flow are the concept docs until a dedicated SDK page exists. Do not invent extra constructors.',
+    },
+    zh: {
+      header: { eyebrow: 'API 参考', title: 'SDK 类型在这里；对话循环在概念页', subtitle: '目前只有 Agents 页是字段级 SDK 参考。' },
+      desc: 'Agent / Task / AgentExecutor 有字段说明。LLMs、Tools、Memory、Flow 先看概念页。',
+      sdk: { kicker: 'agenticx.core', title: '公开 SDK 构造', lines: ['Agent · Task · AgentExecutor(llm_provider=)'] },
+      agents: { title: 'Agents 页', lines: ['字段和 run()'] },
+      concepts: { title: '概念页', lines: ['LLMs · Tools', 'Memory · Flow'] },
+      runtime: { title: 'Near / Studio', lines: ['AgentRuntime', '不是这个执行器'] },
+      note: '侧栏 LLMs / Tools / Memory / Flow 在独立 SDK 页补齐前，先读概念文档。不要发明额外构造器。',
     },
   },
 };

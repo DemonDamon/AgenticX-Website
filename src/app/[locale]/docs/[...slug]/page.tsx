@@ -27,6 +27,8 @@ import { studioContent } from './content/studio';
 import { knowledgeContent } from './content/knowledge';
 import { extensionsContent } from './content/extensions';
 import { deploymentContent } from './content/deployment';
+import { guidesContent } from './content/guides';
+import { apiContent } from './content/api';
 import { apiAgentsContent } from './content/api-agents';
 import { cliContent } from './content/cli';
 import { faqContent } from './content/faq';
@@ -51,13 +53,19 @@ const docsMap: Record<string, LocalizedDoc> = {
   'concepts/hooks': hooksContent,
   'concepts/skills': skillsContent,
   'concepts/long-run': longRunContent,
+  'guides': guidesContent,
   'guides/first-agent': firstAgentContent,
   'guides/multi-agent': multiAgentContent,
   'guides/studio': studioContent,
   'guides/knowledge': knowledgeContent,
   'guides/extensions': extensionsContent,
   'guides/deployment': deploymentContent,
+  'api': apiContent,
   'api/agents': apiAgentsContent,
+  'api/llms': llmProvidersContent,
+  'api/tools': toolsContent,
+  'api/memory': memoryContent,
+  'api/flow': flowContent,
   'cli': cliContent,
   'faq': faqContent,
   'changelog': changelogContent,
@@ -76,9 +84,13 @@ function resolveLocale(raw: string): Locale {
 }
 
 export async function generateStaticParams() {
-  return flatNavigation.map((item) => ({
-    slug: item.slug.split('/'),
-  }));
+  const extras = [{ slug: ['guides'] }, { slug: ['api'] }];
+  return [
+    ...flatNavigation.map((item) => ({
+      slug: item.slug.split('/'),
+    })),
+    ...extras,
+  ];
 }
 
 export async function generateMetadata({ params }: PageProps) {

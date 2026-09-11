@@ -8,14 +8,9 @@ The live file is \`~/.agenticx/config.yaml\`. Near settings write here. Studio a
 
 Use this page when you need a provider, tool-round cap, or skill scan path. You do not need every section to start.
 
-\`\`\`mermaid
-flowchart TB
-  yaml["~/.agenticx/config.yaml"] --> serve["agx serve / Near"]
-  yaml --> runtime["runtime.max_tool_rounds"]
-  yaml --> providers["providers.*"]
-  yaml --> skills["skills.disabled / scan paths"]
-  env["Environment variables"] --> providers
-\`\`\`
+![config.yaml and env vars feed serve and providers](/docs/svg/config-yaml-en.svg?v=2)
+
+*Diagram: ~/.agenticx/config.yaml plus env vars drive serve, runtime, providers, and skills.*
 
 !!! tip "Configured vs official default"
     A provider counts as configured when an API key **or a custom API base** is non-empty. Leaving only the official default base empty does not count. Local providers such as Ollama need a reachable API address.
@@ -145,14 +140,9 @@ tools:
 
 只在需要配供应商、工具轮次上限或技能扫描路径时改。不是每一节都要填。
 
-\`\`\`mermaid
-flowchart TB
-  yaml["~/.agenticx/config.yaml"] --> serve["agx serve / Near"]
-  yaml --> runtime["runtime.max_tool_rounds"]
-  yaml --> providers["providers.*"]
-  yaml --> skills["skills.disabled / 扫描路径"]
-  env["环境变量"] --> providers
-\`\`\`
+![config.yaml 与环境变量驱动 serve 和供应商](/docs/svg/config-yaml-zh.svg?v=2)
+
+*示意图：~/.agenticx/config.yaml 加上环境变量，驱动 serve、运行时、供应商和技能。*
 
 !!! tip "什么叫已配置"
     供应商「已配置」指 API 密钥或**自定义** API 地址至少一项非空。只留官方默认 Base 不算。Ollama 这类本机供应商必须填可访问地址。

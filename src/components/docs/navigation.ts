@@ -14,6 +14,8 @@ export interface DocNavItem {
 export interface DocNavSection {
   title: string;
   titleZh?: string;
+  /** Section landing page, e.g. `guides` → /docs/guides */
+  slug?: string;
   items: DocNavItem[];
 }
 
@@ -61,6 +63,7 @@ export const docNavigation: DocNavSection[] = [
   {
     title: 'Guides',
     titleZh: '指南',
+    slug: 'guides',
     items: [
       { title: 'First Agent', titleZh: '第一个智能体', slug: 'guides/first-agent' },
       { title: 'Multi-Agent', titleZh: '多智能体', slug: 'guides/multi-agent' },
@@ -73,6 +76,7 @@ export const docNavigation: DocNavSection[] = [
   {
     title: 'API Reference',
     titleZh: 'API 参考',
+    slug: 'api',
     items: [
       { title: 'Agents', titleZh: 'Agents', slug: 'api/agents' },
       { title: 'LLMs', titleZh: 'LLMs', slug: 'api/llms' },

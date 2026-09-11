@@ -6,12 +6,9 @@ export const changelogContent = {
 
 Shipped capabilities vs planned work. Version-by-version notes stay on [GitHub Releases](https://github.com/DemonDamon/AgenticX/releases).
 
-\`\`\`mermaid
-flowchart LR
-  core["M1-M11 core"] --> desk["M14-M17 Near / Studio"]
-  desk --> v05["v0.5 brains / long-run / learning"]
-  v05 --> next["M12 / M18 / cluster planned"]
-\`\`\`
+![Shipped milestone arc](/docs/svg/changelog-arc-en.svg?v=2)
+
+*Diagram: core milestones, then Near/Studio, then v0.5 brains / long-run.*
 
 ---
 
@@ -50,12 +47,9 @@ Avatar and group chat, MCP Hub, hierarchical memory, Studio SSE, and the Desktop
 
 已落地能力与规划项对照。逐版本说明仍以 [GitHub Releases](https://github.com/DemonDamon/AgenticX/releases) 为准。
 
-\`\`\`mermaid
-flowchart LR
-  core["M1-M11 核心"] --> desk["M14-M17 Near / Studio"]
-  desk --> v05["v0.5 多脑 / 长周期 / 自进化"]
-  v05 --> next["M12 / M18 / 集群规划中"]
-\`\`\`
+![已落地里程碑弧](/docs/svg/changelog-arc-zh.svg?v=2)
+
+*示意图：先核心里程碑，再 Near/Studio，再 v0.5 多脑 / 长周期。*
 
 ---
 

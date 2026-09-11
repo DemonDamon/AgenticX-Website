@@ -6,15 +6,9 @@ export const multiAgentContent = {
 
 Use this when **more than one identity** must work on a task. Near group chat and Studio sub-agents are the product path. A Python script that calls \`AgentExecutor.run\` twice is just two sequential jobs — that is not a team.
 
-\`\`\`mermaid
-flowchart TB
-  user["User"] --> meta["Meta-Agent"]
-  meta -->|at mention| member["Named avatar"]
-  meta -->|delegate_to_avatar| session["Avatar session"]
-  meta -->|spawn_subagent| team["AgentTeamManager"]
-  session --> reply["Reply in pane / group"]
-  team --> reply
-\`\`\`
+![Meta routes mention, delegate, or spawn](/docs/svg/multi-agent-route-en.svg?v=2)
+
+*Diagram: Meta routes @mention, delegate_to_avatar, or spawn_subagent.*
 
 !!! warning "Do not spawn a registered avatar"
     If the name is already an avatar, Meta must call \`delegate_to_avatar\`. \`spawn_subagent\` is for ephemeral workers only.
@@ -75,15 +69,9 @@ Related: [Orchestration](/docs/concepts/orchestration), [Flow](/docs/concepts/fl
 
 需要**多个身份**一起干活时才看本页。产品主路径是 Near 群聊和 Studio 子智能体。脚本里连续两次 \`AgentExecutor.run\` 只是两个串行任务，不算团队。
 
-\`\`\`mermaid
-flowchart TB
-  user["用户"] --> meta["Meta-Agent"]
-  meta -->|at 提及| member["具名分身"]
-  meta -->|delegate_to_avatar| session["分身会话"]
-  meta -->|spawn_subagent| team["AgentTeamManager"]
-  session --> reply["窗格 / 群内回复"]
-  team --> reply
-\`\`\`
+![Meta 路由提及、委派或拉起子智能体](/docs/svg/multi-agent-route-zh.svg?v=2)
+
+*示意图：Meta 路由 @提及、delegate_to_avatar 或 spawn_subagent。*
 
 !!! warning "已注册分身不要 spawn"
     名字已经是分身时，Meta 必须 \`delegate_to_avatar\`。\`spawn_subagent\` 只给临时工人。

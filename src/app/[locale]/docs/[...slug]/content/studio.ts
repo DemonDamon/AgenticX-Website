@@ -8,16 +8,9 @@ export const studioContent = {
 
 \`agx serve\` starts this HTTP API. \`agx studio\` starts the **terminal REPL**. They are different commands.
 
-\`\`\`mermaid
-flowchart LR
-  near["Near renderer"] --> main["Electron main"]
-  main -->|spawn / HTTP| api["Studio FastAPI"]
-  api --> sm["SessionManager"]
-  sm --> ms["ManagedSession"]
-  api --> ar["AgentRuntime"]
-  ar --> sse["SSE events"]
-  sse --> near
-\`\`\`
+![Near renderer to Studio FastAPI and back on SSE](/docs/svg/studio-sse-en.svg?v=2)
+
+*Diagram: Near renderer ↔ Electron ↔ Studio FastAPI ↔ AgentRuntime SSE.*
 
 !!! tip "Desktop token"
     When \`AGX_DESKTOP_TOKEN\` is set, clients send \`X-Agx-Desktop-Token\`. Some MCP and admin routes require it even if global auth looks off. The token is written to \`~/.agenticx/serve.token\` on a Desktop-managed start.
@@ -132,16 +125,9 @@ Meta-Agent system prompts incorporate files under \`~/.agenticx/workspace/\`:
 
 \`agx serve\` 启动这套 HTTP API。\`agx studio\` 启动的是**终端 REPL**。两条命令不是一回事。
 
-\`\`\`mermaid
-flowchart LR
-  near["Near 渲染进程"] --> main["Electron 主进程"]
-  main -->|拉起 / HTTP| api["Studio FastAPI"]
-  api --> sm["SessionManager"]
-  sm --> ms["ManagedSession"]
-  api --> ar["AgentRuntime"]
-  ar --> sse["SSE 事件"]
-  sse --> near
-\`\`\`
+![Near 渲染进程到 Studio FastAPI，再经 SSE 回来](/docs/svg/studio-sse-zh.svg?v=2)
+
+*示意图：Near 渲染进程 ↔ Electron ↔ Studio FastAPI ↔ AgentRuntime SSE。*
 
 !!! tip "桌面令牌"
     设置了 \`AGX_DESKTOP_TOKEN\` 时，客户端要带 \`X-Agx-Desktop-Token\`。部分 MCP 与管理路由即使看起来没开全局鉴权也会校验。Desktop 托管启动会把令牌写到 \`~/.agenticx/serve.token\`。

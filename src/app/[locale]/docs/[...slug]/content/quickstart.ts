@@ -14,18 +14,9 @@ Two valid first runs. Pick one. They are not the same loop.
 !!! note "Do not mix constructor arguments"
     \`AgentExecutor\` takes \`llm_provider=\`, not \`llm=\` or \`agent=\`. You pass the agent into \`run(agent=, task=)\`.
 
-\`\`\`mermaid
-flowchart TB
-  subgraph sdkPath["SDK path"]
-    A["Agent + Task"] --> E["AgentExecutor.run"]
-    E --> Out["dict result"]
-  end
-  subgraph studioPath["Studio path"]
-    S["agx serve"] --> N["Near or HTTP client"]
-    N --> R["AgentRuntime.run_turn"]
-    R --> SSE["SSE events"]
-  end
-\`\`\`
+![SDK executor versus Studio SSE](/docs/svg/quickstart-paths-en.svg?v=2)
+
+*Diagram: two first runs — AgentExecutor.run returns a dict; Studio streams SSE.*
 
 ## Path A — embed in Python
 
@@ -107,18 +98,9 @@ Use this to check that the provider config works before opening the desktop UI.
 !!! note "不要混构造参数"
     \`AgentExecutor\` 收 \`llm_provider=\`，不是 \`llm=\` 或 \`agent=\`。智能体要传给 \`run(agent=, task=)\`。
 
-\`\`\`mermaid
-flowchart TB
-  subgraph sdkPath["SDK 路径"]
-    A["Agent + Task"] --> E["AgentExecutor.run"]
-    E --> Out["dict 结果"]
-  end
-  subgraph studioPath["Studio 路径"]
-    S["agx serve"] --> N["Near 或 HTTP 客户端"]
-    N --> R["AgentRuntime.run_turn"]
-    R --> SSE["SSE 事件"]
-  end
-\`\`\`
+![SDK 执行器与 Studio SSE](/docs/svg/quickstart-paths-zh.svg?v=2)
+
+*示意图：两条第一次运行——AgentExecutor.run 返回 dict；Studio 推 SSE。*
 
 ## 路径 A — 嵌进 Python
 
