@@ -8,17 +8,9 @@ A skill is a folder with \`SKILL.md\`. The runtime can list, scan, patch, versio
 
 Use skills when you want a reusable procedure in the tool loop. Do not expect a skill to run just because the model mentioned \`mdfind\` in prose.
 
-\`\`\`mermaid
-flowchart TB
-  scan["Scan skill roots"] --> guard["scan_skill / should_allow"]
-  guard -->|pass| visible["Visible in session"]
-  guard -->|fail| blocked["Blocked with a readable reason"]
-  visible --> use["skill_use / progressive disclosure"]
-  observe["tool_call observations"] --> review["session review"]
-  review --> gate["quality gate"]
-  gate -->|pass| create["optional new SKILL.md"]
-  gate -->|fail| skip["no auto-create"]
-\`\`\`
+![Skill load guard and post-session quality gate](/docs/svg/skills-lifecycle-en.svg?v=2)
+
+*Diagram: two tracks — this session’s visible set, then optional learning.*
 
 ## Where skills are loaded
 
@@ -85,17 +77,9 @@ AGX Bundles can ship skills together with MCP servers, avatars, and memory templ
 
 要把可复用流程放进工具循环时用技能。不要因为模型在正文里写了 \`mdfind\` 就认为技能已经跑过。
 
-\`\`\`mermaid
-flowchart TB
-  scan["扫描技能根目录"] --> guard["scan_skill / should_allow"]
-  guard -->|通过| visible["进入本会话可见集"]
-  guard -->|失败| blocked["拦截并给出可读原因"]
-  visible --> use["skill_use / 渐进披露"]
-  observe["工具调用观察"] --> review["会话复盘"]
-  review --> gate["质量门禁"]
-  gate -->|通过| create["可选新建 SKILL.md"]
-  gate -->|失败| skip["不自动创建"]
-\`\`\`
+![技能加载门禁与会后质量门](/docs/svg/skills-lifecycle-zh.svg?v=2)
+
+*示意图：两条轨——本会话可见集，以及可选的自进化。*
 
 ## 从哪里加载
 

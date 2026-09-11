@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Highlight, themes } from 'prism-react-renderer';
+import { DocsInlineSvg } from '@/components/docs/docs-inline-svg';
 import { MermaidBlock } from '@/components/docs/mermaid-block';
 import { useSiteUiTheme } from '@/hooks/use-site-ui-theme';
 
@@ -392,7 +393,8 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
       const standaloneImg = line.match(/^\s*!\[([^\]]*)\]\(([^)]+)\)(?:\{[^}]*\})?\s*$/);
       if (standaloneImg) {
         const [, alt, src] = standaloneImg;
-        const isWide = src.startsWith('/diagrams/') || src.startsWith('/docs/cases/');
+        const isSvgDoc = src.startsWith('/docs/svg/');
+        const isWide = src.startsWith('/diagrams/') || src.startsWith('/docs/cases/') || isSvgDoc;
         let caption = '';
         let look = i + 1;
         while (look < lines.length && lines[look].trim() === '') look += 1;
@@ -403,16 +405,20 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
         }
         elements.push(
           <figure key={key++} className={isWide ? 'my-6 w-full' : 'my-6 flex flex-col items-center'}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={src}
-              alt={alt}
-              className={
-                isWide
-                  ? 'h-auto w-full rounded-lg border border-border'
-                  : 'max-h-[min(480px,70vh)] w-auto max-w-full rounded-lg border border-border object-contain'
-              }
-            />
+            {isSvgDoc ? (
+              <DocsInlineSvg src={src} alt={alt} />
+            ) : (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={src}
+                alt={alt}
+                className={
+                  isWide
+                    ? 'h-auto w-full rounded-lg border border-border'
+                    : 'max-h-[min(480px,70vh)] w-auto max-w-full rounded-lg border border-border object-contain'
+                }
+              />
+            )}
             {caption ? (
               <figcaption className="mt-2 text-center text-sm text-muted-foreground">{caption}</figcaption>
             ) : null}

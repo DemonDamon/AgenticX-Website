@@ -12,14 +12,9 @@ Use Near when you want multi-pane chat, avatars, group chat, a workspace, a term
 
 ## Boot path
 
-\`\`\`mermaid
-flowchart LR
-  app["Near app"] --> spawn["spawn agx serve"]
-  spawn --> port["~/.agenticx/serve.port"]
-  spawn --> token["~/.agenticx/serve.token"]
-  app --> api["127.0.0.1 Studio API"]
-  api --> runtime["AgentRuntime"]
-\`\`\`
+![Near boot path from app to AgentRuntime](/docs/svg/near-boot-en.svg?v=2)
+
+*Diagram: spawn local agx serve, write port/token, then REST + SSE.*
 
 Desktop binds the local backend. A remote \`agx serve\` mode is not the default product path. After a successful start, the real port and \`AGX_DESKTOP_TOKEN\` are written under \`~/.agenticx/\`.
 
@@ -79,14 +74,9 @@ Near 是**桌面工作区**。技术栈是 Electron + React + Zustand + Vite。�
 
 ## 启动链路
 
-\`\`\`mermaid
-flowchart LR
-  app["Near 应用"] --> spawn["拉起 agx serve"]
-  spawn --> port["~/.agenticx/serve.port"]
-  spawn --> token["~/.agenticx/serve.token"]
-  app --> api["127.0.0.1 Studio API"]
-  api --> runtime["AgentRuntime"]
-\`\`\`
+![Near 从应用到 AgentRuntime 的启动链路](/docs/svg/near-boot-zh.svg?v=2)
+
+*示意图：拉起本机 agx serve，写入端口 / 令牌，再走 REST + SSE。*
 
 桌面端硬绑本机后端。连接远程 \`agx serve\` 不是默认产品路径。启动成功后，真实端口和 \`AGX_DESKTOP_TOKEN\` 会写到 \`~/.agenticx/\`。
 

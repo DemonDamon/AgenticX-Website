@@ -8,17 +8,9 @@ Use this when a coding job is **longer than one chat turn**: it must survive pol
 
 Do **not** turn this on for a short SDK \`AgentExecutor.run\`. That path does not need \`longrun\` or \`project_state\`.
 
-\`\`\`mermaid
-flowchart TB
-  sources["manual / cron / project feature"] --> orch["longrun orchestrator"]
-  orch --> ws["isolated TaskWorkspace"]
-  ws --> impl["implement"]
-  impl --> stall["stall detector"]
-  stall -->|healthy| verify["verify"]
-  stall -->|stuck| retry["retry / backoff"]
-  retry --> impl
-  verify --> commit["commit + token ledger"]
-\`\`\`
+![Long-run isolate, stall, retry, then commit](/docs/svg/longrun-cycle-en.svg?v=2)
+
+*Diagram: each job keeps its own directory and a disk project_state.*
 
 ## Orchestrator
 
@@ -65,17 +57,9 @@ Shipped sources include a manual queue, cron, and project-feature source. Treat 
 
 短 SDK 调用走 \`AgentExecutor.run\` 即可，**不必**上 \`longrun\` 或 \`project_state\`。
 
-\`\`\`mermaid
-flowchart TB
-  sources["手动 / cron / 项目 feature"] --> orch["longrun 编排器"]
-  orch --> ws["隔离 TaskWorkspace"]
-  ws --> impl["实现"]
-  impl --> stall["停滞检测"]
-  stall -->|健康| verify["校验"]
-  stall -->|卡住| retry["重试 / 退避"]
-  retry --> impl
-  verify --> commit["提交 + token 账本"]
-\`\`\`
+![长周期：隔离、停滞、重试，然后提交](/docs/svg/longrun-cycle-zh.svg?v=2)
+
+*示意图：每个任务自己的目录，加上磁盘上的 project_state。*
 
 ## 编排器
 

@@ -8,17 +8,9 @@ Tools are the contract between the model and the environment: filesystem, shell,
 
 Use \`@tool\` / \`BaseTool\` in the SDK. Near / Studio uses \`STUDIO_TOOLS\` in \`agenticx/cli/agent_tools.py\` plus \`dispatch_tool_async\`. Do not assume every library tool is registered in Studio.
 
-\`\`\`mermaid
-flowchart LR
-  llm["LLM tool_calls"] --> dispatch["dispatch_tool_async"]
-  dispatch --> studio["STUDIO_TOOLS"]
-  dispatch --> mcp["MCPHub / mcp_call"]
-  dispatch --> skill["skill_use"]
-  studio --> result["tool result"]
-  mcp --> result
-  skill --> result
-  result --> llm
-\`\`\`
+![Tool calls land in Studio, MCP, or skill_use](/docs/svg/tools-dispatch-en.svg?v=2)
+
+*Diagram: one dispatcher; added MCP is not a guarantee the call succeeds.*
 
 !!! note "Studio vs SDK"
     A tool you \`@tool\` in a script is not automatically in Near. Studio only sees what \`STUDIO_TOOLS\` and connected MCP servers expose.
@@ -312,17 +304,9 @@ Optional **\`ToolRiskProfile\`** entries override inference per \`tool_name\` (\
 
 SDK 用 \`@tool\` / \`BaseTool\`。Near / Studio 用 \`agenticx/cli/agent_tools.py\` 里的 \`STUDIO_TOOLS\` 加 \`dispatch_tool_async\`。不要假设库里每个工具都会出现在 Studio。
 
-\`\`\`mermaid
-flowchart LR
-  llm["LLM tool_calls"] --> dispatch["dispatch_tool_async"]
-  dispatch --> studio["STUDIO_TOOLS"]
-  dispatch --> mcp["MCPHub / mcp_call"]
-  dispatch --> skill["skill_use"]
-  studio --> result["工具结果"]
-  mcp --> result
-  skill --> result
-  result --> llm
-\`\`\`
+![工具调用落到 Studio、MCP 或 skill_use](/docs/svg/tools-dispatch-zh.svg?v=2)
+
+*示意图：一个分发器；MCP 已添加不保证调用成功。*
 
 !!! note "Studio 与 SDK"
     脚本里 \`@tool\` 的工具不会自动进 Near。Studio 只看见 \`STUDIO_TOOLS\` 和已连接 MCP 暴露的能力。

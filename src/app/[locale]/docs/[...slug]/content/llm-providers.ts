@@ -8,12 +8,9 @@ Chat and tools go through \`BaseLLMProvider\`. First-party adapters cover major 
 
 A provider is **configured** when an API key **or a custom API base** is non-empty. Leaving only the official default base does not count. Local hosts such as Ollama need a reachable API address.
 
-\`\`\`mermaid
-flowchart LR
-  ui["Near settings"] --> yaml["~/.agenticx/config.yaml"]
-  yaml --> provider["BaseLLMProvider"]
-  provider --> upstream["Upstream API"]
-\`\`\`
+![Settings persist to YAML then call upstream](/docs/svg/llm-config-en.svg?v=2)
+
+*Diagram: green means a key or custom base is set, not the official default URL alone.*
 
 !!! warning "Vision"
     MiniMax M2 and text-only GLM-5 (name without vl / vision / 4v / 5v) are treated as non-vision. Studio strips \`image_inputs\`; Near should block attachments instead of sending them.
@@ -255,12 +252,9 @@ Ollama is usually configured with \`base_url\` in YAML (for example \`http://loc
 
 **已配置**指 API 密钥或**自定义** API 地址至少一项非空。只留官方默认 Base 不算。Ollama 这类本机服务必须填可访问地址。
 
-\`\`\`mermaid
-flowchart LR
-  ui["Near 设置"] --> yaml["~/.agenticx/config.yaml"]
-  yaml --> provider["BaseLLMProvider"]
-  provider --> upstream["上游 API"]
-\`\`\`
+![设置写入 YAML 再打向上游](/docs/svg/llm-config-zh.svg?v=2)
+
+*示意图：绿色表示填了密钥或自定义地址，不是只用官方默认 URL。*
 
 !!! warning "视觉"
     MiniMax M2 以及名称不含 vl / vision / 4v / 5v 的纯文本 GLM-5 按非视觉处理。Studio 会剥 \`image_inputs\`；Near 应拦截附件，不要硬发。

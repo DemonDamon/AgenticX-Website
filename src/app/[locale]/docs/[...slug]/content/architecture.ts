@@ -14,20 +14,9 @@ AgenticX is one capability core with three product forms on top:
 
 Near and Enterprise share abstractions. Their current deploy paths are independent. The Gateway is compliance and model relay, not a full Agent Runtime.
 
-\`\`\`mermaid
-flowchart TB
-  subgraph forms["Product forms"]
-    sdk["SDK / CLI"]
-    near["Near Desktop"]
-    ent["Enterprise Portal + Admin"]
-  end
-  sdk --> core["Python capability core"]
-  near --> studio["Studio Server + AgentRuntime"]
-  studio --> core
-  ent --> gw["Go AI Gateway"]
-  gw --> models["Upstream models"]
-  core --> models
-\`\`\`
+![One capability core with three product doors](/docs/svg/architecture-forms-en.svg?v=2)
+
+*Diagram: SDK, Near, and Enterprise start different processes; only Near runs AgentRuntime.*
 
 !!! warning "Gateway is not AgentRuntime"
     Enterprise Gateway evaluates policy, meters tokens, and relays OpenAI-compatible calls. It does not run the Python think-act loop, spawn avatars, or replace \`agx serve\`.
@@ -40,13 +29,9 @@ flowchart TB
 
 The Runtime itself is still easiest to read as five layers, from the user interface down to platform services.
 
-\`\`\`mermaid
-flowchart TB
-  ui["1 UI: Near / CLI / SDK"] --> studio["2 Studio: Session / Meta / Team"]
-  studio --> core["3 Core: AgentRuntime / tools / memory"]
-  core --> proto["4 Protocols: MCP / A2A"]
-  proto --> plat["5 Platform: config / sessions / KB"]
-\`\`\`
+![Five layers from UI to platform services](/docs/svg/architecture-layers-en.svg?v=2)
+
+*Diagram: UI → Studio → core loop → protocols → ~/.agenticx platform files.*
 
 ## Worked example: the same question, three doors
 
@@ -170,20 +155,9 @@ AgenticX 是一套能力核心，上面叠三种产品形态：
 
 Near 与 Enterprise 共用抽象，当前部署路径彼此独立。网关是合规与模型中继，不是完整的 Agent Runtime。
 
-\`\`\`mermaid
-flowchart TB
-  subgraph forms["产品形态"]
-    sdk["SDK / CLI"]
-    near["Near 桌面"]
-    ent["企业 Portal + 管理台"]
-  end
-  sdk --> core["Python 能力核心"]
-  near --> studio["Studio Server + AgentRuntime"]
-  studio --> core
-  ent --> gw["Go AI 网关"]
-  gw --> models["上游模型"]
-  core --> models
-\`\`\`
+![一套能力核心、三扇产品门](/docs/svg/architecture-forms-zh.svg?v=2)
+
+*示意图：SDK、Near、Enterprise 启动的是不同进程；只有 Near 跑 AgentRuntime。*
 
 !!! warning "网关不是 AgentRuntime"
     Enterprise 网关做策略评估、Token 计量和 OpenAI 兼容中继。它不跑 Python think-act 循环，不拉起分身，也不替代 \`agx serve\`。
@@ -196,13 +170,9 @@ flowchart TB
 
 Runtime 内部仍可按五层来读，从用户界面到平台服务。
 
-\`\`\`mermaid
-flowchart TB
-  ui["1 界面：Near / CLI / SDK"] --> studio["2 Studio：会话 / Meta / 团队"]
-  studio --> core["3 核心：AgentRuntime / 工具 / 记忆"]
-  core --> proto["4 协议：MCP / A2A"]
-  proto --> plat["5 平台：配置 / 会话 / 知识库"]
-\`\`\`
+![从界面到平台的五层](/docs/svg/architecture-layers-zh.svg?v=2)
+
+*示意图：界面 → Studio → 核心循环 → 协议 → ~/.agenticx 平台文件。*
 
 ## 实践案例：同一句话，三扇门
 

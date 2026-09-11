@@ -6,15 +6,9 @@ export const memoryContent = {
 
 Memory is how an agent keeps identity, recent work, and a bounded window. Near's main path is **workspace files** (\`MEMORY.md\`, \`memory/*.md\`) plus **session \`messages.json\`**, then recall injected into the Meta system prompt. Optional Mem0 / other stores are library backends, not the Desktop default.
 
-\`\`\`mermaid
-flowchart TB
-  turn["Chat turn"] --> files["Workspace MEMORY.md"]
-  turn --> hist["session messages.json"]
-  files --> recall["_build_memory_recall_context"]
-  hist --> compact["maybe compact"]
-  recall --> prompt["Meta system prompt"]
-  compact --> prompt
-\`\`\`
+![Workspace notes and session transcript assemble the prompt](/docs/svg/memory-recall-en.svg?v=2)
+
+*Diagram: MEMORY.md is recalled; messages.json may be compacted.*
 
 !!! tip "Where to look on disk"
     Long-term notes: \`~/.agenticx/workspace\`. Session titles and FTS: \`~/.agenticx/memory/sessions.sqlite\`. Chat transcript: \`~/.agenticx/sessions/<id>/messages.json\`. Do not mix these with an empty \`session_store.db\` under workspace.
@@ -213,15 +207,9 @@ memory:
 
 记忆用来保住身份、近期工作和有界窗口。Near 主路径是**工作区文件**（\`MEMORY.md\`、\`memory/*.md\`）加**会话 \`messages.json\`**，再召回注入 Meta 系统提示。Mem0 等是库后端，不是桌面默认。
 
-\`\`\`mermaid
-flowchart TB
-  turn["对话轮次"] --> files["工作区 MEMORY.md"]
-  turn --> hist["session messages.json"]
-  files --> recall["_build_memory_recall_context"]
-  hist --> compact["按需压缩"]
-  recall --> prompt["Meta 系统提示"]
-  compact --> prompt
-\`\`\`
+![工作区笔记与会话记录拼进系统提示](/docs/svg/memory-recall-zh.svg?v=2)
+
+*示意图：MEMORY.md 被召回；messages.json 可能被压缩。*
 
 !!! tip "磁盘上往哪找"
     长期笔记：\`~/.agenticx/workspace\`。会话标题与 FTS：\`~/.agenticx/memory/sessions.sqlite\`。聊天正文：\`~/.agenticx/sessions/<id>/messages.json\`。不要和工作区下空的 \`session_store.db\` 混用。

@@ -8,13 +8,9 @@ Hooks intercept LLM and tool calls without forking the runtime. Use them for gua
 
 Two layers:
 
-\`\`\`mermaid
-flowchart LR
-  start["agent start"] --> before["tool:before_call"]
-  before --> tool["tool runs"]
-  tool --> after["tool:after_call"]
-  after --> stop["agent stop"]
-\`\`\`
+![Hook lifecycle with a confirm side door](/docs/svg/hooks-lifecycle-en.svg?v=2)
+
+*Diagram: pre_tool_guard only runs if tool:before_call is dispatched.*
 
 !!! warning "Dangerous shell"
     Bundled \`pre_tool_guard\` only fires if \`tool:before_call\` is actually dispatched. \`rm -rf\` matching must cover merged flags and must not fire on quoted commit messages.
@@ -153,13 +149,9 @@ runtime.hooks.register(DenyShellHook(), priority=100)
 
 两层：
 
-\`\`\`mermaid
-flowchart LR
-  start["agent 开始"] --> before["tool:before_call"]
-  before --> tool["工具执行"]
-  tool --> after["tool:after_call"]
-  after --> stop["agent 结束"]
-\`\`\`
+![钩子生命周期与确认岔路](/docs/svg/hooks-lifecycle-zh.svg?v=2)
+
+*示意图：只有真正派发了 tool:before_call，pre_tool_guard 才会拦。*
 
 !!! warning "危险 Shell"
     预置 \`pre_tool_guard\` 只有在真正派发了 \`tool:before_call\` 时才会拦。\`rm -rf\` 匹配要覆盖合并 flag，且不能误伤带引号的 commit message。

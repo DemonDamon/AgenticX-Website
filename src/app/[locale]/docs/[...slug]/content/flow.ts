@@ -6,13 +6,9 @@ export const flowContent = {
 
 Use Flow when **in-process Python methods** should form a graph (\`@start\` / \`@listen\` / \`@router\`). Use \`WorkflowEngine\` when you want a configuration-driven graph. Neither replaces a Near chat turn — that is \`AgentRuntime\`.
 
-\`\`\`mermaid
-flowchart LR
-  start["@start"] --> listen["@listen"]
-  listen --> router["@router"]
-  router -->|branch a| a["step A"]
-  router -->|branch b| b["step B"]
-\`\`\`
+![Flow decorators: start, listen, router](/docs/svg/flow-decorators-en.svg?v=2)
+
+*Diagram: kickoff() stays in your process and does not write messages.json.*
 
 ## Worked example: a three-node class
 
@@ -184,13 +180,9 @@ from agenticx.core.workflow_engine import WorkflowEngine, WorkflowGraph
 
 进程内 Python 方法要成图时用 Flow（\`@start\` / \`@listen\` / \`@router\`）。要配置驱动的图用 \`WorkflowEngine\`。两者都不替代 Near 对话轮次——那是 \`AgentRuntime\`。
 
-\`\`\`mermaid
-flowchart LR
-  start["@start"] --> listen["@listen"]
-  listen --> router["@router"]
-  router -->|分支 a| a["步骤 A"]
-  router -->|分支 b| b["步骤 B"]
-\`\`\`
+![Flow 装饰器：start、listen、router](/docs/svg/flow-decorators-zh.svg?v=2)
+
+*示意图：kickoff() 留在你的进程里，不会写 messages.json。*
 
 ## 实践案例：三个节点的类
 

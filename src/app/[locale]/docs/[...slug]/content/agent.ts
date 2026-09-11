@@ -8,16 +8,9 @@ This page describes the **\`AgentRuntime\`** execution path (\`agenticx/runtime/
 
 Use \`AgentRuntime\` for Studio / Near chat. Use \`AgentExecutor\` to embed \`Agent\` + \`Task\` in your own process. Do not pass \`agent=\` into the \`AgentExecutor\` constructor.
 
-\`\`\`mermaid
-flowchart TB
-  user["User message"] --> sanit["sanitize tool sequences"]
-  sanit --> compact["maybe compact"]
-  compact --> llm["LLM invoke / stream"]
-  llm -->|tool_calls| tools["dispatch_tool_async"]
-  tools --> detect["LoopDetector"]
-  detect --> llm
-  llm -->|text only| final["FINAL"]
-\`\`\`
+![One AgentRuntime turn: clean, think, act, or finish](/docs/svg/agent-loop-en.svg?v=2)
+
+*Diagram: sanitize → compact → stream; tool_calls loop back until FINAL.*
 
 ## Worked example: one Near turn
 
@@ -223,16 +216,9 @@ Registered hooks (\`agenticx/runtime/hooks/__init__.py\`) run in priority order:
 
 Studio / Near 对话走 \`AgentRuntime\`。自己进程里嵌 \`Agent\` + \`Task\` 走 \`AgentExecutor\`。不要把 \`agent=\` 传给 \`AgentExecutor\` 构造函数。
 
-\`\`\`mermaid
-flowchart TB
-  user["用户消息"] --> sanit["清洗 tool 序列"]
-  sanit --> compact["按需压缩"]
-  compact --> llm["LLM 调用 / 流式"]
-  llm -->|tool_calls| tools["dispatch_tool_async"]
-  tools --> detect["LoopDetector"]
-  detect --> llm
-  llm -->|纯文本| final["FINAL"]
-\`\`\`
+![一轮 AgentRuntime：清洗、思考、行动或收束](/docs/svg/agent-loop-zh.svg?v=2)
+
+*示意图：清洗 → 压缩 → 流式；tool_calls 回环直到 FINAL。*
 
 ## 实践案例：Near 里的一轮
 
