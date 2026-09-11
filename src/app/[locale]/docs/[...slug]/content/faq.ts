@@ -4,19 +4,29 @@ export const faqContent = {
     description: 'Frequently asked questions about AgenticX.',
     content: `# FAQ
 
+Pick a form first, then a page. Most “it disappeared” bugs are a wrong process (\`agx studio\` vs \`agx serve\`) or a wrong session file.
+
+\`\`\`mermaid
+flowchart TB
+  q["What are you doing?"] --> sdk["Embed in Python"]
+  q --> desk["Local workspace"]
+  q --> ent["Governed web"]
+  sdk --> qs["Quickstart SDK"]
+  desk --> serve["agx serve + Near"]
+  ent --> gw["Enterprise Gateway"]
+\`\`\`
+
 ## General
 
 ### What is AgenticX?
 
-AgenticX is a unified agent stack: Python SDK and Agent Runtime, Near Desktop as a local-first workspace, and Enterprise for access, governance, and audit. Studio is the local REST API + SSE backend behind Near and the SDK.
+AgenticX is one capability core with three forms: Python SDK + Agent Runtime, Near Desktop as a local-first workspace, and Enterprise for access, governance, and audit. **Studio is the local REST API + SSE backend.** It does not ship a built-in web chat UI.
 
-### How is AgenticX different from LangChain or CrewAI?
+### How do the three forms differ?
 
-AgenticX is designed for production from day one:
-- **Unified**: One framework covers agents, tools, memory, orchestration, protocols (A2A/MCP), observability, and security
-- **Studio**: A full web UI and Desktop app for managing agents, sessions, and group chats
-- **Enterprise-ready**: Security layer, sandbox execution, audit logging, and session isolation built in
-- **Multi-agent native**: Avatar system, group chat, Meta-Agent CEO pattern, and team management out of the box
+- **SDK**: \`Agent\` + \`Task\` + \`AgentExecutor.run(agent=, task=)\` in your process
+- **Near**: Electron UI over local \`agx serve\`
+- **Enterprise**: Portal / Admin / Go Gateway — policy and model relay, not the Python think-act loop
 
 ### Is AgenticX open source?
 
@@ -117,19 +127,29 @@ Open an issue on [GitHub Issues](https://github.com/DemonDamon/AgenticX/issues).
     description: '关于 AgenticX 的常见问题解答。',
     content: `# 常见问题
 
+先选形态再选文档。多数「突然没了」是进程选错（\`agx studio\` vs \`agx serve\`）或会话文件看错。
+
+\`\`\`mermaid
+flowchart TB
+  q["你在做什么？"] --> sdk["嵌进 Python"]
+  q --> desk["本地工作区"]
+  q --> ent["受治理的 Web"]
+  sdk --> qs["快速上手 SDK"]
+  desk --> serve["agx serve + Near"]
+  ent --> gw["Enterprise 网关"]
+\`\`\`
+
 ## 通用
 
 ### AgenticX 是什么？
 
-AgenticX 是一套统一智能体技术栈：Python SDK 与 Agent Runtime、本地优先的 Near 桌面，以及面向访问、治理与审计的 Enterprise。Studio 是 Near 与 SDK 背后的本机 REST API + SSE 后端。
+AgenticX 是一套能力核心加三种形态：Python SDK + Agent Runtime、本地优先的 Near 桌面，以及面向访问、治理与审计的 Enterprise。**Studio 是本机 REST API + SSE 后端**，不内置网页聊天界面。
 
-### AgenticX 与 LangChain 或 CrewAI 有何不同？
+### 三种形态有何不同？
 
-AgenticX 从设计之初即面向生产落地：
-- **一体化**：同一框架涵盖智能体、工具、记忆、编排、协议（A2A/MCP）、可观测性与安全
-- **Studio**：提供完整 Web UI 与 Desktop 应用，管理智能体、会话与群聊
-- **企业就绪**：内置安全层、沙箱执行、审计日志与会话隔离
-- **原生多智能体**：开箱即用的分身系统、群聊、Meta-Agent CEO 模式与团队管理
+- **SDK**：自己进程里 \`Agent\` + \`Task\` + \`AgentExecutor.run(agent=, task=)\`
+- **Near**：Electron 界面，默认连本机 \`agx serve\`
+- **Enterprise**：Portal / 管理台 / Go 网关——策略与模型中继，不是 Python think-act 循环
 
 ### AgenticX 是否开源？
 

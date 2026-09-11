@@ -4,72 +4,53 @@ export const cliContent = {
     description: 'AgenticX CLI commands and usage.',
     content: `# AgenticX CLI Guide
 
-AgenticX provides a full-featured command-line tool \`agx\` covering project creation, agent management, workflow orchestration, deployment, monitoring, and more.
+\`agx\` is the Typer CLI in \`agenticx/cli/main.py\`. Daily commands are \`serve\`, \`studio\`, \`config\`, \`skills\`, \`hooks\`, \`feishu\`. Scaffold groups (\`project\` / \`agent\` / \`workflow\`) exist — run \`agx --help\` for the live list.
+
+\`\`\`mermaid
+flowchart LR
+  serve["agx serve"] --> http["Studio FastAPI"]
+  studio["agx studio"] --> repl["Terminal REPL"]
+  feishu["agx feishu"] --> http
+\`\`\`
+
+!!! warning "serve vs studio"
+    \`agx serve\` is HTTP + SSE. \`agx studio\` is an interactive REPL. Near talks to \`serve\`.
 
 ---
 
-## 5-Minute Quick Start
-
-### 1. Install
+## 5-minute start
 
 \`\`\`bash
 pip install agenticx
-agx --version
+agx version
+agx serve --host 127.0.0.1 --port 8000
+# another terminal: REPL
+agx studio
 \`\`\`
 
-### 2. Create a Project
+Optional scaffold (separate from Near):
 
 \`\`\`bash
 agx project create my-first-agent --template basic
-cd my-first-agent
-agx project info
-\`\`\`
-
-### 3. Add an Agent
-
-\`\`\`bash
 agx agent create researcher --role "Senior Research Analyst"
-agx agent list
-\`\`\`
-
-### 4. Run a Workflow
-
-\`\`\`bash
-agx workflow create research-pipeline --agents "researcher"
-agx run workflows/research-pipeline.py --verbose
 \`\`\`
 
 ---
 
-## Command Overview
+## Command groups
 
-\`\`\`
-agx
-├── version              # Show version info
-├── serve                # Start API server
-├── run                  # Execute workflow file
-├── validate             # Validate config files
-├── test                 # Run test suite
-│
-├── project              # Project management
-│   ├── create           # Create new project
-│   └── info             # Show project info
-│
-├── agent                # Agent management
-│   ├── create           # Create agent
-│   └── list             # List all agents
-│
-├── workflow             # Workflow management
-│   ├── create           # Create workflow
-│   └── list             # List all workflows
-│
-├── deploy               # Deployment
-├── monitor              # Monitoring
-├── docs                 # Documentation generation
-├── mineru               # Document parsing
-├── skills               # Skills registry
-└── hooks                # Hook management
-\`\`\`
+Daily:
+
+| Command | What it starts |
+|---------|----------------|
+| \`agx serve\` | Studio FastAPI (\`create_studio_app\`) |
+| \`agx studio\` | Terminal REPL |
+| \`agx feishu\` | Feishu long connection |
+| \`agx gateway\` | IM webhook gateway |
+| \`agx config\` | \`~/.agenticx/config.yaml\` |
+| \`agx skills\` / \`agx hooks\` | Skills and hooks |
+
+Also present: \`project\`, \`agent\`, \`workflow\`, \`deploy\`, \`monitor\`, \`docs\`, \`mineru\`, \`cc-bridge\`, \`sandbox\`. Confirm with \`agx --help\`.
 
 ---
 
@@ -181,17 +162,63 @@ agx hooks disable user-prompt-submit
     description: 'AgenticX CLI 命令与用法。',
     content: `# AgenticX CLI 使用指南
 
-AgenticX 提供了功能完整的命令行工具 \`agx\`，涵盖项目创建、智能体管理、工作流编排、部署、监控等全流程操作。
+\`agx\` 是 \`agenticx/cli/main.py\` 里的 Typer CLI。日常命令是 \`serve\`、\`studio\`、\`config\`、\`skills\`、\`hooks\`、\`feishu\`。脚手架分组（\`project\` / \`agent\` / \`workflow\`）也在——以 \`agx --help\` 为准。
+
+\`\`\`mermaid
+flowchart LR
+  serve["agx serve"] --> http["Studio FastAPI"]
+  studio["agx studio"] --> repl["终端 REPL"]
+  feishu["agx feishu"] --> http
+\`\`\`
+
+!!! warning "serve 与 studio"
+    \`agx serve\` 是 HTTP + SSE。\`agx studio\` 是交互式 REPL。Near 连的是 \`serve\`。
 
 ---
 
-## 5分钟快速开始
+## 5 分钟上手
+
+\`\`\`bash
+pip install agenticx
+agx version
+agx serve --host 127.0.0.1 --port 8000
+# 另一个终端：REPL
+agx studio
+\`\`\`
+
+可选脚手架（和 Near 不是一条路）：
+
+\`\`\`bash
+agx project create my-first-agent --template basic
+agx agent create researcher --role "Senior Research Analyst"
+\`\`\`
+
+---
+
+## 命令分组
+
+日常：
+
+| 命令 | 启动什么 |
+|------|----------|
+| \`agx serve\` | Studio FastAPI（\`create_studio_app\`） |
+| \`agx studio\` | 终端 REPL |
+| \`agx feishu\` | 飞书长连接 |
+| \`agx gateway\` | IM Webhook 网关 |
+| \`agx config\` | \`~/.agenticx/config.yaml\` |
+| \`agx skills\` / \`agx hooks\` | 技能与钩子 |
+
+另外还有 \`project\`、\`agent\`、\`workflow\`、\`deploy\`、\`monitor\`、\`docs\`、\`mineru\`、\`cc-bridge\`、\`sandbox\`。以 \`agx --help\` 为准。
+
+---
+
+## 5分钟快速开始（脚手架）
 
 ### 1. 安装
 
 \`\`\`bash
 pip install agenticx
-agx --version
+agx version
 \`\`\`
 
 ### 2. 创建项目

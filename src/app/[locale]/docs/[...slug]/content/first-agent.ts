@@ -4,18 +4,24 @@ export const firstAgentContent = {
     description: 'Step-by-step guide to building a research agent.',
     content: `# Building Your First Agent
 
-This guide walks through building a real-world research agent step by step.
+Build a research agent that takes a topic, calls tools, and returns a structured report. This is the **SDK** path: \`Agent\` + \`Task\` + \`AgentExecutor\`. For Near chat, start \`agx serve\` instead — see [Quickstart](/docs/getting-started/quickstart).
 
-## What We're Building
+\`\`\`mermaid
+flowchart LR
+  topic["Topic"] --> task["Task"]
+  task --> exec["AgentExecutor.run"]
+  exec --> llm["LLM"]
+  llm -->|tool_calls| tools["search / fetch"]
+  tools --> llm
+  llm -->|text| report["Report"]
+\`\`\`
 
-A research agent that:
-1. Accepts a research topic
-2. Searches the web for information
-3. Synthesizes findings into a structured report
+!!! warning "Constructor vs run"
+    \`AgentExecutor\` takes \`llm_provider=\`. Pass the agent into \`run(agent=, task=)\`. There is no \`max_iter\` or \`verbose\` on \`Agent\` — use \`max_iterations\`.
 
 ---
 
-## Step 1: Set Up
+## Step 1: Set up
 
 \`\`\`bash
 pip install agenticx
@@ -24,50 +30,44 @@ export OPENAI_API_KEY="your-key"
 
 ---
 
-## Step 2: Define Your Tools
+## Step 2: Define tools
 
 \`\`\`python
-# tools.py
 from agenticx.tools import tool
 import httpx
 
 @tool
 def search_web(query: str) -> str:
     """Search the web for information about a topic.
-    
+
     Args:
         query: The search query
-    
-    Returns:
-        Search results as text
     """
-    # Replace with your preferred search API
     response = httpx.get(
         "https://api.search.com/search",
-        params={"q": query, "key": "your-api-key"}
+        params={"q": query, "key": "your-api-key"},
+        timeout=30,
     )
     return response.text
 
 @tool
 def fetch_page(url: str) -> str:
-    """Fetch the content of a web page.
-    
+    """Fetch the first 5000 characters of a web page.
+
     Args:
         url: The URL to fetch
-    
-    Returns:
-        Page content as text
     """
-    response = httpx.get(url, follow_redirects=True)
-    return response.text[:5000]  # First 5000 chars
+    response = httpx.get(url, follow_redirects=True, timeout=30)
+    return response.text[:5000]
 \`\`\`
+
+Replace the search URL with a real API. \`@tool\` wraps a function as a \`FunctionTool\` / \`BaseTool\`.
 
 ---
 
-## Step 3: Define the Agent
+## Step 3: Define the agent
 
 \`\`\`python
-# agent.py
 from agenticx import Agent
 
 research_agent = Agent(
@@ -84,113 +84,72 @@ research_agent = Agent(
         "information synthesis and critical analysis."
     ),
     organization_id="my-research-org",
-    max_iter=15,
-    verbose=True
+    max_iterations=15,
+    tools=[search_web, fetch_page],
 )
 \`\`\`
 
 ---
 
-## Step 4: Create and Run a Task
+## Step 4: Run a task
 
 \`\`\`python
-# main.py
 from agenticx import Task, AgentExecutor
 from agenticx.llms import OpenAIProvider
-from tools import search_web, fetch_page
-from agent import research_agent
 
-def research(topic: str) -> str:
-    task = Task(
-        id="research-task",
-        description=f"Research: {topic}",
-        expected_output=(
-            "A structured research report with:\\n"
-            "1. Executive summary\\n"
-            "2. Key findings\\n"
-            "3. Detailed analysis\\n"
-            "4. Sources and references"
-        )
-    )
-    
-    llm = OpenAIProvider(model="gpt-4o")
-    executor = AgentExecutor(
-        agent=research_agent,
-        llm=llm,
-        tools=[search_web, fetch_page]
-    )
-    
-    return executor.run(task)
+task = Task(
+    description="Research: Multi-agent AI systems and software development",
+    expected_output=(
+        "A structured research report with:\\n"
+        "1. Executive summary\\n"
+        "2. Key findings\\n"
+        "3. Detailed analysis\\n"
+        "4. Sources and references"
+    ),
+)
 
-if __name__ == "__main__":
-    result = research("Multi-agent AI systems impact on software development")
-    print(result)
+executor = AgentExecutor(
+    llm_provider=OpenAIProvider(model="gpt-4o"),
+    tools=[search_web, fetch_page],
+)
+result = executor.run(agent=research_agent, task=task)
+print(result)
 \`\`\`
+
+\`run\` returns a **dict** with the final output and metadata, not a bare string.
 
 ---
 
-## Step 5: Run It
+## Next
 
-\`\`\`bash
-python main.py
-\`\`\`
-
----
-
-## Enhancements
-
-### Add Memory
-
-\`\`\`python
-from agenticx.memory import MemoryManager
-
-memory = MemoryManager()
-executor = AgentExecutor(agent=research_agent, llm=llm, tools=[...], memory=memory)
-\`\`\`
-
-### Add Observability
-
-\`\`\`python
-from agenticx.observability import ConsoleTracer
-
-tracer = ConsoleTracer()
-executor = AgentExecutor(agent=research_agent, llm=llm, tools=[...], tracer=tracer)
-\`\`\`
-
-### Use the CLI
-
-\`\`\`bash
-agx project create research-bot --template basic
-cd research-bot
-agx run agent.py --verbose
-\`\`\`
-
----
-
-## Next Steps
-
-- [Multi-Agent Collaboration →](multi-agent.md)
-- [Tool System →](../concepts/tools.md)
-- [Memory System →](../concepts/memory.md)
+- [Agent runtime](/docs/concepts/agent) — \`AgentRuntime\` vs \`AgentExecutor\`
+- [Tools](/docs/concepts/tools) — MCP, Studio tools, OpenAPI
+- [Near Desktop](/docs/concepts/near) — same stack, chat UI instead of a script
 `,
   },
   zh: {
     title: '构建你的第一个智能体',
-    description: '分步指南：构建研究型智能体。',
+    description: '分步构建一个研究型智能体。',
     content: `# 构建你的第一个智能体
 
-本指南分步演示如何构建一个真实可用的研究型智能体。
+做一个研究型智能体：接收主题、调用工具、产出结构化报告。这是 **SDK** 路径：\`Agent\` + \`Task\` + \`AgentExecutor\`。Near 聊天请走 \`agx serve\`，见 [快速上手](/docs/getting-started/quickstart)。
 
-## 我们要构建什么
+\`\`\`mermaid
+flowchart LR
+  topic["主题"] --> task["Task"]
+  task --> exec["AgentExecutor.run"]
+  exec --> llm["LLM"]
+  llm -->|tool_calls| tools["搜索 / 抓取"]
+  tools --> llm
+  llm -->|文本| report["报告"]
+\`\`\`
 
-一个研究型智能体，能够：
-1. 接收研究主题
-2. 在网络上搜索信息
-3. 将发现综合为结构化报告
+!!! warning "构造与 run 分开"
+    \`AgentExecutor\` 收 \`llm_provider=\`。智能体要传给 \`run(agent=, task=)\`。\`Agent\` 上没有 \`max_iter\` 或 \`verbose\`，请用 \`max_iterations\`。
 
 ---
 
-## 第 1 步：环境准备
+## 第 1 步：安装
 
 \`\`\`bash
 pip install agenticx
@@ -202,47 +161,41 @@ export OPENAI_API_KEY="your-key"
 ## 第 2 步：定义工具
 
 \`\`\`python
-# tools.py
 from agenticx.tools import tool
 import httpx
 
 @tool
 def search_web(query: str) -> str:
-    """Search the web for information about a topic.
-    
+    """按主题搜索网页。
+
     Args:
-        query: The search query
-    
-    Returns:
-        Search results as text
+        query: 搜索词
     """
-    # Replace with your preferred search API
     response = httpx.get(
         "https://api.search.com/search",
-        params={"q": query, "key": "your-api-key"}
+        params={"q": query, "key": "your-api-key"},
+        timeout=30,
     )
     return response.text
 
 @tool
 def fetch_page(url: str) -> str:
-    """Fetch the content of a web page.
-    
+    """抓取网页前 5000 个字符。
+
     Args:
-        url: The URL to fetch
-    
-    Returns:
-        Page content as text
+        url: 要抓取的 URL
     """
-    response = httpx.get(url, follow_redirects=True)
-    return response.text[:5000]  # First 5000 chars
+    response = httpx.get(url, follow_redirects=True, timeout=30)
+    return response.text[:5000]
 \`\`\`
+
+把搜索 URL 换成真实 API。\`@tool\` 会把函数包成 \`FunctionTool\` / \`BaseTool\`。
 
 ---
 
 ## 第 3 步：定义智能体
 
 \`\`\`python
-# agent.py
 from agenticx import Agent
 
 research_agent = Agent(
@@ -250,103 +203,52 @@ research_agent = Agent(
     name="Research Assistant",
     role="Senior Research Analyst",
     goal=(
-        "Conduct thorough research on any given topic. "
-        "Find authoritative sources, synthesize information, "
-        "and produce clear, well-structured reports."
+        "对给定主题做充分调研。"
+        "找权威来源，综合信息，产出结构清楚的报告。"
     ),
-    backstory=(
-        "You are an expert researcher with a background in "
-        "information synthesis and critical analysis."
-    ),
+    backstory="你是信息综合与批判分析方面的研究者。",
     organization_id="my-research-org",
-    max_iter=15,
-    verbose=True
+    max_iterations=15,
+    tools=[search_web, fetch_page],
 )
 \`\`\`
 
 ---
 
-## 第 4 步：创建并运行任务
+## 第 4 步：跑任务
 
 \`\`\`python
-# main.py
 from agenticx import Task, AgentExecutor
 from agenticx.llms import OpenAIProvider
-from tools import search_web, fetch_page
-from agent import research_agent
 
-def research(topic: str) -> str:
-    task = Task(
-        id="research-task",
-        description=f"Research: {topic}",
-        expected_output=(
-            "A structured research report with:\\n"
-            "1. Executive summary\\n"
-            "2. Key findings\\n"
-            "3. Detailed analysis\\n"
-            "4. Sources and references"
-        )
-    )
-    
-    llm = OpenAIProvider(model="gpt-4o")
-    executor = AgentExecutor(
-        agent=research_agent,
-        llm=llm,
-        tools=[search_web, fetch_page]
-    )
-    
-    return executor.run(task)
+task = Task(
+    description="调研：多智能体 AI 与软件开发",
+    expected_output=(
+        "结构化调研报告，含：\\n"
+        "1. 摘要\\n"
+        "2. 关键发现\\n"
+        "3. 详细分析\\n"
+        "4. 来源"
+    ),
+)
 
-if __name__ == "__main__":
-    result = research("Multi-agent AI systems impact on software development")
-    print(result)
+executor = AgentExecutor(
+    llm_provider=OpenAIProvider(model="gpt-4o"),
+    tools=[search_web, fetch_page],
+)
+result = executor.run(agent=research_agent, task=task)
+print(result)
 \`\`\`
+
+\`run\` 返回带最终产出和元数据的 **dict**，不是裸字符串。
 
 ---
 
-## 第 5 步：运行
+## 接下来
 
-\`\`\`bash
-python main.py
-\`\`\`
-
----
-
-## 增强能力
-
-### 添加记忆
-
-\`\`\`python
-from agenticx.memory import MemoryManager
-
-memory = MemoryManager()
-executor = AgentExecutor(agent=research_agent, llm=llm, tools=[...], memory=memory)
-\`\`\`
-
-### 添加可观测性
-
-\`\`\`python
-from agenticx.observability import ConsoleTracer
-
-tracer = ConsoleTracer()
-executor = AgentExecutor(agent=research_agent, llm=llm, tools=[...], tracer=tracer)
-\`\`\`
-
-### 使用 CLI
-
-\`\`\`bash
-agx project create research-bot --template basic
-cd research-bot
-agx run agent.py --verbose
-\`\`\`
-
----
-
-## 下一步
-
-- [多智能体协作 →](multi-agent.md)
-- [工具系统 →](../concepts/tools.md)
-- [记忆系统 →](../concepts/memory.md)
+- [智能体运行时](/docs/concepts/agent) — \`AgentRuntime\` 与 \`AgentExecutor\`
+- [工具](/docs/concepts/tools) — MCP、Studio 工具、OpenAPI
+- [Near 桌面](/docs/concepts/near) — 同一套栈，换成聊天界面
 `,
   },
 };

@@ -4,6 +4,15 @@ export const roadmapContent = {
     description: 'AgenticX development roadmap.',
     content: `# Roadmap
 
+This map is a **module index**, not a promise that every adapter is production-complete. Studio still does not send every operation through one \`SafetyLayer\`. Cluster / HA Runtime and a default Edge Agent path are planned, not the current Near or Enterprise default.
+
+\`\`\`mermaid
+flowchart LR
+  done["Shipped M1-M11 / M13-M17 / v0.5"] --> m12["M12 evolution"]
+  done --> m18["M18 Studio RBAC"]
+  done --> cluster["Cluster Runtime planned"]
+\`\`\`
+
 ## Completed Modules
 
 | Module | Description |
@@ -54,6 +63,15 @@ Want to help build these features? See [CONTRIBUTING.md](https://github.com/Demo
     title: '路线图',
     description: 'AgenticX 开发路线图。',
     content: `# 路线图
+
+这张表是**模块索引**，不表示每个适配器都已生产完备。Studio 尚未把每次操作都送进完整 \`SafetyLayer\`。集群 / 高可用 Runtime 与默认 Edge Agent 仍在规划，不是当前 Near 或 Enterprise 的默认路径。
+
+\`\`\`mermaid
+flowchart LR
+  done["已落地 M1-M11 / M13-M17 / v0.5"] --> m12["M12 进化"]
+  done --> m18["M18 Studio RBAC"]
+  done --> cluster["集群 Runtime 规划中"]
+\`\`\`
 
 ## 已完成模块
 

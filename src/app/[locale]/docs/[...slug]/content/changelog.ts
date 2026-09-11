@@ -4,7 +4,16 @@ export const changelogContent = {
     description: 'AgenticX version history and changes.',
     content: `# Changelog
 
-All notable product changes are summarized here. Full history stays on [GitHub Releases](https://github.com/DemonDamon/AgenticX/releases).
+Shipped capabilities vs planned work. Version-by-version notes stay on [GitHub Releases](https://github.com/DemonDamon/AgenticX/releases).
+
+\`\`\`mermaid
+flowchart LR
+  core["M1-M11 core"] --> desk["M14-M17 Near / Studio"]
+  desk --> v05["v0.5 brains / long-run / learning"]
+  v05 --> next["M12 / M18 / cluster planned"]
+\`\`\`
+
+---
 
 ## Capability snapshot
 
@@ -39,7 +48,16 @@ Avatar and group chat, MCP Hub, hierarchical memory, Studio SSE, and the Desktop
     description: 'AgenticX 版本历史与变更记录。',
     content: `# 更新日志
 
-产品侧重要变更汇总如下。完整历史仍以 [GitHub Releases](https://github.com/DemonDamon/AgenticX/releases) 为准。
+已落地能力与规划项对照。逐版本说明仍以 [GitHub Releases](https://github.com/DemonDamon/AgenticX/releases) 为准。
+
+\`\`\`mermaid
+flowchart LR
+  core["M1-M11 核心"] --> desk["M14-M17 Near / Studio"]
+  desk --> v05["v0.5 多脑 / 长周期 / 自进化"]
+  v05 --> next["M12 / M18 / 集群规划中"]
+\`\`\`
+
+---
 
 ## 能力快照
 

@@ -4,12 +4,19 @@ export const orchestrationContent = {
     description: 'Orchestration engine in AgenticX.',
     content: `# Orchestration
 
-## Overview
+Use orchestration when **several agents or steps** must run in a fixed or conditional order. Do not use a graph for a single chat turn — that is \`AgentRuntime.run_turn\`.
 
-AgenticX provides two complementary orchestration approaches:
+Two complementary APIs:
 
-- **Graph-based Workflows** — explicit DAG with nodes and edges, full control
-- **Flow Decorators** — lightweight pipeline definition with Python decorators
+- **Graph workflows** — explicit DAG (\`Workflow\`, \`Node\`, \`Edge\`)
+- **Flow decorators** — a Python pipeline (\`@flow\`, \`@step\`); see [Flow](/docs/concepts/flow)
+
+\`\`\`mermaid
+flowchart LR
+  fetch["fetch"] --> analyze["analyze"]
+  analyze -->|high confidence| publish["publish"]
+  analyze -->|low confidence| review["review"]
+\`\`\`
 
 ---
 
@@ -125,12 +132,19 @@ results = plan.execute()
     description: 'AgenticX 编排引擎。',
     content: `# 编排
 
-## 概述
+需要**多个智能体或步骤**按固定或条件顺序执行时才用编排。单轮对话请走 \`AgentRuntime.run_turn\`，不要硬套一张图。
 
-AgenticX 提供两种互补的编排方式：
+两条互补 API：
 
-- **Graph-based Workflows** — 显式 DAG（节点与边），完全可控
-- **Flow Decorators** — 基于 Python 装饰器的轻量流水线定义
+- **图工作流** — 显式 DAG（\`Workflow\`、\`Node\`、\`Edge\`）
+- **Flow 装饰器** — Python 流水线（\`@flow\`、\`@step\`）；见 [Flow](/docs/concepts/flow)
+
+\`\`\`mermaid
+flowchart LR
+  fetch["抓取"] --> analyze["分析"]
+  analyze -->|高置信度| publish["发布"]
+  analyze -->|低置信度| review["复核"]
+\`\`\`
 
 ---
 

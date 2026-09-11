@@ -1,26 +1,23 @@
 'use client';
 
 import { useEffect, useId, useRef, useState } from 'react';
+import { useSiteUiTheme } from '@/hooks/use-site-ui-theme';
 
-let mermaidInitialized = false;
-
-async function ensureMermaid() {
+async function renderMermaid(source: string, renderId: string, theme: 'dark' | 'default') {
   const mermaid = (await import('mermaid')).default;
-  if (!mermaidInitialized) {
-    mermaid.initialize({
-      startOnLoad: false,
-      theme: 'dark',
-      securityLevel: 'loose',
-      fontFamily: 'ui-sans-serif, system-ui, sans-serif',
-    });
-    mermaidInitialized = true;
-  }
-  return mermaid;
+  mermaid.initialize({
+    startOnLoad: false,
+    theme,
+    securityLevel: 'loose',
+    fontFamily: 'ui-sans-serif, system-ui, sans-serif',
+  });
+  return mermaid.render(renderId, source);
 }
 
 export function MermaidBlock({ chart }: { chart: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const reactId = useId().replace(/:/g, '');
+  const { resolved } = useSiteUiTheme();
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -30,9 +27,9 @@ export function MermaidBlock({ chart }: { chart: string }) {
 
     void (async () => {
       try {
-        const mermaid = await ensureMermaid();
+        const theme = resolved === 'light' ? 'default' : 'dark';
         const renderId = `mermaid-${reactId}-${Math.random().toString(36).slice(2, 9)}`;
-        const { svg } = await mermaid.render(renderId, source);
+        const { svg } = await renderMermaid(source, renderId, theme);
         if (!cancelled && containerRef.current) {
           containerRef.current.innerHTML = svg;
           setError(null);
@@ -47,13 +44,13 @@ export function MermaidBlock({ chart }: { chart: string }) {
     return () => {
       cancelled = true;
     };
-  }, [chart, reactId]);
+  }, [chart, reactId, resolved]);
 
   if (error) {
     return (
-      <div className="my-6 rounded-lg border border-red-900/50 bg-red-950/30 p-4">
-        <p className="text-sm text-red-400">Mermaid 渲染失败：{error}</p>
-        <pre className="mt-2 overflow-x-auto text-xs text-zinc-500">{chart.trim()}</pre>
+      <div className="my-6 rounded-lg border border-destructive/40 bg-destructive/10 p-4">
+        <p className="text-sm text-destructive">Mermaid 渲染失败：{error}</p>
+        <pre className="mt-2 overflow-x-auto text-xs text-muted-foreground">{chart.trim()}</pre>
       </div>
     );
   }
@@ -61,7 +58,7 @@ export function MermaidBlock({ chart }: { chart: string }) {
   return (
     <div
       ref={containerRef}
-      className="my-6 flex justify-center overflow-x-auto rounded-lg border border-zinc-700 bg-zinc-900/50 p-6 [&_svg]:max-w-full [&_svg]:h-auto"
+      className="my-6 flex justify-center overflow-x-auto rounded-lg border border-border bg-card p-6 [&_svg]:h-auto [&_svg]:max-w-full"
       aria-label="Mermaid diagram"
     />
   );

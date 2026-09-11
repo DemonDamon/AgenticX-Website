@@ -4,7 +4,24 @@ export const configurationContent = {
     description: 'Configure AgenticX for your environment.',
     content: `# Configuration
 
-AgenticX uses \`~/.agenticx/config.yaml\` as its global configuration file.
+The live file is \`~/.agenticx/config.yaml\`. Near settings write here. Studio and \`agx serve\` read it on start. Identity and long-term memory sit under \`~/.agenticx/workspace/\`. Session chat history is \`~/.agenticx/sessions/<id>/messages.json\`.
+
+Use this page when you need a provider, tool-round cap, or skill scan path. You do not need every section to start.
+
+\`\`\`mermaid
+flowchart TB
+  yaml["~/.agenticx/config.yaml"] --> serve["agx serve / Near"]
+  yaml --> runtime["runtime.max_tool_rounds"]
+  yaml --> providers["providers.*"]
+  yaml --> skills["skills.disabled / scan paths"]
+  env["Environment variables"] --> providers
+\`\`\`
+
+!!! tip "Configured vs official default"
+    A provider counts as configured when an API key **or a custom API base** is non-empty. Leaving only the official default base empty does not count. Local providers such as Ollama need a reachable API address.
+
+!!! warning "Tool-round cap"
+    Long audit-style tasks die when \`AGX_MAX_TOOL_ROUNDS\` / \`runtime.max_tool_rounds\` is too low. Raise it in this file or in the Desktop Automation / Runtime panel. Studio clamps the value (commonly 10–120).
 
 ## Global Config
 
@@ -124,7 +141,24 @@ tools:
     description: '为你的环境配置 AgenticX。',
     content: `# 配置
 
-AgenticX 使用 \`~/.agenticx/config.yaml\` 作为全局配置文件。
+真正生效的文件是 \`~/.agenticx/config.yaml\`。Near 设置会写这里。Studio 与 \`agx serve\` 启动时读它。身份和长期记忆在 \`~/.agenticx/workspace/\`。会话聊天在 \`~/.agenticx/sessions/<id>/messages.json\`。
+
+只在需要配供应商、工具轮次上限或技能扫描路径时改。不是每一节都要填。
+
+\`\`\`mermaid
+flowchart TB
+  yaml["~/.agenticx/config.yaml"] --> serve["agx serve / Near"]
+  yaml --> runtime["runtime.max_tool_rounds"]
+  yaml --> providers["providers.*"]
+  yaml --> skills["skills.disabled / 扫描路径"]
+  env["环境变量"] --> providers
+\`\`\`
+
+!!! tip "什么叫已配置"
+    供应商「已配置」指 API 密钥或**自定义** API 地址至少一项非空。只留官方默认 Base 不算。Ollama 这类本机供应商必须填可访问地址。
+
+!!! warning "工具轮次上限"
+    审计类长任务会在 \`AGX_MAX_TOOL_ROUNDS\` / \`runtime.max_tool_rounds\` 太小时中断。在这个文件或桌面 Automation / Runtime 面板里调大。Studio 会夹紧取值（常见 10–120）。
 
 ## 全局配置
 

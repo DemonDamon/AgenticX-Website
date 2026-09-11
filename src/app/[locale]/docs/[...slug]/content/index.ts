@@ -1,192 +1,106 @@
 export const indexContent = {
   en: {
-    title: 'AgenticX',
-    description:
-      'Unified agent stack: Python Runtime, Near Desktop, and Enterprise.',
-    content: `# AgenticX
+    title: 'Introduction',
+    description: 'How to read the AgenticX docs: one capability core, three product forms.',
+    content: `# Introduction
 
-**Unified agent stack** covering the Python Runtime, Near Desktop, and Enterprise.
+AgenticX is a **local-first agent stack**. One Python capability core powers three product forms. You do not have to adopt all three.
 
-[![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
-[![PyPI version](https://img.shields.io/pypi/v/agenticx)](https://pypi.org/project/agenticx/)
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/agenticx)](https://pypi.org/project/agenticx/)
+| Form | Use it when | Do not treat it as |
+|------|-------------|--------------------|
+| **Core / Runtime** | You embed agents in your own Python app | A hosted multi-tenant control plane |
+| **Near Desktop** | You want a local workspace (chat, avatars, tools, KB) | A browser SaaS |
+| **Enterprise** | You need a governed employee portal and model relay | A replacement for the Python Agent Runtime |
 
----
-
-## Vision
-
-AgenticX is a unified, production-ready agent stack. Build with the Python SDK and \`agx\` CLI, use **Near Desktop** as a local-first workspace, or deploy **Enterprise** for access, governance, and audit.
-
-## System Architecture
+!!! note "Shared abstractions, separate deploy paths"
+    Near and Enterprise reuse the same agent / tool / memory ideas. Near talks to a local \`agx serve\` by default. Enterprise puts Portal, Admin Console, and a Go AI Gateway in front of models. The gateway is compliance and relay, not a second Agent Runtime.
 
 ![AgenticX product architecture](/diagrams/product-architecture-en.jpg)
 
-| Form | Role |
-|------|-----------|
-| **Core / Runtime** | Python SDK, Studio Server, Agent Runtime |
-| **Near Desktop** | Local-first Electron workspace over \`agx serve\` |
-| **Enterprise** | Portal, Admin Console, Go AI Gateway |
+## How a request moves
 
-Inside the Runtime, the older five-layer map still holds: UI, Studio, core framework, platform services, and domain extensions. See [Architecture](/docs/concepts/architecture).
-
-## Core Features
-
-### 🤖 Agent Core
-Production-ready execution engine based on 12-Factor Agents methodology, with Meta-Agent CEO dispatcher, agent team management, think-act loop, event-driven architecture, self-repair, and overflow recovery.
-
-### 🔄 Orchestration Engine
-Graph-based workflow engine + Flow system with decorators, execution plans, conditional routing, and parallel execution.
-
-### 🛠️ Tool System
-Unified tool interface with function decorators, MCP Hub (multi-server aggregation), remote tools v2, OpenAPI toolset, sandbox tools, skill bundles, and document routers.
-
-### 🧠 Memory System
-Hierarchical memory (core / episodic / semantic), Mem0 deep integration, workspace memory, short-term memory, memory decay, hybrid search, compaction flush, MCP memory, and memory intelligence engine.
-
-### 🔌 LLM Providers
-15+ providers — OpenAI, Anthropic, Ollama, Gemini, Kimi/Moonshot, MiniMax, Ark/VolcEngine, Zhipu, Qianfan, Bailian/Dashscope — with response caching, transcript sanitizer, and failover routing.
-
-### 👥 Avatar & Team Collaboration
-Avatar registry (CRUD), group chat with multiple routing strategies (user-directed / meta-routed / round-robin), and Meta-Agent CEO dispatcher with dynamic sub-agent orchestration.
-
-### Knowledge & Retrieval
-Document processing pipeline with chunkers, readers, extractors, and graph builders (GraphRAG). Isolatable doc brain + code brain, hybrid code index, and vector / BM25 / graph / hybrid retrievers.
-
-### Skills & Long-horizon
-Skill lifecycle with a security scan and observation-driven self-evolution. Long-run orchestration plus a disk-backed project state machine.
-
-### 🔒 Enterprise Security
-Safety layer with leak detection, input sanitizer, injection detector, policy engine, sandbox (Docker / Microsandbox / Subprocess), audit logging.
-
-### 📊 Observability & Evaluation
-Complete callback system, real-time metrics, Prometheus/OpenTelemetry integration, EvalSet-based evaluation, LLM judge, and trace analysis.
-
-### 💾 Storage Layer
-Key-Value (SQLite/Redis/PostgreSQL/MongoDB), Vector (Milvus/Qdrant/Chroma/Faiss), Graph (Neo4j/Nebula), Object (S3/GCS/Azure).
-
-## Quick Start
-
-\`\`\`bash
-pip install agenticx
+\`\`\`mermaid
+flowchart LR
+  user["You"] --> near["Near or SDK"]
+  near --> studio["Studio Server"]
+  studio --> runtime["AgentRuntime"]
+  runtime --> tools["Tools / MCP / Skills"]
+  runtime --> llm["Model provider"]
+  runtime --> memory["Memory / KB"]
 \`\`\`
 
-\`\`\`python
-from agenticx import Agent, Task, AgentExecutor
-from agenticx.llms import OpenAIProvider
+## Pick a starting page
 
-agent = Agent(
-    id="research-agent",
-    name="Research Assistant",
-    role="Information gatherer",
-    goal="Find and synthesize information"
-)
+1. New to the stack → [Installation](/docs/getting-started/installation) then [Quick Start](/docs/getting-started/quickstart)
+2. Want the map first → [Architecture](/docs/concepts/architecture)
+3. Using the desktop app → [Near Desktop](/docs/concepts/near) and [Studio Server](/docs/guides/studio)
+4. Building in Python → [Agent Runtime](/docs/concepts/agent) and [Tools](/docs/concepts/tools)
+5. Governing web access → [Enterprise](/enterprise)
 
-task = Task(
-    description="Research latest AI frameworks",
-    expected_output="Comprehensive analysis"
-)
+## What this docs set covers
 
-executor = AgentExecutor(agent=agent, llm=OpenAIProvider())
-result = executor.run(task)
-\`\`\`
+- **Getting started**: install, first run, \`~/.agenticx/config.yaml\`
+- **Concepts**: runtime loop, tools, memory, orchestration, hooks, skills, long-horizon coding
+- **Guides**: first agent, multi-agent, Studio, knowledge brains, extensions, deploy
+- **Reference**: public Agent API, CLI, FAQ
 
-[Get Started →](/docs/getting-started/installation)
-[View on GitHub →](https://github.com/DemonDamon/AgenticX)
+Enterprise runbooks live under [Enterprise docs](/enterprise/docs), not in this tree.
+
+## Next
+
+[Installation →](/docs/getting-started/installation)
 `,
   },
   zh: {
-    title: 'AgenticX',
-    description:
-      '统一智能体技术栈：Python Runtime、Near 桌面与 Enterprise。',
-    content: `# AgenticX
+    title: '简介',
+    description: '怎么读 AgenticX 文档：一套能力核心，三种产品形态。',
+    content: `# 简介
 
-**统一智能体技术栈**，覆盖 Python Runtime、Near 桌面与 Enterprise。
+AgenticX 是一套**本地优先**的智能体技术栈。一套 Python 能力核心，支撑三种产品形态。不必三种都上。
 
-[![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
-[![PyPI version](https://img.shields.io/pypi/v/agenticx)](https://pypi.org/project/agenticx/)
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/agenticx)](https://pypi.org/project/agenticx/)
+| 形态 | 什么时候用 | 不要把它当成 |
+|------|------------|--------------|
+| **Core / Runtime** | 把智能体嵌进自己的 Python 应用 | 托管的多租户管控平面 |
+| **Near Desktop** | 要本机工作区（聊天、分身、工具、知识库） | 浏览器 SaaS |
+| **Enterprise** | 要受管控的员工门户和模型中继 | Python Agent Runtime 的替代品 |
 
----
-
-## 愿景
-
-AgenticX 是一套统一、生产就绪的智能体技术栈。开发者用 Python SDK 与 \`agx\` CLI 构建，用 **Near 桌面** 做本地优先工作区，或部署 **Enterprise** 做访问、治理与审计。
-
-## 系统架构
+!!! note "抽象共用，部署路径分开"
+    Near 与 Enterprise 复用同一套智能体 / 工具 / 记忆抽象。Near 默认连本机 \`agx serve\`。Enterprise 用 Portal、管理台和 Go AI 网关承接模型访问。网关做合规与中继，不是第二套 Agent Runtime。
 
 ![AgenticX 产品与技术架构](/diagrams/product-architecture-zh.jpg)
 
-| 形态 | 职责 |
-|------|------|
-| **Core / Runtime** | Python SDK、Studio Server、Agent Runtime |
-| **Near Desktop** | 本地优先 Electron 工作区，默认连 \`agx serve\` |
-| **Enterprise** | Portal、Admin Console、Go AI 网关 |
+## 一次请求怎么走
 
-Runtime 内部仍可按五层理解：界面、Studio、核心框架、平台服务、领域扩展。详见 [架构](/docs/concepts/architecture)。
-
-## 核心能力
-
-### 🤖 Agent Core
-基于 12-Factor Agents 方法论的生产级执行引擎，含 Meta-Agent CEO 调度、智能体团队管理、思考-行动循环、事件驱动架构、自愈与溢出恢复。
-
-### 🔄 编排引擎
-基于图的工作流引擎 + Flow 装饰器体系，支持执行计划、条件路由与并行执行。
-
-### 🛠️ 工具系统
-统一工具接口：函数装饰器、MCP Hub（多服务器聚合）、Remote Tools v2、OpenAPI 工具集、沙箱工具、Skill 技能包与文档路由。
-
-### 🧠 记忆系统
-分层记忆（核心 / 情景 / 语义）、Mem0 深度集成、工作区记忆、短期记忆、记忆衰减、混合检索、压缩刷写、MCP 记忆与记忆智能引擎。
-
-### 🔌 LLM 供应商
-15+ 供应商 — OpenAI、Anthropic、Ollama、Gemini、Kimi/Moonshot、MiniMax、Ark/火山、智谱、千帆、百炼/DashScope — 支持响应缓存、对话清洗与故障转移路由。
-
-### 👥 分身与团队协作
-分身注册表（CRUD）、群聊多种路由策略（用户定向 / Meta 路由 / 轮询），Meta-Agent CEO 调度与动态子智能体编排。
-
-### 知识库与检索
-文档处理流水线（分块、读取、抽取、GraphRAG），可隔离的文档脑 + 代码脑，以及向量 / BM25 / 图 / 混合检索。
-
-### 技能与长周期
-技能生命周期含安全扫描与观察驱动自进化。长任务编排加上磁盘项目状态机。
-
-### 🔒 企业级安全
-安全层：泄露检测、输入清洗、注入检测、策略引擎、沙箱（Docker / Microsandbox / 子进程）、审计日志。
-
-### 📊 可观测性与评估
-完整回调体系、实时指标、Prometheus/OpenTelemetry 集成、EvalSet 评估、LLM 裁判与轨迹分析。
-
-### 💾 存储层
-键值（SQLite/Redis/PostgreSQL/MongoDB）、向量（Milvus/Qdrant/Chroma/Faiss）、图（Neo4j/Nebula）、对象（S3/GCS/Azure）。
-
-## 快速开始
-
-\`\`\`bash
-pip install agenticx
+\`\`\`mermaid
+flowchart LR
+  user["你"] --> near["Near 或 SDK"]
+  near --> studio["Studio Server"]
+  studio --> runtime["AgentRuntime"]
+  runtime --> tools["工具 / MCP / 技能"]
+  runtime --> llm["模型供应商"]
+  runtime --> memory["记忆 / 知识库"]
 \`\`\`
 
-\`\`\`python
-from agenticx import Agent, Task, AgentExecutor
-from agenticx.llms import OpenAIProvider
+## 按目的选入口
 
-agent = Agent(
-    id="research-agent",
-    name="Research Assistant",
-    role="Information gatherer",
-    goal="Find and synthesize information"
-)
+1. 第一次接触 → [安装](/docs/getting-started/installation) 再看 [快速上手](/docs/getting-started/quickstart)
+2. 先看全局 → [架构](/docs/concepts/architecture)
+3. 用桌面端 → [Near 桌面](/docs/concepts/near) 与 [Studio 服务](/docs/guides/studio)
+4. 用 Python 嵌入 → [智能体运行时](/docs/concepts/agent) 与 [工具](/docs/concepts/tools)
+5. 要企业 Web 管控 → [企业版](/enterprise)
 
-task = Task(
-    description="Research latest AI frameworks",
-    expected_output="Comprehensive analysis"
-)
+## 这套文档覆盖什么
 
-executor = AgentExecutor(agent=agent, llm=OpenAIProvider())
-result = executor.run(task)
-\`\`\`
+- **快速开始**：安装、第一次跑、\`~/.agenticx/config.yaml\`
+- **核心概念**：运行时循环、工具、记忆、编排、Hooks、技能、长周期编码
+- **指南**：第一个智能体、多智能体、Studio、知识脑、扩展、部署
+- **参考**：公开 Agent API、CLI、FAQ
 
-[开始使用 →](/docs/getting-started/installation)
-[在 GitHub 查看 →](https://github.com/DemonDamon/AgenticX)
+企业运维手册在 [企业文档](/enterprise/docs)，不在这棵树里。
+
+## 下一步
+
+[安装 →](/docs/getting-started/installation)
 `,
   },
 };

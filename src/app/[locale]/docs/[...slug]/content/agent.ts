@@ -4,7 +4,20 @@ export const agentContent = {
     description: 'Agent runtime execution in AgenticX.',
     content: `# Agent runtime
 
-This page describes the **\`AgentRuntime\`** execution path in AgenticX (\`agenticx/runtime/agent_runtime.py\`): the think-act loop, event stream, timeouts, confirmation gates, compaction, loop detection, and hook points. It is distinct from the older **\`AgentExecutor\`** pipeline in \`agenticx/core/agent_executor.py\`, which uses its own event log and context compiler.
+This page describes the **\`AgentRuntime\`** execution path (\`agenticx/runtime/agent_runtime.py\`): think-act loop, event stream, timeouts, confirmation gates, compaction, loop detection, and hooks. It is distinct from **\`AgentExecutor\`** in \`agenticx/core/agent_executor.py\`.
+
+Use \`AgentRuntime\` for Studio / Near chat. Use \`AgentExecutor\` to embed \`Agent\` + \`Task\` in your own process. Do not pass \`agent=\` into the \`AgentExecutor\` constructor.
+
+\`\`\`mermaid
+flowchart TB
+  user["User message"] --> sanit["sanitize tool sequences"]
+  sanit --> compact["maybe compact"]
+  compact --> llm["LLM invoke / stream"]
+  llm -->|tool_calls| tools["dispatch_tool_async"]
+  tools --> detect["LoopDetector"]
+  detect --> llm
+  llm -->|text only| final["FINAL"]
+\`\`\`
 
 ---
 
@@ -190,7 +203,20 @@ Registered hooks (\`agenticx/runtime/hooks/__init__.py\`) run in priority order:
     description: 'AgenticX 智能体运行时执行。',
     content: `# 智能体运行时
 
-本页描述 AgenticX 中的 **\`AgentRuntime\`** 执行路径（\`agenticx/runtime/agent_runtime.py\`）：think-act 循环、事件流、超时、确认门控、压缩、循环检测与钩子接入点。它与 \`agenticx/core/agent_executor.py\` 中较旧的 **\`AgentExecutor\`** 流水线不同——后者使用独立事件日志与上下文编译器。
+本页描述 **\`AgentRuntime\`** 执行路径（\`agenticx/runtime/agent_runtime.py\`）：think-act 循环、事件流、超时、确认门控、压缩、循环检测与钩子。它与 \`agenticx/core/agent_executor.py\` 里的 **\`AgentExecutor\`** 不同。
+
+Studio / Near 对话走 \`AgentRuntime\`。自己进程里嵌 \`Agent\` + \`Task\` 走 \`AgentExecutor\`。不要把 \`agent=\` 传给 \`AgentExecutor\` 构造函数。
+
+\`\`\`mermaid
+flowchart TB
+  user["用户消息"] --> sanit["清洗 tool 序列"]
+  sanit --> compact["按需压缩"]
+  compact --> llm["LLM 调用 / 流式"]
+  llm -->|tool_calls| tools["dispatch_tool_async"]
+  tools --> detect["LoopDetector"]
+  detect --> llm
+  llm -->|纯文本| final["FINAL"]
+\`\`\`
 
 ---
 

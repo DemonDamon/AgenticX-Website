@@ -4,7 +4,19 @@ export const llmProvidersContent = {
     description: 'LLM providers supported by AgenticX.',
     content: `# LLM providers
 
-AgenticX routes chat and tools through \`BaseLLMProvider\` implementations. First-party adapters cover major Chinese cloud APIs; everything else can go through \`LiteLLMProvider\` (OpenAI-compatible or LiteLLM model IDs).
+Chat and tools go through \`BaseLLMProvider\`. First-party adapters cover major Chinese clouds; everything else can use \`LiteLLMProvider\` (OpenAI-compatible or LiteLLM model IDs).
+
+A provider is **configured** when an API key **or a custom API base** is non-empty. Leaving only the official default base does not count. Local hosts such as Ollama need a reachable API address.
+
+\`\`\`mermaid
+flowchart LR
+  ui["Near settings"] --> yaml["~/.agenticx/config.yaml"]
+  yaml --> provider["BaseLLMProvider"]
+  provider --> upstream["Upstream API"]
+\`\`\`
+
+!!! warning "Vision"
+    MiniMax M2 and text-only GLM-5 (name without vl / vision / 4v / 5v) are treated as non-vision. Studio strips \`image_inputs\`; Near should block attachments instead of sending them.
 
 ---
 
@@ -224,7 +236,19 @@ Ollama is usually configured with \`base_url\` in YAML (for example \`http://loc
     description: 'AgenticX 支持的 LLM 供应商与配置方式。',
     content: `# LLM 供应商
 
-AgenticX 通过 \`BaseLLMProvider\` 实现路由对话与工具调用。国内主流云 API 有一方适配器；其余后端可经 \`LiteLLMProvider\` 接入（OpenAI 兼容端点或 LiteLLM 模型 ID）。
+对话和工具走 \`BaseLLMProvider\`。国内云有一方适配器；其余可用 \`LiteLLMProvider\`（OpenAI 兼容或 LiteLLM 模型 ID）。
+
+**已配置**指 API 密钥或**自定义** API 地址至少一项非空。只留官方默认 Base 不算。Ollama 这类本机服务必须填可访问地址。
+
+\`\`\`mermaid
+flowchart LR
+  ui["Near 设置"] --> yaml["~/.agenticx/config.yaml"]
+  yaml --> provider["BaseLLMProvider"]
+  provider --> upstream["上游 API"]
+\`\`\`
+
+!!! warning "视觉"
+    MiniMax M2 以及名称不含 vl / vision / 4v / 5v 的纯文本 GLM-5 按非视觉处理。Studio 会剥 \`image_inputs\`；Near 应拦截附件，不要硬发。
 
 ---
 

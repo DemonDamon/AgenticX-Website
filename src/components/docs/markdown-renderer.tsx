@@ -3,6 +3,7 @@
 import React from 'react';
 import { Highlight, themes } from 'prism-react-renderer';
 import { MermaidBlock } from '@/components/docs/mermaid-block';
+import { useSiteUiTheme } from '@/hooks/use-site-ui-theme';
 
 interface MarkdownRendererProps {
   content: string;
@@ -24,7 +25,16 @@ const languageMap: Record<string, string> = {
  * Simple Markdown renderer for documentation content
  * Supports: headers, code blocks with syntax highlighting, lists, links, bold, italic, tables
  */
+const ADMONITION_STYLES: Record<string, string> = {
+  note: 'border-border bg-muted text-foreground',
+  info: 'border-sky-500/40 bg-sky-500/10 text-foreground',
+  tip: 'border-emerald-500/40 bg-emerald-500/10 text-foreground',
+  warning: 'border-amber-500/40 bg-amber-500/10 text-foreground',
+};
+
 export function MarkdownRenderer({ content }: MarkdownRendererProps) {
+  const { resolved } = useSiteUiTheme();
+  const codeTheme = resolved === 'light' ? themes.github : themes.nightOwl;
   const renderMarkdown = (text: string): React.ReactNode => {
     const lines = text.split('\n');
     const elements: React.ReactNode[] = [];
@@ -36,79 +46,75 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
     let key = 0;
 
     const processInline = (line: string): React.ReactNode => {
-      // Process inline elements: bold, italic, code, links
       const parts: React.ReactNode[] = [];
       let remaining = line;
       let partKey = 0;
+      const linkClass =
+        'text-emerald-600 underline underline-offset-2 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300';
 
       while (remaining.length > 0) {
-        // Bold
-        const boldMatch = remaining.match(/\*\*(.+?)\*\*/);
-        if (boldMatch && boldMatch.index !== undefined) {
-          if (boldMatch.index > 0) {
-            parts.push(processInlineSimple(remaining.slice(0, boldMatch.index)));
-          }
-          parts.push(<strong key={partKey++} className="font-semibold text-white">{boldMatch[1]}</strong>);
-          remaining = remaining.slice(boldMatch.index + boldMatch[0].length);
-          continue;
+        const candidates: Array<{ kind: string; match: RegExpMatchArray }> = [];
+        const tryMatch = (kind: string, re: RegExp) => {
+          const match = remaining.match(re);
+          if (match && match.index !== undefined) candidates.push({ kind, match });
+        };
+        tryMatch('bold', /\*\*(.+?)\*\*/);
+        tryMatch('italic', /\*(.+?)\*/);
+        tryMatch('code', /`([^`]+)`/);
+        tryMatch('linkedImg', /\[\!\[([^\]]*)\]\(([^)]+)\)\]\(([^)]+)\)/);
+        tryMatch('img', /!\[([^\]]*)\]\(([^)]+)\)(?:\{[^}]*\})?/);
+        tryMatch('link', /\[([^\]]+)\]\(([^)]+)\)/);
+
+        if (candidates.length === 0) {
+          parts.push(processInlineSimple(remaining));
+          break;
         }
 
-        // Italic
-        const italicMatch = remaining.match(/\*(.+?)\*/);
-        if (italicMatch && italicMatch.index !== undefined) {
-          if (italicMatch.index > 0) {
-            parts.push(processInlineSimple(remaining.slice(0, italicMatch.index)));
-          }
-          parts.push(<em key={partKey++} className="italic">{italicMatch[1]}</em>);
-          remaining = remaining.slice(italicMatch.index + italicMatch[0].length);
-          continue;
+        const priority: Record<string, number> = {
+          linkedImg: 0,
+          img: 1,
+          link: 2,
+          bold: 3,
+          italic: 4,
+          code: 5,
+        };
+        candidates.sort((a, b) => {
+          const delta = (a.match.index ?? 0) - (b.match.index ?? 0);
+          if (delta !== 0) return delta;
+          return (priority[a.kind] ?? 9) - (priority[b.kind] ?? 9);
+        });
+        const { kind, match } = candidates[0];
+        const index = match.index ?? 0;
+        if (index > 0) {
+          parts.push(processInlineSimple(remaining.slice(0, index)));
         }
 
-        // Inline code
-        const codeMatch = remaining.match(/`([^`]+)`/);
-        if (codeMatch && codeMatch.index !== undefined) {
-          if (codeMatch.index > 0) {
-            parts.push(processInlineSimple(remaining.slice(0, codeMatch.index)));
-          }
+        if (kind === 'bold') {
+          parts.push(<strong key={partKey++} className="font-semibold text-foreground">{match[1]}</strong>);
+        } else if (kind === 'italic') {
+          parts.push(<em key={partKey++} className="italic">{match[1]}</em>);
+        } else if (kind === 'code') {
           parts.push(
-            <code key={partKey++} className="px-1.5 py-0.5 rounded bg-zinc-800 text-pink-400 text-sm font-mono">
-              {codeMatch[1]}
+            <code key={partKey++} className="rounded bg-muted px-1.5 py-0.5 font-mono text-sm text-foreground">
+              {match[1]}
             </code>
           );
-          remaining = remaining.slice(codeMatch.index + codeMatch[0].length);
-          continue;
-        }
-
-        // Linked image: [![alt](src)](href) — must run before plain links and images
-        const linkedImgMatch = remaining.match(/\[\!\[([^\]]*)\]\(([^)]+)\)\]\(([^)]+)\)/);
-        if (linkedImgMatch && linkedImgMatch.index !== undefined) {
-          if (linkedImgMatch.index > 0) {
-            parts.push(processInlineSimple(remaining.slice(0, linkedImgMatch.index)));
-          }
-          const [, alt, src, href] = linkedImgMatch;
+        } else if (kind === 'linkedImg') {
+          const [, alt, src, href] = match;
+          const external = !href.startsWith('/') && !href.startsWith('#');
           parts.push(
             <a
               key={partKey++}
               href={href}
-              target="_blank"
-              rel="noopener noreferrer"
+              {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
               className="inline-block align-middle"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={src} alt={alt} className="inline-block h-5 w-auto max-w-full align-middle" />
             </a>
           );
-          remaining = remaining.slice(linkedImgMatch.index + linkedImgMatch[0].length);
-          continue;
-        }
-
-        // Markdown images (optional MkDocs-style attrs: { width="600" })
-        const imgMatch = remaining.match(/!\[([^\]]*)\]\(([^)]+)\)(?:\{[^}]*\})?/);
-        if (imgMatch && imgMatch.index !== undefined) {
-          if (imgMatch.index > 0) {
-            parts.push(processInlineSimple(remaining.slice(0, imgMatch.index)));
-          }
-          const [, alt, src] = imgMatch;
+        } else if (kind === 'img') {
+          const [, alt, src] = match;
           const isDiagram = src.startsWith('/diagrams/');
           parts.push(
             // eslint-disable-next-line @next/next/no-img-element
@@ -118,39 +124,27 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
               alt={alt}
               className={
                 isDiagram
-                  ? 'my-2 h-auto w-full max-w-full rounded-lg border border-zinc-700'
-                  : 'my-2 max-h-[480px] max-w-full rounded-lg border border-zinc-700 object-contain'
+                  ? 'my-2 h-auto w-full max-w-full rounded-lg border border-border'
+                  : 'my-2 max-h-[480px] max-w-full rounded-lg border border-border object-contain'
               }
             />
           );
-          remaining = remaining.slice(imgMatch.index + imgMatch[0].length);
-          continue;
-        }
-
-        // Links
-        const linkMatch = remaining.match(/\[([^\]]+)\]\(([^)]+)\)/);
-        if (linkMatch && linkMatch.index !== undefined) {
-          if (linkMatch.index > 0) {
-            parts.push(processInlineSimple(remaining.slice(0, linkMatch.index)));
-          }
+        } else {
+          const href = match[2];
+          const external = !href.startsWith('/') && !href.startsWith('#');
           parts.push(
             <a
               key={partKey++}
-              href={linkMatch[2]}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-emerald-400 hover:text-emerald-300 underline underline-offset-2"
+              href={href}
+              {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+              className={linkClass}
             >
-              {linkMatch[1]}
+              {match[1]}
             </a>
           );
-          remaining = remaining.slice(linkMatch.index + linkMatch[0].length);
-          continue;
         }
 
-        // No more special elements, add rest as text
-        parts.push(processInlineSimple(remaining));
-        break;
+        remaining = remaining.slice(index + match[0].length);
       }
 
       return parts.length > 1 ? parts : parts[0] || null;
@@ -167,24 +161,24 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
       const bodyRows = rows.slice(2); // Skip header and separator
 
       return (
-        <div key={key++} className="overflow-x-auto my-6">
-          <table className="min-w-full border border-zinc-700 rounded-lg overflow-hidden">
-            <thead className="bg-zinc-800">
+        <div key={key++} className="my-6 overflow-x-auto">
+          <table className="min-w-full overflow-hidden rounded-lg border border-border">
+            <thead className="bg-muted">
               <tr>
                 {headerCells.map((cell, i) => (
-                  <th key={i} className="px-4 py-3 text-left text-sm font-semibold text-white border-b border-zinc-700">
+                  <th key={i} className="border-b border-border px-4 py-3 text-left text-sm font-semibold text-foreground">
                     {processInline(cell.trim())}
                   </th>
                 ))}
               </tr>
             </thead>
-            <tbody className="divide-y divide-zinc-700">
+            <tbody className="divide-y divide-border">
               {bodyRows.map((row, rowIndex) => {
                 const cells = row.split('|').filter(cell => cell.trim());
                 return (
-                  <tr key={rowIndex} className="hover:bg-zinc-800/50">
+                  <tr key={rowIndex} className="hover:bg-muted/60">
                     {cells.map((cell, cellIndex) => (
-                      <td key={cellIndex} className="px-4 py-3 text-sm text-zinc-300">
+                      <td key={cellIndex} className="px-4 py-3 text-sm text-muted-foreground">
                         {processInline(cell.trim())}
                       </td>
                     ))}
@@ -208,28 +202,28 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
       const highlightLang = languageMap[normalizedLang] || normalizedLang || 'text';
       
       return (
-        <div key={key++} className="my-6 rounded-lg overflow-hidden border border-zinc-700">
+        <div key={key++} className="my-6 overflow-hidden rounded-lg border border-border">
           {language && (
-            <div className="bg-zinc-800 px-4 py-2 text-xs text-zinc-400 border-b border-zinc-700 flex items-center justify-between">
-              <span className="uppercase font-medium">{language || 'code'}</span>
+            <div className="flex items-center justify-between border-b border-border bg-muted px-4 py-2 text-xs text-muted-foreground">
+              <span className="font-medium uppercase">{language || 'code'}</span>
               <button 
                 onClick={() => navigator.clipboard.writeText(code.trim())}
-                className="text-zinc-500 hover:text-zinc-300 transition-colors"
+                className="text-muted-foreground transition-colors hover:text-foreground"
               >
                 Copy
               </button>
             </div>
           )}
           <Highlight
-            theme={themes.nightOwl}
+            theme={codeTheme}
             code={code.trim()}
             language={highlightLang as 'text'}
           >
             {({ className, style, tokens, getLineProps, getTokenProps }) => (
-              <pre className={`${className} p-4 overflow-x-auto text-sm`} style={{ ...style, backgroundColor: '#0d1117' }}>
+              <pre className={`${className} overflow-x-auto p-4 text-sm`} style={style}>
                 {tokens.map((line, i) => (
                   <div key={i} {...getLineProps({ line })} className="table-row">
-                    <span className="table-cell text-zinc-600 select-none pr-4 text-right" style={{ minWidth: '2.5rem' }}>
+                    <span className="table-cell select-none pr-4 text-right text-muted-foreground" style={{ minWidth: '2.5rem' }}>
                       {i + 1}
                     </span>
                     <span className="table-cell">
@@ -288,10 +282,42 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
         continue;
       }
 
+      const admonitionMatch = line.match(/^!!!\s+(note|tip|warning|info)(?:\s+"([^"]*)"|\s+(\S.*))?$/);
+      if (admonitionMatch) {
+        const kind = admonitionMatch[1];
+        const title = (admonitionMatch[2] || admonitionMatch[3] || kind).trim();
+        const bodyLines: string[] = [];
+        i += 1;
+        while (i < lines.length) {
+          const next = lines[i];
+          if (next.startsWith('    ') || next.startsWith('\t')) {
+            bodyLines.push(next.replace(/^(?:    |\t)/, ''));
+            i += 1;
+            continue;
+          }
+          if (next.trim() === '') {
+            bodyLines.push('');
+            i += 1;
+            continue;
+          }
+          break;
+        }
+        i -= 1;
+        elements.push(
+          <aside key={key++} className={`my-6 rounded-lg border px-4 py-3 text-sm leading-relaxed ${ADMONITION_STYLES[kind]}`}>
+            <p className="mb-1 font-semibold capitalize">{title}</p>
+            {bodyLines.join('\n').trim() ? (
+              <div className="text-muted-foreground">{processInline(bodyLines.join(' ').replace(/\s+/g, ' ').trim())}</div>
+            ) : null}
+          </aside>
+        );
+        continue;
+      }
+
       // Headers
       if (line.startsWith('# ')) {
         elements.push(
-          <h1 key={key++} className="text-3xl font-bold text-white mt-8 mb-4">
+          <h1 key={key++} className="mb-4 mt-8 text-3xl font-bold text-foreground">
             {line.slice(2)}
           </h1>
         );
@@ -299,7 +325,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
       }
       if (line.startsWith('## ')) {
         elements.push(
-          <h2 key={key++} className="text-2xl font-bold text-white mt-8 mb-4 border-b border-zinc-700 pb-2">
+          <h2 key={key++} className="mb-4 mt-8 border-b border-border pb-2 text-2xl font-bold text-foreground">
             {line.slice(3)}
           </h2>
         );
@@ -307,7 +333,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
       }
       if (line.startsWith('### ')) {
         elements.push(
-          <h3 key={key++} className="text-xl font-semibold text-white mt-6 mb-3">
+          <h3 key={key++} className="mb-3 mt-6 text-xl font-semibold text-foreground">
             {line.slice(4)}
           </h3>
         );
@@ -315,7 +341,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
       }
       if (line.startsWith('#### ')) {
         elements.push(
-          <h4 key={key++} className="text-lg font-semibold text-zinc-200 mt-4 mb-2">
+          <h4 key={key++} className="mb-2 mt-4 text-lg font-semibold text-foreground">
             {line.slice(5)}
           </h4>
         );
@@ -325,7 +351,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
       // Horizontal rule
       if (line.match(/^---+$/)) {
         elements.push(
-          <hr key={key++} className="my-8 border-t border-zinc-700" />
+          <hr key={key++} className="my-8 border-t border-border" />
         );
         continue;
       }
@@ -335,7 +361,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
         const listItems: React.ReactNode[] = [];
         while (i < lines.length && lines[i].match(/^[-*]\s/)) {
           listItems.push(
-            <li key={key++} className="text-zinc-300 ml-4 list-disc">
+            <li key={key++} className="ml-4 list-disc text-muted-foreground">
               {processInline(lines[i].replace(/^[-*]\s/, ''))}
             </li>
           );
@@ -351,7 +377,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
         const listItems: React.ReactNode[] = [];
         while (i < lines.length && lines[i].match(/^\d+\.\s/)) {
           listItems.push(
-            <li key={key++} className="text-zinc-300 ml-4 list-decimal">
+            <li key={key++} className="ml-4 list-decimal text-muted-foreground">
               {processInline(lines[i].replace(/^\d+\.\s/, ''))}
             </li>
           );
@@ -375,8 +401,8 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
               alt={alt}
               className={
                 isDiagram
-                  ? 'h-auto w-full rounded-lg border border-zinc-700'
-                  : 'max-h-[min(480px,70vh)] w-auto max-w-full rounded-lg border border-zinc-700 object-contain'
+                  ? 'h-auto w-full rounded-lg border border-border'
+                  : 'max-h-[min(480px,70vh)] w-auto max-w-full rounded-lg border border-border object-contain'
               }
             />
           </div>
@@ -393,7 +419,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
         }
         i--; // Back up one
         elements.push(
-          <blockquote key={key++} className="my-4 pl-4 border-l-4 border-emerald-500 text-zinc-400 italic">
+          <blockquote key={key++} className="my-4 border-l-4 border-emerald-500 pl-4 italic text-muted-foreground">
             {quoteLines.map((ql, idx) => (
               <p key={idx}>{processInline(ql)}</p>
             ))}
@@ -404,7 +430,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
 
       // Regular paragraph
       elements.push(
-        <p key={key++} className="text-zinc-300 my-4 leading-relaxed">
+        <p key={key++} className="my-4 leading-relaxed text-muted-foreground">
           {processInline(line)}
         </p>
       );
@@ -418,5 +444,5 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
     return <>{elements}</>;
   };
 
-  return <div className="prose prose-invert max-w-none">{renderMarkdown(content)}</div>;
+  return <div className="prose max-w-none dark:prose-invert">{renderMarkdown(content)}</div>;
 }

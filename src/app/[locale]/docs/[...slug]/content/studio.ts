@@ -4,9 +4,23 @@ export const studioContent = {
     description: 'Studio server and session management.',
     content: `# Studio Server & Session Management
 
-## Overview
+**Studio** is the FastAPI process Near talks to. It is created by \`create_studio_app()\` in \`agenticx/studio/server.py\`. Chat turns are \`text/event-stream\` JSON frames, not a blocking request/response of the full answer.
 
-**Studio** is the backend service layer for **AgenticX Desktop**. It exposes a **FastAPI** application with **Server-Sent Events (SSE)** streaming endpoints.
+\`agx serve\` starts this HTTP API. \`agx studio\` starts the **terminal REPL**. They are different commands.
+
+\`\`\`mermaid
+flowchart LR
+  near["Near renderer"] --> main["Electron main"]
+  main -->|spawn / HTTP| api["Studio FastAPI"]
+  api --> sm["SessionManager"]
+  sm --> ms["ManagedSession"]
+  api --> ar["AgentRuntime"]
+  ar --> sse["SSE events"]
+  sse --> near
+\`\`\`
+
+!!! tip "Desktop token"
+    When \`AGX_DESKTOP_TOKEN\` is set, clients send \`X-Agx-Desktop-Token\`. Some MCP and admin routes require it even if global auth looks off. The token is written to \`~/.agenticx/serve.token\` on a Desktop-managed start.
 
 ---
 
@@ -114,9 +128,23 @@ Meta-Agent system prompts incorporate files under \`~/.agenticx/workspace/\`:
     description: 'Studio 服务端与会话管理。',
     content: `# Studio 服务与会话管理
 
-## 概述
+**Studio** 是 Near 对接的 FastAPI 进程，由 \`agenticx/studio/server.py\` 的 \`create_studio_app()\` 创建。对话轮次是 \`text/event-stream\` JSON 帧，不是一次性返回整段回答。
 
-**Studio** 是 **AgenticX Desktop** 的后端服务层，基于 **FastAPI** 提供 **Server-Sent Events (SSE)** 流式接口。
+\`agx serve\` 启动这套 HTTP API。\`agx studio\` 启动的是**终端 REPL**。两条命令不是一回事。
+
+\`\`\`mermaid
+flowchart LR
+  near["Near 渲染进程"] --> main["Electron 主进程"]
+  main -->|拉起 / HTTP| api["Studio FastAPI"]
+  api --> sm["SessionManager"]
+  sm --> ms["ManagedSession"]
+  api --> ar["AgentRuntime"]
+  ar --> sse["SSE 事件"]
+  sse --> near
+\`\`\`
+
+!!! tip "桌面令牌"
+    设置了 \`AGX_DESKTOP_TOKEN\` 时，客户端要带 \`X-Agx-Desktop-Token\`。部分 MCP 与管理路由即使看起来没开全局鉴权也会校验。Desktop 托管启动会把令牌写到 \`~/.agenticx/serve.token\`。
 
 ---
 

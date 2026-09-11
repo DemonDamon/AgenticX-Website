@@ -4,9 +4,22 @@ export const memoryContent = {
     description: 'Memory system in AgenticX.',
     content: `# Memory in AgenticX
 
-## Overview
+Memory is how an agent keeps identity, recent work, and a bounded window. Near's main path is **workspace files** (\`MEMORY.md\`, \`memory/*.md\`) plus **session \`messages.json\`**, then recall injected into the Meta system prompt. Optional Mem0 / other stores are library backends, not the Desktop default.
 
-Agents need stable identity, recall of past work, and a bounded context window. AgenticX combines **file-backed workspace memory**, a **session scratchpad**, **automatic fact extraction** after each turn, **hybrid retrieval** into the Meta-Agent system prompt, optional **Mem0** backends, and **LLM-assisted context compaction** on long threads.
+\`\`\`mermaid
+flowchart TB
+  turn["Chat turn"] --> files["Workspace MEMORY.md"]
+  turn --> hist["session messages.json"]
+  files --> recall["_build_memory_recall_context"]
+  hist --> compact["maybe compact"]
+  recall --> prompt["Meta system prompt"]
+  compact --> prompt
+\`\`\`
+
+!!! tip "Where to look on disk"
+    Long-term notes: \`~/.agenticx/workspace\`. Session titles and FTS: \`~/.agenticx/memory/sessions.sqlite\`. Chat transcript: \`~/.agenticx/sessions/<id>/messages.json\`. Do not mix these with an empty \`session_store.db\` under workspace.
+
+---
 
 Together these mechanisms approximate a layered memory stack: what must always be true (identity), what happened recently (episodes), what generalizes (semantics), what the model sees this turn (working set), what survives across sessions (long-term files and stores), and what is scoped to the user's workspace on disk.
 
@@ -184,9 +197,22 @@ memory:
     description: 'AgenticX 记忆系统。',
     content: `# AgenticX 中的记忆
 
-## 概述
+记忆用来保住身份、近期工作和有界窗口。Near 主路径是**工作区文件**（\`MEMORY.md\`、\`memory/*.md\`）加**会话 \`messages.json\`**，再召回注入 Meta 系统提示。Mem0 等是库后端，不是桌面默认。
 
-智能体需要稳定的身份、对过往工作的回忆，以及有界的上下文窗口。AgenticX 结合了 **文件型工作区记忆**、**会话 scratchpad**、每轮结束后的 **自动事实抽取**、注入 Meta-Agent 系统提示的 **混合检索**、可选的 **Mem0** 后端，以及长对话上的 **LLM 辅助上下文压缩**。
+\`\`\`mermaid
+flowchart TB
+  turn["对话轮次"] --> files["工作区 MEMORY.md"]
+  turn --> hist["session messages.json"]
+  files --> recall["_build_memory_recall_context"]
+  hist --> compact["按需压缩"]
+  recall --> prompt["Meta 系统提示"]
+  compact --> prompt
+\`\`\`
+
+!!! tip "磁盘上往哪找"
+    长期笔记：\`~/.agenticx/workspace\`。会话标题与 FTS：\`~/.agenticx/memory/sessions.sqlite\`。聊天正文：\`~/.agenticx/sessions/<id>/messages.json\`。不要和工作区下空的 \`session_store.db\` 混用。
+
+---
 
 这些机制共同构成近似分层的记忆栈：必须始终成立的内容（身份）、最近发生的事（情节）、可泛化的知识（语义）、本轮模型可见的内容（工作集）、跨会话保留的内容（长期文件与存储），以及落在用户磁盘工作区内的范围化记忆。
 

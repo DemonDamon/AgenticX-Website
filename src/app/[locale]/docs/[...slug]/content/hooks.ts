@@ -4,9 +4,22 @@ export const hooksContent = {
     description: 'Hook system in AgenticX.',
     content: `# Hook System
 
-## Overview
+Hooks intercept LLM and tool calls without forking the runtime. Use them for guardrails, logging, and policy. They are **not** skills and **not** MCP servers.
 
-AgenticX exposes **two hook layers** for different execution surfaces:
+Two layers:
+
+\`\`\`mermaid
+flowchart LR
+  start["agent start"] --> before["tool:before_call"]
+  before --> tool["tool runs"]
+  tool --> after["tool:after_call"]
+  after --> stop["agent stop"]
+\`\`\`
+
+!!! warning "Dangerous shell"
+    Bundled \`pre_tool_guard\` only fires if \`tool:before_call\` is actually dispatched. \`rm -rf\` matching must cover merged flags and must not fire on quoted commit messages.
+
+---
 
 | Layer | Package path | Purpose |
 |-------|--------------|---------|
@@ -122,9 +135,22 @@ runtime.hooks.register(DenyShellHook(), priority=100)
     description: 'AgenticX 钩子系统。',
     content: `# 钩子系统
 
-## 概述
+钩子在不拆分运行时的前提下拦截 LLM 与工具调用，用来做护栏、日志和策略。它们**不是**技能，也**不是** MCP。
 
-AgenticX 为不同执行面暴露 **两层钩子**：
+两层：
+
+\`\`\`mermaid
+flowchart LR
+  start["agent 开始"] --> before["tool:before_call"]
+  before --> tool["工具执行"]
+  tool --> after["tool:after_call"]
+  after --> stop["agent 结束"]
+\`\`\`
+
+!!! warning "危险 Shell"
+    预置 \`pre_tool_guard\` 只有在真正派发了 \`tool:before_call\` 时才会拦。\`rm -rf\` 匹配要覆盖合并 flag，且不能误伤带引号的 commit message。
+
+---
 
 | 层级 | 包路径 | 用途 |
 |-------|--------------|---------|

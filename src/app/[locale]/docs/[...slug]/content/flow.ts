@@ -4,7 +4,15 @@ export const flowContent = {
     description: 'Flow and workflow engine in AgenticX.',
     content: `# Flow & Workflow Engine
 
-AgenticX exposes two complementary ways to orchestrate multi-step logic: a **decorator-driven Flow system** for in-process method graphs, and a **configuration-driven \`WorkflowEngine\`** for graph-based execution.
+Use Flow when **in-process Python methods** should form a graph (\`@start\` / \`@listen\` / \`@router\`). Use \`WorkflowEngine\` when you want a configuration-driven graph. Neither replaces a Near chat turn — that is \`AgentRuntime\`.
+
+\`\`\`mermaid
+flowchart LR
+  start["@start"] --> listen["@listen"]
+  listen --> router["@router"]
+  router -->|branch a| a["step A"]
+  router -->|branch b| b["step B"]
+\`\`\`
 
 ---
 
@@ -160,7 +168,15 @@ from agenticx.core.workflow_engine import WorkflowEngine, WorkflowGraph
     description: 'AgenticX 中的 Flow 与工作流引擎。',
     content: `# Flow 与工作流引擎
 
-AgenticX 提供两种互补的多步骤编排方式：**装饰器驱动的 Flow 系统**（进程内方法图），以及 **配置驱动的 \`WorkflowEngine\`**（基于图的执行）。
+进程内 Python 方法要成图时用 Flow（\`@start\` / \`@listen\` / \`@router\`）。要配置驱动的图用 \`WorkflowEngine\`。两者都不替代 Near 对话轮次——那是 \`AgentRuntime\`。
+
+\`\`\`mermaid
+flowchart LR
+  start["@start"] --> listen["@listen"]
+  listen --> router["@router"]
+  router -->|分支 a| a["步骤 A"]
+  router -->|分支 b| b["步骤 B"]
+\`\`\`
 
 ---
 

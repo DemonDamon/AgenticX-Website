@@ -1,226 +1,188 @@
 export const quickstartContent = {
   en: {
     title: 'Quick Start',
-    description: 'Get up and running in 5 minutes.',
+    description: 'Run an agent from Python, or start the local Studio server Near talks to.',
     content: `# Quick Start
 
-Get up and running in 5 minutes.
+Two valid first runs. Pick one. They are not the same loop.
 
-## 1. Install
+| Path | Entry | Loop |
+|------|-------|------|
+| **SDK** | \`Agent\` + \`Task\` + \`AgentExecutor\` | Classic task executor in \`agenticx/core/agent_executor.py\` |
+| **Studio / Near** | \`agx serve\` then the desktop app | \`AgentRuntime.run_turn\` in \`agenticx/runtime/agent_runtime.py\` |
 
-\`\`\`bash
-pip install agenticx
+!!! note "Do not mix constructor arguments"
+    \`AgentExecutor\` takes \`llm_provider=\`, not \`llm=\` or \`agent=\`. You pass the agent into \`run(agent=, task=)\`.
+
+\`\`\`mermaid
+flowchart TB
+  subgraph sdkPath["SDK path"]
+    A["Agent + Task"] --> E["AgentExecutor.run"]
+    E --> Out["dict result"]
+  end
+  subgraph studioPath["Studio path"]
+    S["agx serve"] --> N["Near or HTTP client"]
+    N --> R["AgentRuntime.run_turn"]
+    R --> SSE["SSE events"]
+  end
 \`\`\`
 
-## 2. Create Your First Agent
+## Path A — embed in Python
 
 \`\`\`python
 from agenticx import Agent, Task, AgentExecutor
 from agenticx.llms import OpenAIProvider
+from agenticx.tools.function_tool import tool
 
-# Define the agent
+@tool(name="add", description="Add two integers.")
+def add(a: int, b: int) -> int:
+    return a + b
+
 agent = Agent(
-    id="data-analyst",
-    name="Data Analyst",
-    role="Data Analysis Expert",
-    goal="Help users analyze and understand data",
-    organization_id="my-org"
+    name="Analyst",
+    role="Data analysis helper",
+    goal="Answer numeric questions",
+    organization_id="my-org",
 )
-
-# Define a task
 task = Task(
-    id="analysis-task",
-    description="Analyze sales data trends for Q4 2025",
-    expected_output="A detailed analysis report with key insights"
+    id="sum-1",
+    description="What is 42 + 58?",
+    expected_output="The integer sum",
 )
 
-# Run
-llm = OpenAIProvider(model="gpt-4o")
-executor = AgentExecutor(agent=agent, llm=llm)
-result = executor.run(task)
+executor = AgentExecutor(
+    llm_provider=OpenAIProvider(model="gpt-4o"),
+    tools=[add],
+)
+result = executor.run(agent=agent, task=task)
 print(result)
 \`\`\`
 
-## 3. Add Tools
+You need a working provider key in the environment. Details: [Agent Runtime](/docs/concepts/agent), [Tools](/docs/concepts/tools).
 
-Give your agent the ability to call custom functions:
-
-\`\`\`python
-from agenticx.tools import tool
-from agenticx import Agent, Task, AgentExecutor
-from agenticx.llms import OpenAIProvider
-
-@tool
-def calculate_sum(x: int, y: int) -> int:
-    """Calculate the sum of two numbers."""
-    return x + y
-
-@tool
-def search_web(query: str) -> str:
-    """Search the web for information."""
-    # integrate with your search provider
-    return f"Results for: {query}"
-
-agent = Agent(
-    id="assistant",
-    name="Assistant",
-    role="General Assistant",
-    goal="Help with any task",
-    organization_id="my-org"
-)
-
-task = Task(
-    description="What is 42 + 58?",
-    expected_output="The numerical answer"
-)
-
-executor = AgentExecutor(agent=agent, llm=OpenAIProvider(), tools=[calculate_sum, search_web])
-result = executor.run(task)
-\`\`\`
-
-## 4. CLI Quick Start
-
-After installation, the \`agx\` CLI is available:
+## Path B — local Studio for Near
 
 \`\`\`bash
-# Create a new project
-agx project create my-agent --template basic
-cd my-agent
-
-# Start the Studio API server
-agx serve --port 8000
-
-# Run a workflow file
-agx run workflows/my_pipeline.py --verbose
+agx serve --host 127.0.0.1 --port 8000
 \`\`\`
 
-## 5. Use the Studio UI
+Desktop usually spawns this for you on \`127.0.0.1\` with an ephemeral port, then writes \`~/.agenticx/serve.port\` and \`~/.agenticx/serve.token\`. If you start it yourself, Near must point at that host and port.
 
-AgenticX ships with a web-based Studio for managing agents, sessions, and group chats:
+\`agx studio\` is the **terminal REPL**, not the FastAPI process. See [Studio Server](/docs/guides/studio).
+
+## Path C — one-shot CLI
 
 \`\`\`bash
-agx serve --port 8000
-# Open http://localhost:8000 in your browser
+agx run "Summarize what AgenticX is in two sentences"
 \`\`\`
 
-## Next Steps
+Use this to check that the provider config works before opening the desktop UI.
+
+## If nothing happens
+
+1. \`agx --version\` fails → package not on this \`PATH\`
+2. Provider 401 → key missing or wrong env
+3. Desktop empty avatars / history → \`agx serve\` is not listening (check \`~/.agenticx/serve.port\`)
+4. Tool loop stops early → raise \`runtime.max_tool_rounds\` / \`AGX_MAX_TOOL_ROUNDS\` in [Configuration](/docs/getting-started/configuration)
+
+## Next
 
 - [Configuration →](/docs/getting-started/configuration)
-- [Agent Core concepts →](/docs/concepts/agent)
-- [Multi-Agent Collaboration →](/docs/guides/multi-agent)
-- [CLI Reference →](/docs/cli)
+- [Architecture →](/docs/concepts/architecture)
+- [Building Your First Agent →](/docs/guides/first-agent)
 `,
   },
   zh: {
     title: '快速上手',
-    description: '5 分钟内完成安装并运行第一个智能体。',
+    description: '用 Python 跑一个智能体，或启动 Near 连接的本机 Studio。',
     content: `# 快速上手
 
-5 分钟内完成安装并运行第一个智能体。
+两条都成立的第一次运行，选一条。它们不是同一套循环。
 
-## 1. 安装
+| 路径 | 入口 | 循环 |
+|------|------|------|
+| **SDK** | \`Agent\` + \`Task\` + \`AgentExecutor\` | \`agenticx/core/agent_executor.py\` 里的经典任务执行器 |
+| **Studio / Near** | \`agx serve\` 再开桌面 | \`agenticx/runtime/agent_runtime.py\` 的 \`AgentRuntime.run_turn\` |
 
-\`\`\`bash
-pip install agenticx
+!!! note "不要混构造参数"
+    \`AgentExecutor\` 收 \`llm_provider=\`，不是 \`llm=\` 或 \`agent=\`。智能体要传给 \`run(agent=, task=)\`。
+
+\`\`\`mermaid
+flowchart TB
+  subgraph sdkPath["SDK 路径"]
+    A["Agent + Task"] --> E["AgentExecutor.run"]
+    E --> Out["dict 结果"]
+  end
+  subgraph studioPath["Studio 路径"]
+    S["agx serve"] --> N["Near 或 HTTP 客户端"]
+    N --> R["AgentRuntime.run_turn"]
+    R --> SSE["SSE 事件"]
+  end
 \`\`\`
 
-## 2. 创建第一个智能体
+## 路径 A — 嵌进 Python
 
 \`\`\`python
 from agenticx import Agent, Task, AgentExecutor
 from agenticx.llms import OpenAIProvider
+from agenticx.tools.function_tool import tool
 
-# Define the agent
+@tool(name="add", description="Add two integers.")
+def add(a: int, b: int) -> int:
+    return a + b
+
 agent = Agent(
-    id="data-analyst",
-    name="Data Analyst",
-    role="Data Analysis Expert",
-    goal="Help users analyze and understand data",
-    organization_id="my-org"
+    name="Analyst",
+    role="Data analysis helper",
+    goal="Answer numeric questions",
+    organization_id="my-org",
 )
-
-# Define a task
 task = Task(
-    id="analysis-task",
-    description="Analyze sales data trends for Q4 2025",
-    expected_output="A detailed analysis report with key insights"
+    id="sum-1",
+    description="What is 42 + 58?",
+    expected_output="The integer sum",
 )
 
-# Run
-llm = OpenAIProvider(model="gpt-4o")
-executor = AgentExecutor(agent=agent, llm=llm)
-result = executor.run(task)
+executor = AgentExecutor(
+    llm_provider=OpenAIProvider(model="gpt-4o"),
+    tools=[add],
+)
+result = executor.run(agent=agent, task=task)
 print(result)
 \`\`\`
 
-## 3. 添加工具
+环境里要有能用的供应商密钥。细节见 [智能体运行时](/docs/concepts/agent)、[工具](/docs/concepts/tools)。
 
-为智能体接入自定义函数调用能力：
-
-\`\`\`python
-from agenticx.tools import tool
-from agenticx import Agent, Task, AgentExecutor
-from agenticx.llms import OpenAIProvider
-
-@tool
-def calculate_sum(x: int, y: int) -> int:
-    """Calculate the sum of two numbers."""
-    return x + y
-
-@tool
-def search_web(query: str) -> str:
-    """Search the web for information."""
-    # integrate with your search provider
-    return f"Results for: {query}"
-
-agent = Agent(
-    id="assistant",
-    name="Assistant",
-    role="General Assistant",
-    goal="Help with any task",
-    organization_id="my-org"
-)
-
-task = Task(
-    description="What is 42 + 58?",
-    expected_output="The numerical answer"
-)
-
-executor = AgentExecutor(agent=agent, llm=OpenAIProvider(), tools=[calculate_sum, search_web])
-result = executor.run(task)
-\`\`\`
-
-## 4. CLI 快速入门
-
-安装完成后即可使用 \`agx\` CLI：
+## 路径 B — 给 Near 用的本机 Studio
 
 \`\`\`bash
-# Create a new project
-agx project create my-agent --template basic
-cd my-agent
-
-# Start the Studio API server
-agx serve --port 8000
-
-# Run a workflow file
-agx run workflows/my_pipeline.py --verbose
+agx serve --host 127.0.0.1 --port 8000
 \`\`\`
 
-## 5. 使用 Studio UI
+桌面端通常会自己在 \`127.0.0.1\` 上拉起，端口随机，并写入 \`~/.agenticx/serve.port\` 与 \`~/.agenticx/serve.token\`。若你自己起服务，Near 必须指到这个地址。
 
-AgenticX 内置基于 Web 的 Studio，用于管理智能体、会话与群聊：
+\`agx studio\` 是**终端 REPL**，不是 FastAPI 进程。见 [Studio 服务](/docs/guides/studio)。
+
+## 路径 C — 一次性 CLI
 
 \`\`\`bash
-agx serve --port 8000
-# Open http://localhost:8000 in your browser
+agx run "用两句话说明 AgenticX 是什么"
 \`\`\`
+
+适合在开桌面之前先确认供应商配置能通。
+
+## 如果没反应
+
+1. \`agx --version\` 失败 → 当前 \`PATH\` 里没有这个包
+2. 供应商 401 → 密钥没配或环境变量不对
+3. 桌面分身 / 历史全空 → \`agx serve\` 没在听（看 \`~/.agenticx/serve.port\`）
+4. 工具循环过早停 → 在 [配置](/docs/getting-started/configuration) 里调大 \`runtime.max_tool_rounds\` / \`AGX_MAX_TOOL_ROUNDS\`
 
 ## 下一步
 
 - [配置 →](/docs/getting-started/configuration)
-- [智能体核心概念 →](/docs/concepts/agent)
-- [多智能体协作 →](/docs/guides/multi-agent)
-- [CLI 参考 →](/docs/cli)
+- [架构 →](/docs/concepts/architecture)
+- [第一个智能体 →](/docs/guides/first-agent)
 `,
   },
 };

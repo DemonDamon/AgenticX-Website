@@ -5,7 +5,23 @@ export const extensionsContent = {
       'Skills, AGX Bundles, and the skill marketplace — extend AgenticX with domain knowledge, MCP servers, avatar presets, and memory templates.',
     content: `# Extensions & Skill Ecosystem
 
-AgenticX supports a three-layer extension model that lets you bring in domain knowledge, external tools, avatar presets, and memory templates—either hand-crafted or sourced from the community.
+Extensions add **knowledge and procedures** (skills), **external tools** (MCP), or a packaged mix (AGX Bundle). They do not replace \`STUDIO_TOOLS\` and they are not a second Agent Runtime.
+
+\`\`\`mermaid
+flowchart LR
+  scan["build_skill_search_paths"] --> guard["scan_skill / should_allow"]
+  guard --> list["skill list"]
+  list --> use["skill_use path 1"]
+  list --> prompt["active_skill path 2"]
+  mcp["MCP marketplace / mcp.json"] --> hub["MCPHub"]
+  bundle["AGX Bundle"] --> scan
+  bundle --> mcp
+\`\`\`
+
+!!! tip "Default market view"
+    The empty search view is curated. A user search must return the **full** result set, not a second curated filter.
+
+---
 
 | Layer | What it is | Install path |
 |-------|-----------|-------------|
@@ -332,7 +348,23 @@ Then search in **Settings → 技能 → 浏览市场**.
       '技能、AGX Bundle 与技能市场 — 用领域知识、MCP 服务器、分身预设与记忆模板扩展 AgenticX。',
     content: `# 扩展与技能生态
 
-AgenticX 支持三层扩展模型，可引入领域知识、外部工具、分身预设与记忆模板——既可手工编写，也可从社区获取。
+扩展补的是**知识与流程**（技能）、**外部工具**（MCP），或打包组合（AGX Bundle）。它们不替代 \`STUDIO_TOOLS\`，也不是第二套 Agent Runtime。
+
+\`\`\`mermaid
+flowchart LR
+  scan["build_skill_search_paths"] --> guard["scan_skill / should_allow"]
+  guard --> list["技能列表"]
+  list --> use["skill_use 路径 1"]
+  list --> prompt["active_skill 路径 2"]
+  mcp["MCP 市场 / mcp.json"] --> hub["MCPHub"]
+  bundle["AGX Bundle"] --> scan
+  bundle --> mcp
+\`\`\`
+
+!!! tip "市场默认视图"
+    未搜索时只展示精选。用户主动搜索必须返回**全量**结果，不能再套一层精选过滤。
+
+---
 
 | 层级 | 含义 | 安装路径 |
 |------|------|----------|

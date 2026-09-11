@@ -4,9 +4,26 @@ export const toolsContent = {
     description: 'Tool system in AgenticX.',
     content: `# Tools
 
-## Overview
+Tools are the contract between the model and the environment: filesystem, shell, MCP, REST, and skills. The runtime collects schemas, routes \`tool_calls\`, and runs them through policy and hooks.
 
-Tools are the contract between language models and your environment. In AgenticX they sit between **agent reasoning** and **side effects**: filesystem, shell, MCP servers, generated REST calls, and packaged skills. The runtime collects tool schemas for the model, routes \`tool_calls\` back to implementations, and funnels execution through shared policy, safety, and auditing hooks.
+Use \`@tool\` / \`BaseTool\` in the SDK. Near / Studio uses \`STUDIO_TOOLS\` in \`agenticx/cli/agent_tools.py\` plus \`dispatch_tool_async\`. Do not assume every library tool is registered in Studio.
+
+\`\`\`mermaid
+flowchart LR
+  llm["LLM tool_calls"] --> dispatch["dispatch_tool_async"]
+  dispatch --> studio["STUDIO_TOOLS"]
+  dispatch --> mcp["MCPHub / mcp_call"]
+  dispatch --> skill["skill_use"]
+  studio --> result["tool result"]
+  mcp --> result
+  skill --> result
+  result --> llm
+\`\`\`
+
+!!! note "Studio vs SDK"
+    A tool you \`@tool\` in a script is not automatically in Near. Studio only sees what \`STUDIO_TOOLS\` and connected MCP servers expose.
+
+---
 
 | Concern | Primary components |
 |--------|---------------------|
@@ -277,9 +294,26 @@ Optional **\`ToolRiskProfile\`** entries override inference per \`tool_name\` (\
     description: 'AgenticX 工具系统概览与用法。',
     content: `# 工具
 
-## 概览
+工具是模型与环境的契约：文件系统、Shell、MCP、REST、技能。运行时收集 schema、路由 \`tool_calls\`，再经策略和钩子执行。
 
-工具是语言模型与运行环境之间的契约。在 AgenticX 中，它们位于**智能体推理**与**副作用**之间：文件系统、Shell、MCP 服务器、由规范生成的 REST 调用以及打包的技能。运行时收集工具 schema 供模型使用，将 \`tool_calls\` 路由到具体实现，并通过统一的策略、安全与审计钩子执行。
+SDK 用 \`@tool\` / \`BaseTool\`。Near / Studio 用 \`agenticx/cli/agent_tools.py\` 里的 \`STUDIO_TOOLS\` 加 \`dispatch_tool_async\`。不要假设库里每个工具都会出现在 Studio。
+
+\`\`\`mermaid
+flowchart LR
+  llm["LLM tool_calls"] --> dispatch["dispatch_tool_async"]
+  dispatch --> studio["STUDIO_TOOLS"]
+  dispatch --> mcp["MCPHub / mcp_call"]
+  dispatch --> skill["skill_use"]
+  studio --> result["工具结果"]
+  mcp --> result
+  skill --> result
+  result --> llm
+\`\`\`
+
+!!! note "Studio 与 SDK"
+    脚本里 \`@tool\` 的工具不会自动进 Near。Studio 只看见 \`STUDIO_TOOLS\` 和已连接 MCP 暴露的能力。
+
+---
 
 | 关注点 | 主要组件 |
 |--------|----------|

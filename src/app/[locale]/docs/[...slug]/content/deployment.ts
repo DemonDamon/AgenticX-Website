@@ -1,252 +1,188 @@
 export const deploymentContent = {
   en: {
     title: 'Deployment',
-    description: 'Deploy AgenticX in production.',
+    description: 'Run Studio locally or behind a reverse proxy.',
     content: `# Deployment
 
-## Overview
+Near's default is **local** \`agx serve\`. Treat remote/HA as an extra path, not the product default. There is no \`agenticx.server:app\` module — the FastAPI app is \`create_studio_app()\` in \`agenticx.studio.server\`.
 
-AgenticX can be deployed as:
-- A standalone API server
-- A Docker container
-- A Docker Compose stack (with databases and vector stores)
-
----
-
-## API Server
-
-\`\`\`bash
-# Start the Studio API server
-agx serve --port 8000 --host 0.0.0.0
-
-# Or with uvicorn directly
-uvicorn agenticx.server:app --host 0.0.0.0 --port 8000 --workers 4
+\`\`\`mermaid
+flowchart LR
+  near["Near / clients"] --> serve["agx serve"]
+  serve --> api["create_studio_app"]
+  api --> disk["~/.agenticx"]
+  proxy["Nginx optional"] --> serve
 \`\`\`
 
+!!! warning "Health path"
+    Liveness is \`GET /api/health\` → \`{"status":"ok"}\`. There is no \`GET /health\` on Studio.
+
 ---
 
-## Docker
+## Local API server
+
+\`\`\`bash
+agx serve --host 127.0.0.1 --port 8000
+# Desktop-managed starts also write ~/.agenticx/serve.port and serve.token
+\`\`\`
+
+| Flag | Default | Notes |
+|------|---------|-------|
+| \`--host\` | \`0.0.0.0\` | Prefer \`127.0.0.1\` on a laptop |
+| \`--port\` | \`8000\` | Near may pick a random port and persist it |
+| \`--token\` | empty | Sets \`AGX_DESKTOP_TOKEN\` |
+| \`--reload\` | false | Dev only |
+
+\`agx studio\` is the **terminal REPL**, not this HTTP process.
+
+---
+
+## Docker (example)
+
+Compose files exist under \`deploy/\` (\`docker-compose.minimal.yml\`, \`docker-compose.core.yml\`, \`docker-compose.yml\`). Use them when you deliberately want Postgres / Redis next to Studio. They are **not** required for Near on a laptop.
 
 \`\`\`dockerfile
 FROM python:3.11-slim
-
 WORKDIR /app
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-
-COPY . .
-
-ENV OPENAI_API_KEY=""
+RUN pip install agenticx
 EXPOSE 8000
-
-CMD ["agx", "serve", "--port", "8000", "--host", "0.0.0.0"]
+CMD ["agx", "serve", "--host", "0.0.0.0", "--port", "8000"]
 \`\`\`
 
 \`\`\`bash
-docker build -t agenticx-app .
-docker run -p 8000:8000 -e OPENAI_API_KEY=sk-... agenticx-app
-\`\`\`
-
----
-
-## Docker Compose
-
-The repo ships with ready-to-use Compose files:
-
-\`\`\`bash
-# Minimal setup (app + SQLite)
 docker compose -f deploy/docker-compose.minimal.yml up
-
-# Core setup (app + PostgreSQL + Redis)
-docker compose -f deploy/docker-compose.core.yml up
-
-# Full stack (+ Neo4j + vector stores)
-docker compose -f deploy/docker-compose.yml up
 \`\`\`
 
 ---
 
-## Environment Variables
+## Reverse proxy
 
-\`\`\`bash
-cp deploy/env.example .env
-# Edit .env with your values
-\`\`\`
-
-| Variable | Description |
-|----------|-------------|
-| \`OPENAI_API_KEY\` | OpenAI API key |
-| \`DATABASE_URL\` | PostgreSQL connection string |
-| \`REDIS_URL\` | Redis connection string |
-| \`NEO4J_URI\` | Neo4j connection URI |
-| \`AGX_MAX_TOOL_ROUNDS\` | Max tool rounds per turn |
-| \`AGX_SECRET_KEY\` | Session signing key |
-
----
-
-## Nginx Reverse Proxy
+SSE needs HTTP/1.1 and an upgraded connection. Point the proxy at the **actual** Studio port (see \`~/.agenticx/serve.port\`).
 
 \`\`\`nginx
-server {
-    listen 80;
-    server_name api.yourdomain.com;
-
-    location / {
-        proxy_pass http://localhost:8000;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-    }
+location / {
+    proxy_pass http://127.0.0.1:8000;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_set_header Host $host;
+    proxy_buffering off;
 }
 \`\`\`
 
 ---
 
-## Health Check
+## Probe
 
 \`\`\`bash
-curl http://localhost:8000/health
-# {"status": "ok", "version": "0.x.x"}
+curl --noproxy '*' http://127.0.0.1:8000/api/health
+# {"status":"ok"}
 \`\`\`
+
+Provider health is \`GET /api/health/providers\` and requires the desktop token when one is set.
 
 ---
 
-## Scaling
+## What this page is not
 
-For high-throughput deployments:
+- Enterprise Go Gateway (separate process, OpenAI-compatible relay)
+- A cluster Agent Runtime (planned)
+- \`uvicorn agenticx.server:app --workers N\` (that module does not exist)
 
-1. Run multiple workers: \`uvicorn agenticx.server:app --workers 8\`
-2. Use Redis for session storage (instead of SQLite)
-3. Use PostgreSQL for persistent data
-4. Deploy behind a load balancer
-5. Use Kubernetes for orchestration
+See [Studio](/docs/guides/studio), [Configuration](/docs/getting-started/configuration), [CLI](/docs/cli).
 `,
   },
   zh: {
     title: '部署',
-    description: '在生产环境中部署 AgenticX。',
+    description: '本机跑 Studio，或挂反向代理。',
     content: `# 部署
 
-## 概述
+Near 默认是**本机** \`agx serve\`。远程 / 高可用是额外路径，不是产品默认。没有 \`agenticx.server:app\` 模块——FastAPI 应用是 \`agenticx.studio.server\` 里的 \`create_studio_app()\`。
 
-AgenticX 可按以下方式部署：
-- 独立 API 服务器
-- Docker 容器
-- Docker Compose 栈（含数据库与向量存储）
-
----
-
-## API 服务器
-
-\`\`\`bash
-# Start the Studio API server
-agx serve --port 8000 --host 0.0.0.0
-
-# Or with uvicorn directly
-uvicorn agenticx.server:app --host 0.0.0.0 --port 8000 --workers 4
+\`\`\`mermaid
+flowchart LR
+  near["Near / 客户端"] --> serve["agx serve"]
+  serve --> api["create_studio_app"]
+  api --> disk["~/.agenticx"]
+  proxy["可选 Nginx"] --> serve
 \`\`\`
 
+!!! warning "健康检查路径"
+    存活探针是 \`GET /api/health\` → \`{"status":"ok"}\`。Studio 没有 \`GET /health\`。
+
 ---
 
-## Docker
+## 本机 API
+
+\`\`\`bash
+agx serve --host 127.0.0.1 --port 8000
+# Desktop 托管启动还会写 ~/.agenticx/serve.port 和 serve.token
+\`\`\`
+
+| 参数 | 默认 | 说明 |
+|------|------|------|
+| \`--host\` | \`0.0.0.0\` | 笔记本上建议 \`127.0.0.1\` |
+| \`--port\` | \`8000\` | Near 可能用随机端口并落盘 |
+| \`--token\` | 空 | 写入 \`AGX_DESKTOP_TOKEN\` |
+| \`--reload\` | false | 仅开发 |
+
+\`agx studio\` 是**终端 REPL**，不是这套 HTTP 进程。
+
+---
+
+## Docker（示例）
+
+\`deploy/\` 下有 Compose（\`docker-compose.minimal.yml\`、\`docker-compose.core.yml\`、\`docker-compose.yml\`）。需要把 Postgres / Redis 和 Studio 放一起时再用。笔记本跑 Near **不必**上这套。
 
 \`\`\`dockerfile
 FROM python:3.11-slim
-
 WORKDIR /app
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-
-COPY . .
-
-ENV OPENAI_API_KEY=""
+RUN pip install agenticx
 EXPOSE 8000
-
-CMD ["agx", "serve", "--port", "8000", "--host", "0.0.0.0"]
+CMD ["agx", "serve", "--host", "0.0.0.0", "--port", "8000"]
 \`\`\`
 
 \`\`\`bash
-docker build -t agenticx-app .
-docker run -p 8000:8000 -e OPENAI_API_KEY=sk-... agenticx-app
-\`\`\`
-
----
-
-## Docker Compose
-
-仓库自带可直接使用的 Compose 文件：
-
-\`\`\`bash
-# Minimal setup (app + SQLite)
 docker compose -f deploy/docker-compose.minimal.yml up
-
-# Core setup (app + PostgreSQL + Redis)
-docker compose -f deploy/docker-compose.core.yml up
-
-# Full stack (+ Neo4j + vector stores)
-docker compose -f deploy/docker-compose.yml up
 \`\`\`
 
 ---
 
-## 环境变量
+## 反向代理
 
-\`\`\`bash
-cp deploy/env.example .env
-# Edit .env with your values
-\`\`\`
-
-| Variable | Description |
-|----------|-------------|
-| \`OPENAI_API_KEY\` | OpenAI API key |
-| \`DATABASE_URL\` | PostgreSQL connection string |
-| \`REDIS_URL\` | Redis connection string |
-| \`NEO4J_URI\` | Neo4j connection URI |
-| \`AGX_MAX_TOOL_ROUNDS\` | Max tool rounds per turn |
-| \`AGX_SECRET_KEY\` | Session signing key |
-
----
-
-## Nginx 反向代理
+SSE 需要 HTTP/1.1 和升级连接。代理要指到 **实际** Studio 端口（见 \`~/.agenticx/serve.port\`）。
 
 \`\`\`nginx
-server {
-    listen 80;
-    server_name api.yourdomain.com;
-
-    location / {
-        proxy_pass http://localhost:8000;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-    }
+location / {
+    proxy_pass http://127.0.0.1:8000;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_set_header Host $host;
+    proxy_buffering off;
 }
 \`\`\`
 
 ---
 
-## 健康检查
+## 探测
 
 \`\`\`bash
-curl http://localhost:8000/health
-# {"status": "ok", "version": "0.x.x"}
+curl --noproxy '*' http://127.0.0.1:8000/api/health
+# {"status":"ok"}
 \`\`\`
+
+供应商健康是 \`GET /api/health/providers\`，设置了桌面令牌时必须带上。
 
 ---
 
-## 扩容
+## 本页不是什么
 
-高吞吐部署建议：
+- Enterprise Go 网关（独立进程，OpenAI 兼容中继）
+- 集群 Agent Runtime（规划中）
+- \`uvicorn agenticx.server:app --workers N\`（该模块不存在）
 
-1. 运行多个 worker：\`uvicorn agenticx.server:app --workers 8\`
-2. 使用 Redis 存储会话（替代 SQLite）
-3. 使用 PostgreSQL 持久化数据
-4. 部署在负载均衡器之后
-5. 使用 Kubernetes 编排
+见 [Studio](/docs/guides/studio)、[配置](/docs/getting-started/configuration)、[CLI](/docs/cli)。
 `,
   },
 };

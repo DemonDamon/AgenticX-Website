@@ -4,9 +4,24 @@ export const knowledgeContent = {
     description: 'Document intelligence and RAG with AgenticX.',
     content: `# Knowledge & RAG
 
-## Overview
+Near's knowledge panel manages **brains**: a document brain for \`knowledge_search\`, a code brain for \`code_search\`. Each brain has its own config, files, and index. Avatars mount zero or more brains.
 
-AgenticX provides a complete document intelligence pipeline — from ingestion and chunking to hybrid retrieval and GraphRAG.
+The Python \`KnowledgeBase\` helper below is the library API (\`agenticx/memory/knowledge_base.py\`). Studio ingest goes through \`agenticx/studio/kb/\` and \`LiteParseAdapter\`. Do not treat them as one object.
+
+\`\`\`mermaid
+flowchart LR
+  files["Files / folders"] --> parse["LiteParseAdapter"]
+  parse --> chunk["chunk"]
+  chunk --> embed["embedding batches"]
+  embed --> store["Chroma default"]
+  store --> search["knowledge_search"]
+  code["Repo index"] --> codeSearch["code_search"]
+\`\`\`
+
+!!! warning "Embedding batch size"
+    Bailian / DashScope embeddings reject batches larger than **10**. The provider layer must split to ≤10 or ingest fails with \`InvalidParameter: batch size is invalid\`.
+
+Default vector store for Desktop is **Chroma**. Switching embedding config usually requires a rebuild. Ingest must show a real percent or phase, and failures must include filename, type, and a traceback summary.
 
 ---
 
@@ -67,31 +82,25 @@ results = gkb.search("relationship between agent memory and performance")
 
 ## Giving a Knowledge Base to an Agent
 
+In Near, mount a document brain and let the model call \`knowledge_search\`. There is no \`KnowledgeBaseTool\` on the Studio path.
+
 \`\`\`python
-from agenticx.tools import KnowledgeBaseTool
+from agenticx import Agent, Task, AgentExecutor
+from agenticx.llms import OpenAIProvider
 
-kb_tool = KnowledgeBaseTool(knowledge_base=kb)
-
-executor = AgentExecutor(
-    agent=agent,
-    llm=llm,
-    tools=[kb_tool]
-)
+executor = AgentExecutor(llm_provider=OpenAIProvider(model="gpt-4o"))
+result = executor.run(agent=agent, task=task)
 \`\`\`
 
 ---
 
 ## Supported Document Formats
 
-| Format | Reader |
-|--------|--------|
-| PDF | MinerU / PyMuPDF |
-| Word (.docx) | python-docx |
-| PowerPoint (.pptx) | python-pptx |
-| Markdown | Native |
-| HTML | BeautifulSoup |
-| CSV / Excel | Pandas |
-| Plain text | Native |
+| Format | Studio path | Library notes |
+|--------|-------------|---------------|
+| PDF / DOCX / PPTX / images | \`LiteParseAdapter\` (\`npm i -g @llamaindex/liteparse\`) | Do not feed PDF bytes as raw text |
+| \`.xlsx\` / \`.xls\` | Needs local LibreOffice | Hidden from the UI list if missing |
+| Markdown / plain text | LiteParse or native | — |
 
 ---
 
@@ -142,9 +151,24 @@ See [Skills](/docs/concepts/skills) and [Long-horizon coding](/docs/concepts/lon
     description: '使用 AgenticX 构建文档智能与 RAG。',
     content: `# 知识与 RAG
 
-## 概述
+Near 知识库面板管的是**脑**：文档脑走 \`knowledge_search\`，代码脑走 \`code_search\`。每个脑有自己的配置、文件和索引。分身可以挂零个或多个脑。
 
-AgenticX 提供完整的文档智能流水线 — 从入库、分块到混合检索与 GraphRAG。
+下面的 Python \`KnowledgeBase\` 是库 API（\`agenticx/memory/knowledge_base.py\`）。Studio 入库走 \`agenticx/studio/kb/\` 和 \`LiteParseAdapter\`。不要把它们当成同一个对象。
+
+\`\`\`mermaid
+flowchart LR
+  files["文件 / 文件夹"] --> parse["LiteParseAdapter"]
+  parse --> chunk["分块"]
+  chunk --> embed["embedding 分批"]
+  embed --> store["默认 Chroma"]
+  store --> search["knowledge_search"]
+  code["仓库索引"] --> codeSearch["code_search"]
+\`\`\`
+
+!!! warning "Embedding 批量上限"
+    百炼 / DashScope embedding 拒绝大于 **10** 的 batch。提供方必须按 ≤10 拆批，否则入库会报 \`InvalidParameter: batch size is invalid\`。
+
+Desktop 默认向量库是 **Chroma**。改 embedding 配置通常要重建索引。入库必须露出真实百分比或阶段；失败须带文件名、类型和 traceback 摘要。
 
 ---
 
@@ -205,31 +229,25 @@ results = gkb.search("relationship between agent memory and performance")
 
 ## 为智能体挂载知识库
 
+在 Near 里挂文档脑，让模型调 \`knowledge_search\`。Studio 路径上没有 \`KnowledgeBaseTool\`。
+
 \`\`\`python
-from agenticx.tools import KnowledgeBaseTool
+from agenticx import Agent, Task, AgentExecutor
+from agenticx.llms import OpenAIProvider
 
-kb_tool = KnowledgeBaseTool(knowledge_base=kb)
-
-executor = AgentExecutor(
-    agent=agent,
-    llm=llm,
-    tools=[kb_tool]
-)
+executor = AgentExecutor(llm_provider=OpenAIProvider(model="gpt-4o"))
+result = executor.run(agent=agent, task=task)
 \`\`\`
 
 ---
 
 ## 支持的文档格式
 
-| 格式 | 解析器 |
-|--------|--------|
-| PDF | MinerU / PyMuPDF |
-| Word (.docx) | python-docx |
-| PowerPoint (.pptx) | python-pptx |
-| Markdown | Native |
-| HTML | BeautifulSoup |
-| CSV / Excel | Pandas |
-| Plain text | Native |
+| 格式 | Studio 路径 | 库侧说明 |
+|------|-------------|----------|
+| PDF / DOCX / PPTX / 图片 | \`LiteParseAdapter\`（\`npm i -g @llamaindex/liteparse\`） | 不要把 PDF 当原始文本塞给模型 |
+| \`.xlsx\` / \`.xls\` | 需要本机 LibreOffice | 未安装时从 UI 支持列表剔除 |
+| Markdown / 纯文本 | LiteParse 或原生 | — |
 
 ---
 

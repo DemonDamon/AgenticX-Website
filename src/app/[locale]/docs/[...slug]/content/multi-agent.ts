@@ -1,254 +1,140 @@
 export const multiAgentContent = {
   en: {
     title: 'Multi-Agent Collaboration',
-    description: 'Build multi-agent systems with AgenticX.',
+    description: 'Avatars, group chat, and sub-agent teams.',
     content: `# Multi-Agent Collaboration
 
-## Overview
+Use this when **more than one identity** must work on a task. Near group chat and Studio sub-agents are the product path. A Python script that calls \`AgentExecutor.run\` twice is just two sequential jobs — that is not a team.
 
-AgenticX is designed from the ground up for multi-agent systems. Multiple agents can collaborate on complex tasks through delegation, parallel execution, and structured communication protocols.
+\`\`\`mermaid
+flowchart TB
+  user["User"] --> meta["Meta-Agent"]
+  meta -->|at mention| member["Named avatar"]
+  meta -->|delegate_to_avatar| session["Avatar session"]
+  meta -->|spawn_subagent| team["AgentTeamManager"]
+  session --> reply["Reply in pane / group"]
+  team --> reply
+\`\`\`
+
+!!! warning "Do not spawn a registered avatar"
+    If the name is already an avatar, Meta must call \`delegate_to_avatar\`. \`spawn_subagent\` is for ephemeral workers only.
 
 ---
 
-## Agent Teams
+## Three real surfaces
 
-\`\`\`python
-from agenticx.runtime import AgentTeamManager
-from agenticx import Agent
-from agenticx.llms import OpenAIProvider
+| Surface | When | Mechanism |
+|---------|------|-----------|
+| **Near group chat** | Humans talk to several avatars in one room | \`group_router\`: user-directed \`@\` or Meta fallback |
+| **True delegation** | A registered avatar must execute | \`delegate_to_avatar\` runs in that avatar's real session |
+| **Ephemeral team** | Unnamed parallel workers | \`AgentTeamManager.spawn_subagent\` |
 
-llm = OpenAIProvider(model="gpt-4o")
-
-# Define team members
-researcher = Agent(id="researcher", name="Researcher", role="Information Gatherer",
-                   goal="Find accurate information", organization_id="team")
-analyst = Agent(id="analyst", name="Analyst", role="Data Analyst",
-                goal="Analyze and interpret data", organization_id="team")
-writer = Agent(id="writer", name="Writer", role="Content Writer",
-               goal="Produce clear written content", organization_id="team")
-
-# Team manager handles concurrency, session isolation, and agent lifecycle
-team = AgentTeamManager(agents=[researcher, analyst, writer], max_concurrency=3)
-\`\`\`
+\`AgentTeamManager\` is **not** constructed as \`AgentTeamManager(agents=[...])\`. It needs \`llm_factory\` and a \`StudioSession\` (\`base_session\`), plus optional \`owner_session_id\` and \`max_concurrent_subagents\` (default 4).
 
 ---
 
-## Meta-Agent Pattern
+## Near group chat
 
-The Meta-Agent acts as a CEO/project manager, dispatching work to specialized sub-agents:
+1. Every new group implicitly includes Meta.
+2. \`@Name\` routes to that member. Unmentioned turns go to Meta unless the text clearly names a member's job.
+3. Progress noise (received / calling tool / tool done) should collapse into one foldable card per avatar — not one bubble per tool call.
 
-\`\`\`
-User Request
-    ↓
-Meta-Agent (analyzes, plans, delegates)
-    ↓
-┌───────────────────────────────┐
-│  Researcher │ Analyst │ Writer │  ← Sub-agents running concurrently
-└───────────────────────────────┘
-    ↓
-Meta-Agent (aggregates, synthesizes)
-    ↓
-Final Response to User
-\`\`\`
-
-The Meta-Agent maintains an active snapshot of all running sub-agents and injects their status into its system prompt each turn.
+See [Near Desktop](/docs/concepts/near) and [Studio](/docs/guides/studio).
 
 ---
 
-## A2A Communication Protocol
+## Delegation vs spawn
 
-Agents can communicate directly using the A2A (Agent-to-Agent) protocol:
+Meta tools live in \`agenticx/runtime/meta_tools.py\`:
 
-\`\`\`python
-from agenticx.protocols.a2a import A2AClient, A2AServer, AgentCard
+- \`delegate_to_avatar(avatar_id, task)\` — find or create the avatar session, run there, inherit \`taskspaces\` / \`context_files\`
+- \`spawn_subagent(...)\` — team-manager worker; blocked if the name is already a registered avatar
+- \`chat_with_avatar\` — internal Q&A without a full execution session
 
-# Publish an agent as an A2A service
-card = AgentCard(
-    agent_id="researcher",
-    skills=["web_search", "document_analysis"],
-    endpoint="http://localhost:8001"
-)
-server = A2AServer(agent=researcher, card=card)
-server.start()
-
-# Another agent calls it
-client = A2AClient()
-result = client.invoke_skill(
-    agent_id="researcher",
-    skill="web_search",
-    params={"query": "latest AI papers"}
-)
-\`\`\`
+The Meta system prompt is rebuilt each turn with an active-subagent snapshot (\`_build_active_subagents_context\`).
 
 ---
 
-## Parallel Execution
+## A2A (library protocol)
 
-Run multiple agents simultaneously:
-
-\`\`\`python
-from agenticx.flow import ParallelExecutor
-
-executor = ParallelExecutor(max_workers=4)
-
-tasks = [
-    (researcher, Task(description="Research topic A")),
-    (researcher, Task(description="Research topic B")),
-    (researcher, Task(description="Research topic C")),
-]
-
-results = executor.run_all(tasks)
-\`\`\`
+\`agenticx.protocols.client.A2AClient\` talks to a remote A2A service. Construct it with a target \`AgentCard\`, then create and poll collaboration tasks. It is **not** \`A2AClient(); client.invoke_skill(...)\`. Near group chat does not go through A2A.
 
 ---
 
-## Human-in-the-Loop
+## Session isolation
 
-Pause agent execution to get human approval:
+Team runs are scoped by \`owner_session_id\`. Avatar history stays on that avatar's sessions. Automation sessions (\`automation:<task_id>\`) must not leak into Meta history.
 
-\`\`\`python
-from agenticx.runtime import HumanInTheLoop
-
-hitl = HumanInTheLoop(
-    trigger_on=["tool_call:delete_file", "tool_call:send_email"],
-    timeout_seconds=300,
-    default_action="reject"  # auto-reject if no human response
-)
-
-executor = AgentExecutor(agent=agent, llm=llm, human_in_the_loop=hitl)
-\`\`\`
-
----
-
-## Session Isolation
-
-Each agent team run is isolated by \`owner_session_id\`, preventing cross-contamination between concurrent sessions. The global registry allows looking up agent status across sessions for monitoring purposes.
+Related: [Orchestration](/docs/concepts/orchestration), [Flow](/docs/concepts/flow), [Agent runtime](/docs/concepts/agent).
 `,
   },
   zh: {
     title: '多智能体协作',
-    description: '使用 AgenticX 构建多智能体系统。',
+    description: '分身、群聊与子智能体团队。',
     content: `# 多智能体协作
 
-## 概述
+需要**多个身份**一起干活时才看本页。产品主路径是 Near 群聊和 Studio 子智能体。脚本里连续两次 \`AgentExecutor.run\` 只是两个串行任务，不算团队。
 
-AgenticX 从设计之初就面向多智能体系统。多个智能体可通过委派、并行执行与结构化通信协议协作完成复杂任务。
+\`\`\`mermaid
+flowchart TB
+  user["用户"] --> meta["Meta-Agent"]
+  meta -->|at 提及| member["具名分身"]
+  meta -->|delegate_to_avatar| session["分身会话"]
+  meta -->|spawn_subagent| team["AgentTeamManager"]
+  session --> reply["窗格 / 群内回复"]
+  team --> reply
+\`\`\`
+
+!!! warning "已注册分身不要 spawn"
+    名字已经是分身时，Meta 必须 \`delegate_to_avatar\`。\`spawn_subagent\` 只给临时工人。
 
 ---
 
-## 智能体团队
+## 三条真实路径
 
-\`\`\`python
-from agenticx.runtime import AgentTeamManager
-from agenticx import Agent
-from agenticx.llms import OpenAIProvider
+| 表面 | 何时 | 机制 |
+|------|------|------|
+| **Near 群聊** | 人和多个分身在一个房间说话 | \`group_router\`：用户 \`@\` 或 Meta 兜底 |
+| **真委派** | 已注册分身必须亲自执行 | \`delegate_to_avatar\` 跑在该分身真实 session |
+| **临时团队** | 无名并行工人 | \`AgentTeamManager.spawn_subagent\` |
 
-llm = OpenAIProvider(model="gpt-4o")
-
-# Define team members
-researcher = Agent(id="researcher", name="Researcher", role="Information Gatherer",
-                   goal="Find accurate information", organization_id="team")
-analyst = Agent(id="analyst", name="Analyst", role="Data Analyst",
-                goal="Analyze and interpret data", organization_id="team")
-writer = Agent(id="writer", name="Writer", role="Content Writer",
-               goal="Produce clear written content", organization_id="team")
-
-# Team manager handles concurrency, session isolation, and agent lifecycle
-team = AgentTeamManager(agents=[researcher, analyst, writer], max_concurrency=3)
-\`\`\`
+\`AgentTeamManager\` **不是** \`AgentTeamManager(agents=[...])\`。它需要 \`llm_factory\` 和 \`StudioSession\`（\`base_session\`），以及可选的 \`owner_session_id\`、\`max_concurrent_subagents\`（默认 4）。
 
 ---
 
-## Meta-Agent 模式
+## Near 群聊
 
-Meta-Agent 充当 CEO/项目经理，将工作分派给专职子智能体：
+1. 新建群聊默认隐式包含 Meta。
+2. \`@名字\` 路由到该成员。未 @ 时由 Meta 兜底，除非正文明显指向某成员职责。
+3. 「已接收 / 正在调用工具 / 工具完成」应聚合成该分身一张可折叠卡，不要每个工具一条气泡。
 
-\`\`\`
-User Request
-    ↓
-Meta-Agent (analyzes, plans, delegates)
-    ↓
-┌───────────────────────────────┐
-│  Researcher │ Analyst │ Writer │  ← Sub-agents running concurrently
-└───────────────────────────────┘
-    ↓
-Meta-Agent (aggregates, synthesizes)
-    ↓
-Final Response to User
-\`\`\`
-
-Meta-Agent 维护所有运行中子智能体的活跃快照，并在每轮对话中将其状态注入系统提示。
+见 [Near 桌面](/docs/concepts/near) 与 [Studio](/docs/guides/studio)。
 
 ---
 
-## A2A 通信协议
+## 委派 vs spawn
 
-智能体可通过 A2A（Agent-to-Agent）协议直接通信：
+Meta 工具在 \`agenticx/runtime/meta_tools.py\`：
 
-\`\`\`python
-from agenticx.protocols.a2a import A2AClient, A2AServer, AgentCard
+- \`delegate_to_avatar(avatar_id, task)\` — 查找或创建分身会话并在那里执行，继承 \`taskspaces\` / \`context_files\`
+- \`spawn_subagent(...)\` — 团队管理器工人；名字已是注册分身时会被拦截
+- \`chat_with_avatar\` — 内部问答，不开完整执行会话
 
-# Publish an agent as an A2A service
-card = AgentCard(
-    agent_id="researcher",
-    skills=["web_search", "document_analysis"],
-    endpoint="http://localhost:8001"
-)
-server = A2AServer(agent=researcher, card=card)
-server.start()
-
-# Another agent calls it
-client = A2AClient()
-result = client.invoke_skill(
-    agent_id="researcher",
-    skill="web_search",
-    params={"query": "latest AI papers"}
-)
-\`\`\`
+每轮 Meta 系统提示都会注入活跃子智能体快照（\`_build_active_subagents_context\`）。
 
 ---
 
-## 并行执行
+## A2A（库协议）
 
-同时运行多个智能体：
-
-\`\`\`python
-from agenticx.flow import ParallelExecutor
-
-executor = ParallelExecutor(max_workers=4)
-
-tasks = [
-    (researcher, Task(description="Research topic A")),
-    (researcher, Task(description="Research topic B")),
-    (researcher, Task(description="Research topic C")),
-]
-
-results = executor.run_all(tasks)
-\`\`\`
-
----
-
-## 人在回路（Human-in-the-Loop）
-
-暂停智能体执行以获取人工审批：
-
-\`\`\`python
-from agenticx.runtime import HumanInTheLoop
-
-hitl = HumanInTheLoop(
-    trigger_on=["tool_call:delete_file", "tool_call:send_email"],
-    timeout_seconds=300,
-    default_action="reject"  # auto-reject if no human response
-)
-
-executor = AgentExecutor(agent=agent, llm=llm, human_in_the_loop=hitl)
-\`\`\`
+\`agenticx.protocols.client.A2AClient\` 对接远程 A2A 服务。构造时传入目标 \`AgentCard\`，再创建并轮询协作任务。**不是** \`A2AClient(); client.invoke_skill(...)\`。Near 群聊不走 A2A。
 
 ---
 
 ## 会话隔离
 
-每次智能体团队运行通过 \`owner_session_id\` 隔离，避免并发会话间相互污染。全局注册表支持跨会话查询智能体状态，便于监控。
+团队运行按 \`owner_session_id\` 隔离。分身历史留在该分身的 session。自动化会话（\`automation:<task_id>\`）不得串进 Meta 历史。
+
+相关：[编排](/docs/concepts/orchestration)、[Flow](/docs/concepts/flow)、[智能体运行时](/docs/concepts/agent)。
 `,
   },
 };
