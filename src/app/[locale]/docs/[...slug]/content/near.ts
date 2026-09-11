@@ -40,6 +40,25 @@ Desktop binds the local backend. A remote \`agx serve\` mode is not the default 
 
 Closing a pane and opening the same avatar should return the last session, not a new one. After lid close / relaunch, panes and the last sessions should come back from local workspace state.
 
+## Worked example: two panes and an @file
+
+**Scene.** You are reviewing a repo with Meta, then hand a file to a researcher avatar.
+
+1. Open Near. Confirm \`~/.agenticx/serve.port\` is live.
+2. Keep Meta in the first pane. Ask it to outline the review.
+3. Open the researcher avatar in a second pane (or @ them in a group). Model choice stays on that pane.
+4. In the workspace panel, bind the repo folder to **that** avatar. Click a file so the input inserts an \`@file[name](absolute path)\` token. \`sourcePath\` must stay absolute.
+5. Send. The avatar should call \`file_read\` / \`liteparse\` on the real path, not only \`~/.agenticx/avatars/<id>/workspace\`.
+
+**What you should see.** Two panes, independent model pills, a blue file token above or inside the input, a folded tool card, then an answer. Closing the avatar pane and reopening it should restore this session, not create a blank one.
+
+![Two Near panes with Meta and a researcher avatar](/docs/cases/near-panes.png)
+
+*Illustration: Meta on the left, a named avatar on the right, tool card in the avatar pane.*
+
+!!! tip "Workspace isolation"
+    Folders bind per Meta / avatar. Another avatar must not inherit the first one's directories.
+
 ## Related
 
 - [Architecture](/docs/concepts/architecture) — product stack
@@ -87,6 +106,25 @@ flowchart LR
 ## 会话恢复
 
 关掉窗格再打开同一分身，应回到最近会话，而不是新建。合盖 / 重启后应恢复窗格和上次会话。
+
+## 实践案例：双窗格 + @file
+
+**场景。** 先让 Meta 定评审提纲，再把一个仓库文件交给「研究员」分身。
+
+1. 打开 Near，确认 \`~/.agenticx/serve.port\` 对应进程还在听。
+2. 第一窗格留 Meta，让它出提纲。
+3. 第二窗格打开研究员分身（或在群里 @ 他）。模型 pill 只属于这个窗格。
+4. 工作区把仓库绑到**这个**分身。点选文件，输入区插入 \`@file[显示名](绝对路径)\`，\`sourcePath\` 必须是绝对路径。
+5. 发送。分身应走 \`file_read\` / \`liteparse\` 读真实路径，而不是只在 \`~/.agenticx/avatars/<id>/workspace\` 里找。
+
+**你会看到。** 两个窗格、各自的模型选择、输入区里的文件 token、一张默认折叠的工具卡，然后是回答。关掉分身窗格再打开，应回到这个会话，而不是空白新会话。
+
+![Near 双窗格：Meta 与研究员分身](/docs/cases/near-panes.png)
+
+*界面示意：左侧 Meta，右侧具名分身，工具卡出现在分身窗格。*
+
+!!! tip "工作区隔离"
+    目录按 Meta / 分身绑定。另一个分身不得自动继承上一份目录。
 
 ## 相关页
 

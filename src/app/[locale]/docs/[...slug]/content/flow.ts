@@ -14,6 +14,20 @@ flowchart LR
   router -->|branch b| b["step B"]
 \`\`\`
 
+## Worked example: a three-node class
+
+**Scene.** Fetch → analyze → route to publish or review, inside your own process.
+
+1. Subclass \`Flow\`, mark the entry with \`@start\`, the next method with \`@listen\`, the branch with \`@router\`.
+2. Call \`kickoff()\` / \`kickoff_async()\`. This never starts Near and never writes \`messages.json\`.
+3. If you need pause/resume, use \`ExecutionPlan\` (\`to_mermaid()\`, \`pause()\`, \`resume()\`).
+
+**What you should see.** In a script: returned state. In docs: a pipeline you can point at. In Near: nothing unless you wrap the Flow yourself.
+
+![Decorator pipeline fetch → analyze → router](/docs/cases/flow-pipeline.png)
+
+*Illustration: \`@start\` / \`@listen\` / \`@router\` — a process graph, not a chat pane.*
+
 ---
 
 ## Overview
@@ -177,6 +191,20 @@ flowchart LR
   router -->|分支 a| a["步骤 A"]
   router -->|分支 b| b["步骤 B"]
 \`\`\`
+
+## 实践案例：三个节点的类
+
+**场景。** 进程内抓取 → 分析 → 按路由发布或复核。
+
+1. 继承 \`Flow\`，入口 \`@start\`，下一步 \`@listen\`，分支 \`@router\`。
+2. 调用 \`kickoff()\` / \`kickoff_async()\`。这不会启动 Near，也不会写 \`messages.json\`。
+3. 需要暂停 / 续跑时用 \`ExecutionPlan\`（\`to_mermaid()\`、\`pause()\`、\`resume()\`）。
+
+**你会看到。** 脚本里是返回的状态。文档里是一张能指着讲的流水线。Near 里不会自动出现，除非你自己把 Flow 包进去。
+
+![装饰器流水线 fetch → analyze → router](/docs/cases/flow-pipeline.png)
+
+*界面示意：\`@start\` / \`@listen\` / \`@router\` —— 进程内的图，不是聊天窗格。*
 
 ---
 

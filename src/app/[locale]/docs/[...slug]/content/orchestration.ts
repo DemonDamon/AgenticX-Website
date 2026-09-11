@@ -18,6 +18,23 @@ flowchart LR
   analyze -->|low confidence| review["review"]
 \`\`\`
 
+## Worked example: @ in a group, not a fake team constructor
+
+**Scene.** In a Near group, you want the researcher to scan issues. You do not construct \`AgentTeamManager(agents=[...])\`.
+
+1. Create a group (Meta is implicit). Type \`@研究员 把未关闭 issue 扫一遍\`.
+2. \`group_router\` should send that turn to the named member. Their reply talks to **you**, not a courtesy ping to Meta.
+3. Progress (“received / calling tool / done”) folds into **one** card for that avatar.
+4. If you skip \`@\` but the text clearly names their job, routing should still prefer that member. Otherwise Meta plans or \`delegate_to_avatar\`.
+
+**What you should see.** One researcher thread, one progress card, a final answer. \`delegate_to_avatar\` runs in that avatar’s real session so history is on the avatar, not a shadow spawn.
+
+![Group chat @-routing to one avatar](/docs/cases/group-route.png)
+
+*Illustration: one @, one foldable card, reply to the human.*
+
+SDK graphs (\`Workflow\` / Flow) are for in-process pipelines. They are not how Near group chat is wired.
+
 ---
 
 ## Graph-based Workflow
@@ -145,6 +162,23 @@ flowchart LR
   analyze -->|高置信度| publish["发布"]
   analyze -->|低置信度| review["复核"]
 \`\`\`
+
+## 实践案例：群里 @，不要假的团队构造
+
+**场景。** Near 群聊里让研究员扫 issue。不要写 \`AgentTeamManager(agents=[...])\`。
+
+1. 建群（默认带 Meta）。输入 \`@研究员 把未关闭 issue 扫一遍\`。
+2. \`group_router\` 应把这轮交给该成员。他的回复对着**你**，不是客套 @ Meta。
+3. 「已接收 / 正在调用 / 完成」折进该分身**一张**卡。
+4. 没写 @ 但正文明显是他的职责，也应优先他。否则 Meta 统筹或 \`delegate_to_avatar\`。
+
+**你会看到。** 研究员一条线、一张进度卡、最终回答。\`delegate_to_avatar\` 跑在该分身真实 session，历史留在分身侧，不是影子 spawn。
+
+![群聊 @ 路由到一个分身](/docs/cases/group-route.png)
+
+*界面示意：一次 @、一张可折叠卡、对用户说话。*
+
+SDK 里的图（\`Workflow\` / Flow）是进程内流水线，不是 Near 群聊的接线方式。
 
 ---
 

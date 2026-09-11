@@ -19,6 +19,22 @@ flowchart TB
   llm -->|text only| final["FINAL"]
 \`\`\`
 
+## Worked example: one Near turn
+
+**Scene.** “Extract the first two sections of README.”
+
+1. In a Meta pane, attach the README with \`@file\` (absolute \`sourcePath\`).
+2. Send the request. Studio streams SSE events; the renderer should show a Thinking / Thought block if the model emits \`<think>\`, then a folded tool card (\`liteparse\` or \`file_read\`), then the final text.
+3. If the tool sequence is broken (assistant \`tool_calls\` without matching \`tool\` rows), \`_sanitize_context_messages\` drops the orphans before the next provider call — you should not see a raw HTTP 400 in the bubble.
+
+**What you should see.** Spinner + “Thinking” in the same bubble, then a collapsed Thought. A tool card aligned with the assistant bubble. No duplicated streamed paragraphs. You can scroll up while tokens still arrive.
+
+![One chat turn: thinking, tool card, answer](/docs/cases/agent-loop.png)
+
+*Illustration: Thinking block, completed tool card, then the answer — not a static hourglass.*
+
+On the SDK path the same job is \`AgentExecutor(llm_provider=...).run(agent=, task=)\`. That path has no SSE and no Near tool cards.
+
 ---
 
 ## Agent definition (\`Agent\` model)
@@ -217,6 +233,22 @@ flowchart TB
   detect --> llm
   llm -->|纯文本| final["FINAL"]
 \`\`\`
+
+## 实践案例：Near 里的一轮
+
+**场景。** 「把 README 前两节摘出来。」
+
+1. 在 Meta 窗格用 \`@file\` 挂上 README（绝对 \`sourcePath\`）。
+2. 发送。Studio 走 SSE；若模型输出 \`<think>\`，应先出现 Thinking / Thought，再是折叠的工具卡（\`liteparse\` 或 \`file_read\`），最后才是正文。
+3. 若历史里 \`assistant(tool_calls)\` 缺对应 \`tool\` 行，\`_sanitize_context_messages\` 会在下次请求前丢掉断链，气泡里不应直接甩 HTTP 400。
+
+**你会看到。** 同一气泡里的 spinner + Thinking，完成后折成 Thought。工具卡和助手气泡对齐。流式过程中可以上滚，且不应整段重复拼接。
+
+![一轮对话：思考、工具卡、回答](/docs/cases/agent-loop.png)
+
+*界面示意：思考块、已完成的工具卡，然后是回答——不是静止沙漏。*
+
+SDK 路径同一件事是 \`AgentExecutor(llm_provider=...).run(agent=, task=)\`。那条路没有 SSE，也没有 Near 工具卡。
 
 ---
 

@@ -48,6 +48,20 @@ flowchart TB
   proto --> plat["5 Platform: config / sessions / KB"]
 \`\`\`
 
+## Worked example: the same question, three doors
+
+**Scene.** “Summarize this repo’s README.”
+
+| Door | What you actually start | Where the loop runs |
+|------|-------------------------|---------------------|
+| SDK | \`AgentExecutor(llm_provider=...).run(agent=, task=)\` | Your Python process |
+| Near | App → local \`agx serve\` → \`AgentRuntime.run_turn\` | Studio on \`127.0.0.1\` |
+| Enterprise | Portal → Go Gateway → upstream model | Gateway policy / quota; **not** \`AgentRuntime\` |
+
+**What you should see.** Near: a chat pane, tool cards, \`~/.agenticx/sessions/<id>/messages.json\`. Enterprise: a browser workspace and audit/policy hits if a rule fires. Do not expect Desktop panes behind the Gateway.
+
+The three official drawings above are the product maps. Use them when you need the whole stack in one glance.
+
 ---
 
 ## Tier 1: User Interface
@@ -189,6 +203,20 @@ flowchart TB
   core --> proto["4 协议：MCP / A2A"]
   proto --> plat["5 平台：配置 / 会话 / 知识库"]
 \`\`\`
+
+## 实践案例：同一句话，三扇门
+
+**场景。** 「总结这个仓库的 README。」
+
+| 入口 | 你实际启动的 | 循环跑在哪 |
+|------|----------------|------------|
+| SDK | \`AgentExecutor(llm_provider=...).run(agent=, task=)\` | 你的 Python 进程 |
+| Near | 应用 → 本机 \`agx serve\` → \`AgentRuntime.run_turn\` | \`127.0.0.1\` 上的 Studio |
+| Enterprise | Portal → Go 网关 → 上游模型 | 网关策略 / 配额；**不是** \`AgentRuntime\` |
+
+**你会看到。** Near：聊天窗格、工具卡、\`~/.agenticx/sessions/<id>/messages.json\`。Enterprise：浏览器工作区；命中规则时有审计 / 策略提示。不要指望网关后面还有 Desktop 窗格。
+
+上面三张正式架构图是产品总图，需要一眼看完整栈时用它们。
 
 ---
 

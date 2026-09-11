@@ -19,6 +19,20 @@ flowchart TB
 !!! tip "Where to look on disk"
     Long-term notes: \`~/.agenticx/workspace\`. Session titles and FTS: \`~/.agenticx/memory/sessions.sqlite\`. Chat transcript: \`~/.agenticx/sessions/<id>/messages.json\`. Do not mix these with an empty \`session_store.db\` under workspace.
 
+## Worked example: write a preference, see it next turn
+
+**Scene.** You want Meta to keep calling you a nickname and avoid a formatting habit.
+
+1. Put the fact in \`~/.agenticx/workspace/MEMORY.md\` or \`memory/*.md\` (or the user-preference field in Settings — that is injected via \`_build_user_profile_block()\`).
+2. Start a **new** turn in the same Meta session. The system prompt should include the recall block from \`_build_memory_recall_context\`.
+3. Long threads may compact: older history becomes a summary system message. The file-backed facts should still be there even if the transcript was compacted.
+
+**What you should see.** Workspace panel highlighting \`MEMORY.md\`. The next answer uses the nickname without you repeating it. Session title stays the persisted Chinese title, not a raw \`session_id\`.
+
+![Workspace memory file and a recall chip in chat](/docs/cases/memory-workspace.png)
+
+*Illustration: \`MEMORY.md\` selected; the next turn already knows the preference.*
+
 ---
 
 Together these mechanisms approximate a layered memory stack: what must always be true (identity), what happened recently (episodes), what generalizes (semantics), what the model sees this turn (working set), what survives across sessions (long-term files and stores), and what is scoped to the user's workspace on disk.
@@ -211,6 +225,20 @@ flowchart TB
 
 !!! tip "磁盘上往哪找"
     长期笔记：\`~/.agenticx/workspace\`。会话标题与 FTS：\`~/.agenticx/memory/sessions.sqlite\`。聊天正文：\`~/.agenticx/sessions/<id>/messages.json\`。不要和工作区下空的 \`session_store.db\` 混用。
+
+## 实践案例：写下偏好，下一轮就能用
+
+**场景。** 希望 Meta 记住你的称呼，并避开某种排版习惯。
+
+1. 把事实写进 \`~/.agenticx/workspace/MEMORY.md\` 或 \`memory/*.md\`（设置里的用户偏好也会经 \`_build_user_profile_block()\` 注入）。
+2. 同一 Meta 会话再开一轮。系统提示应带上 \`_build_memory_recall_context\` 的召回块。
+3. 长对话可能压缩：旧历史变成一条摘要 system。文件里的事实即使 transcript 被压过也应还在。
+
+**你会看到。** 工作区面板高亮 \`MEMORY.md\`。下一轮回答直接用称呼，不用你再重复。会话标题保持已落盘的中文标题，而不是裸 \`session_id\`。
+
+![工作区记忆文件与对话中的召回](/docs/cases/memory-workspace.png)
+
+*界面示意：选中 \`MEMORY.md\`；下一轮已经知道偏好。*
 
 ---
 

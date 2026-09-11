@@ -23,6 +23,20 @@ flowchart LR
 !!! note "Studio vs SDK"
     A tool you \`@tool\` in a script is not automatically in Near. Studio only sees what \`STUDIO_TOOLS\` and connected MCP servers expose.
 
+## Worked example: one tool card, not one bubble per call
+
+**Scene.** “List open issues on this repo” needs GitHub MCP.
+
+1. Settings → MCP: the server must show **Added** (green). Connecting is not the same as \`mcp_call\` succeeding.
+2. In chat, ask for the issue list. The model should call \`mcp_call\` (or a discovered tool name) through \`dispatch_tool_async\`.
+3. Group chat must fold “calling tool / tool done” into **one** card for that avatar. A normal pane uses \`ToolCallCard\`, folded unless it needs inline confirm.
+
+**What you should see.** A card aligned with the assistant bubble. Expand to read arguments and the result. Failures should show a readable error (missing \`npx\`, Docker hang, schema mismatch), not a silent spinner.
+
+![Folded tool-call card next to the assistant bubble](/docs/cases/tools-card.png)
+
+*Illustration: default-collapsed tool card; expand only when you need the payload.*
+
 ---
 
 | Concern | Primary components |
@@ -312,6 +326,20 @@ flowchart LR
 
 !!! note "Studio 与 SDK"
     脚本里 \`@tool\` 的工具不会自动进 Near。Studio 只看见 \`STUDIO_TOOLS\` 和已连接 MCP 暴露的能力。
+
+## 实践案例：一张工具卡，不要每个调用一条气泡
+
+**场景。** 「列出这个仓库的未关闭 issue」需要 GitHub MCP。
+
+1. 设置 → MCP：该服务必须显示**已添加**（绿点）。「已连接」不等于 \`mcp_call\` 一定成功。
+2. 在对话里要 issue 列表。模型应经 \`dispatch_tool_async\` 走 \`mcp_call\`（或已发现的工具名）。
+3. 群聊要把「正在调用 / 工具完成」折进该分身**一张**卡。普通窗格用 \`ToolCallCard\`，默认折叠，只有需要行内确认才展开。
+
+**你会看到。** 工具卡和助手气泡对齐。展开才能看参数和返回。失败应写出可读原因（找不到 \`npx\`、Docker 卡住、schema 不符），不能只有转圈。
+
+![折叠的工具调用卡](/docs/cases/tools-card.png)
+
+*界面示意：默认折叠的工具卡；需要看载荷再展开。*
 
 ---
 

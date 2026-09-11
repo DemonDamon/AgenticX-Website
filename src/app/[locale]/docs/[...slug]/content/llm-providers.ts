@@ -18,6 +18,21 @@ flowchart LR
 !!! warning "Vision"
     MiniMax M2 and text-only GLM-5 (name without vl / vision / 4v / 5v) are treated as non-vision. Studio strips \`image_inputs\`; Near should block attachments instead of sending them.
 
+## Worked example: mark a provider configured
+
+**Scene.** You added a key for one cloud and a custom base for a local host.
+
+1. Settings → provider list. Sidebar dots and the detail ON/OFF must agree: **green** only when a key **or custom base** is non-empty. Official default base alone stays red.
+2. Ollama: type a reachable API address. Empty address is not configured.
+3. Click 测试连通性 (one field, no extra env-var box). Fetch models opens a picker with per-row +/- visibility — it must not dump every model into the chat picker.
+4. Clearing the key and custom base should flip the provider off.
+
+**What you should see.** Red / green only. After save, a new pane’s model pill can pick a visible model. Attaching an image to MiniMax M2 should show the in-pane warning, not a provider 400.
+
+![Provider list with red/green status and a single key field](/docs/cases/llm-settings.png)
+
+*Illustration: green = actually configured; one key field plus a connectivity test.*
+
 ---
 
 ## Supported providers
@@ -249,6 +264,21 @@ flowchart LR
 
 !!! warning "视觉"
     MiniMax M2 以及名称不含 vl / vision / 4v / 5v 的纯文本 GLM-5 按非视觉处理。Studio 会剥 \`image_inputs\`；Near 应拦截附件，不要硬发。
+
+## 实践案例：把供应商标成「已配置」
+
+**场景。** 一家云填了密钥，本机服务填了自定义地址。
+
+1. 设置 → 供应商列表。侧栏状态点和详情 ON/OFF 必须一致：密钥或**自定义 Base** 非空才是**绿**。只留官方默认 Base 仍是红。
+2. Ollama：填可访问的 API 地址。空地址不算已配置。
+3. 点「测试连通性」（一个输入框，不要并列环境变量框）。拉模型要先弹出带 +/- 的可见性选择，不能把全部模型倒进聊天选择器。
+4. 清空密钥和自定义地址应自动视为关闭。
+
+**你会看到。** 只有红 / 绿。保存后，新窗格的模型 pill 能选到已标记可见的模型。给 MiniMax M2 附图应出现窗格内警示，而不是供应商 400。
+
+![供应商列表红绿状态与单一密钥框](/docs/cases/llm-settings.png)
+
+*界面示意：绿色=真正已配置；一个密钥框加连通性测试。*
 
 ---
 

@@ -19,6 +19,20 @@ flowchart LR
 !!! warning "Dangerous shell"
     Bundled \`pre_tool_guard\` only fires if \`tool:before_call\` is actually dispatched. \`rm -rf\` matching must cover merged flags and must not fire on quoted commit messages.
 
+## Worked example: confirm a risky shell
+
+**Scene.** The model wants \`bash_exec\` on a destructive command.
+
+1. Permissions are **Ask Every Time** or an allowlist that does not include this command.
+2. Runtime emits \`tool:before_call\`. Bundled \`pre_tool_guard\` can block merged \`rm -rf\` flags. A quoted commit message must not match.
+3. Near should show an **in-app** confirm (themed dialog), not a bare \`window.confirm\`. Choose Allow / Deny. \`Run Everything\` must stick — no second popup for the same class of call.
+
+**What you should see.** A dialog over a folded \`bash_exec\` card, countdown if the gate has one. After deny, the tool result explains the block; the chat continues.
+
+![In-app confirm over a shell tool card](/docs/cases/hooks-confirm.png)
+
+*Illustration: themed confirm, not the OS default alert.*
+
 ---
 
 | Layer | Package path | Purpose |
@@ -149,6 +163,20 @@ flowchart LR
 
 !!! warning "危险 Shell"
     预置 \`pre_tool_guard\` 只有在真正派发了 \`tool:before_call\` 时才会拦。\`rm -rf\` 匹配要覆盖合并 flag，且不能误伤带引号的 commit message。
+
+## 实践案例：确认一条危险 shell
+
+**场景。** 模型要对一条破坏性命令走 \`bash_exec\`。
+
+1. 权限是「每次询问」，或白名单里没有这条命令。
+2. 运行时派发 \`tool:before_call\`。预置 \`pre_tool_guard\` 能拦合并写法的 \`rm -rf\`。带引号的 commit message 不应误伤。
+3. Near 应弹出**应用内**主题化确认，而不是裸 \`window.confirm\`。选允许 / 拒绝。「全部自动执行」必须稳住，同类调用不应再弹第二次。
+
+**你会看到。** 折叠的 \`bash_exec\` 卡上方有确认框，门控若带倒计时会显示。拒绝后工具结果说明原因，对话继续。
+
+![工具卡上方的应用内确认](/docs/cases/hooks-confirm.png)
+
+*界面示意：主题化确认，不是系统默认警报。*
 
 ---
 

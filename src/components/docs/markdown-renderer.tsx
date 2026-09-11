@@ -392,20 +392,31 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
       const standaloneImg = line.match(/^\s*!\[([^\]]*)\]\(([^)]+)\)(?:\{[^}]*\})?\s*$/);
       if (standaloneImg) {
         const [, alt, src] = standaloneImg;
-        const isDiagram = src.startsWith('/diagrams/');
+        const isWide = src.startsWith('/diagrams/') || src.startsWith('/docs/cases/');
+        let caption = '';
+        let look = i + 1;
+        while (look < lines.length && lines[look].trim() === '') look += 1;
+        const captionMatch = look < lines.length ? lines[look].trim().match(/^\*(.+)\*$/) : null;
+        if (captionMatch) {
+          caption = captionMatch[1].trim();
+          i = look;
+        }
         elements.push(
-          <div key={key++} className={isDiagram ? 'my-6 w-full' : 'my-6 flex justify-center'}>
+          <figure key={key++} className={isWide ? 'my-6 w-full' : 'my-6 flex flex-col items-center'}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={src}
               alt={alt}
               className={
-                isDiagram
+                isWide
                   ? 'h-auto w-full rounded-lg border border-border'
                   : 'max-h-[min(480px,70vh)] w-auto max-w-full rounded-lg border border-border object-contain'
               }
             />
-          </div>
+            {caption ? (
+              <figcaption className="mt-2 text-center text-sm text-muted-foreground">{caption}</figcaption>
+            ) : null}
+          </figure>
         );
         continue;
       }

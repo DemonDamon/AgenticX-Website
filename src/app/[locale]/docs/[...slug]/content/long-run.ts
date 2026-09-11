@@ -34,6 +34,21 @@ Shipped sources include a manual queue, cron, and project-feature source. Treat 
 
 \`TaskWorkspace\` pins the task to its own directory and rejects path escapes (\`TaskWorkspaceSecurityError\`). Hooks can fail closed (\`TaskWorkspaceHookError\`).
 
+## Worked example: keep a feature on disk
+
+**Scene.** “Add login, with tests” will take many polls. You do not want the next retry to smash the previous workspace.
+
+1. Start the job through a wired longrun source (manual queue / cron / project feature in \`longrun/sources/\`).
+2. The orchestrator assigns an isolated \`TaskWorkspace\`. Path escapes raise \`TaskWorkspaceSecurityError\`.
+3. Watch \`project_state\` move init → implement → verify → commit. A stall detector retries with backoff instead of stuffing the whole history into one prompt.
+4. Token use is incremental (\`TaskTokenAccountant\`).
+
+**What you should see.** A progress card that names the phase, not a static hourglass. After a crash, the same feature directory and state file are still there to audit.
+
+![Isolated long-run workspace and project_state](/docs/cases/longrun-state.png)
+
+*Illustration: feature directory, \`project_state\`, and a running progress card.*
+
 ## Related
 
 - [Agent Runtime](/docs/concepts/agent) — single-turn \`run_turn\` vs this multi-poll loop
@@ -75,6 +90,21 @@ flowchart TB
 ## 隔离工作区
 
 \`TaskWorkspace\` 把任务钉在自己的目录，拒绝路径逃逸（\`TaskWorkspaceSecurityError\`）。钩子可以失败即停（\`TaskWorkspaceHookError\`）。
+
+## 实践案例：把功能钉在磁盘上
+
+**场景。** 「加登录，带测试」要跑很多轮轮询。下一次重试不能覆盖上一份工作区。
+
+1. 从已接线的 longrun 源启动（\`longrun/sources/\` 里的手动队列 / cron / 项目 feature）。
+2. 编排器分配隔离的 \`TaskWorkspace\`。路径逃逸会抛 \`TaskWorkspaceSecurityError\`。
+3. 看 \`project_state\` 走 初始化 → 实现 → 校验 → 提交。停滞检测用退避重试，而不是把整段历史塞进一次提示。
+4. Token 按 \`TaskTokenAccountant\` 增量记账。
+
+**你会看到。** 进度卡写出当前阶段，不是静止沙漏。崩溃后同一功能目录和状态文件还在，可以审计。
+
+![长周期隔离目录与 project_state](/docs/cases/longrun-state.png)
+
+*界面示意：功能目录、\`project_state\`，以及进行中的进度卡。*
 
 ## 相关页
 

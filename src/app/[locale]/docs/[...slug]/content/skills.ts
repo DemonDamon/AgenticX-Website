@@ -55,6 +55,21 @@ This is not a promise that every chat invents a skill.
 
 AGX Bundles can ship skills together with MCP servers, avatars, and memory templates. Install and marketplace search: [Extensions](/docs/guides/extensions).
 
+## Worked example: turn one skill off
+
+**Scene.** A builtin skill is noisy for this avatar; you want it gone from the tool loop without deleting the folder.
+
+1. Open Settings → Skills. The list must be expandable (Show all), not a silent truncation.
+2. Filter by source if needed; the rows must match that source.
+3. Toggle the skill off. Global offs write \`skills.disabled\` in \`~/.agenticx/config.yaml\`. Avatar offs write only the explicit off into \`skills_enabled\`.
+4. In chat, \`skill_use\` / the visible skill list should omit it. Mentioning a CLI in prose still does nothing by itself.
+
+**What you should see.** The same switch style as other settings. A failed security scan shows a readable rule, not “high risk”. After a marketplace install, the new skill jumps to the top as added — not another “Add” button.
+
+![Skills tab with per-skill switches](/docs/cases/skills-tab.png)
+
+*Illustration: source badges and one toggle per skill.*
+
 ## Related
 
 - [Hooks](/docs/concepts/hooks) — dangerous shell can also be blocked at \`tool:before_call\`
@@ -116,6 +131,21 @@ Patch 走五策略模糊匹配。每次变更追加 \`<skill_dir>/.changelog\`�
 ## Bundle
 
 AGX Bundle 可以把技能和 MCP、分身、记忆模板打成一包。安装与市场见 [扩展与技能生态](/docs/guides/extensions)。
+
+## 实践案例：关掉一个技能
+
+**场景。** 某个内置技能对这个分身太吵，你想移出工具循环，但不删目录。
+
+1. 打开设置 → 技能。列表要能「查看全部」，不能只截断几条。
+2. 按来源筛选时，结果必须和该来源一致。
+3. 关掉开关。全局关闭写入 \`~/.agenticx/config.yaml\` 的 \`skills.disabled\`。分身侧只把显式关闭项写入 \`skills_enabled\`。
+4. 对话里 \`skill_use\` / 可见技能列表不应再出现它。模型在正文里提到某个 CLI，并不等于技能被调用。
+
+**你会看到。** 开关样式和其他设置一致。安全扫描失败要写出可读规则，不能只写「高危」。市场安装成功后该技能置顶并显示已添加，不应再留「添加」。
+
+![技能列表与单技能开关](/docs/cases/skills-tab.png)
+
+*界面示意：来源徽章，每一行一个开关。*
 
 ## 相关页
 
