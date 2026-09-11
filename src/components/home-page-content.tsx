@@ -22,13 +22,14 @@ import { SpotlightCard } from '@/components/bits/spotlight-card';
 import { DiagramFigure } from '@/components/diagram-figure';
 import { SecurityAdvisoryBanner } from '@/components/security-advisory-banner';
 import { SiteNav } from '@/components/site-nav';
+import { useSiteUiTheme } from '@/hooks/use-site-ui-theme';
 import { localizedPath } from '@/i18n/config';
 import { useLocale, useTranslations } from '@/i18n/locale-context';
 
 function StaticAgentCode() {
   return (
-    <div className="rounded-lg bg-neutral-900 p-4 font-mono text-sm">
-      <pre className="whitespace-pre-wrap leading-relaxed text-neutral-300">
+    <div className="rounded-lg bg-muted p-4 font-mono text-sm">
+      <pre className="whitespace-pre-wrap leading-relaxed text-muted-foreground">
 {`agent = Agent(id="assistant")
 result = executor.run(task)`}
       </pre>
@@ -46,7 +47,7 @@ function StaticSteps() {
   ];
 
   return (
-    <div className="rounded-lg bg-neutral-900 p-4">
+    <div className="rounded-lg bg-muted p-4">
       <div className="space-y-3">
         {stepContent.map((step, i) => (
           <div key={i} className="flex items-start gap-3">
@@ -54,8 +55,8 @@ function StaticSteps() {
               <Check className="h-3 w-3 text-emerald-400" />
             </div>
             <div>
-              <div className="text-sm font-medium text-white">{step.title}</div>
-              <div className="text-xs text-neutral-500">{step.desc}</div>
+              <div className="text-sm font-medium text-foreground">{step.title}</div>
+              <div className="text-xs text-muted-foreground">{step.desc}</div>
             </div>
           </div>
         ))}
@@ -74,12 +75,12 @@ function StaticMemory() {
   ];
 
   return (
-    <div className="flex min-h-[120px] flex-col justify-center rounded-lg bg-neutral-900 p-4">
+    <div className="flex min-h-[120px] flex-col justify-center rounded-lg bg-muted p-4">
       <div className="space-y-2">
         {items.map((item, i) => (
           <div key={i} className="flex items-center gap-2">
             <div className="h-2 w-2 rounded-full bg-emerald-500" />
-            <span className="text-xs text-neutral-400">{item}</span>
+            <span className="text-xs text-muted-foreground">{item}</span>
           </div>
         ))}
       </div>
@@ -90,6 +91,7 @@ function StaticMemory() {
 export function HomePageContent() {
   const t = useTranslations();
   const { locale } = useLocale();
+  const { resolved } = useSiteUiTheme();
   const [copiedStep, setCopiedStep] = useState<string | null>(null);
 
   const features = [
@@ -168,90 +170,92 @@ result = executor.run(task)`;
   };
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-background text-foreground">
       <SiteNav />
 
       <main className="pt-16">
         <SecurityAdvisoryBanner align="marketing" />
 
         <section className="relative overflow-hidden px-6 pb-20 pt-8">
-          <HeroBackdrop />
-          <div className="relative z-10 mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-12">
-            <div className="md:col-span-6">
-              <p className="mb-4 text-xs font-medium uppercase tracking-wider text-neutral-500">
-                {locale === 'en' ? 'Local-first agent stack' : '本地优先智能体技术栈'}
-              </p>
-              <h1 className="mb-6 text-4xl font-semibold leading-[1.15] tracking-tight md:text-5xl">
-                <SplitHeading text={t.home.hero.titleLine1} />
-                <br />
-                <SplitHeading
-                  text={t.home.hero.titleLine2}
-                  className="text-neutral-200"
-                  delayMs={t.home.hero.titleLine1.length * 32}
-                />
-              </h1>
-              <p className="mb-8 max-w-xl text-lg leading-relaxed text-neutral-400">{t.home.hero.subtitle}</p>
-              <div className="flex flex-wrap gap-3">
-                <Link href="#quickstart">
-                  <Button size="lg" className="group rounded-full bg-white text-black hover:bg-neutral-200">
-                    {t.home.hero.getStarted}
-                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </Button>
-                </Link>
-                <Link href="https://github.com/DemonDamon/AgenticX" target="_blank">
-                  <Button size="lg" variant="outline" className="rounded-full border-neutral-800 text-neutral-300 hover:bg-neutral-900 hover:text-white">
-                    {t.home.hero.viewGithub}
-                  </Button>
-                </Link>
+          <HeroBackdrop lightMode={resolved === 'light'} />
+          <div className="relative z-10 mx-auto max-w-6xl">
+            <div className="grid items-end gap-12 md:grid-cols-12">
+              <div className="md:col-span-7">
+                <p className="mb-4 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                  {locale === 'en' ? 'Local-first agent stack' : '本地优先智能体技术栈'}
+                </p>
+                <h1 className="mb-6 text-4xl font-semibold leading-[1.15] tracking-tight md:text-5xl">
+                  <SplitHeading text={t.home.hero.titleLine1} />
+                  <br />
+                  <SplitHeading
+                    text={t.home.hero.titleLine2}
+                    className="text-muted-foreground"
+                    delayMs={t.home.hero.titleLine1.length * 32}
+                  />
+                </h1>
+                <p className="mb-8 max-w-xl text-lg leading-relaxed text-muted-foreground">{t.home.hero.subtitle}</p>
+                <div className="flex flex-wrap gap-3">
+                  <Link href="#quickstart">
+                    <Button size="lg" className="group rounded-full bg-foreground text-background hover:opacity-90">
+                      {t.home.hero.getStarted}
+                      <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </Button>
+                  </Link>
+                  <Link href="https://github.com/DemonDamon/AgenticX" target="_blank">
+                    <Button size="lg" variant="outline" className="rounded-full border-border text-muted-foreground hover:bg-muted hover:text-foreground">
+                      {t.home.hero.viewGithub}
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+              <div className="md:col-span-5">
+                <div className="rounded-2xl border border-border bg-card p-4 font-mono text-sm">
+                  <p className="text-foreground">$ agx serve --host 127.0.0.1 --port 8000</p>
+                  <p className="mt-2 text-emerald-500">Studio ready on 127.0.0.1:8000</p>
+                </div>
               </div>
             </div>
-            <div className="md:col-span-6">
-              <FadeContent>
-                <DiagramFigure name="runtime-path" alt={t.home.stack.title} caption={t.home.stack.caption} />
-              </FadeContent>
-              <div className="mt-4 rounded-2xl border border-neutral-800 bg-neutral-950 p-4 font-mono text-sm">
-                <p className="text-neutral-300">$ agx serve --host 127.0.0.1 --port 8000</p>
-                <p className="mt-2 text-emerald-400">Studio ready on 127.0.0.1:8000</p>
-              </div>
-            </div>
+            <FadeContent className="mt-12">
+              <DiagramFigure name="product" alt={t.home.stack.title} caption={t.home.stack.caption} />
+            </FadeContent>
           </div>
         </section>
 
-        <section id="stack" className="border-t border-neutral-900 px-6 py-20">
+        <section id="stack" className="border-t border-border px-6 py-20">
           <div className="mx-auto max-w-6xl">
             <FadeContent>
               <div className="mb-10">
                 <h2 className="mb-3 text-3xl font-semibold">{t.home.stack.title}</h2>
-                <p className="max-w-2xl text-neutral-400">{t.home.stack.subtitle}</p>
+                <p className="max-w-2xl text-muted-foreground">{t.home.stack.subtitle}</p>
               </div>
             </FadeContent>
             <FadeContent>
-              <DiagramFigure name="product-stack" alt={t.home.stack.title} caption={t.home.stack.caption} />
+              <DiagramFigure name="near" alt={t.home.stack.near.title} caption={t.home.stack.caption} />
             </FadeContent>
-            <div className="mt-8 border-t border-neutral-900">
+            <div className="mt-8 border-t border-border">
               {[
                 { title: t.home.stack.core.title, description: t.home.stack.core.description, href: localizedPath('/docs/concepts/architecture', locale) },
                 { title: t.home.stack.near.title, description: t.home.stack.near.description, href: localizedPath('/docs/concepts/near', locale) },
                 { title: t.home.stack.enterprise.title, description: t.home.stack.enterprise.description, href: localizedPath('/enterprise', locale) },
               ].map((item) => (
-                <Link key={item.title} href={item.href} className="group flex items-center justify-between gap-6 border-b border-neutral-900 py-5">
+                <Link key={item.title} href={item.href} className="group flex items-center justify-between gap-6 border-b border-border py-5">
                   <div>
-                    <h3 className="font-medium group-hover:text-white">{item.title}</h3>
-                    <p className="mt-1 text-sm leading-relaxed text-neutral-400">{item.description}</p>
+                    <h3 className="font-medium group-hover:text-foreground">{item.title}</h3>
+                    <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{item.description}</p>
                   </div>
-                  <ArrowRight className="h-4 w-4 flex-shrink-0 text-neutral-600 transition-transform group-hover:translate-x-1 group-hover:text-white" />
+                  <ArrowRight className="h-4 w-4 flex-shrink-0 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-foreground" />
                 </Link>
               ))}
             </div>
           </div>
         </section>
 
-        <section id="features" className="border-t border-neutral-900 px-6 py-20">
+        <section id="features" className="border-t border-border px-6 py-20">
           <div className="mx-auto max-w-6xl">
             <FadeContent>
               <div className="mb-12">
                 <h2 className="mb-3 text-3xl font-semibold">{t.home.features.title}</h2>
-                <p className="text-neutral-400">{t.home.features.subtitle}</p>
+                <p className="text-muted-foreground">{t.home.features.subtitle}</p>
               </div>
             </FadeContent>
             <div className="grid gap-6 md:grid-cols-3">
@@ -260,12 +264,12 @@ result = executor.run(task)`;
                   <SpotlightCard className="h-full group">
                     <div className="flex h-full flex-col p-6">
                       <div className="mb-4 flex items-center gap-3">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-neutral-900 text-neutral-400 transition-colors group-hover:text-white">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-muted text-muted-foreground transition-colors group-hover:text-foreground">
                           {feature.icon}
                         </div>
                         <h3 className="font-medium">{feature.title}</h3>
                       </div>
-                      <p className="mb-4 text-sm text-neutral-400">{feature.description}</p>
+                      <p className="mb-4 text-sm text-muted-foreground">{feature.description}</p>
                       <div className="mt-auto">{feature.demo}</div>
                     </div>
                   </SpotlightCard>
@@ -275,21 +279,21 @@ result = executor.run(task)`;
           </div>
         </section>
 
-        <section className="border-t border-neutral-900 px-6 py-20">
+        <section className="border-t border-border px-6 py-20">
           <FadeContent className="mx-auto max-w-6xl">
             <div className="grid gap-6 md:grid-cols-3">
               {clusters.map((cluster) => (
-                <div key={cluster.title} className="rounded-2xl border border-neutral-800 bg-black p-6">
-                  <h3 className="mb-2 text-sm font-medium uppercase tracking-wider text-neutral-500">{cluster.title}</h3>
+                <div key={cluster.title} className="rounded-2xl border border-border bg-card p-6">
+                  <h3 className="mb-2 text-sm font-medium uppercase tracking-wider text-muted-foreground">{cluster.title}</h3>
                   <div>
                     {cluster.items.map((item) => (
-                      <div key={item.title} className="flex items-start gap-3 border-t border-neutral-900 py-4 first:border-t-0 first:pt-2 last:pb-0">
-                        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-neutral-900 text-neutral-500">
+                      <div key={item.title} className="flex items-start gap-3 border-t border-border py-4 first:border-t-0 first:pt-2 last:pb-0">
+                        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-muted text-muted-foreground">
                           {item.icon}
                         </div>
                         <div>
                           <h4 className="mb-1 font-medium">{item.title}</h4>
-                          <p className="text-sm text-neutral-500">{item.desc}</p>
+                          <p className="text-sm text-muted-foreground">{item.desc}</p>
                         </div>
                       </div>
                     ))}
@@ -300,23 +304,23 @@ result = executor.run(task)`;
           </FadeContent>
         </section>
 
-        <section id="code" className="border-t border-neutral-900 px-6 py-20">
+        <section id="code" className="border-t border-border px-6 py-20">
           <FadeContent className="mx-auto max-w-6xl">
             <div className="mb-12">
               <h2 className="mb-3 text-3xl font-semibold">{t.home.code.title}</h2>
-              <p className="text-neutral-400">{t.home.code.subtitle}</p>
+              <p className="text-muted-foreground">{t.home.code.subtitle}</p>
             </div>
-            <div className="overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-950">
-              <div className="flex items-center gap-2 border-b border-neutral-900 px-4 py-3">
+            <div className="overflow-hidden rounded-2xl border border-border bg-card">
+              <div className="flex items-center gap-2 border-b border-border px-4 py-3">
                 <div className="flex gap-1.5">
-                  <div className="h-3 w-3 rounded-full bg-neutral-700" />
-                  <div className="h-3 w-3 rounded-full bg-neutral-700" />
-                  <div className="h-3 w-3 rounded-full bg-neutral-700" />
+                  <div className="h-3 w-3 rounded-full bg-muted-foreground/40" />
+                  <div className="h-3 w-3 rounded-full bg-muted-foreground/40" />
+                  <div className="h-3 w-3 rounded-full bg-muted-foreground/40" />
                 </div>
-                <span className="ml-2 font-mono text-xs text-neutral-500">example.py</span>
+                <span className="ml-2 font-mono text-xs text-muted-foreground">example.py</span>
               </div>
-              <pre className="overflow-x-auto bg-neutral-950 p-6 text-sm">
-                <code className="font-mono leading-relaxed text-neutral-300">
+              <pre className="overflow-x-auto bg-card p-6 text-sm">
+                <code className="font-mono leading-relaxed text-muted-foreground">
                   {agentExample}
                 </code>
               </pre>
@@ -324,12 +328,12 @@ result = executor.run(task)`;
           </FadeContent>
         </section>
 
-        <section id="quickstart" className="border-t border-neutral-900 px-6 py-20">
+        <section id="quickstart" className="border-t border-border px-6 py-20">
           <div className="mx-auto max-w-6xl">
             <FadeContent>
               <div className="mb-12">
                 <h2 className="mb-3 text-3xl font-semibold">{t.home.quickstart.title}</h2>
-                <p className="text-neutral-400">{t.home.quickstart.subtitle}</p>
+                <p className="text-muted-foreground">{t.home.quickstart.subtitle}</p>
               </div>
             </FadeContent>
             <div className="grid gap-6 md:grid-cols-3">
@@ -341,14 +345,14 @@ result = executor.run(task)`;
                 <FadeContent key={item.step} delayMs={index * 40}>
                   <SpotlightCard>
                     <div className="p-6">
-                      <div className="mb-3 font-mono text-xs text-neutral-600">{item.step}</div>
+                      <div className="mb-3 font-mono text-xs text-muted-foreground">{item.step}</div>
                       <h3 className="mb-3 font-medium">{item.title}</h3>
-                      <div className="flex items-center justify-between gap-3 rounded-lg bg-neutral-900 px-4 py-3 font-mono text-sm text-emerald-400">
+                      <div className="flex items-center justify-between gap-3 rounded-lg bg-muted px-4 py-3 font-mono text-sm text-emerald-500">
                         <span className="truncate">$ {item.code}</span>
                         <button
                           type="button"
                           onClick={() => copyStep(item.step, item.code)}
-                          className="flex-shrink-0 text-neutral-500 transition-colors hover:text-white"
+                          className="flex-shrink-0 text-muted-foreground transition-colors hover:text-foreground"
                           aria-label="Copy command"
                         >
                           {copiedStep === item.step ? (
@@ -366,19 +370,19 @@ result = executor.run(task)`;
           </div>
         </section>
 
-        <section className="border-t border-neutral-900 px-6 py-20">
+        <section className="border-t border-border px-6 py-20">
           <div className="mx-auto max-w-6xl text-center">
             <h2 className="mb-4 text-3xl font-semibold">{t.home.cta.title}</h2>
-            <p className="mx-auto mb-8 max-w-xl text-neutral-400">{t.home.cta.subtitle}</p>
+            <p className="mx-auto mb-8 max-w-xl text-muted-foreground">{t.home.cta.subtitle}</p>
             <div className="flex flex-wrap justify-center gap-3">
               <Link href="https://github.com/DemonDamon/AgenticX" target="_blank">
-                <Button size="lg" className="group rounded-full bg-white text-black hover:bg-neutral-200">
+                <Button size="lg" className="group rounded-full bg-foreground text-background hover:opacity-90">
                   <Github className="mr-2 h-4 w-4" />
                   {t.home.cta.starGithub}
                 </Button>
               </Link>
               <Link href="https://pypi.org/project/agenticx/" target="_blank">
-                <Button size="lg" variant="outline" className="rounded-full border-neutral-800 text-neutral-300 hover:bg-neutral-900 hover:text-white">
+                <Button size="lg" variant="outline" className="rounded-full border-border text-muted-foreground hover:bg-muted hover:text-foreground">
                   {t.home.cta.pypiPackage}
                 </Button>
               </Link>
@@ -386,20 +390,20 @@ result = executor.run(task)`;
           </div>
         </section>
 
-        <footer className="border-t border-neutral-900 px-6 py-12">
+        <footer className="border-t border-border px-6 py-12">
           <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 md:flex-row">
             <div className="flex items-center gap-3">
-              <div className="flex h-6 w-6 items-center justify-center rounded bg-white">
-                <span className="text-xs font-bold text-black">AX</span>
+              <div className="flex h-6 w-6 items-center justify-center rounded bg-foreground">
+                <span className="text-xs font-bold text-background">AX</span>
               </div>
-              <span className="text-sm text-neutral-400">AgenticX</span>
+              <span className="text-sm text-muted-foreground">AgenticX</span>
             </div>
-            <div className="flex items-center gap-6 text-sm text-neutral-500">
+            <div className="flex items-center gap-6 text-sm text-muted-foreground">
               <Link href="https://github.com/DemonDamon/AgenticX" target="_blank">{t.common.github}</Link>
               <Link href="https://pypi.org/project/agenticx/" target="_blank">{t.common.pypi}</Link>
               <Link href="https://github.com/DemonDamon/AgenticX/blob/main/LICENSE" target="_blank">{t.common.license}</Link>
             </div>
-            <p className="text-sm text-neutral-600">{t.home.footer.license}</p>
+            <p className="text-sm text-muted-foreground">{t.home.footer.license}</p>
           </div>
         </footer>
       </main>

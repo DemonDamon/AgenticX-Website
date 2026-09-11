@@ -85,6 +85,12 @@ export default {
     zh: '中文',
     en: 'English',
   },
+  theme: {
+    label: 'Theme',
+    light: 'Light',
+    dark: 'Dark',
+    system: 'System',
+  },
   securityBanner: {
     title: 'Security advisory — ',
     bodyBefore: 'Malicious ',

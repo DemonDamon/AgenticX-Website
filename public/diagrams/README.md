@@ -1,13 +1,15 @@
 # Marketing diagrams
 
-Bilingual SVG architecture figures for the AgenticX website.
+Official AgenticX architecture figures, copied from the main repo README assets.
 
-| File | Used on |
-|---|---|
-| `product-stack.svg` | Home, docs intro / architecture |
-| `runtime-path.svg` | Home, docs architecture, Near page |
-| `enterprise-path.svg` | Enterprise page, docs architecture |
-| `knowledge-brains.svg` | Docs knowledge page |
+| File | Locale | Source |
+|---|---|---|
+| `product-architecture-zh.jpg` | zh | `assets/AgenticX 产品与技术架构信息图.png` |
+| `product-architecture-en.jpg` | en | `assets/AgenticX Product and Technology Architecture.png` |
+| `near-architecture-zh.jpg` | zh | `desktop/assets/near-desktop-architecture-zh.png` |
+| `near-architecture-en.jpg` | en | `desktop/assets/near-desktop-architecture-en.png` |
+| `enterprise-architecture-zh.jpg` | zh | `enterprise/assets/enterprise-architecture-zh.png` |
+| `enterprise-architecture-en.jpg` | en | `enterprise/assets/enterprise-architecture-en.png` |
+| `knowledge-brains.svg` | both | docs knowledge page |
 
-Do not put customer names or third-party product comparisons in these files.
-Keep the palette monochrome (`#0a0a0a` / `#111` / `#f5f5f5` / `#a3a3a3`) so the figures match the site.
+`DiagramFigure` picks the locale-specific official image. Do not put customer names or third-party product comparisons in these files.

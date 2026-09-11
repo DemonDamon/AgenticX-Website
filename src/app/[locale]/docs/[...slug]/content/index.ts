@@ -19,7 +19,7 @@ AgenticX is a unified, production-ready agent stack. Build with the Python SDK a
 
 ## System Architecture
 
-![AgenticX product stack](/diagrams/product-stack.svg)
+![AgenticX product architecture](/diagrams/product-architecture-en.jpg)
 
 | Form | Role |
 |------|-----------|
@@ -114,7 +114,7 @@ AgenticX 是一套统一、生产就绪的智能体技术栈。开发者用 Pyth
 
 ## 系统架构
 
-![AgenticX 产品栈](/diagrams/product-stack.svg)
+![AgenticX 产品与技术架构](/diagrams/product-architecture-zh.jpg)
 
 | 形态 | 职责 |
 |------|------|

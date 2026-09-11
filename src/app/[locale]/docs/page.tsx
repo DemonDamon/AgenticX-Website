@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { DocContent } from '@/components/docs/content';
+import { DiagramFigure } from '@/components/diagram-figure';
 import {
   Rocket,
   Code,
@@ -30,85 +31,84 @@ export default async function DocsPage({ params }: PageProps) {
     >
       <p>{d.intro}</p>
 
-      <div className="not-prose my-8 overflow-hidden rounded-xl border border-neutral-800 bg-neutral-950">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/diagrams/product-stack.svg" alt={d.architecture} className="block h-auto w-full" />
+      <div className="not-prose my-8">
+        <DiagramFigure name="product" alt={d.architecture} />
       </div>
 
       <h2>{d.quickStartHeading}</h2>
       <div className="grid gap-4 not-prose md:grid-cols-1">
         <Link
           href={localizedPath('/docs/getting-started/installation', locale)}
-          className="group flex items-center justify-between gap-6 border-b border-neutral-900 py-5"
+          className="group flex items-center justify-between gap-6 border-b border-border py-5"
         >
           <div className="flex items-start gap-4">
-            <div className="rounded-lg bg-neutral-900 p-3">
-              <Rocket className="h-6 w-6 text-neutral-300" />
+            <div className="rounded-lg bg-muted p-3">
+              <Rocket className="h-6 w-6 text-muted-foreground" />
             </div>
             <div>
-              <h3 className="font-medium text-white">{d.installation}</h3>
-              <p className="mt-1 text-sm text-neutral-400">{d.installationDesc}</p>
+              <h3 className="font-medium text-foreground">{d.installation}</h3>
+              <p className="mt-1 text-sm text-muted-foreground">{d.installationDesc}</p>
             </div>
           </div>
-          <span className="text-sm text-neutral-600 transition-colors group-hover:text-white">-&gt;</span>
+          <span className="text-sm text-muted-foreground transition-colors group-hover:text-foreground">-&gt;</span>
         </Link>
         <Link
           href={localizedPath('/docs/getting-started/quickstart', locale)}
-          className="group flex items-center justify-between gap-6 border-b border-neutral-900 py-5"
+          className="group flex items-center justify-between gap-6 border-b border-border py-5"
         >
           <div className="flex items-start gap-4">
-            <div className="rounded-lg bg-neutral-900 p-3">
-              <Code className="h-6 w-6 text-neutral-300" />
+            <div className="rounded-lg bg-muted p-3">
+              <Code className="h-6 w-6 text-muted-foreground" />
             </div>
             <div>
-              <h3 className="font-medium text-white">{d.quickstart}</h3>
-              <p className="mt-1 text-sm text-neutral-400">{d.quickstartDesc}</p>
+              <h3 className="font-medium text-foreground">{d.quickstart}</h3>
+              <p className="mt-1 text-sm text-muted-foreground">{d.quickstartDesc}</p>
             </div>
           </div>
-          <span className="text-sm text-neutral-600 transition-colors group-hover:text-white">-&gt;</span>
+          <span className="text-sm text-muted-foreground transition-colors group-hover:text-foreground">-&gt;</span>
         </Link>
       </div>
 
       <h2>{d.coreConceptsHeading}</h2>
-      <div className="not-prose border-t border-neutral-900">
+      <div className="not-prose border-t border-border">
         <Link
           href={localizedPath('/docs/concepts/architecture', locale)}
-          className="group flex items-center justify-between gap-6 border-b border-neutral-900 py-5"
+          className="group flex items-center justify-between gap-6 border-b border-border py-5"
         >
           <div className="flex items-start gap-4">
-            <Layers className="mt-1 h-6 w-6 flex-shrink-0 text-neutral-300" />
+            <Layers className="mt-1 h-6 w-6 flex-shrink-0 text-muted-foreground" />
             <div>
-              <h3 className="font-medium text-white">{d.architecture}</h3>
-              <p className="mt-1 text-sm text-neutral-400">{d.architectureDesc}</p>
+              <h3 className="font-medium text-foreground">{d.architecture}</h3>
+              <p className="mt-1 text-sm text-muted-foreground">{d.architectureDesc}</p>
             </div>
           </div>
-          <span className="text-sm text-neutral-600 transition-colors group-hover:text-white">-&gt;</span>
+          <span className="text-sm text-muted-foreground transition-colors group-hover:text-foreground">-&gt;</span>
         </Link>
         <Link
           href={localizedPath('/docs/concepts/near', locale)}
-          className="group flex items-center justify-between gap-6 border-b border-neutral-900 py-5"
+          className="group flex items-center justify-between gap-6 border-b border-border py-5"
         >
           <div className="flex items-start gap-4">
-            <Monitor className="mt-1 h-6 w-6 flex-shrink-0 text-neutral-300" />
+            <Monitor className="mt-1 h-6 w-6 flex-shrink-0 text-muted-foreground" />
             <div>
-              <h3 className="font-medium text-white">{d.near}</h3>
-              <p className="mt-1 text-sm text-neutral-400">{d.nearDesc}</p>
+              <h3 className="font-medium text-foreground">{d.near}</h3>
+              <p className="mt-1 text-sm text-muted-foreground">{d.nearDesc}</p>
             </div>
           </div>
-          <span className="text-sm text-neutral-600 transition-colors group-hover:text-white">-&gt;</span>
+          <span className="text-sm text-muted-foreground transition-colors group-hover:text-foreground">-&gt;</span>
         </Link>
         <Link
           href={localizedPath('/docs/concepts/agent', locale)}
-          className="group flex items-center justify-between gap-6 border-b border-neutral-900 py-5"
+          className="group flex items-center justify-between gap-6 border-b border-border py-5"
         >
           <div className="flex items-start gap-4">
-            <Cpu className="mt-1 h-6 w-6 flex-shrink-0 text-neutral-300" />
+            <Cpu className="mt-1 h-6 w-6 flex-shrink-0 text-muted-foreground" />
             <div>
-              <h3 className="font-medium text-white">{d.agent}</h3>
-              <p className="mt-1 text-sm text-neutral-400">{d.agentDesc}</p>
+              <h3 className="font-medium text-foreground">{d.agent}</h3>
+              <p className="mt-1 text-sm text-muted-foreground">{d.agentDesc}</p>
             </div>
           </div>
-          <span className="text-sm text-neutral-600 transition-colors group-hover:text-white">-&gt;</span>
+          <span className="text-sm text-muted-foreground transition-colors group-hover:text-foreground">-&gt;</span>
         </Link>
       </div>
 
@@ -116,22 +116,22 @@ export default async function DocsPage({ params }: PageProps) {
       <div className="grid gap-4 not-prose md:grid-cols-2">
         <Link
           href={localizedPath('/docs/cli', locale)}
-          className="group flex items-start gap-4 rounded-lg border border-neutral-800 bg-neutral-950 p-6 transition-colors hover:border-neutral-700 hover:bg-neutral-900"
+          className="group flex items-start gap-4 rounded-lg border border-border bg-card p-6 transition-colors hover:bg-muted"
         >
-          <Terminal className="h-6 w-6 text-gray-400" />
+          <Terminal className="h-6 w-6 text-muted-foreground" />
           <div>
-            <h3 className="font-medium text-white">{d.cliRef}</h3>
-            <p className="mt-1 text-sm text-gray-400">{d.cliRefDesc}</p>
+            <h3 className="font-medium text-foreground">{d.cliRef}</h3>
+            <p className="mt-1 text-sm text-muted-foreground">{d.cliRefDesc}</p>
           </div>
         </Link>
         <Link
           href={localizedPath('/docs/faq', locale)}
-          className="group flex items-start gap-4 rounded-lg border border-neutral-800 bg-neutral-950 p-6 transition-colors hover:border-neutral-700 hover:bg-neutral-900"
+          className="group flex items-start gap-4 rounded-lg border border-border bg-card p-6 transition-colors hover:bg-muted"
         >
-          <HelpCircle className="h-6 w-6 text-gray-400" />
+          <HelpCircle className="h-6 w-6 text-muted-foreground" />
           <div>
-            <h3 className="font-medium text-white">{d.faq}</h3>
-            <p className="mt-1 text-sm text-gray-400">{d.faqDesc}</p>
+            <h3 className="font-medium text-foreground">{d.faq}</h3>
+            <p className="mt-1 text-sm text-muted-foreground">{d.faqDesc}</p>
           </div>
         </Link>
       </div>

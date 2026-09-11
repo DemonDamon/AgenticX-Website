@@ -85,6 +85,12 @@ export default {
     zh: '中文',
     en: 'English',
   },
+  theme: {
+    label: '主题',
+    light: '浅色',
+    dark: '深色',
+    system: '跟随系统',
+  },
   securityBanner: {
     title: '安全公告 — ',
     bodyBefore: '恶意 ',

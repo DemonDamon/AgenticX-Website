@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils';
 import { getEnterpriseDocNavigation } from './navigation';
 import { EnterpriseDocSearchCommand } from './doc-search-command';
 import { LocaleSwitcher } from '@/components/locale-switcher';
+import { ThemeToggle } from '@/components/theme-toggle';
 import { useState } from 'react';
 import { ChevronDown, ChevronRight, Search, FileText } from 'lucide-react';
 import { localizedPath, localeFromPathname } from '@/i18n/config';
@@ -99,23 +100,26 @@ export function EnterpriseDocSidebar() {
   const [searchOpen, setSearchOpen] = useState(false);
 
   return (
-    <aside className="fixed left-0 top-0 z-40 flex h-screen w-64 flex-col overflow-hidden border-r border-gray-800 bg-[#0a0a0a]">
-      <div className="flex h-16 items-center justify-between border-b border-gray-800 px-4">
+    <aside className="fixed left-0 top-0 z-40 flex h-screen w-64 flex-col overflow-hidden border-r border-border bg-background">
+      <div className="flex h-16 items-center justify-between border-b border-border px-4">
         <Link href={localizedPath('/', locale)} className="flex items-center gap-2 min-w-0">
           <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-violet-500 to-indigo-600 text-sm font-bold">
             AX
           </div>
           <div className="flex min-w-0 flex-col leading-tight">
-            <span className="truncate text-lg font-semibold text-white">AgenticX</span>
+            <span className="truncate text-lg font-semibold text-foreground">AgenticX</span>
             <span className="text-[10px] font-medium uppercase tracking-wider text-violet-400">
               {t.sidebar.brand}
             </span>
           </div>
         </Link>
-        <LocaleSwitcher className="shrink-0 px-2 py-1 text-xs" />
+        <div className="flex shrink-0 items-center gap-1">
+          <ThemeToggle />
+          <LocaleSwitcher className="px-2 py-1 text-xs" />
+        </div>
       </div>
 
-      <div className="border-b border-gray-800 p-4">
+      <div className="border-b border-border p-4">
         <EnterpriseDocSearchCommand open={searchOpen} onOpenChange={setSearchOpen} />
         <button
           type="button"
@@ -142,10 +146,10 @@ export function EnterpriseDocSidebar() {
         ))}
       </nav>
 
-      <div className="border-t border-gray-800 p-4">
+      <div className="border-t border-border p-4">
         <Link
           href={localizedPath('/enterprise', locale)}
-          className="text-xs text-gray-500 transition-colors hover:text-violet-300"
+          className="text-xs text-muted-foreground transition-colors hover:text-foreground"
         >
           {t.sidebar.backToEnterprise}
         </Link>

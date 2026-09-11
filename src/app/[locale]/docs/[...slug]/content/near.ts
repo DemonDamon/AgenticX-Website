@@ -6,7 +6,7 @@ export const nearContent = {
 
 Near is the local-first desktop workspace for AgenticX. It is Electron + React, and the default path starts a local \`agx serve / agx-server\` over REST API + SSE.
 
-![Near and Studio runtime path](/diagrams/runtime-path.svg)
+![Near Desktop architecture](/diagrams/near-architecture-en.jpg)
 
 ## What ships today
 
@@ -30,7 +30,7 @@ See [Architecture](/docs/concepts/architecture) for the product stack, and [Stud
 
 Near 是 AgenticX 的本地优先桌面工作区。技术栈为 Electron + React，默认路径会拉起本机 \`agx serve / agx-server\`，通过 REST API + SSE 通信。
 
-![Near 与 Studio 运行路径](/diagrams/runtime-path.svg)
+![Near Desktop 架构](/diagrams/near-architecture-zh.jpg)
 
 ## 当前已落地
 

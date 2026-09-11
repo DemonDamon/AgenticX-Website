@@ -7,7 +7,7 @@ export default function DocsLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-[#0a0a0a]">
+    <div className="min-h-screen bg-background">
       <DocSidebar />
       <main className="ml-64 min-h-screen">
         <SecurityAdvisoryBanner align="docs" />

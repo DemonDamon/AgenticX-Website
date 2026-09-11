@@ -39,7 +39,7 @@ export function LocaleSwitcher({ className }: { className?: string }) {
           size="sm"
           variant="outline"
           className={cn(
-            'border-neutral-800 text-neutral-300 hover:bg-neutral-900 hover:text-white',
+            'border-border text-muted-foreground hover:bg-muted hover:text-foreground',
             className,
           )}
           aria-label={t.localeSwitcher.label}
@@ -48,15 +48,15 @@ export function LocaleSwitcher({ className }: { className?: string }) {
           {locale === 'zh' ? t.localeSwitcher.zh : t.localeSwitcher.en}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="border-neutral-800 bg-neutral-950 text-neutral-100">
+      <DropdownMenuContent align="end" className="border-border bg-popover text-popover-foreground">
         <DropdownMenuItem
-          className="cursor-pointer focus:bg-neutral-900 focus:text-white"
+          className="cursor-pointer"
           onSelect={() => switchLocale('zh')}
         >
           {t.localeSwitcher.zh}
         </DropdownMenuItem>
         <DropdownMenuItem
-          className="cursor-pointer focus:bg-neutral-900 focus:text-white"
+          className="cursor-pointer"
           onSelect={() => switchLocale('en')}
         >
           {t.localeSwitcher.en}

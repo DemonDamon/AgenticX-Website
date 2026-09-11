@@ -28,7 +28,7 @@ export function SpotlightCard({
   return (
     <div
       ref={cardRef}
-      className={`relative overflow-hidden rounded-xl border border-neutral-800 bg-neutral-950 ${className}`}
+      className={`relative overflow-hidden rounded-xl border border-border bg-card ${className}`}
       onMouseMove={(event) => {
         if (window.matchMedia('(hover: hover) and (pointer: fine)').matches === false) {
           return;

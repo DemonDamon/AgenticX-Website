@@ -14,11 +14,11 @@ AgenticX is one capability core with three product forms on top:
 
 Near and Enterprise share abstractions. Their current deploy paths are independent. The Gateway is compliance and model relay, not a full Agent Runtime.
 
-![AgenticX product stack](/diagrams/product-stack.svg)
+![AgenticX product architecture](/diagrams/product-architecture-en.jpg)
 
-![Near and Studio runtime path](/diagrams/runtime-path.svg)
+![Near Desktop architecture](/diagrams/near-architecture-en.jpg)
 
-![Enterprise online path](/diagrams/enterprise-path.svg)
+![AgenticX Enterprise architecture](/diagrams/enterprise-architecture-en.jpg)
 
 The Runtime itself is still easiest to read as five layers, from the user interface down to platform services.
 
@@ -130,11 +130,11 @@ AgenticX 是一套能力核心，上面叠三种产品形态：
 
 Near 与 Enterprise 共用抽象，当前部署路径彼此独立。网关是合规与模型中继，不是完整的 Agent Runtime。
 
-![AgenticX 产品栈](/diagrams/product-stack.svg)
+![AgenticX 产品与技术架构](/diagrams/product-architecture-zh.jpg)
 
-![Near 与 Studio 运行路径](/diagrams/runtime-path.svg)
+![Near Desktop 架构](/diagrams/near-architecture-zh.jpg)
 
-![Enterprise 在线路径](/diagrams/enterprise-path.svg)
+![AgenticX Enterprise 架构](/diagrams/enterprise-architecture-zh.jpg)
 
 Runtime 内部仍可按五层来读，从用户界面到平台服务。
 

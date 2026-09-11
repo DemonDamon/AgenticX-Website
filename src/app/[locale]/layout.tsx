@@ -4,6 +4,7 @@ import { Inspector } from 'react-dev-inspector';
 import { LocaleProvider } from '@/i18n/locale-context';
 import { htmlLang, isLocale, locales, openGraphLocale, type Locale } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
+import { SITE_THEME_BOOTSTRAP_SCRIPT } from '@/lib/site-theme-bootstrap';
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -56,8 +57,11 @@ export default async function LocaleLayout({
   const isDev = process.env.NODE_ENV === 'development';
 
   return (
-    <html lang={htmlLang(locale)} className="dark">
-      <body className="antialiased bg-black text-white">
+    <html lang={htmlLang(locale)} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: SITE_THEME_BOOTSTRAP_SCRIPT }} />
+      </head>
+      <body className="antialiased bg-background text-foreground">
         {isDev && <Inspector />}
         <LocaleProvider locale={locale} dictionary={dictionary}>
           {children}

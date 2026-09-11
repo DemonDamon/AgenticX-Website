@@ -10,6 +10,7 @@ import { ChevronDown, ChevronRight, Search, FileText } from 'lucide-react';
 import { useLocale } from '@/i18n/locale-context';
 import { localizedPath } from '@/i18n/config';
 import { LocaleSwitcher } from '@/components/locale-switcher';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 interface SidebarItemProps {
   title: string;
@@ -26,8 +27,8 @@ function SidebarItem({ title, href, isActive, depth = 0 }: SidebarItemProps) {
       className={cn(
         'flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm transition-colors',
         isActive
-          ? 'bg-blue-500/20 text-blue-400 font-medium'
-          : 'text-gray-400 hover:bg-gray-800 hover:text-white'
+          ? 'bg-muted text-foreground font-medium'
+          : 'text-muted-foreground hover:bg-muted hover:text-foreground'
       )}
       style={{ paddingLeft: `${12 + depth * 12}px` }}
     >
@@ -51,7 +52,7 @@ function SidebarSection({ title, items, currentSlug, defaultOpen = true }: Sideb
     <div className="mb-4">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex w-full items-center justify-between px-3 py-2 text-xs font-semibold uppercase tracking-wider text-gray-500 hover:text-gray-400"
+        className="flex w-full items-center justify-between px-3 py-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground"
       >
         {title}
         {isOpen ? (
@@ -91,28 +92,28 @@ export function DocSidebar() {
   const [searchOpen, setSearchOpen] = useState(false);
 
   return (
-    <aside className="fixed left-0 top-0 z-40 h-screen w-64 border-r border-gray-800 bg-[#0a0a0a] overflow-hidden flex flex-col">
+    <aside className="fixed left-0 top-0 z-40 h-screen w-64 overflow-hidden flex flex-col border-r border-border bg-background">
       {/* Logo */}
-      <div className="flex h-16 items-center border-b border-gray-800 px-6">
+      <div className="flex h-16 items-center border-b border-border px-6">
         <Link href={localizedPath('/', locale)} className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 text-sm font-bold">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-foreground text-sm font-bold text-background">
             AX
           </div>
-          <span className="text-lg font-semibold text-white">{td.brand}</span>
+          <span className="text-lg font-semibold text-foreground">{td.brand}</span>
         </Link>
       </div>
 
       {/* Search */}
-      <div className="border-b border-gray-800 p-4">
+      <div className="border-b border-border p-4">
         <DocSearchCommand open={searchOpen} onOpenChange={setSearchOpen} />
         <button
           type="button"
           onClick={() => setSearchOpen(true)}
-          className="relative w-full rounded-lg border border-gray-800 bg-gray-900/50 py-2 pl-10 pr-14 text-left text-sm text-gray-500 hover:border-gray-700 hover:bg-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          className="relative w-full rounded-lg border border-border bg-card py-2 pl-10 pr-14 text-left text-sm text-muted-foreground hover:bg-muted focus:outline-none focus:ring-1 focus:ring-ring"
         >
-          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
+          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <span>{td.searchButton}</span>
-          <kbd className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 rounded bg-gray-800 px-1.5 py-0.5 text-xs text-gray-500">
+          <kbd className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 rounded bg-muted px-1.5 py-0.5 text-xs text-muted-foreground">
             ⌘K
           </kbd>
         </button>
@@ -136,11 +137,14 @@ export function DocSidebar() {
       </nav>
 
       {/* Footer */}
-      <div className="space-y-3 border-t border-gray-800 p-4">
-        <LocaleSwitcher className="w-full justify-center" />
-        <div className="flex items-center justify-between text-xs text-gray-500">
+      <div className="space-y-3 border-t border-border p-4">
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <LocaleSwitcher className="flex-1 justify-center" />
+        </div>
+        <div className="flex items-center justify-between text-xs text-muted-foreground">
           <span>{td.version}</span>
-          <select className="rounded border border-gray-800 bg-gray-900 px-2 py-1 text-xs text-white focus:outline-none">
+          <select className="rounded border border-border bg-card px-2 py-1 text-xs text-foreground focus:outline-none">
             <option value="latest">latest</option>
             <option value="v0.1.0">v0.1.0</option>
           </select>
