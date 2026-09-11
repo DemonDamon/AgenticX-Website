@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils';
 import { getEnterpriseDocNavigation } from './navigation';
 import { EnterpriseDocSearchCommand } from './doc-search-command';
 import { LocaleSwitcher } from '@/components/locale-switcher';
+import { SiteMark } from '@/components/site-mark';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { useState } from 'react';
 import { ChevronDown, ChevronRight, Search, FileText } from 'lucide-react';
@@ -103,9 +104,7 @@ export function EnterpriseDocSidebar() {
     <aside className="fixed left-0 top-0 z-40 flex h-screen w-64 flex-col overflow-hidden border-r border-border bg-background">
       <div className="flex h-16 items-center justify-between border-b border-border px-4">
         <Link href={localizedPath('/', locale)} className="flex items-center gap-2 min-w-0">
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-violet-500 to-indigo-600 text-sm font-bold">
-            AX
-          </div>
+          <SiteMark />
           <div className="flex min-w-0 flex-col leading-tight">
             <span className="truncate text-lg font-semibold text-foreground">AgenticX</span>
             <span className="text-[10px] font-medium uppercase tracking-wider text-violet-400">

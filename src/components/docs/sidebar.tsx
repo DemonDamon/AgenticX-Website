@@ -10,6 +10,7 @@ import { ChevronDown, ChevronRight, Search, FileText } from 'lucide-react';
 import { useLocale } from '@/i18n/locale-context';
 import { localizedPath } from '@/i18n/config';
 import { LocaleSwitcher } from '@/components/locale-switcher';
+import { SiteMark } from '@/components/site-mark';
 import { ThemeToggle } from '@/components/theme-toggle';
 
 interface SidebarItemProps {
@@ -96,9 +97,7 @@ export function DocSidebar() {
       {/* Logo */}
       <div className="flex h-16 items-center border-b border-border px-6">
         <Link href={localizedPath('/', locale)} className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-foreground text-sm font-bold text-background">
-            AX
-          </div>
+          <SiteMark />
           <span className="text-lg font-semibold text-foreground">{td.brand}</span>
         </Link>
       </div>

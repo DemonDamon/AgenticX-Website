@@ -20,6 +20,7 @@ import { HeroBackdrop } from '@/components/bits/hero-backdrop';
 import { SplitHeading } from '@/components/bits/split-heading';
 import { SpotlightCard } from '@/components/bits/spotlight-card';
 import { DiagramFigure } from '@/components/diagram-figure';
+import { SiteMark } from '@/components/site-mark';
 import { SecurityAdvisoryBanner } from '@/components/security-advisory-banner';
 import { SiteNav } from '@/components/site-nav';
 import { useSiteUiTheme } from '@/hooks/use-site-ui-theme';
@@ -393,9 +394,7 @@ result = executor.run(task)`;
         <footer className="border-t border-border px-6 py-12">
           <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 md:flex-row">
             <div className="flex items-center gap-3">
-              <div className="flex h-6 w-6 items-center justify-center rounded bg-foreground">
-                <span className="text-xs font-bold text-background">AX</span>
-              </div>
+              <SiteMark className="h-6 w-6" />
               <span className="text-sm text-muted-foreground">AgenticX</span>
             </div>
             <div className="flex items-center gap-6 text-sm text-muted-foreground">

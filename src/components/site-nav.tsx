@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Github, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { LocaleSwitcher } from '@/components/locale-switcher';
+import { SiteMark } from '@/components/site-mark';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { localizedPath } from '@/i18n/config';
 import { useLocale, useTranslations } from '@/i18n/locale-context';
@@ -21,9 +22,7 @@ export function SiteNav({ active }: { active?: 'enterprise' | 'home' | 'ontology
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-background/90 backdrop-blur-sm">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
         <Link href={localizedPath('/', locale)} className="flex items-center gap-3">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-foreground">
-            <span className="text-sm font-bold text-background">AX</span>
-          </div>
+          <SiteMark />
           <span className="text-lg font-semibold tracking-tight">AgenticX</span>
         </Link>
 
