@@ -100,6 +100,14 @@ export function EnterprisePageContent() {
             </div>
             <div className="mt-12">
               <DiagramFigure name="enterprise" alt={ep.architecture.overviewTitle} caption={ep.architecture.caption} />
+              <div className="mt-6">
+                <Link href={localizedPath('/enterprise/docs/architecture/overview', locale)}>
+                  <Button variant="outline" className="border-border text-muted-foreground hover:text-foreground">
+                    {ep.architecture.readFull}
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
         </section>
@@ -158,21 +166,6 @@ export function EnterprisePageContent() {
                   <span className="text-sm font-medium">{cap.label}</span>
                 </Link>
               ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="border-t border-border px-6 py-20">
-          <div className="mx-auto max-w-6xl rounded-2xl border border-border bg-card p-8 md:p-12">
-            <h2 className="mb-4 text-2xl font-semibold">{ep.architecture.overviewTitle}</h2>
-            <DiagramFigure name="enterprise" alt={ep.architecture.overviewTitle} caption={ep.architecture.caption} />
-            <div className="mt-6">
-              <Link href={localizedPath('/enterprise/docs/architecture/overview', locale)}>
-                <Button variant="outline" className="border-border text-muted-foreground hover:text-foreground">
-                  {ep.architecture.readFull}
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
             </div>
           </div>
         </section>
