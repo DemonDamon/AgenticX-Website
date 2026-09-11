@@ -44,6 +44,8 @@ export function EnterprisePageContent() {
     },
   ];
 
+  const [portalPillar, adminPillar, gatewayPillar] = pillars as [typeof pillars[number], typeof pillars[number], typeof pillars[number]];
+
   const capabilities = [
     { icon: Users, label: ep.capabilities.iam, href: localizedPath('/enterprise/docs/rbac/scopes', locale) },
     { icon: Shield, label: ep.capabilities.policy, href: localizedPath('/enterprise/docs/gateway/policy-engine', locale) },
@@ -58,26 +60,26 @@ export function EnterprisePageContent() {
       <main className="pt-16">
         <SecurityAdvisoryBanner align="marketing" />
 
-        <section className="relative overflow-hidden px-6 pb-20 pt-16">
+        <section className="relative overflow-hidden px-6 pb-20 pt-8">
           <HeroBackdrop opacity={0.16} speed={0.18} />
-          <div className="relative z-10 mx-auto max-w-6xl">
-            <div className="max-w-3xl">
+          <div className="relative z-10 mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-12">
+            <div className="md:col-span-6">
               <p className="mb-4 text-sm font-medium uppercase tracking-wider text-neutral-400">
                 {ep.badge}
               </p>
-              <h1 className="mb-6 text-5xl font-semibold leading-[1.15] tracking-tight md:text-6xl">
+              <h1 className="mb-6 text-4xl font-semibold leading-[1.15] tracking-tight md:text-5xl">
                 {ep.hero.titleLine1}
                 <br />
                 <span className="text-neutral-200">
                   {ep.hero.titleLine2}
                 </span>
               </h1>
-              <p className="mb-8 max-w-2xl text-lg leading-relaxed text-neutral-400">
+              <p className="mb-8 max-w-xl text-lg leading-relaxed text-neutral-400">
                 {ep.hero.subtitle}
               </p>
               <div className="flex flex-wrap gap-3">
                 <Link href={localizedPath('/enterprise/docs', locale)}>
-                  <Button size="lg" className="bg-white text-black hover:bg-neutral-200">
+                  <Button size="lg" className="rounded-full bg-white text-black hover:bg-neutral-200">
                     {ep.hero.viewDocs}
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
@@ -86,13 +88,16 @@ export function EnterprisePageContent() {
                   <Button
                     size="lg"
                     variant="outline"
-                    className="border-neutral-800 text-neutral-300 hover:bg-neutral-900 hover:text-white"
+                    className="rounded-full border-neutral-800 text-neutral-300 hover:bg-neutral-900 hover:text-white"
                   >
                     <Github className="mr-2 h-4 w-4" />
                     {t.common.github}
                   </Button>
                 </Link>
               </div>
+            </div>
+            <div className="md:col-span-6">
+              <DiagramFigure name="enterprise-path" alt={ep.architecture.overviewTitle} caption={ep.architecture.caption} />
             </div>
           </div>
         </section>
@@ -101,12 +106,28 @@ export function EnterprisePageContent() {
           <div className="mx-auto max-w-6xl">
             <h2 className="mb-4 text-3xl font-semibold">{ep.architecture.title}</h2>
             <p className="mb-10 max-w-2xl text-neutral-400">{ep.architecture.subtitle}</p>
-            <div className="grid gap-6 md:grid-cols-3">
-              {pillars.map((pillar) => (
+            <Link
+              href={gatewayPillar.href}
+              className="group mb-6 flex flex-col gap-6 rounded-2xl border border-neutral-800 bg-neutral-950 p-8 transition-colors hover:border-neutral-700 hover:bg-neutral-900 md:flex-row md:items-center"
+            >
+              <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-neutral-900">
+                <gatewayPillar.icon className="h-6 w-6 text-neutral-300" />
+              </div>
+              <div className="flex-1">
+                <h3 className="mb-2 text-xl font-medium">{gatewayPillar.title}</h3>
+                <p className="max-w-2xl text-sm leading-relaxed text-neutral-400">{gatewayPillar.description}</p>
+              </div>
+              <span className="inline-flex flex-shrink-0 items-center text-sm text-neutral-300 group-hover:text-white">
+                {t.common.learnMore}
+                <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </span>
+            </Link>
+            <div className="grid gap-6 md:grid-cols-2">
+              {[portalPillar, adminPillar].map((pillar) => (
                 <Link
                   key={pillar.title}
                   href={pillar.href}
-                  className="group rounded-xl border border-neutral-800 bg-neutral-950 p-6 transition-colors hover:border-neutral-700 hover:bg-neutral-900"
+                  className="group rounded-2xl border border-neutral-800 bg-neutral-950 p-6 transition-colors hover:border-neutral-700 hover:bg-neutral-900"
                 >
                   <pillar.icon className="mb-4 h-8 w-8 text-neutral-400" />
                   <h3 className="mb-2 text-xl font-medium">{pillar.title}</h3>
