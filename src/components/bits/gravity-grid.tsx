@@ -16,7 +16,7 @@ function readSpot(host: HTMLElement) {
   return { on: Number.isFinite(on) ? on : 0, x: Number.isFinite(x) ? x : 0, y: Number.isFinite(y) ? y : 0 };
 }
 
-export function GravityGrid() {
+export function GravityGrid({ tone = 'light' }: { tone?: 'light' | 'dark' }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -84,7 +84,7 @@ export function GravityGrid() {
           const rawY = axis === 'y' ? cursor : fixed;
           const [px, py] = displace(rawX, rawY, massX, massY, mass);
           if (cursor > 0) {
-            ctx.strokeStyle = 'rgba(15, 23, 42, 0.12)';
+            ctx.strokeStyle = tone === 'dark' ? 'rgba(248, 250, 252, 0.18)' : 'rgba(15, 23, 42, 0.12)';
             ctx.beginPath();
             ctx.moveTo(prevX, prevY);
             ctx.lineTo(px, py);
@@ -162,7 +162,7 @@ export function GravityGrid() {
       window.removeEventListener('resize', resize);
       document.removeEventListener('visibilitychange', onVisibility);
     };
-  }, []);
+  }, [tone]);
 
   return <canvas ref={canvasRef} className="absolute inset-0 block h-full w-full" />;
 }
