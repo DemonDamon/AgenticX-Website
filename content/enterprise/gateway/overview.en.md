@@ -43,21 +43,9 @@ apps/gateway/
 
 ## Chat request processing order
 
-```mermaid
-flowchart TD
-    A[handleChatCompletions] --> B[parseJWT<br/>tenant/dept/user/session]
-    B --> C[quota.Check]
-    C --> D[policy.EvaluateRequest]
-    D -->|block| Z1[return error]
-    D -->|pass| E{routing.Decide<br/>or channel.Pick}
-    E --> F[provider.Call / relay.Execute]
-    F --> G{streaming?}
-    G -->|no| H[policy.EvaluateResponse]
-    G -->|yes| I[SSE scan + stream-phase policy]
-    H --> J[audit.Write<br/>JSONL + PG]
-    I --> J
-    J --> K[metering.Record<br/>usage_records]
-```
+![handleChatCompletions order](/docs/svg/ent-gw-chat-en.svg?v=2)
+
+*Diagram: JWT → quota → request policy → route or channel → upstream → response/stream second pass → audit → metering.*
 
 Streaming path performs **stream-phase** policy evaluation and segmented audit during SSE scanning.
 
@@ -79,6 +67,10 @@ Route values: `local`, `private-cloud`, `third-party` (aligned with provider tab
 ## Channel relay
 
 Enable with: `GATEWAY_CHANNEL_REGISTRY=on`
+
+![Channel relay](/docs/svg/ent-channel-en.svg?v=2)
+
+*Diagram: admin CRUD writes gateway_channels; the gateway refreshes the registry, picks by weight, and retries the upstream.*
 
 Runbook: [runbooks/gateway-channel-relay.md](../runbooks/gateway-channel-relay.md)
 

@@ -14,31 +14,9 @@ The moat is three-tier integration with Machi Desktop (cloud governance + on-dev
 
 ## 2. Component topology
 
-```mermaid
-flowchart LR
-    user([Employee browser])
-    admin_user([Admin browser])
+![Three apps and one data plane](/docs/svg/ent-topo-en.svg?v=2)
 
-    subgraph apps[Apps]
-      portal["web-portal\nNext.js :3000"]
-      console["admin-console\nNext.js :3001"]
-      gateway["apps/gateway\nGo :8088"]
-    end
-
-    db[("PostgreSQL\nIAM · Chat · Policy · Audit · Usage")]
-    redis[("Redis")]
-    upstream(["OpenAI-compatible upstream\nDeepSeek / Moonshot / Ollama …"])
-
-    user -->|HTTPS| portal
-    admin_user -->|HTTPS| console
-    portal -->|POST /api/chat/completions| gateway
-    portal --> db
-    console --> db
-    gateway --> db
-    gateway -. remote poll /api/internal/* .-> console
-    gateway --> upstream
-    portal -. session .-> redis
-```
+*Diagram: employees hit portal :3000, admins hit admin :3001, chat forwards to gateway :8088, all sharing Postgres.*
 
 ### Ports & processes
 

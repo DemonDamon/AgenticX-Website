@@ -104,36 +104,11 @@ pnpm -C enterprise migrate:legacy-runtime
 
 ---
 
-## 3. ER 关系（Mermaid）
+## 3. ER 关系
 
-```mermaid
-erDiagram
-    tenants ||--o{ organizations : has
-    tenants ||--o{ departments : has
-    tenants ||--o{ users : has
-    tenants ||--o{ roles : has
-    tenants ||--o{ sso_providers : has
-    tenants ||--o{ chat_sessions : has
-    tenants ||--o{ usage_records : has
-    tenants ||--o{ gateway_audit_events : has
-    tenants ||--o{ policy_rule_packs : has
-    tenants ||--o{ enterprise_runtime_model_providers : has
-    tenants ||--o{ gateway_channels : has
+![租户为根的表关系](/docs/svg/ent-schema-zh.svg?v=2)
 
-    organizations ||--o{ departments : contains
-    departments ||--o{ departments : "parent_id"
-    departments ||--o{ users : "employs"
-
-    users ||--o{ user_roles : assigned
-    roles  ||--o{ user_roles : grants
-    users ||--o{ chat_sessions : owns
-    chat_sessions ||--o{ chat_messages : contains
-
-    policy_rule_packs ||--o{ policy_rules : groups
-    policy_rules ||--o{ policy_rule_versions : versions
-
-    users ||--o{ auth_refresh_sessions : holds
-```
+*示意图：tenants 拥有 IAM、聊天、策略、运行时、审计和 Channel；部门可嵌套；用户拥有会话。*
 
 ---
 

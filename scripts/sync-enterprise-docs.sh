@@ -13,7 +13,12 @@ if [[ ! -d "${SRC}" ]]; then
 fi
 
 mkdir -p "${DEST}"
-rsync -av --delete --exclude='*.swp' --exclude='.DS_Store' "${SRC}/" "${DEST}/"
+rsync -av --delete \
+  --exclude='*.swp' \
+  --exclude='.DS_Store' \
+  --exclude='*.en.md' \
+  --exclude='.synced-at' \
+  "${SRC}/" "${DEST}/"
 date -u +"%Y-%m-%dT%H:%M:%SZ" > "${DEST}/.synced-at"
 
 echo "Synced enterprise docs:"

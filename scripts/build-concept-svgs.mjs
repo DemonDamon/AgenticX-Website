@@ -930,6 +930,269 @@ function apiMap(L) {
   return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
 }
 
+function twoColSteps(items, { y, width = 800, x = 24, h = 86, gap = 10 } = {}) {
+  const colW = Math.floor((width - x * 2 - 16) / 2);
+  const mid = Math.ceil(items.length / 2);
+  return items
+    .map((item, i) => {
+      const col = i < mid ? 0 : 1;
+      const row = i < mid ? i : i - mid;
+      const cx = x + col * (colW + 16);
+      const cy = y + row * (h + gap);
+      return nodeCard(cx, cy, colW, h, item);
+    })
+    .join('');
+}
+
+function entTopo(L) {
+  const w = 800;
+  const h = 560;
+  const body = [
+    header(w, L.header),
+    rowCards(
+      [
+        { n: 1, title: L.emp.title, kicker: L.emp.kicker, lines: L.emp.lines },
+        { n: 2, title: L.adm.title, kicker: L.adm.kicker, lines: L.adm.lines },
+      ],
+      { y: 108, width: w, h: 88, arrows: false },
+    ),
+    vArrow(220, 196, 220),
+    vArrow(580, 196, 220),
+    rowCards(
+      [
+        { title: L.portal.title, kicker: L.portal.kicker, lines: L.portal.lines },
+        { title: L.console.title, kicker: L.console.kicker, lines: L.console.lines },
+        { title: L.gw.title, kicker: L.gw.kicker, lines: L.gw.lines },
+      ],
+      { y: 220, width: w, h: 118, arrows: false },
+    ),
+    vArrow(148, 338, 360),
+    vArrow(400, 338, 360),
+    vArrow(652, 338, 360),
+    rowCards(
+      [
+        { title: L.pg.title, kicker: L.pg.kicker, lines: L.pg.lines },
+        { title: L.redis.title, kicker: L.redis.kicker, lines: L.redis.lines },
+        { title: L.up.title, kicker: L.up.kicker, lines: L.up.lines },
+      ],
+      { y: 360, width: w, h: 118, arrows: false },
+    ),
+    footer(w, h, L.note),
+  ];
+  return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
+}
+
+function entChatSeq(L) {
+  const w = 800;
+  const h = 560;
+  const body = [
+    header(w, L.header),
+    twoColSteps(
+      [
+        { n: 1, title: L.s1.title, lines: L.s1.lines },
+        { n: 2, title: L.s2.title, lines: L.s2.lines },
+        { n: 3, title: L.s3.title, lines: L.s3.lines },
+        { n: 4, title: L.s4.title, lines: L.s4.lines },
+        { n: 5, title: L.s5.title, lines: L.s5.lines },
+        { n: 6, title: L.s6.title, lines: L.s6.lines },
+        { n: 7, title: L.s7.title, lines: L.s7.lines },
+        { n: 8, title: L.s8.title, lines: L.s8.lines },
+      ],
+      { y: 108, width: w, h: 88 },
+    ),
+    footer(w, h, L.note),
+  ];
+  return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
+}
+
+function entFour(L) {
+  const w = 800;
+  const h = 420;
+  const body = [
+    header(w, L.header),
+    rowCards(
+      [
+        { n: 1, title: L.a.title, lines: L.a.lines },
+        { n: 2, title: L.b.title, lines: L.b.lines },
+      ],
+      { y: 108, width: w, h: 110 },
+    ),
+    vArrow(400, 218, 238),
+    rowCards(
+      [
+        { n: 3, title: L.c.title, lines: L.c.lines },
+        { n: 4, title: L.d.title, lines: L.d.lines },
+      ],
+      { y: 238, width: w, h: 110 },
+    ),
+    footer(w, h, L.note),
+  ];
+  return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
+}
+
+function entThree(L) {
+  const w = 800;
+  const h = 340;
+  const body = [
+    header(w, L.header),
+    rowCards(
+      [
+        { n: 1, title: L.a.title, lines: L.a.lines },
+        { n: 2, title: L.b.title, lines: L.b.lines },
+        { n: 3, title: L.c.title, lines: L.c.lines },
+      ],
+      { y: 108, width: w, h: 148 },
+    ),
+    footer(w, h, L.note),
+  ];
+  return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
+}
+
+function entFive(L) {
+  const w = 800;
+  const h = 440;
+  const body = [
+    header(w, L.header),
+    rowCards(
+      [
+        { n: 1, title: L.a.title, lines: L.a.lines },
+        { n: 2, title: L.b.title, lines: L.b.lines },
+        { n: 3, title: L.c.title, lines: L.c.lines },
+      ],
+      { y: 108, width: w, h: 110 },
+    ),
+    vArrow(400, 218, 238),
+    rowCards(
+      [
+        { n: 4, title: L.d.title, lines: L.d.lines },
+        { n: 5, title: L.e.title, lines: L.e.lines },
+      ],
+      { y: 238, width: w, h: 118 },
+    ),
+    footer(w, h, L.note),
+  ];
+  return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
+}
+
+function entSso(L) {
+  const w = 800;
+  const h = 470;
+  const body = [
+    header(w, L.header),
+    twoColSteps(
+      [
+        { n: 1, title: L.s1.title, lines: L.s1.lines },
+        { n: 2, title: L.s2.title, lines: L.s2.lines },
+        { n: 3, title: L.s3.title, lines: L.s3.lines },
+        { n: 4, title: L.s4.title, lines: L.s4.lines },
+        { n: 5, title: L.s5.title, lines: L.s5.lines },
+        { n: 6, title: L.s6.title, lines: L.s6.lines },
+      ],
+      { y: 108, width: w, h: 92 },
+    ),
+    footer(w, h, L.note),
+  ];
+  return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
+}
+
+function entGwChat(L) {
+  const w = 800;
+  const h = 560;
+  const body = [
+    header(w, L.header),
+    twoColSteps(
+      [
+        { n: 1, title: L.s1.title, lines: L.s1.lines },
+        { n: 2, title: L.s2.title, lines: L.s2.lines },
+        { n: 3, title: L.s3.title, lines: L.s3.lines },
+        { n: 4, title: L.s4.title, lines: L.s4.lines },
+        { n: 5, title: L.s5.title, lines: L.s5.lines },
+        { n: 6, title: L.s6.title, lines: L.s6.lines },
+        { n: 7, title: L.s7.title, lines: L.s7.lines },
+        { n: 8, title: L.s8.title, lines: L.s8.lines },
+      ],
+      { y: 108, width: w, h: 88 },
+    ),
+    footer(w, h, L.note),
+  ];
+  return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
+}
+
+function entSchema(L) {
+  const w = 800;
+  const h = 520;
+  const body = [
+    header(w, L.header),
+    nodeCard(24, 108, 752, 78, { n: 1, title: L.tenant.title, kicker: L.tenant.kicker, lines: L.tenant.lines }),
+    vArrow(400, 186, 206),
+    rowCards(
+      [
+        { title: L.iam.title, kicker: L.iam.kicker, lines: L.iam.lines },
+        { title: L.chat.title, kicker: L.chat.kicker, lines: L.chat.lines },
+        { title: L.policy.title, kicker: L.policy.kicker, lines: L.policy.lines },
+      ],
+      { y: 206, width: w, h: 118, arrows: false },
+    ),
+    vArrow(400, 324, 344),
+    rowCards(
+      [
+        { title: L.runtime.title, kicker: L.runtime.kicker, lines: L.runtime.lines },
+        { title: L.audit.title, kicker: L.audit.kicker, lines: L.audit.lines },
+        { title: L.chan.title, kicker: L.chan.kicker, lines: L.chan.lines },
+      ],
+      { y: 344, width: w, h: 110, arrows: false },
+    ),
+    footer(w, h, L.note),
+  ];
+  return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
+}
+
+function entMcp(L) {
+  const w = 800;
+  const h = 440;
+  const body = [
+    header(w, L.header),
+    nodeCard(24, 108, 752, 72, { n: 1, title: L.route.title, kicker: L.route.kicker, lines: L.route.lines }),
+    vArrow(400, 180, 200),
+    rowCards(
+      [
+        { title: L.reg.title, kicker: L.reg.kicker, lines: L.reg.lines },
+        { title: L.back.title, kicker: L.back.kicker, lines: L.back.lines },
+        { title: L.tr.title, kicker: L.tr.kicker, lines: L.tr.lines },
+      ],
+      { y: 200, width: w, h: 148, arrows: false },
+    ),
+    footer(w, h, L.note),
+  ];
+  return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
+}
+
+function entKeypool(L) {
+  const w = 800;
+  const h = 440;
+  const body = [
+    header(w, L.header),
+    rowCards(
+      [
+        { n: 1, title: L.a.title, lines: L.a.lines },
+        { n: 2, title: L.b.title, lines: L.b.lines },
+        { n: 3, title: L.c.title, lines: L.c.lines },
+      ],
+      { y: 108, width: w, h: 118 },
+    ),
+    vArrow(400, 226, 246),
+    rowCards(
+      [
+        { n: 4, title: L.d.title, lines: L.d.lines },
+        { n: 5, title: L.e.title, lines: L.e.lines },
+      ],
+      { y: 246, width: w, h: 118 },
+    ),
+    footer(w, h, L.note),
+  ];
+  return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
+}
+
 const copy = {
   'architecture-forms': {
     fn: architectureForms,
@@ -1738,6 +2001,294 @@ const copy = {
       concepts: { title: '概念页', lines: ['LLMs · Tools', 'Memory · Flow'] },
       runtime: { title: 'Near / Studio', lines: ['AgentRuntime', '不是这个执行器'] },
       note: '侧栏 LLMs / Tools / Memory / Flow 在独立 SDK 页补齐前，先读概念文档。不要发明额外构造器。',
+    },
+  },
+  'ent-topo': {
+    fn: entTopo,
+    en: {
+      header: { eyebrow: 'Architecture', title: 'Three apps, one data plane', subtitle: 'Portal and admin are Next.js; the gateway is a standalone Go process.' },
+      desc: 'Employee and admin browsers hit portal :3000 and admin :3001. Both share Postgres. Portal forwards chat to gateway :8088, which calls OpenAI-compatible upstreams.',
+      emp: { kicker: 'HTTPS', title: 'Employee browser', lines: ['web-portal workspace'] },
+      adm: { kicker: 'HTTPS', title: 'Admin browser', lines: ['IAM · policy · metering'] },
+      portal: { kicker: ':3000', title: 'web-portal', lines: ['Next.js', 'POST /api/chat/completions'] },
+      console: { kicker: ':3001', title: 'admin-console', lines: ['Next.js', 'Writes PG + snapshots'] },
+      gw: { kicker: ':8088', title: 'apps/gateway', lines: ['Go + chi', 'Policy · quota · audit'] },
+      pg: { kicker: ':5432', title: 'PostgreSQL', lines: ['IAM · chat · policy', 'Audit · usage'] },
+      redis: { kicker: ':6379', title: 'Redis', lines: ['Portal session', 'Optional rate limit'] },
+      up: { kicker: 'HTTPS', title: 'Upstream LLM', lines: ['OpenAI-compatible', 'Not LiteLLM'] },
+      note: 'edge-agent :7823 is still a skeleton. Gateway may poll admin /api/internal/*. Do not describe a sidecar loop that is not in this repo.',
+    },
+    zh: {
+      header: { eyebrow: '架构', title: '三端应用，一套数据面', subtitle: '前台和后台是 Next.js；网关是独立 Go 进程。' },
+      desc: '员工和管理员浏览器分别打 portal :3000 与 admin :3001，共用 Postgres。前台把聊天转发到 gateway :8088，再调 OpenAI 兼容上游。',
+      emp: { kicker: 'HTTPS', title: '员工浏览器', lines: ['web-portal 工作区'] },
+      adm: { kicker: 'HTTPS', title: '管理员浏览器', lines: ['IAM · 策略 · 计量'] },
+      portal: { kicker: ':3000', title: 'web-portal', lines: ['Next.js', 'POST /api/chat/completions'] },
+      console: { kicker: ':3001', title: 'admin-console', lines: ['Next.js', '写 PG 与快照'] },
+      gw: { kicker: ':8088', title: 'apps/gateway', lines: ['Go + chi', '策略 · 配额 · 审计'] },
+      pg: { kicker: ':5432', title: 'PostgreSQL', lines: ['IAM · 聊天 · 策略', '审计 · 用量'] },
+      redis: { kicker: ':6379', title: 'Redis', lines: ['Portal session', '可选限流'] },
+      up: { kicker: 'HTTPS', title: '上游 LLM', lines: ['OpenAI 兼容', '不是 LiteLLM'] },
+      note: 'edge-agent :7823 仍是 skeleton。网关可轮询 admin /api/internal/*。不要把仓库里没有的 sidecar 闭环写进方案。',
+    },
+  },
+  'ent-chat-seq': {
+    fn: entChatSeq,
+    en: {
+      header: { eyebrow: 'Data flow', title: 'Chat request through the gateway', subtitle: 'History stays in portal Postgres. The gateway infers, evaluates, audits, and meters.' },
+      desc: 'Browser → portal API → gateway JWT parse → quota → policy → upstream → second-pass policy → audit + usage.',
+      s1: { title: 'Browser POST', lines: ['/api/chat/completions', 'JWT cookie'] },
+      s2: { title: 'Portal validates', lines: ['Session + OpenAI body'] },
+      s3: { title: 'Forward to gateway', lines: ['GATEWAY_COMPLETIONS_URL'] },
+      s4: { title: 'Parse JWT', lines: ['tenant / dept / user / session'] },
+      s5: { title: 'Quota then policy', lines: ['Tracker + keyword/regex/pii'] },
+      s6: { title: 'Block or upstream', lines: ['Business error ≠ model refusal'] },
+      s7: { title: 'Response / stream pass', lines: ['SSE scan on stream'] },
+      s8: { title: 'Audit + meter', lines: ['JSONL + PG · usage_records'] },
+      note: 'block returns a gateway business error. Warn/redact can hit without blocked=true. Chat history is written by portal, not by the gateway.',
+    },
+    zh: {
+      header: { eyebrow: '数据流', title: '聊天请求怎么过网关', subtitle: '历史留在 portal 的 Postgres。网关只做推理、策略、审计、计量。' },
+      desc: '浏览器 → portal API → 网关解析 JWT → 配额 → 策略 → 上游 → 二次策略 → 审计 + 用量。',
+      s1: { title: '浏览器 POST', lines: ['/api/chat/completions', 'JWT cookie'] },
+      s2: { title: 'Portal 校验', lines: ['Session + OpenAI body'] },
+      s3: { title: '转发到网关', lines: ['GATEWAY_COMPLETIONS_URL'] },
+      s4: { title: '解析 JWT', lines: ['tenant / dept / user / session'] },
+      s5: { title: '配额再策略', lines: ['Tracker + keyword/regex/pii'] },
+      s6: { title: '拦截或上游', lines: ['业务错误 ≠ 模型拒答'] },
+      s7: { title: '响应 / 流式二次评估', lines: ['流式走 SSE 扫描'] },
+      s8: { title: '审计 + 计量', lines: ['JSONL + PG · usage_records'] },
+      note: 'block 返回网关业务错误。warn/redact 可有 hits 但 blocked 仍为 false。聊天历史由 portal 写，不经网关落库。',
+    },
+  },
+  'ent-visibility': {
+    fn: entFour,
+    en: {
+      header: { eyebrow: 'Data flow', title: 'Who sees a model vs who can call it', subtitle: 'Portal visibility and gateway upstreams are independent lists.' },
+      desc: 'Admin CRUD writes provider and visible-model tables. Portal filters GET /api/me/models by JWT. Gateway reads providers via internal API.',
+      a: { title: 'admin /admin/models', lines: ['CRUD providers'] },
+      b: { title: 'enterprise_runtime_*', lines: ['providers + visible models'] },
+      c: { title: 'portal GET /api/me/models', lines: ['Filter by JWT'] },
+      d: { title: 'gateway internals', lines: ['/api/internal/providers'] },
+      note: 'A model in the dropdown is not automatically a live upstream. Gateway still needs a decrypted key or env fallback.',
+    },
+    zh: {
+      header: { eyebrow: '数据流', title: '谁能看见模型，谁能真正调用', subtitle: '前台可见列表和网关上游是两套名单。' },
+      desc: 'Admin CRUD 写 provider 与可见模型表。Portal 按 JWT 过滤 GET /api/me/models。网关经 internal API 读 providers。',
+      a: { title: 'admin /admin/models', lines: ['CRUD providers'] },
+      b: { title: 'enterprise_runtime_*', lines: ['providers + 可见模型'] },
+      c: { title: 'portal GET /api/me/models', lines: ['按 JWT 过滤'] },
+      d: { title: '网关内部', lines: ['/api/internal/providers'] },
+      note: '下拉里出现的模型不等于上游已接通。网关还要能解密密钥或回退环境变量。',
+    },
+  },
+  'ent-policy-publish': {
+    fn: entFour,
+    en: {
+      header: { eyebrow: 'Data flow', title: 'Only published rules enter the snapshot', subtitle: 'Drafts stay in PG. The gateway hot-reloads active snapshots.' },
+      desc: 'draft → POST /api/policy/publish → publish events + snapshot → gateway policy-engine.',
+      a: { title: 'policy_rules draft', lines: ['Editable, not enforced'] },
+      b: { title: 'POST /api/policy/publish', lines: ['status=active only'] },
+      c: { title: 'snapshots + events', lines: ['enterprise_runtime_*'] },
+      d: { title: 'gateway reload', lines: ['Remote URL or local file'] },
+      note: 'blocked=true only when action is block. POST /api/policy/test merges unsaved form preview with stored rules.',
+    },
+    zh: {
+      header: { eyebrow: '数据流', title: '只有已发布规则进入快照', subtitle: '草稿留在 PG。网关热加载 active 快照。' },
+      desc: 'draft → POST /api/policy/publish → 发布事件 + 快照 → 网关 policy-engine。',
+      a: { title: 'policy_rules 草稿', lines: ['可编辑，不生效'] },
+      b: { title: 'POST /api/policy/publish', lines: ['仅 status=active'] },
+      c: { title: '快照 + 事件', lines: ['enterprise_runtime_*'] },
+      d: { title: '网关热加载', lines: ['远程 URL 或本地文件'] },
+      note: 'blocked=true 仅当动作为拦截。POST /api/policy/test 会合并未保存的表单预览与库内规则。',
+    },
+  },
+  'ent-audit-dual': {
+    fn: entFour,
+    en: {
+      header: { eyebrow: 'Data flow', title: 'JSONL must succeed; Postgres is best-effort', subtitle: 'Startup backfills .pg-pending for GATEWAY_AUDIT_BACKFILL_DAYS (default 7).' },
+      desc: 'Each LLM call writes append-only JSONL, then tries gateway_audit_events. Failures land in .pg-pending.',
+      a: { title: 'Gateway LLM call', lines: ['Must write JSONL'] },
+      b: { title: 'JSONL on disk', lines: ['.runtime/audit/'] },
+      c: { title: 'gateway_audit_events', lines: ['Best-effort PG'] },
+      d: { title: '.pg-pending → boot', lines: ['Backfill window 7d'] },
+      note: 'Admin /audit reads PgAuditStore with audit:read:all or audit:read:dept. IAM admin audit is a different table: audit_events.',
+    },
+    zh: {
+      header: { eyebrow: '数据流', title: 'JSONL 必须成功；Postgres 尽力而为', subtitle: '启动时按 GATEWAY_AUDIT_BACKFILL_DAYS（默认 7）回灌 .pg-pending。' },
+      desc: '每次 LLM 调用先写 append-only JSONL，再尝试 gateway_audit_events。失败落入 .pg-pending。',
+      a: { title: '网关 LLM 调用', lines: ['必须写下 JSONL'] },
+      b: { title: '磁盘 JSONL', lines: ['.runtime/audit/'] },
+      c: { title: 'gateway_audit_events', lines: ['尽力写 PG'] },
+      d: { title: '.pg-pending → 启动', lines: ['回灌窗口 7 天'] },
+      note: 'Admin /audit 读 PgAuditStore，可见域是 audit:read:all 或 audit:read:dept。IAM 管理审计在另一张表 audit_events。',
+    },
+  },
+  'ent-metering': {
+    fn: entThree,
+    en: {
+      header: { eyebrow: 'Data flow', title: 'Usage lands in usage_records', subtitle: 'Quotas are enforced by quota.Tracker. The admin page is still mostly query/export.' },
+      desc: 'Gateway billing writes usage_records. Admin /metering queries them. Portal can show a token chip from SSE usage.',
+      a: { title: 'Gateway settle', lines: ['usage_records row'] },
+      b: { title: 'admin /metering', lines: ['Query + export'] },
+      c: { title: 'Portal token chip', lines: ['SSE / usage'] },
+      note: 'Tracker can key PAT → user → dept → model → role. Treat tenant-level limits as the product default; do not promise a finished dept/user quota console.',
+    },
+    zh: {
+      header: { eyebrow: '数据流', title: '用量落到 usage_records', subtitle: '配额由 quota.Tracker 执行。管理台额度页仍偏查询 / 导出。' },
+      desc: '网关结算写入 usage_records。Admin /metering 查询。Portal 可用 SSE usage 显示 token chip。',
+      a: { title: '网关结算', lines: ['usage_records 行'] },
+      b: { title: 'admin /metering', lines: ['查询 + 导出'] },
+      c: { title: 'Portal token chip', lines: ['SSE / usage'] },
+      note: 'Tracker 选择顺序是 PAT → 用户 → 部门 → 模型 → 角色。产品默认按租户级限额讲；不要承诺已经做好的部门 / 用户配额控制台。',
+    },
+  },
+  'ent-channel': {
+    fn: entFive,
+    en: {
+      header: { eyebrow: 'Gateway', title: 'Channel relay when the registry is on', subtitle: 'Enable with GATEWAY_CHANNEL_REGISTRY=on. Admin CRUD lives in gateway_channels.' },
+      desc: 'Admin writes channels. Gateway polls /api/internal/channels, picks by weight/priority, then relay.Executor retries.',
+      a: { title: 'Admin CRUD', lines: ['gateway_channels'] },
+      b: { title: 'Internal poll ~5s', lines: ['/api/internal/channels'] },
+      c: { title: 'channel.Registry', lines: ['Refresh in process'] },
+      d: { title: 'Picker', lines: ['Weight · priority · affinity'] },
+      e: { title: 'relay.Executor', lines: ['Adaptor → upstream'] },
+      note: 'Key pool rotation happens inside the executor. A missing env ref is skipped; cooldown starts after three consecutive retryable failures.',
+    },
+    zh: {
+      header: { eyebrow: '网关', title: '打开 Registry 后的 Channel 中继', subtitle: '开关是 GATEWAY_CHANNEL_REGISTRY=on。Admin CRUD 落在 gateway_channels。' },
+      desc: 'Admin 写 Channel。网关轮询 /api/internal/channels，按权重 / 优先级挑选，再由 relay.Executor 重试。',
+      a: { title: 'Admin CRUD', lines: ['gateway_channels'] },
+      b: { title: '内部轮询 ~5s', lines: ['/api/internal/channels'] },
+      c: { title: 'channel.Registry', lines: ['进程内刷新'] },
+      d: { title: 'Picker', lines: ['权重 · 优先级 · 亲和'] },
+      e: { title: 'relay.Executor', lines: ['Adaptor → 上游'] },
+      note: 'Key 轮转发生在 executor 内。缺失的环境变量名会被跳过；连续三次可重试失败后进入冷却。',
+    },
+  },
+  'ent-sso': {
+    fn: entSso,
+    en: {
+      header: { eyebrow: 'Data flow', title: 'OIDC login to the portal', subtitle: 'Admin mirrors the same routes on :3001. Provider CRUD is under /settings/sso.' },
+      desc: 'SSO button → /api/auth/sso/oidc/start → IdP authorize → callback → token exchange → JIT upsert + cookie.',
+      s1: { title: 'Click SSO', lines: ['Portal /auth'] },
+      s2: { title: '302 to start', lines: ['/api/auth/sso/oidc/start'] },
+      s3: { title: 'IdP authorize', lines: ['Enterprise IdP'] },
+      s4: { title: 'Callback + code', lines: ['/oidc/callback'] },
+      s5: { title: 'Token exchange', lines: ['Then JIT upsert'] },
+      s6: { title: 'Set-Cookie', lines: ['Redirect /workspace'] },
+      note: 'Missing NEXT_PUBLIC_SSO_PROVIDERS or issuer env fails discovery. Restart Next after changing SSO env; hot reload will not pick it up.',
+    },
+    zh: {
+      header: { eyebrow: '数据流', title: '前台 OIDC 登录', subtitle: 'Admin 在 :3001 镜像同一组路由。Provider CRUD 在 /settings/sso。' },
+      desc: '点 SSO → /api/auth/sso/oidc/start → IdP authorize → callback → 换 token → JIT upsert + cookie。',
+      s1: { title: '点击 SSO', lines: ['Portal /auth'] },
+      s2: { title: '302 到 start', lines: ['/api/auth/sso/oidc/start'] },
+      s3: { title: 'IdP authorize', lines: ['企业 IdP'] },
+      s4: { title: 'Callback + code', lines: ['/oidc/callback'] },
+      s5: { title: '换 token', lines: ['然后 JIT upsert'] },
+      s6: { title: 'Set-Cookie', lines: ['跳转 /workspace'] },
+      note: '缺少 NEXT_PUBLIC_SSO_PROVIDERS 或 issuer 会 discovery 失败。改 SSO 环境变量后必须重启 Next，热更新不会生效。',
+    },
+  },
+  'ent-gw-chat': {
+    fn: entGwChat,
+    en: {
+      header: { eyebrow: 'Gateway', title: 'handleChatCompletions order', subtitle: 'Stream path evaluates policy while scanning SSE, then audits in segments.' },
+      desc: 'JWT → quota → request policy → route or channel → provider/relay → response or stream policy → audit → metering.',
+      s1: { title: 'Parse JWT', lines: ['Four subject claims'] },
+      s2: { title: 'quota.Check', lines: ['Tracker + limiter'] },
+      s3: { title: 'EvaluateRequest', lines: ['block returns error'] },
+      s4: { title: 'Route or Pick', lines: ['Decide / channel.Pick'] },
+      s5: { title: 'Call / relay', lines: ['provider or Executor'] },
+      s6: { title: 'Non-stream pass', lines: ['EvaluateResponse'] },
+      s7: { title: 'Stream pass', lines: ['SSE + stream policy'] },
+      s8: { title: 'Audit then meter', lines: ['JSONL + usage_records'] },
+      note: 'Routing order: explicit provider header → local_route_header → model route → default_route. Values: local / private-cloud / third-party.',
+    },
+    zh: {
+      header: { eyebrow: '网关', title: 'handleChatCompletions 顺序', subtitle: '流式路径在扫描 SSE 时做策略，再分段审计。' },
+      desc: 'JWT → 配额 → 请求策略 → 路由或 Channel → provider/relay → 响应或流式策略 → 审计 → 计量。',
+      s1: { title: '解析 JWT', lines: ['主体四维'] },
+      s2: { title: 'quota.Check', lines: ['Tracker + limiter'] },
+      s3: { title: 'EvaluateRequest', lines: ['block 直接返回错误'] },
+      s4: { title: '路由或挑选', lines: ['Decide / channel.Pick'] },
+      s5: { title: '调用 / 中继', lines: ['provider 或 Executor'] },
+      s6: { title: '非流式二次评估', lines: ['EvaluateResponse'] },
+      s7: { title: '流式二次评估', lines: ['SSE + stream 策略'] },
+      s8: { title: '审计再计量', lines: ['JSONL + usage_records'] },
+      note: '路由优先级：显式 provider header → local_route_header → 模型 route → default_route。取值：local / private-cloud / third-party。',
+    },
+  },
+  'ent-schema': {
+    fn: entSchema,
+    en: {
+      header: { eyebrow: 'Database', title: 'Tenant is the root of almost every table', subtitle: 'Business tables carry tenant_id. Cross-tenant reads are rejected in the API layer.' },
+      desc: 'tenants own IAM, chat, policy, runtime, audit, and channels. Departments nest. Users own sessions and messages.',
+      tenant: { kicker: 'tenants', title: 'One tenant row', lines: ['RESTRICT deletes · composite unique keys include tenant_id'] },
+      iam: { kicker: 'IAM', title: 'Org · dept · user · role', lines: ['user_roles · sso_providers'] },
+      chat: { kicker: 'Chat', title: 'Sessions · messages', lines: ['Owned by users'] },
+      policy: { kicker: 'Policy', title: 'Packs · rules · versions', lines: ['publish_events'] },
+      runtime: { kicker: 'Runtime', title: 'enterprise_runtime_*', lines: ['Providers · quotas · snapshots'] },
+      audit: { kicker: 'Audit', title: 'Two tables', lines: ['gateway_audit_events · audit_events'] },
+      chan: { kicker: 'Relay', title: 'gateway_channels', lines: ['AES-GCM api_key_cipher'] },
+      note: 'Primary keys are ULID varchar(26). Encrypt provider/channel/SSO secrets with the documented env keys. This diagram is a map, not a substitute for schema.md.',
+    },
+    zh: {
+      header: { eyebrow: '数据库', title: '租户几乎是每张表的根', subtitle: '业务表都带 tenant_id。API 层禁止跨租户读写。' },
+      desc: 'tenants 拥有 IAM、聊天、策略、运行时、审计和 Channel。部门可嵌套。用户拥有会话和消息。',
+      tenant: { kicker: 'tenants', title: '一行租户', lines: ['删除多为 RESTRICT · 复合唯一常含 tenant_id'] },
+      iam: { kicker: 'IAM', title: '组织 · 部门 · 用户 · 角色', lines: ['user_roles · sso_providers'] },
+      chat: { kicker: '聊天', title: '会话 · 消息', lines: ['归属用户'] },
+      policy: { kicker: '策略', title: '包 · 规则 · 版本', lines: ['publish_events'] },
+      runtime: { kicker: '运行时', title: 'enterprise_runtime_*', lines: ['Provider · 配额 · 快照'] },
+      audit: { kicker: '审计', title: '两张表', lines: ['gateway_audit_events · audit_events'] },
+      chan: { kicker: '中继', title: 'gateway_channels', lines: ['AES-GCM api_key_cipher'] },
+      note: '主键是 ULID varchar(26)。Provider / Channel / SSO 密钥按文档环境变量加密。这张图是地图，不能代替 schema.md。',
+    },
+  },
+  'ent-mcp': {
+    fn: entMcp,
+    en: {
+      header: { eyebrow: 'MCP hosting', title: 'Same process, separate handlers', subtitle: 'Routes mount only when GATEWAY_MCP_HOSTING=on. Builtin demo needs no Postgres row.' },
+      desc: 'Client hits /mcp/{server}/… → Host resolves Registry, entitlement, backend, then transport.',
+      route: { kicker: 'chi', title: '/mcp/registry and /mcp/{server}/*', lines: ['auth → mcp_tool policy → quota → audit'] },
+      reg: { kicker: 'PG', title: 'Registry', lines: ['mcp_servers · mcp_tools', 'builtin demo'] },
+      back: { kicker: 'Backend', title: 'echo · openapi', lines: ['custom-go is a stub'] },
+      tr: { kicker: 'Transport', title: 'Streamable HTTP · SSE', lines: ['messages channel for SSE'] },
+      note: 'Scopes: mcp:server:{name}:read / :invoke, or mcp:*. Rate limit is tool_calls_per_minute (default 60). edge-agent does not host MCP.',
+    },
+    zh: {
+      header: { eyebrow: 'MCP 托管', title: '同一进程，独立 handler', subtitle: '只有 GATEWAY_MCP_HOSTING=on 才挂路由。内置 demo 不需要 PG 行。' },
+      desc: '客户端打 /mcp/{server}/… → Host 解析 Registry、授权、backend，再走 transport。',
+      route: { kicker: 'chi', title: '/mcp/registry 与 /mcp/{server}/*', lines: ['auth → mcp_tool 策略 → 配额 → 审计'] },
+      reg: { kicker: 'PG', title: 'Registry', lines: ['mcp_servers · mcp_tools', '内置 demo'] },
+      back: { kicker: 'Backend', title: 'echo · openapi', lines: ['custom-go 只是留口'] },
+      tr: { kicker: 'Transport', title: 'Streamable HTTP · SSE', lines: ['SSE 另有 messages 通道'] },
+      note: 'Scope：mcp:server:{name}:read / :invoke，或 mcp:*。限流是 tool_calls_per_minute（默认 60）。edge-agent 不托管 MCP。',
+    },
+  },
+  'ent-keypool': {
+    fn: entKeypool,
+    en: {
+      header: { eyebrow: 'Key pool', title: 'Rotate env refs, not plaintext keys in PG', subtitle: 'metadata.keyRefs are environment variable names. A Channel API key still wins if set.' },
+      desc: 'Resolve skips cooldown and empty env. Retryable 401/403/429/5xx marks failure; three hits start a 60s cooldown.',
+      a: { title: 'Channel keyRefs', lines: ['DEEPSEEK_API_KEY_1, …'] },
+      b: { title: 'ResolveWithRef', lines: ['Skip empty / cooldown'] },
+      c: { title: 'Upstream call', lines: ['adaptor.Complete'] },
+      d: { title: 'Retryable error', lines: ['401 · 403 · 429 · 5xx'] },
+      e: { title: 'Cooldown 60s', lines: ['After 3 failures'] },
+      note: 'PAT is a different secret: Bearer agx-pat-… hashed with SHA-256 in api_tokens. Revocation can linger in the ~60s cache.',
+    },
+    zh: {
+      header: { eyebrow: 'Key Pool', title: '轮转的是环境变量名，不是库里的明文 Key', subtitle: 'metadata.keyRefs 是环境变量名。Channel 上若填了 API Key，仍优先用它。' },
+      desc: 'Resolve 跳过冷却和空环境变量。可重试的 401/403/429/5xx 记失败；连续三次进入 60 秒冷却。',
+      a: { title: 'Channel keyRefs', lines: ['DEEPSEEK_API_KEY_1, …'] },
+      b: { title: 'ResolveWithRef', lines: ['跳过空值 / 冷却'] },
+      c: { title: '上游调用', lines: ['adaptor.Complete'] },
+      d: { title: '可重试错误', lines: ['401 · 403 · 429 · 5xx'] },
+      e: { title: '冷却 60 秒', lines: ['连续失败 3 次后'] },
+      note: 'PAT 是另一类密钥：Bearer agx-pat-…，库内只存 SHA-256。吊销后 LRU 缓存最长约 60 秒仍可能接受旧 Token。',
     },
   },
 };
