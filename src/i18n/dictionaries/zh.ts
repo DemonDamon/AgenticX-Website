@@ -73,9 +73,9 @@ export default {
   },
   nav: {
     features: '功能',
-    framework: '框架',
-    near: 'Near',
-    enterprise: '企业版',
+    framework: 'Agx框架',
+    near: 'Near桌面端',
+    enterprise: '企业控制面',
     examples: '示例',
     ontology: '本体论',
     documentation: '文档',

@@ -73,9 +73,9 @@ export default {
   },
   nav: {
     features: 'Features',
-    framework: 'Framework',
-    near: 'Near',
-    enterprise: 'Enterprise',
+    framework: 'Agx Framework',
+    near: 'Near Desktop',
+    enterprise: 'Enterprise Control Plane',
     examples: 'Examples',
     ontology: 'Ontology',
     documentation: 'Documentation',

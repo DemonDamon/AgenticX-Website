@@ -23,11 +23,9 @@ export function SiteNav({
     `text-sm transition-colors ${isActive ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'}`;
 
   const links = [
-    { href: localizedPath('/#features', locale), label: t.nav.features, active: false, anchor: true },
     { href: localizedPath('/docs', locale), label: t.nav.framework, active: active === 'framework', anchor: false },
     { href: localizedPath('/near', locale), label: t.nav.near, active: active === 'near', anchor: false },
     { href: localizedPath('/enterprise', locale), label: t.nav.enterprise, active: active === 'enterprise', anchor: false },
-    { href: localizedPath('/#code', locale), label: t.nav.examples, active: false, anchor: true },
     { href: '/prototype/orion', label: t.nav.ontology, active: active === 'ontology', anchor: true },
   ];
 
