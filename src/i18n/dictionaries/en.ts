@@ -73,12 +73,19 @@ export default {
   },
   nav: {
     features: 'Features',
+    framework: 'Framework',
+    near: 'Near',
     enterprise: 'Enterprise',
     examples: 'Examples',
     ontology: 'Ontology',
     documentation: 'Documentation',
     getStarted: 'Get Started',
     viewOnGithub: 'View on GitHub',
+  },
+  docsSwitcher: {
+    framework: 'Framework',
+    near: 'Near',
+    enterprise: 'Enterprise',
   },
   localeSwitcher: {
     label: 'Language',
@@ -154,11 +161,16 @@ export default {
     enFallbackNotice:
       'This page is not yet available in English. Showing the Chinese original.',
     landing: {
-      title: 'Documentation',
+      title: 'Framework documentation',
       description:
-        'Read AgenticX by product form: Python Runtime, Near Desktop, and Enterprise.',
+        'Python SDK, Studio Server, and Agent Runtime — the capability core shared by Near and Enterprise.',
       intro:
-        'AgenticX is one agent stack. The Python SDK and Studio Runtime are the capability core, Near is the local-first workspace, and Enterprise adds a portal, admin console, and compliance gateway.',
+        'This door is the embeddable stack: Python SDK, Studio Server, and Agent Runtime. Near is the local desktop workspace. Enterprise is the governed web portal and Go gateway. Each product has its own docs entry.',
+      siblingHeading: 'Other product docs',
+      siblingNear: 'Near Desktop docs',
+      siblingNearDesc: 'Local-first Electron workspace on top of agx serve.',
+      siblingEnterprise: 'Enterprise docs',
+      siblingEnterpriseDesc: 'Portal, admin console, and Go AI Gateway.',
       quickStartHeading: 'Quick Start',
       coreConceptsHeading: 'Core Concepts',
       referenceHeading: 'Reference',
@@ -203,18 +215,21 @@ export default {
     stack: {
       title: 'Product forms',
       subtitle: 'Use the SDK and Studio to build, Near as a local workspace, and Enterprise for governed web access.',
-      caption: 'Near talks to the local Runtime by default. Enterprise currently uses a separate Go gateway path.',
+      readDocs: 'Read documentation',
       core: {
         title: 'Core / Runtime',
         description: 'Python SDK, Studio Server, and Agent Runtime for orchestration, tools, memory, knowledge, and skills.',
+        caption: 'SDK and Studio share one Python Runtime. This is the framework door.',
       },
       near: {
         title: 'Near Desktop',
         description: 'Electron local-first workspace with multi-pane chat, avatars, group chat, terminal, automation, and Voice Focus.',
+        caption: 'Near talks to the local Runtime by default over REST and SSE.',
       },
       enterprise: {
         title: 'Enterprise',
         description: 'Employee portal, admin console, and Go AI Gateway for identity, policy, quota, audit, and model relay.',
+        caption: 'Enterprise currently uses a separate Go gateway path, not the Python Agent Runtime.',
       },
     },
     features: {
@@ -326,6 +341,57 @@ export default {
     footer: {
       brand: 'AgenticX Enterprise',
     },
+  },
+  nearPage: {
+    metadata: {
+      title: 'Near Desktop | AgenticX',
+      description:
+        'Local-first Electron workspace: multi-pane chat, avatars, group chat, terminal, automation, and Voice Focus on a local agx serve.',
+    },
+    badge: 'Near Desktop',
+    hero: {
+      titleLine1: 'Local-first workspace',
+      titleLine2: 'on your own machine',
+      subtitle:
+        'Near is the desktop UI on top of a local agx serve. It is not a second agent runtime, and it is not the hosted Enterprise portal.',
+      viewDocs: 'View documentation',
+    },
+    architecture: {
+      title: 'How Near attaches',
+      subtitle: 'Electron starts a local Runtime, writes the port and token, then talks REST and SSE.',
+      caption: 'A remote agx serve mode is not the default product path.',
+      overviewTitle: 'Near Desktop architecture',
+      readFull: 'Read Near documentation',
+    },
+    pillars: {
+      workspace: {
+        title: 'Workspace',
+        description:
+          'Multi-pane chat, avatars, and group chat. Folders bind per Meta or avatar. @file keeps an absolute source path.',
+      },
+      runtime: {
+        title: 'Local Runtime',
+        description:
+          'The default path spawns agx serve on this machine. Empty avatar lists usually mean the local server process died, not lost data.',
+      },
+      studio: {
+        title: 'Studio Server',
+        description:
+          'Near is the renderer. Studio is the FastAPI process that owns sessions, tools, and the agent loop.',
+      },
+    },
+    footer: {
+      brand: 'Near Desktop',
+    },
+  },
+  nearDocs: {
+    brand: 'Near',
+    breadcrumb: 'Near docs',
+    backToNear: '← Back to Near',
+    overview: 'Near Desktop',
+    studio: 'Studio Server',
+    runtime: 'Agent Runtime',
+    configuration: 'Configuration',
   },
   privacy: {
     metadata: {

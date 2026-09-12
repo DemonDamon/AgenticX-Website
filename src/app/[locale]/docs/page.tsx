@@ -35,6 +35,36 @@ export default async function DocsPage({ params }: PageProps) {
         <DiagramFigure name="product" alt={d.architecture} />
       </div>
 
+      <h2>{d.siblingHeading}</h2>
+      <div className="not-prose border-t border-border">
+        <Link
+          href={localizedPath('/near/docs', locale)}
+          className="group flex items-center justify-between gap-6 border-b border-border py-5"
+        >
+          <div className="flex items-start gap-4">
+            <Monitor className="mt-1 h-6 w-6 flex-shrink-0 text-muted-foreground" />
+            <div>
+              <h3 className="font-medium text-foreground">{d.siblingNear}</h3>
+              <p className="mt-1 text-sm text-muted-foreground">{d.siblingNearDesc}</p>
+            </div>
+          </div>
+          <span className="text-sm text-muted-foreground transition-colors group-hover:text-foreground">-&gt;</span>
+        </Link>
+        <Link
+          href={localizedPath('/enterprise/docs', locale)}
+          className="group flex items-center justify-between gap-6 border-b border-border py-5"
+        >
+          <div className="flex items-start gap-4">
+            <Layers className="mt-1 h-6 w-6 flex-shrink-0 text-muted-foreground" />
+            <div>
+              <h3 className="font-medium text-foreground">{d.siblingEnterprise}</h3>
+              <p className="mt-1 text-sm text-muted-foreground">{d.siblingEnterpriseDesc}</p>
+            </div>
+          </div>
+          <span className="text-sm text-muted-foreground transition-colors group-hover:text-foreground">-&gt;</span>
+        </Link>
+      </div>
+
       <h2>{d.quickStartHeading}</h2>
       <div className="grid gap-4 not-prose md:grid-cols-1">
         <Link
@@ -80,19 +110,6 @@ export default async function DocsPage({ params }: PageProps) {
             <div>
               <h3 className="font-medium text-foreground">{d.architecture}</h3>
               <p className="mt-1 text-sm text-muted-foreground">{d.architectureDesc}</p>
-            </div>
-          </div>
-          <span className="text-sm text-muted-foreground transition-colors group-hover:text-foreground">-&gt;</span>
-        </Link>
-        <Link
-          href={localizedPath('/docs/concepts/near', locale)}
-          className="group flex items-center justify-between gap-6 border-b border-border py-5"
-        >
-          <div className="flex items-start gap-4">
-            <Monitor className="mt-1 h-6 w-6 flex-shrink-0 text-muted-foreground" />
-            <div>
-              <h3 className="font-medium text-foreground">{d.near}</h3>
-              <p className="mt-1 text-sm text-muted-foreground">{d.nearDesc}</p>
             </div>
           </div>
           <span className="text-sm text-muted-foreground transition-colors group-hover:text-foreground">-&gt;</span>

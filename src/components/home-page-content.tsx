@@ -216,9 +216,6 @@ result = executor.run(task)`;
                 </div>
               </div>
             </div>
-            <FadeContent className="mt-12">
-              <DiagramFigure name="product" alt={t.home.stack.title} caption={t.home.stack.caption} />
-            </FadeContent>
           </div>
         </section>
 
@@ -230,22 +227,30 @@ result = executor.run(task)`;
                 <p className="max-w-2xl text-muted-foreground">{t.home.stack.subtitle}</p>
               </div>
             </FadeContent>
-            <FadeContent>
-              <DiagramFigure name="near" alt={t.home.stack.near.title} caption={t.home.stack.caption} />
-            </FadeContent>
-            <div className="mt-8 border-t border-border">
-              {[
-                { title: t.home.stack.core.title, description: t.home.stack.core.description, href: localizedPath('/docs/concepts/architecture', locale) },
-                { title: t.home.stack.near.title, description: t.home.stack.near.description, href: localizedPath('/docs/concepts/near', locale) },
-                { title: t.home.stack.enterprise.title, description: t.home.stack.enterprise.description, href: localizedPath('/enterprise', locale) },
-              ].map((item) => (
-                <Link key={item.title} href={item.href} className="group flex items-center justify-between gap-6 border-b border-border py-5">
+            <div className="space-y-16">
+              {(
+                [
+                  { name: 'product' as const, copy: t.home.stack.core, href: localizedPath('/docs', locale) },
+                  { name: 'near' as const, copy: t.home.stack.near, href: localizedPath('/near/docs', locale) },
+                  { name: 'enterprise' as const, copy: t.home.stack.enterprise, href: localizedPath('/enterprise/docs', locale) },
+                ]
+              ).map((item) => (
+                <FadeContent key={item.name}>
                   <div>
-                    <h3 className="font-medium group-hover:text-foreground">{item.title}</h3>
-                    <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{item.description}</p>
+                    <h3 className="mb-2 text-xl font-medium">{item.copy.title}</h3>
+                    <p className="mb-6 max-w-2xl text-sm leading-relaxed text-muted-foreground">{item.copy.description}</p>
+                    <DiagramFigure name={item.name} alt={item.copy.title} caption={item.copy.caption} />
+                    <div className="mt-5">
+                      <Link
+                        href={item.href}
+                        className="group inline-flex items-center text-sm text-muted-foreground hover:text-foreground"
+                      >
+                        {t.home.stack.readDocs}
+                        <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                      </Link>
+                    </div>
                   </div>
-                  <ArrowRight className="h-4 w-4 flex-shrink-0 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-foreground" />
-                </Link>
+                </FadeContent>
               ))}
             </div>
           </div>

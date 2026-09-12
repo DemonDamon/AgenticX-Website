@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { getEnterpriseDocNavigation } from './navigation';
 import { EnterpriseDocSearchCommand } from './doc-search-command';
+import { DocsProductSwitcher } from '@/components/docs-product-switcher';
 import { LocaleSwitcher } from '@/components/locale-switcher';
 import { SiteMark } from '@/components/site-mark';
 import { ThemeToggle } from '@/components/theme-toggle';
@@ -117,6 +118,8 @@ export function EnterpriseDocSidebar() {
           <LocaleSwitcher className="px-2 py-1 text-xs" />
         </div>
       </div>
+
+      <DocsProductSwitcher active="enterprise" />
 
       <div className="border-b border-border p-4">
         <EnterpriseDocSearchCommand open={searchOpen} onOpenChange={setSearchOpen} />

@@ -5,7 +5,7 @@ import { localizedPath } from '@/i18n/config';
 const BASE = 'https://agenticx.dev';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const staticPaths = ['', '/enterprise', '/enterprise/docs', '/docs', '/privacy', '/terms', '/auth', '/agents'];
+  const staticPaths = ['', '/enterprise', '/enterprise/docs', '/docs', '/near', '/near/docs', '/privacy', '/terms', '/auth', '/agents'];
   const docSlugs = listEnterpriseDocSlugs();
 
   const zhEntries: MetadataRoute.Sitemap = [

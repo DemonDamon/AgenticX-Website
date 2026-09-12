@@ -73,12 +73,19 @@ export default {
   },
   nav: {
     features: '功能',
+    framework: '框架',
+    near: 'Near',
     enterprise: '企业版',
     examples: '示例',
     ontology: '本体论',
     documentation: '文档',
     getStarted: '开始使用',
     viewOnGithub: '在 GitHub 查看',
+  },
+  docsSwitcher: {
+    framework: '框架',
+    near: 'Near',
+    enterprise: '企业版',
   },
   localeSwitcher: {
     label: '语言',
@@ -150,10 +157,15 @@ export default {
     zhFallbackNotice: '本页中文版本尚未提供，正在显示英文原文。',
     enFallbackNotice: '本页暂未提供英文版本，正在显示中文原文。',
     landing: {
-      title: '文档',
-      description: '从 Python Runtime、Near 桌面到 Enterprise，按产品形态查阅 AgenticX。',
+      title: '框架文档',
+      description: 'Python SDK、Studio Server 与 Agent Runtime —— Near 与 Enterprise 共用的能力核心。',
       intro:
-        'AgenticX 是一套统一的智能体技术栈：Python SDK 与 Studio Runtime 是能力核心，Near 是本地优先工作区，Enterprise 提供门户、管理台与合规网关。',
+        '这扇门是可嵌入栈：Python SDK、Studio Server 与 Agent Runtime。Near 是本机桌面工作区。Enterprise 是受治理的 Web 门户与 Go 网关。三个产品各有独立文档入口。',
+      siblingHeading: '其他产品文档',
+      siblingNear: 'Near 桌面文档',
+      siblingNearDesc: '本地优先的 Electron 工作区，连接本机 agx serve。',
+      siblingEnterprise: 'Enterprise 文档',
+      siblingEnterpriseDesc: '员工门户、管理台与 Go AI 网关。',
       quickStartHeading: '快速开始',
       coreConceptsHeading: '核心概念',
       referenceHeading: '参考',
@@ -198,18 +210,21 @@ export default {
     stack: {
       title: '产品形态',
       subtitle: '开发者走 SDK 与 Studio，个人工作区走 Near，企业 Web 走 Portal 与网关。',
-      caption: 'Near 默认连接本机 Runtime。Enterprise 当前走独立的 Go 网关路径。',
+      readDocs: '阅读文档',
       core: {
         title: 'Core / Runtime',
         description: 'Python SDK、Studio Server 与 Agent Runtime，覆盖编排、工具、记忆、知识库与技能。',
+        caption: 'SDK 与 Studio 共用一套 Python Runtime。这是框架文档门。',
       },
       near: {
         title: 'Near Desktop',
         description: 'Electron 本地优先工作区：多窗格、分身、群聊、终端、自动化与语音焦点。',
+        caption: 'Near 默认通过 REST 与 SSE 连接本机 Runtime。',
       },
       enterprise: {
         title: 'Enterprise',
         description: '员工门户、管理台与 Go AI 网关，负责身份、策略、配额、审计与模型中继。',
+        caption: 'Enterprise 当前走独立的 Go 网关路径，不替代 Python Agent Runtime。',
       },
     },
     features: {
@@ -321,6 +336,57 @@ export default {
     footer: {
       brand: 'AgenticX Enterprise',
     },
+  },
+  nearPage: {
+    metadata: {
+      title: 'Near 桌面 | AgenticX',
+      description:
+        '本地优先的 Electron 工作区：多窗格聊天、分身、群聊、终端、自动化与语音焦点，连接本机 agx serve。',
+    },
+    badge: 'Near Desktop',
+    hero: {
+      titleLine1: '本地优先工作区',
+      titleLine2: '跑在你自己的机器上',
+      subtitle:
+        'Near 是盖在本机 agx serve 上的桌面界面。它不是第二套智能体运行时，也不是托管的 Enterprise 门户。',
+      viewDocs: '查看文档',
+    },
+    architecture: {
+      title: 'Near 怎么接上 Runtime',
+      subtitle: 'Electron 拉起本机 Runtime，写入端口和令牌，再走 REST 与 SSE。',
+      caption: '连接远程 agx serve 不是默认产品路径。',
+      overviewTitle: 'Near Desktop 架构',
+      readFull: '阅读 Near 文档',
+    },
+    pillars: {
+      workspace: {
+        title: '工作区',
+        description:
+          '多窗格聊天、分身与群聊。目录按 Meta 或分身绑定。@file 保留绝对 sourcePath。',
+      },
+      runtime: {
+        title: '本机 Runtime',
+        description:
+          '默认路径会在本机拉起 agx serve。分身列表突然全空，多半是本机服务进程挂了，不是数据丢了。',
+      },
+      studio: {
+        title: 'Studio 服务',
+        description:
+          'Near 是渲染进程。Studio 是拥有会话、工具和智能体循环的 FastAPI 进程。',
+      },
+    },
+    footer: {
+      brand: 'Near Desktop',
+    },
+  },
+  nearDocs: {
+    brand: 'Near',
+    breadcrumb: 'Near 文档',
+    backToNear: '← 返回 Near',
+    overview: 'Near 桌面',
+    studio: 'Studio 服务',
+    runtime: '智能体运行时',
+    configuration: '配置',
   },
   privacy: {
     metadata: {

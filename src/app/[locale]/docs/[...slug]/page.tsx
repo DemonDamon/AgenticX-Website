@@ -84,7 +84,7 @@ function resolveLocale(raw: string): Locale {
 }
 
 export async function generateStaticParams() {
-  const extras = [{ slug: ['guides'] }, { slug: ['api'] }];
+  const extras = [{ slug: ['guides'] }, { slug: ['api'] }, { slug: ['concepts', 'near'] }];
   return [
     ...flatNavigation.map((item) => ({
       slug: item.slug.split('/'),

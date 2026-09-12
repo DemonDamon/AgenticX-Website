@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { ChevronDown, ChevronRight, Search, FileText } from 'lucide-react';
 import { useLocale } from '@/i18n/locale-context';
 import { localizedPath } from '@/i18n/config';
+import { DocsProductSwitcher } from '@/components/docs-product-switcher';
 import { LocaleSwitcher } from '@/components/locale-switcher';
 import { SiteMark } from '@/components/site-mark';
 import { ThemeToggle } from '@/components/theme-toggle';
@@ -116,6 +117,8 @@ export function DocSidebar() {
           <span className="text-lg font-semibold text-foreground">{td.brand}</span>
         </Link>
       </div>
+
+      <DocsProductSwitcher active="framework" />
 
       {/* Search */}
       <div className="border-b border-border p-4">
