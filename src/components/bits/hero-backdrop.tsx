@@ -1,7 +1,9 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { GravityGrid } from '@/components/bits/gravity-grid';
+import { usePointerField } from '@/hooks/use-pointer-field';
 
 const DarkVeil = dynamic(() => import('./dark-veil'), { ssr: false });
 
@@ -12,6 +14,7 @@ interface HeroBackdropProps {
 }
 
 export function HeroBackdrop({ opacity = 0.28, speed = 0.28, lightMode = false }: HeroBackdropProps) {
+  const rootRef = useRef<HTMLDivElement>(null);
   const [reduceMotion, setReduceMotion] = useState(false);
 
   useEffect(() => {
@@ -22,27 +25,27 @@ export function HeroBackdrop({ opacity = 0.28, speed = 0.28, lightMode = false }
     return () => media.removeEventListener('change', sync);
   }, []);
 
+  usePointerField(rootRef, !reduceMotion, 'parent');
+
+  if (lightMode) {
+    return (
+      <div ref={rootRef} className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+        <div className="hero-light-wash" />
+        <GravityGrid />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/15 to-background" />
+      </div>
+    );
+  }
+
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-      <div
-        className={
-          lightMode
-            ? 'absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(15,23,42,0.06),transparent_58%)]'
-            : 'absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.06),transparent_58%)]'
-        }
-      />
+    <div ref={rootRef} className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.06),transparent_58%)]" />
       {!reduceMotion && (
-        <div className="absolute inset-0" style={{ opacity: lightMode ? Math.min(opacity, 0.12) : opacity }}>
-          <DarkVeil speed={speed} resolutionScale={0.65} hueShift={6} lightMode={lightMode} />
+        <div className="absolute inset-0" style={{ opacity }}>
+          <DarkVeil speed={speed} resolutionScale={0.65} hueShift={6} />
         </div>
       )}
-      <div
-        className={
-          lightMode
-            ? 'absolute inset-0 bg-gradient-to-b from-background/20 via-background/70 to-background'
-            : 'absolute inset-0 bg-gradient-to-b from-black/20 via-black/55 to-background'
-        }
-      />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/55 to-background" />
     </div>
   );
 }

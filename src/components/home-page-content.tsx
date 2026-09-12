@@ -177,7 +177,7 @@ result = executor.run(task)`;
       <main className="pt-16">
         <SecurityAdvisoryBanner align="marketing" />
 
-        <section className="relative overflow-hidden px-6 pb-20 pt-8">
+        <section className="relative min-h-[28rem] overflow-hidden px-6 pb-24 pt-10">
           <HeroBackdrop lightMode={resolved === 'light'} />
           <div className="relative z-10 mx-auto max-w-6xl">
             <div className="grid items-end gap-12 md:grid-cols-12">

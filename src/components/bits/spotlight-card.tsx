@@ -11,7 +11,7 @@ interface SpotlightCardProps {
 export function SpotlightCard({
   children,
   className = '',
-  spotlightColor = 'rgba(255, 255, 255, 0.08)',
+  spotlightColor,
 }: SpotlightCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const spotRef = useRef<HTMLDivElement>(null);
@@ -21,14 +21,15 @@ export function SpotlightCard({
     if (!spot) return;
     spot.style.opacity = String(opacity);
     if (x !== undefined && y !== undefined) {
-      spot.style.background = `radial-gradient(circle at ${x}px ${y}px, ${spotlightColor}, transparent 72%)`;
+      const color = spotlightColor ?? 'var(--spotlight)';
+      spot.style.background = `radial-gradient(circle at ${x}px ${y}px, ${color}, transparent 72%)`;
     }
   };
 
   return (
     <div
       ref={cardRef}
-      className={`relative overflow-hidden rounded-xl border border-border bg-card ${className}`}
+      className={`relative overflow-hidden rounded-xl border border-border bg-card transition-[transform,box-shadow,border-color] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] motion-safe:hover:-translate-y-0.5 hover:border-foreground/15 hover:shadow-[0_10px_28px_rgba(15,23,42,0.08)] dark:hover:shadow-[0_10px_28px_rgba(0,0,0,0.28)] ${className}`}
       onMouseMove={(event) => {
         if (window.matchMedia('(hover: hover) and (pointer: fine)').matches === false) {
           return;

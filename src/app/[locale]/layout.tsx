@@ -61,7 +61,7 @@ export default async function LocaleLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: SITE_THEME_BOOTSTRAP_SCRIPT }} />
       </head>
-      <body className="antialiased bg-background text-foreground">
+      <body className="bg-background text-foreground dark:antialiased">
         {isDev && <Inspector />}
         <LocaleProvider locale={locale} dictionary={dictionary}>
           {children}
