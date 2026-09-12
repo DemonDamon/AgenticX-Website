@@ -6,8 +6,8 @@ import { cn } from '@/lib/utils';
 import { getEnterpriseDocNavigation } from './navigation';
 import { EnterpriseDocSearchCommand } from './doc-search-command';
 import { DocsProductSwitcher } from '@/components/docs-product-switcher';
+import { DocsSidebarBrand } from '@/components/docs-sidebar-brand';
 import { LocaleSwitcher } from '@/components/locale-switcher';
-import { SiteMark } from '@/components/site-mark';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { useState } from 'react';
 import { ChevronDown, ChevronRight, Search, FileText } from 'lucide-react';
@@ -103,21 +103,7 @@ export function EnterpriseDocSidebar() {
 
   return (
     <aside className="fixed left-0 top-0 z-40 flex h-screen w-64 flex-col overflow-hidden border-r border-border bg-background">
-      <div className="flex h-16 items-center justify-between border-b border-border px-4">
-        <Link href={localizedPath('/', locale)} className="flex items-center gap-2 min-w-0">
-          <SiteMark />
-          <div className="flex min-w-0 flex-col leading-tight">
-            <span className="truncate text-lg font-semibold text-foreground">AgenticX</span>
-            <span className="text-[10px] font-medium uppercase tracking-wider text-violet-400">
-              {t.sidebar.brand}
-            </span>
-          </div>
-        </Link>
-        <div className="flex shrink-0 items-center gap-1">
-          <ThemeToggle />
-          <LocaleSwitcher className="px-2 py-1 text-xs" />
-        </div>
-      </div>
+      <DocsSidebarBrand product={t.sidebar.brand} />
 
       <DocsProductSwitcher active="enterprise" />
 
@@ -148,10 +134,14 @@ export function EnterpriseDocSidebar() {
         ))}
       </nav>
 
-      <div className="border-t border-border p-4">
+      <div className="space-y-3 border-t border-border p-4">
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <LocaleSwitcher className="flex-1 justify-center" />
+        </div>
         <Link
           href={localizedPath('/enterprise', locale)}
-          className="text-xs text-muted-foreground transition-colors hover:text-foreground"
+          className="block text-xs text-muted-foreground transition-colors hover:text-foreground"
         >
           {t.sidebar.backToEnterprise}
         </Link>

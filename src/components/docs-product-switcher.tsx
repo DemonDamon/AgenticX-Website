@@ -24,7 +24,7 @@ export function DocsProductSwitcher({ active }: { active: DocsDoor }) {
           <Link
             key={door.id}
             href={localizedPath(door.href, locale)}
-            className={`rounded-md px-2 py-1 text-xs font-medium transition-colors ${
+            className={`rounded-full px-2.5 py-1 text-xs font-medium transition-colors ${
               isActive ? 'bg-muted text-foreground' : 'text-muted-foreground hover:text-foreground'
             }`}
             aria-current={isActive ? 'page' : undefined}

@@ -4,8 +4,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { FileText } from 'lucide-react';
 import { DocsProductSwitcher } from '@/components/docs-product-switcher';
+import { DocsSidebarBrand } from '@/components/docs-sidebar-brand';
 import { LocaleSwitcher } from '@/components/locale-switcher';
-import { SiteMark } from '@/components/site-mark';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { localizedPath } from '@/i18n/config';
 import { useLocale, useTranslations } from '@/i18n/locale-context';
@@ -27,17 +27,7 @@ export function NearDocSidebar() {
 
   return (
     <aside className="fixed left-0 top-0 z-40 flex h-screen w-64 flex-col overflow-hidden border-r border-border bg-background">
-      <div className="flex h-16 items-center border-b border-border px-6">
-        <Link href={localizedPath('/', locale)} className="flex items-center gap-2">
-          <SiteMark />
-          <div className="flex flex-col leading-tight">
-            <span className="text-lg font-semibold text-foreground">AgenticX</span>
-            <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
-              {nd.brand}
-            </span>
-          </div>
-        </Link>
-      </div>
+      <DocsSidebarBrand product={nd.brand} />
 
       <DocsProductSwitcher active="near" />
 

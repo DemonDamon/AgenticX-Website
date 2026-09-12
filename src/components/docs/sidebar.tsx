@@ -10,8 +10,8 @@ import { ChevronDown, ChevronRight, Search, FileText } from 'lucide-react';
 import { useLocale } from '@/i18n/locale-context';
 import { localizedPath } from '@/i18n/config';
 import { DocsProductSwitcher } from '@/components/docs-product-switcher';
+import { DocsSidebarBrand } from '@/components/docs-sidebar-brand';
 import { LocaleSwitcher } from '@/components/locale-switcher';
-import { SiteMark } from '@/components/site-mark';
 import { ThemeToggle } from '@/components/theme-toggle';
 
 interface SidebarItemProps {
@@ -110,13 +110,7 @@ export function DocSidebar() {
 
   return (
     <aside className="fixed left-0 top-0 z-40 h-screen w-64 overflow-hidden flex flex-col border-r border-border bg-background">
-      {/* Logo */}
-      <div className="flex h-16 items-center border-b border-border px-6">
-        <Link href={localizedPath('/', locale)} className="flex items-center gap-2">
-          <SiteMark />
-          <span className="text-lg font-semibold text-foreground">{td.brand}</span>
-        </Link>
-      </div>
+      <DocsSidebarBrand product={t.docsSwitcher.framework} />
 
       <DocsProductSwitcher active="framework" />
 
