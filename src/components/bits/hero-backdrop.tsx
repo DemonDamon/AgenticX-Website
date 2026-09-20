@@ -1,20 +1,15 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { useEffect, useRef, useState } from 'react';
-import { GravityGrid } from '@/components/bits/gravity-grid';
-import { usePointerField } from '@/hooks/use-pointer-field';
+import { useEffect, useState } from 'react';
 
-const DarkVeil = dynamic(() => import('./dark-veil'), { ssr: false });
+const RibbonGlow = dynamic(() => import('./ribbon-glow'), { ssr: false });
 
 interface HeroBackdropProps {
-  opacity?: number;
-  speed?: number;
   lightMode?: boolean;
 }
 
-export function HeroBackdrop({ opacity = 0.28, speed = 0.28, lightMode = false }: HeroBackdropProps) {
-  const rootRef = useRef<HTMLDivElement>(null);
+export function HeroBackdrop({ lightMode = false }: HeroBackdropProps) {
   const [reduceMotion, setReduceMotion] = useState(false);
 
   useEffect(() => {
@@ -25,28 +20,27 @@ export function HeroBackdrop({ opacity = 0.28, speed = 0.28, lightMode = false }
     return () => media.removeEventListener('change', sync);
   }, []);
 
-  usePointerField(rootRef, !reduceMotion, 'parent');
-
-  if (lightMode) {
-    return (
-      <div ref={rootRef} className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-        <div className="hero-light-wash" />
-        <GravityGrid tone="light" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/15 to-background" />
-      </div>
-    );
-  }
-
   return (
-    <div ref={rootRef} className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.06),transparent_58%)]" />
-      {!reduceMotion && (
-        <div className="absolute inset-0" style={{ opacity }}>
-          <DarkVeil speed={speed} resolutionScale={0.65} hueShift={6} />
-        </div>
+    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+      {reduceMotion ? (
+        lightMode ? <div className="hero-light-wash" /> : null
+      ) : (
+        <RibbonGlow
+          background={lightMode ? '#F6F5F8' : '#0B0A10'}
+          color1={lightMode ? '#2A9BB0' : '#2FD3F2'}
+          color2={lightMode ? '#5C52D6' : '#7B61FF'}
+          size={70}
+          angle={0}
+        />
       )}
-      <GravityGrid tone="dark" />
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/35 to-background" />
+      {!lightMode && <div className="hero-dark-type-scrim" />}
+      <div
+        className={
+          lightMode
+            ? 'absolute inset-0 bg-gradient-to-b from-transparent via-background/20 to-background'
+            : 'absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background'
+        }
+      />
     </div>
   );
 }

@@ -177,12 +177,12 @@ result = executor.run(task)`;
       <main className="pt-16">
         <SecurityAdvisoryBanner align="marketing" />
 
-        <section className="relative min-h-[28rem] overflow-hidden px-6 pb-24 pt-10">
+        <section className="relative min-h-[36rem] overflow-hidden px-6 pb-24 pt-10">
           <HeroBackdrop lightMode={resolved === 'light'} />
           <div className="relative z-10 mx-auto max-w-6xl">
             <div className="grid items-end gap-12 md:grid-cols-12">
               <div className="md:col-span-7">
-                <p className="mb-4 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                <p className="mb-4 text-xs font-medium uppercase tracking-wider text-muted-foreground dark:text-zinc-400">
                   {locale === 'en' ? 'Local-first agent stack' : '本地优先智能体技术栈'}
                 </p>
                 <h1 className="mb-6 text-4xl font-semibold leading-[1.15] tracking-tight md:text-5xl">
@@ -190,11 +190,11 @@ result = executor.run(task)`;
                   <br />
                   <SplitHeading
                     text={t.home.hero.titleLine2}
-                    className="text-muted-foreground"
+                    className="text-muted-foreground dark:text-zinc-200"
                     delayMs={t.home.hero.titleLine1.length * 32}
                   />
                 </h1>
-                <p className="mb-8 max-w-xl text-lg leading-relaxed text-muted-foreground">{t.home.hero.subtitle}</p>
+                <p className="mb-8 max-w-xl text-lg leading-relaxed text-muted-foreground dark:text-zinc-200">{t.home.hero.subtitle}</p>
                 <div className="flex flex-wrap gap-3">
                   <Link href="#quickstart">
                     <Button size="lg" className="group rounded-full bg-foreground text-background hover:opacity-90">

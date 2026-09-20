@@ -152,6 +152,24 @@ html:not(.dark) body {
     radial-gradient(ellipse 50% 36% at 48% -4%, rgba(15, 23, 42, 0.06), transparent 62%);
 }
 
+.hero-dark-type-scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      90deg,
+      var(--background) 0%,
+      color-mix(in oklab, var(--background) 88%, transparent) 26%,
+      color-mix(in oklab, var(--background) 46%, transparent) 52%,
+      transparent 76%
+    ),
+    radial-gradient(
+      ellipse 62% 78% at 14% 40%,
+      color-mix(in oklab, var(--background) 62%, transparent),
+      transparent 72%
+    );
+}
+
 .diagram-pointer-glow {
   pointer-events: none;
   position: absolute;

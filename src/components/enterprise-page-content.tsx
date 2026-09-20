@@ -64,20 +64,20 @@ export function EnterprisePageContent() {
         <SecurityAdvisoryBanner align="marketing" />
 
         <section className="relative overflow-hidden px-6 pb-20 pt-8">
-          <HeroBackdrop opacity={0.16} speed={0.18} lightMode={resolved === 'light'} />
+          <HeroBackdrop lightMode={resolved === 'light'} />
           <div className="relative z-10 mx-auto max-w-6xl">
             <div className="max-w-3xl">
-              <p className="mb-4 text-sm font-medium uppercase tracking-wider text-muted-foreground">
+              <p className="mb-4 text-sm font-medium uppercase tracking-wider text-muted-foreground dark:text-zinc-400">
                 {ep.badge}
               </p>
               <h1 className="mb-6 text-4xl font-semibold leading-[1.15] tracking-tight md:text-5xl">
                 {ep.hero.titleLine1}
                 <br />
-                <span className="text-muted-foreground">
+                <span className="text-muted-foreground dark:text-zinc-200">
                   {ep.hero.titleLine2}
                 </span>
               </h1>
-              <p className="mb-8 max-w-xl text-lg leading-relaxed text-muted-foreground">
+              <p className="mb-8 max-w-xl text-lg leading-relaxed text-muted-foreground dark:text-zinc-200">
                 {ep.hero.subtitle}
               </p>
               <div className="flex flex-wrap gap-3">
