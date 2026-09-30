@@ -27,8 +27,8 @@ export function HeroBackdrop({ lightMode = false }: HeroBackdropProps) {
       ) : (
         <RibbonGlow
           background={lightMode ? '#F6F5F8' : '#0B0A10'}
-          color1={lightMode ? '#2A9BB0' : '#2FD3F2'}
-          color2={lightMode ? '#5C52D6' : '#7B61FF'}
+          color1={lightMode ? '#E87810' : '#FFB01A'}
+          color2={lightMode ? '#A8184E' : '#C2185B'}
           size={70}
           angle={0}
         />

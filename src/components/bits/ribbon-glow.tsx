@@ -283,8 +283,8 @@ function trackPointer(root: HTMLElement) {
 
 const DEFAULTS = {
   background: '#0B0A10',
-  color1: '#2FD3F2',
-  color2: '#7B61FF',
+  color1: '#FFB01A',
+  color2: '#C2185B',
 };
 
 export interface RibbonGlowProps {

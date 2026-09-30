@@ -17,7 +17,6 @@ import {
 } from 'lucide-react';
 import { FadeContent } from '@/components/bits/fade-content';
 import { HeroBackdrop } from '@/components/bits/hero-backdrop';
-import { SplitHeading } from '@/components/bits/split-heading';
 import { SpotlightCard } from '@/components/bits/spotlight-card';
 import { DiagramFigure } from '@/components/diagram-figure';
 import { SiteMark } from '@/components/site-mark';
@@ -177,44 +176,39 @@ result = executor.run(task)`;
       <main className="pt-16">
         <SecurityAdvisoryBanner align="marketing" />
 
-        <section className="relative min-h-[36rem] overflow-hidden px-6 pb-24 pt-10">
+        <section className="relative overflow-hidden px-6 pb-16 pt-8">
           <HeroBackdrop lightMode={resolved === 'light'} />
           <div className="relative z-10 mx-auto max-w-6xl">
-            <div className="grid items-end gap-12 md:grid-cols-12">
-              <div className="md:col-span-7">
-                <p className="mb-4 text-xs font-medium uppercase tracking-wider text-muted-foreground dark:text-zinc-400">
-                  {locale === 'en' ? 'Local-first agent stack' : '本地优先智能体技术栈'}
-                </p>
-                <h1 className="mb-6 text-4xl font-semibold leading-[1.15] tracking-tight md:text-5xl">
-                  <SplitHeading text={t.home.hero.titleLine1} />
-                  <br />
-                  <SplitHeading
-                    text={t.home.hero.titleLine2}
-                    className="text-muted-foreground dark:text-zinc-200"
-                    delayMs={t.home.hero.titleLine1.length * 32}
-                  />
-                </h1>
-                <p className="mb-8 max-w-xl text-lg leading-relaxed text-muted-foreground dark:text-zinc-200">{t.home.hero.subtitle}</p>
-                <div className="flex flex-wrap gap-3">
-                  <Link href="#quickstart">
-                    <Button size="lg" className="group rounded-full bg-foreground text-background hover:opacity-90">
-                      {t.home.hero.getStarted}
-                      <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                    </Button>
-                  </Link>
-                  <Link href="https://github.com/DemonDamon/AgenticX" target="_blank">
-                    <Button size="lg" variant="outline" className="rounded-full border-border text-muted-foreground hover:bg-muted hover:text-foreground">
-                      {t.home.hero.viewGithub}
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-              <div className="md:col-span-5">
-                <div className="rounded-2xl border border-border bg-card p-4 font-mono text-sm">
-                  <p className="text-foreground">$ agx serve --host 127.0.0.1 --port 8000</p>
-                  <p className="mt-2 text-emerald-500">Studio ready on 127.0.0.1:8000</p>
-                </div>
-              </div>
+            <div className="mb-10 flex flex-col items-center text-center">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/brand/logo-mark.png"
+                alt=""
+                className="mb-4 h-28 w-28 object-contain md:h-36 md:w-36"
+              />
+              <h1 className="text-6xl font-bold tracking-tight text-foreground md:text-8xl">AgenticX</h1>
+              <p className="mt-3 text-xl text-[#7C6A5A] dark:text-[#D6C4B0] md:text-3xl">
+                Unified Multi-Agent Platform
+              </p>
+            </div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/hero/near-desktop.png"
+              alt={locale === 'en' ? 'Near Desktop' : 'Near 桌面'}
+              className="block w-full rounded-2xl border border-border shadow-[0_24px_80px_rgba(15,23,42,0.28)]"
+            />
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link href="#quickstart">
+                <Button size="lg" className="group rounded-full bg-foreground text-background hover:opacity-90">
+                  {t.home.hero.getStarted}
+                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Button>
+              </Link>
+              <Link href="https://github.com/DemonDamon/AgenticX" target="_blank">
+                <Button size="lg" variant="outline" className="rounded-full border-border text-muted-foreground hover:bg-muted hover:text-foreground">
+                  {t.home.hero.viewGithub}
+                </Button>
+              </Link>
             </div>
           </div>
         </section>
