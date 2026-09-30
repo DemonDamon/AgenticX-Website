@@ -179,36 +179,44 @@ result = executor.run(task)`;
         <section className="relative overflow-hidden px-6 pb-16 pt-8">
           <HeroBackdrop lightMode={resolved === 'light'} />
           <div className="relative z-10 mx-auto max-w-6xl">
-            <div className="mb-10 flex flex-col items-center text-center">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/brand/logo-mark.png"
-                alt=""
-                className="mb-4 h-28 w-28 object-contain md:h-36 md:w-36"
-              />
-              <h1 className="text-6xl font-bold tracking-tight text-foreground md:text-8xl">AgenticX</h1>
-              <p className="mt-3 text-xl text-[#7C6A5A] dark:text-[#D6C4B0] md:text-3xl">
-                Unified Multi-Agent Platform
-              </p>
-            </div>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/hero/near-desktop.png"
-              alt={locale === 'en' ? 'Near Desktop' : 'Near 桌面'}
-              className="block w-full rounded-2xl border border-border shadow-[0_24px_80px_rgba(15,23,42,0.28)]"
-            />
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="#quickstart">
-                <Button size="lg" className="group rounded-full bg-foreground text-background hover:opacity-90">
-                  {t.home.hero.getStarted}
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Button>
-              </Link>
-              <Link href="https://github.com/DemonDamon/AgenticX" target="_blank">
-                <Button size="lg" variant="outline" className="rounded-full border-border text-muted-foreground hover:bg-muted hover:text-foreground">
-                  {t.home.hero.viewGithub}
-                </Button>
-              </Link>
+            <div className="grid items-center gap-10 md:grid-cols-12">
+              <div className="md:col-span-7">
+                <div className="flex items-center gap-4">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/brand/logo-mark.png"
+                    alt=""
+                    className="h-20 w-20 shrink-0 object-contain md:h-24 md:w-24"
+                  />
+                  <div>
+                    <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">AgenticX</h1>
+                    <p className="mt-1 text-lg text-[#7C6A5A] dark:text-[#D6C4B0] sm:text-xl">
+                      Unified Multi-Agent Platform
+                    </p>
+                  </div>
+                </div>
+                <div className="mt-8 flex flex-wrap gap-3">
+                  <Link href="#quickstart">
+                    <Button size="lg" className="group rounded-full bg-foreground text-background hover:opacity-90">
+                      {t.home.hero.getStarted}
+                      <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </Button>
+                  </Link>
+                  <Link href="https://github.com/DemonDamon/AgenticX" target="_blank">
+                    <Button size="lg" variant="outline" className="rounded-full border-border text-muted-foreground hover:bg-muted hover:text-foreground">
+                      {t.home.hero.viewGithub}
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+              <div className="md:col-span-5">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/hero/near-desktop.png"
+                  alt={locale === 'en' ? 'Near Desktop' : 'Near 桌面'}
+                  className="block w-full rounded-2xl border border-border shadow-[0_18px_48px_rgba(15,23,42,0.28)]"
+                />
+              </div>
             </div>
           </div>
         </section>
