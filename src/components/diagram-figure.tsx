@@ -27,7 +27,7 @@ export function DiagramFigure({ name, alt, caption }: DiagramFigureProps) {
   const plateRef = useRef<HTMLDivElement>(null);
   const official = OFFICIAL_MAP[name];
   const src = official
-    ? `/diagrams/${official}-architecture-${locale}.jpg`
+    ? `/diagrams/${official}-architecture-${locale}.png`
     : `/diagrams/${name}.svg`;
 
   usePointerField(plateRef, true);

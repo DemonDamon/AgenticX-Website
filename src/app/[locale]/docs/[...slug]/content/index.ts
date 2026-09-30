@@ -15,7 +15,7 @@ AgenticX is a **local-first agent stack**. One Python capability core powers thr
 !!! note "Shared abstractions, separate deploy paths"
     Near and Enterprise reuse the same agent / tool / memory ideas. Near talks to a local \`agx serve\` by default. Enterprise puts Portal, Admin Console, and a Go AI Gateway in front of models. The gateway is compliance and relay, not a second Agent Runtime.
 
-![AgenticX product architecture](/diagrams/product-architecture-en.jpg)
+![AgenticX product architecture](/diagrams/product-architecture-en.png)
 
 ## How a request moves
 
@@ -61,7 +61,7 @@ AgenticX 是一套**本地优先**的智能体技术栈。一套 Python 能力�
 !!! note "抽象共用，部署路径分开"
     Near 与 Enterprise 复用同一套智能体 / 工具 / 记忆抽象。Near 默认连本机 \`agx serve\`。Enterprise 用 Portal、管理台和 Go AI 网关承接模型访问。网关做合规与中继，不是第二套 Agent Runtime。
 
-![AgenticX 产品与技术架构](/diagrams/product-architecture-zh.jpg)
+![AgenticX 产品与技术架构](/diagrams/product-architecture-zh.png)
 
 ## 一次请求怎么走
 

@@ -21,11 +21,11 @@ Near and Enterprise share abstractions. Their current deploy paths are independe
 !!! warning "Gateway is not AgentRuntime"
     Enterprise Gateway evaluates policy, meters tokens, and relays OpenAI-compatible calls. It does not run the Python think-act loop, spawn avatars, or replace \`agx serve\`.
 
-![AgenticX product architecture](/diagrams/product-architecture-en.jpg)
+![AgenticX product architecture](/diagrams/product-architecture-en.png)
 
-![Near Desktop architecture](/diagrams/near-architecture-en.jpg)
+![Near Desktop architecture](/diagrams/near-architecture-en.png)
 
-![AgenticX Enterprise architecture](/diagrams/enterprise-architecture-en.jpg)
+![AgenticX Enterprise architecture](/diagrams/enterprise-architecture-en.png)
 
 The Runtime itself is still easiest to read as five layers, from the user interface down to platform services.
 
@@ -162,11 +162,11 @@ Near 与 Enterprise 共用抽象，当前部署路径彼此独立。网关是合
 !!! warning "网关不是 AgentRuntime"
     Enterprise 网关做策略评估、Token 计量和 OpenAI 兼容中继。它不跑 Python think-act 循环，不拉起分身，也不替代 \`agx serve\`。
 
-![AgenticX 产品与技术架构](/diagrams/product-architecture-zh.jpg)
+![AgenticX 产品与技术架构](/diagrams/product-architecture-zh.png)
 
-![Near Desktop 架构](/diagrams/near-architecture-zh.jpg)
+![Near Desktop 架构](/diagrams/near-architecture-zh.png)
 
-![AgenticX Enterprise 架构](/diagrams/enterprise-architecture-zh.jpg)
+![AgenticX Enterprise 架构](/diagrams/enterprise-architecture-zh.png)
 
 Runtime 内部仍可按五层来读，从用户界面到平台服务。
 

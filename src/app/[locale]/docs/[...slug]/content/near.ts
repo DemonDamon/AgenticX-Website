@@ -8,7 +8,7 @@ Near is the **desktop workspace**. It is Electron + React + Zustand + Vite. It i
 
 Use Near when you want multi-pane chat, avatars, group chat, a workspace, a terminal, automation, and Voice Focus on your machine. Do not use it as a hosted multi-tenant portal — that is Enterprise.
 
-![Near Desktop architecture](/diagrams/near-architecture-en.jpg)
+![Near Desktop architecture](/diagrams/near-architecture-en.png)
 
 ## Boot path
 
@@ -70,7 +70,7 @@ Near 是**桌面工作区**。技术栈是 Electron + React + Zustand + Vite。�
 
 要在本机用多窗格聊天、分身、群聊、工作区、终端、自动化和语音焦点时用 Near。不要把它当托管多租户门户 —— 那是 Enterprise。
 
-![Near Desktop 架构](/diagrams/near-architecture-zh.jpg)
+![Near Desktop 架构](/diagrams/near-architecture-zh.png)
 
 ## 启动链路
 
