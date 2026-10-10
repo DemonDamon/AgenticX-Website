@@ -87,6 +87,11 @@ export default {
     near: 'Near',
     enterprise: 'Enterprise',
   },
+  nearDownload: {
+    mac: 'Download for macOS',
+    windows: 'Download for Windows',
+    note: 'macOS is Apple silicon; Windows is x64',
+  },
   localeSwitcher: {
     label: 'Language',
     zh: '中文',

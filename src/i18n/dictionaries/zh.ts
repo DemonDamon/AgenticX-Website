@@ -87,6 +87,11 @@ export default {
     near: 'Near',
     enterprise: '企业版',
   },
+  nearDownload: {
+    mac: '下载 macOS',
+    windows: '下载 Windows',
+    note: 'macOS 为 Apple 芯片，Windows 为 x64',
+  },
   localeSwitcher: {
     label: '语言',
     zh: '中文',

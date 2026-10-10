@@ -19,6 +19,7 @@ import { FadeContent } from '@/components/bits/fade-content';
 import { HeroBackdrop } from '@/components/bits/hero-backdrop';
 import { SpotlightCard } from '@/components/bits/spotlight-card';
 import { DiagramFigure } from '@/components/diagram-figure';
+import { NearDownloadButtons, NearDownloadNote, NearDownloadTextLinks } from '@/components/near-download-buttons';
 import { SiteMark } from '@/components/site-mark';
 import { SecurityAdvisoryBanner } from '@/components/security-advisory-banner';
 import { SiteNav } from '@/components/site-nav';
@@ -202,12 +203,14 @@ result = executor.run(task)`;
                       <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </Button>
                   </Link>
+                  <NearDownloadButtons />
                   <Link href="https://github.com/DemonDamon/AgenticX" target="_blank">
                     <Button size="lg" variant="outline" className="rounded-full border-border text-muted-foreground hover:bg-muted hover:text-foreground">
                       {t.home.hero.viewGithub}
                     </Button>
                   </Link>
                 </div>
+                <NearDownloadNote className="mt-4 text-sm text-muted-foreground" />
               </div>
               <div className="md:col-span-5">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -242,7 +245,7 @@ result = executor.run(task)`;
                     <h3 className="mb-2 text-xl font-medium">{item.copy.title}</h3>
                     <p className="mb-6 max-w-2xl text-sm leading-relaxed text-muted-foreground">{item.copy.description}</p>
                     <DiagramFigure name={item.name} alt={item.copy.title} caption={item.copy.caption} />
-                    <div className="mt-5">
+                    <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-2">
                       <Link
                         href={item.href}
                         className="group inline-flex items-center text-sm text-muted-foreground hover:text-foreground"
@@ -250,6 +253,7 @@ result = executor.run(task)`;
                         {t.home.stack.readDocs}
                         <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
                       </Link>
+                      {item.name === 'near' ? <NearDownloadTextLinks /> : null}
                     </div>
                   </div>
                 </FadeContent>

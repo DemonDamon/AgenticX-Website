@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight, Folder, Github, Monitor, Server } from 'lucide-react';
 import { HeroBackdrop } from '@/components/bits/hero-backdrop';
 import { DiagramFigure } from '@/components/diagram-figure';
+import { NearDownloadButtons, NearDownloadNote, NearDownloadTextLinks } from '@/components/near-download-buttons';
 import { SiteMark } from '@/components/site-mark';
 import { SecurityAdvisoryBanner } from '@/components/security-advisory-banner';
 import { SiteNav } from '@/components/site-nav';
@@ -62,8 +63,13 @@ export function NearPageContent() {
                 {np.hero.subtitle}
               </p>
               <div className="flex flex-wrap gap-3">
+                <NearDownloadButtons emphasis="primary" />
                 <Link href={localizedPath('/near/docs', locale)}>
-                  <Button size="lg" className="rounded-full bg-foreground text-background hover:opacity-90">
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="rounded-full border-border text-muted-foreground hover:bg-muted hover:text-foreground"
+                  >
                     {np.hero.viewDocs}
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
@@ -79,6 +85,7 @@ export function NearPageContent() {
                   </Button>
                 </Link>
               </div>
+              <NearDownloadNote className="mt-4 text-sm text-muted-foreground dark:text-zinc-300" />
             </div>
             <div className="mt-12">
               <DiagramFigure name="near" alt={np.architecture.overviewTitle} caption={np.architecture.caption} />
@@ -127,6 +134,7 @@ export function NearPageContent() {
             <div className="flex items-center gap-6 text-sm text-muted-foreground">
               <Link href={localizedPath('/', locale)}>{t.common.home}</Link>
               <Link href={localizedPath('/near/docs', locale)}>{t.common.docs}</Link>
+              <NearDownloadTextLinks />
               <Link href="https://github.com/DemonDamon/AgenticX" target="_blank">
                 {t.common.github}
               </Link>
