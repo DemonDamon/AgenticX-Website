@@ -22,9 +22,9 @@ Use \`AgentRuntime\` for Studio / Near chat. Use \`AgentExecutor\` to embed \`Ag
 
 **What you should see.** Spinner + “Thinking” in the same bubble, then a collapsed Thought. A tool card aligned with the assistant bubble. No duplicated streamed paragraphs. You can scroll up while tokens still arrive.
 
-![One chat turn: thinking, tool card, answer](/docs/cases/agent-loop.png)
+![One chat turn: a bash_exec call, then the answer](/docs/cases/agent-loop.png)
 
-*Illustration: Thinking block, completed tool card, then the answer — not a static hourglass.*
+*Near chat: one \`bash_exec\` call, then the answer.*
 
 On the SDK path the same job is \`AgentExecutor(llm_provider=...).run(agent=, task=)\`. That path has no SSE and no Near tool cards.
 
@@ -230,9 +230,9 @@ Studio / Near 对话走 \`AgentRuntime\`。自己进程里嵌 \`Agent\` + \`Task
 
 **你会看到。** 同一气泡里的 spinner + Thinking，完成后折成 Thought。工具卡和助手气泡对齐。流式过程中可以上滚，且不应整段重复拼接。
 
-![一轮对话：思考、工具卡、回答](/docs/cases/agent-loop.png)
+![一轮对话：bash_exec，然后是回答](/docs/cases/agent-loop.png)
 
-*界面示意：思考块、已完成的工具卡，然后是回答——不是静止沙漏。*
+*真实界面：一次 \`bash_exec\`，然后是回答。*
 
 SDK 路径同一件事是 \`AgentExecutor(llm_provider=...).run(agent=, task=)\`。那条路没有 SSE，也没有 Near 工具卡。
 

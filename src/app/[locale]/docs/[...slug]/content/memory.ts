@@ -25,7 +25,7 @@ Memory is how an agent keeps identity, recent work, and a bounded window. Near's
 
 ![Workspace memory file and a recall chip in chat](/docs/cases/memory-workspace.png)
 
-*Illustration: \`MEMORY.md\` selected; the next turn already knows the preference.*
+*Near workspace with \`MEMORY.md\` open. The file holds the preference the next turn can recall.*
 
 ---
 
@@ -226,7 +226,7 @@ memory:
 
 ![工作区记忆文件与对话中的召回](/docs/cases/memory-workspace.png)
 
-*界面示意：选中 \`MEMORY.md\`；下一轮已经知道偏好。*
+*真实界面：工作区打开 \`MEMORY.md\`，里面是已记下的偏好。*
 
 ---
 

@@ -27,7 +27,7 @@ Two layers:
 
 ![In-app confirm over a shell tool card](/docs/cases/hooks-confirm.png)
 
-*Illustration: themed confirm, not the OS default alert.*
+*Near confirm dialog: Cancel or Confirm, with the policy for this step.*
 
 ---
 
@@ -168,7 +168,7 @@ runtime.hooks.register(DenyShellHook(), priority=100)
 
 ![工具卡上方的应用内确认](/docs/cases/hooks-confirm.png)
 
-*界面示意：主题化确认，不是系统默认警报。*
+*真实界面：应用内确认框，可取消或确认这一步。*
 
 ---
 

@@ -60,7 +60,7 @@ AGX Bundles can ship skills together with MCP servers, avatars, and memory templ
 
 ![Skills tab with per-skill switches](/docs/cases/skills-tab.png)
 
-*Illustration: source badges and one toggle per skill.*
+*Near settings → Skills: each skill has its own switch.*
 
 ## Related
 
@@ -129,7 +129,7 @@ AGX Bundle 可以把技能和 MCP、分身、记忆模板打成一包。安装�
 
 ![技能列表与单技能开关](/docs/cases/skills-tab.png)
 
-*界面示意：来源徽章，每一行一个开关。*
+*真实界面：设置 → 技能，每一行一个开关。*
 
 ## 相关页
 

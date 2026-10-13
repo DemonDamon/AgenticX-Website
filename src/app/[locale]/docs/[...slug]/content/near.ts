@@ -49,7 +49,7 @@ Closing a pane and opening the same avatar should return the last session, not a
 
 ![Two Near panes with Meta and a researcher avatar](/docs/cases/near-panes.png)
 
-*Illustration: Meta on the left, a named avatar on the right, tool card in the avatar pane.*
+*Near: the meta pane on the left, a named expert pane on the right.*
 
 !!! tip "Workspace isolation"
     Folders bind per Meta / avatar. Another avatar must not inherit the first one's directories.
@@ -111,7 +111,7 @@ Near 是**桌面工作区**。技术栈是 Electron + React + Zustand + Vite。�
 
 ![Near 双窗格：Meta 与研究员分身](/docs/cases/near-panes.png)
 
-*界面示意：左侧 Meta，右侧具名分身，工具卡出现在分身窗格。*
+*真实界面：左侧是元智能体窗格，右侧是一个具名分身。*
 
 !!! tip "工作区隔离"
     目录按 Meta / 分身绑定。另一个分身不得自动继承上一份目录。

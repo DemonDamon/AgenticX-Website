@@ -28,7 +28,7 @@ A provider is **configured** when an API key **or a custom API base** is non-emp
 
 ![Provider list with red/green status and a single key field](/docs/cases/llm-settings.png)
 
-*Illustration: green = actually configured; one key field plus a connectivity test.*
+*Near settings: MiniMax is enabled, one API key field, and a Check button.*
 
 ---
 
@@ -272,7 +272,7 @@ Ollama is usually configured with \`base_url\` in YAML (for example \`http://loc
 
 ![供应商列表红绿状态与单一密钥框](/docs/cases/llm-settings.png)
 
-*界面示意：绿色=真正已配置；一个密钥框加连通性测试。*
+*真实界面：MiniMax 已启用，一个 API key 框，旁边是 Check。*
 
 ---
 

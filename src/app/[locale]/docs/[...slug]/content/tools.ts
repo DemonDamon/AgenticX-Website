@@ -25,9 +25,9 @@ Use \`@tool\` / \`BaseTool\` in the SDK. Near / Studio uses \`STUDIO_TOOLS\` in 
 
 **What you should see.** A card aligned with the assistant bubble. Expand to read arguments and the result. Failures should show a readable error (missing \`npx\`, Docker hang, schema mismatch), not a silent spinner.
 
-![Folded tool-call card next to the assistant bubble](/docs/cases/tools-card.png)
+![A list_files call collapsed to one line, then expanded](/docs/cases/tools-card.png)
 
-*Illustration: default-collapsed tool card; expand only when you need the payload.*
+*Near chat: one \`list_files\` call stays on a single line until expanded.*
 
 ---
 
@@ -321,9 +321,9 @@ SDK 用 \`@tool\` / \`BaseTool\`。Near / Studio 用 \`agenticx/cli/agent_tools.
 
 **你会看到。** 工具卡和助手气泡对齐。展开才能看参数和返回。失败应写出可读原因（找不到 \`npx\`、Docker 卡住、schema 不符），不能只有转圈。
 
-![折叠的工具调用卡](/docs/cases/tools-card.png)
+![一次 list_files 调用，先收成一行再展开](/docs/cases/tools-card.png)
 
-*界面示意：默认折叠的工具卡；需要看载荷再展开。*
+*真实界面：一次 \`list_files\` 先收成一行，展开后能看到工具名。*
 
 ---
 

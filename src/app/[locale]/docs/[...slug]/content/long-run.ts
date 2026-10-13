@@ -37,9 +37,9 @@ Shipped sources include a manual queue, cron, and project-feature source. Treat 
 
 **What you should see.** A progress card that names the phase, not a static hourglass. After a crash, the same feature directory and state file are still there to audit.
 
-![Isolated long-run workspace and project_state](/docs/cases/longrun-state.png)
+![Isolated long-run workspace and project_state](/docs/svg/longrun-state.svg)
 
-*Illustration: feature directory, \`project_state\`, and a running progress card.*
+*Diagram: one task directory, and \`project_state\` moving init → implement → verify → commit.*
 
 ## Related
 
@@ -86,9 +86,9 @@ Shipped sources include a manual queue, cron, and project-feature source. Treat 
 
 **你会看到。** 进度卡写出当前阶段，不是静止沙漏。崩溃后同一功能目录和状态文件还在，可以审计。
 
-![长周期隔离目录与 project_state](/docs/cases/longrun-state.png)
+![长周期隔离目录与 project_state](/docs/svg/longrun-state.svg)
 
-*界面示意：功能目录、\`project_state\`，以及进行中的进度卡。*
+*示意图：一个任务目录，\`project_state\` 按初始化 → 实现 → 校验 → 提交往下走。*
 
 ## 相关页
 
