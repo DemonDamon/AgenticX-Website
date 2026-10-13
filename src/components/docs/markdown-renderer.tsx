@@ -91,9 +91,13 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
         }
 
         if (kind === 'bold') {
-          parts.push(<strong key={partKey++} className="font-semibold text-foreground">{match[1]}</strong>);
+          parts.push(
+            <strong key={partKey++} className="font-semibold text-foreground">
+              {processInline(match[1])}
+            </strong>
+          );
         } else if (kind === 'italic') {
-          parts.push(<em key={partKey++} className="italic">{match[1]}</em>);
+          parts.push(<em key={partKey++} className="italic">{processInline(match[1])}</em>);
         } else if (kind === 'code') {
           parts.push(
             <code key={partKey++} className="rounded bg-muted px-1.5 py-0.5 font-mono text-sm text-foreground">
@@ -140,7 +144,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
               {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
               className={linkClass}
             >
-              {match[1]}
+              {processInline(match[1])}
             </a>
           );
         }
@@ -319,7 +323,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
       if (line.startsWith('# ')) {
         elements.push(
           <h1 key={key++} className="mb-4 mt-8 text-3xl font-bold text-foreground">
-            {line.slice(2)}
+            {processInline(line.slice(2))}
           </h1>
         );
         continue;
@@ -327,7 +331,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
       if (line.startsWith('## ')) {
         elements.push(
           <h2 key={key++} className="mb-4 mt-8 border-b border-border pb-2 text-2xl font-bold text-foreground">
-            {line.slice(3)}
+            {processInline(line.slice(3))}
           </h2>
         );
         continue;
@@ -335,7 +339,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
       if (line.startsWith('### ')) {
         elements.push(
           <h3 key={key++} className="mb-3 mt-6 text-xl font-semibold text-foreground">
-            {line.slice(4)}
+            {processInline(line.slice(4))}
           </h3>
         );
         continue;
@@ -343,7 +347,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
       if (line.startsWith('#### ')) {
         elements.push(
           <h4 key={key++} className="mb-2 mt-4 text-lg font-semibold text-foreground">
-            {line.slice(5)}
+            {processInline(line.slice(5))}
           </h4>
         );
         continue;
@@ -420,7 +424,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
               />
             )}
             {caption ? (
-              <figcaption className="mt-2 text-center text-sm text-muted-foreground">{caption}</figcaption>
+              <figcaption className="mt-2 text-center text-sm text-muted-foreground">{processInline(caption)}</figcaption>
             ) : null}
           </figure>
         );
