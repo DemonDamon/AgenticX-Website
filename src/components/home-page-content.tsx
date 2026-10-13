@@ -37,10 +37,10 @@ export function HomePageContent() {
     { name: 'enterprise' as const, copy: home.stack.enterprise, href: localizedPath('/enterprise/docs', locale) },
   ];
   const capabilityArt = [
-    '/diagrams/capabilities/runtime.jpg',
-    '/diagrams/capabilities/collab.jpg',
-    '/diagrams/capabilities/assets.jpg',
-    '/diagrams/capabilities/governance.jpg',
+    '/diagrams/capabilities/runtime.png',
+    '/diagrams/capabilities/collab.png',
+    '/diagrams/capabilities/assets.png',
+    '/diagrams/capabilities/governance.png',
   ];
   const sceneArt = [
     '/diagrams/scenes/developer.jpg',
