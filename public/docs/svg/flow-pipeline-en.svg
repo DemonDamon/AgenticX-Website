@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 280" role="img" aria-labelledby="title desc">
+  <title id="title">Flow pipeline</title>
+  <desc id="desc">@start fetch, @listen analyze, then @router to publish or review.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 1.6 L10 5 L0 8.4 z" fill="var(--muted-foreground)"/>
+    </marker>
+  </defs>
+  <rect width="920" height="280" rx="16" fill="color-mix(in oklab, var(--muted) 82%, var(--foreground) 18%)"/>
+  <text x="28" y="36" fill="var(--muted-foreground)" font-family="'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC', ui-sans-serif, system-ui, sans-serif" font-size="12">Flow</text>
+  <text x="28" y="64" fill="var(--foreground)" font-family="'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC', ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600">@start → @listen → @router</text>
+  <text x="28" y="88" fill="var(--muted-foreground)" font-family="'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC', ui-sans-serif, system-ui, sans-serif" font-size="13">An in-process decorator graph, not a chat pane.</text>
+
+  <g>
+    <rect x="28" y="118" width="168" height="88" rx="12" fill="var(--background)" stroke="color-mix(in oklab, var(--border) 35%, var(--foreground) 28%)" stroke-width="1.4"/>
+    <text x="44" y="150" fill="var(--muted-foreground)" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="12">@start</text>
+    <text x="44" y="176" fill="var(--foreground)" font-family="'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC', ui-sans-serif, system-ui, sans-serif" font-size="16" font-weight="600">fetch</text>
+  </g>
+  <path d="M196 162 H228" fill="none" stroke="var(--muted-foreground)" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <g>
+    <rect x="236" y="118" width="168" height="88" rx="12" fill="var(--background)" stroke="color-mix(in oklab, var(--border) 35%, var(--foreground) 28%)" stroke-width="1.4"/>
+    <text x="252" y="150" fill="var(--muted-foreground)" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="12">@listen</text>
+    <text x="252" y="176" fill="var(--foreground)" font-family="'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC', ui-sans-serif, system-ui, sans-serif" font-size="16" font-weight="600">analyze</text>
+  </g>
+  <path d="M404 162 H436" fill="none" stroke="var(--muted-foreground)" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <g>
+    <rect x="444" y="118" width="168" height="88" rx="12" fill="var(--background)" stroke="color-mix(in oklab, var(--border) 35%, var(--foreground) 28%)" stroke-width="1.4"/>
+    <text x="460" y="150" fill="var(--muted-foreground)" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="12">@router</text>
+    <text x="460" y="176" fill="var(--foreground)" font-family="'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC', ui-sans-serif, system-ui, sans-serif" font-size="16" font-weight="600">branch</text>
+  </g>
+  <path d="M612 146 C660 146, 660 128, 700 128" fill="none" stroke="var(--muted-foreground)" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <path d="M612 178 C660 178, 660 208, 700 208" fill="none" stroke="var(--muted-foreground)" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <g>
+    <rect x="708" y="96" width="184" height="64" rx="12" fill="var(--background)" stroke="color-mix(in oklab, var(--border) 35%, var(--foreground) 28%)" stroke-width="1.4"/>
+    <text x="724" y="122" fill="var(--muted-foreground)" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="12">@listen</text>
+    <text x="724" y="144" fill="var(--foreground)" font-family="'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC', ui-sans-serif, system-ui, sans-serif" font-size="16" font-weight="600">publish</text>
+  </g>
+  <g>
+    <rect x="708" y="176" width="184" height="64" rx="12" fill="var(--background)" stroke="color-mix(in oklab, var(--border) 35%, var(--foreground) 28%)" stroke-width="1.4"/>
+    <text x="724" y="202" fill="var(--muted-foreground)" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="12">@listen</text>
+    <text x="724" y="224" fill="var(--foreground)" font-family="'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC', ui-sans-serif, system-ui, sans-serif" font-size="16" font-weight="600">review</text>
+  </g>
+</svg>
