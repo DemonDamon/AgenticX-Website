@@ -205,12 +205,119 @@ export default {
         '覆盖 Python Runtime、Near 桌面与 Enterprise 的统一智能体技术栈。本地优先工作区，企业侧合规网关。',
     },
     hero: {
-      titleLine1: '一套智能体技术栈',
-      titleLine2: '三种产品形态',
+      titleLine1: '统一智能体平台',
+      titleLine2: '本机工作区、运行时、企业治理\n同一套能力',
       subtitle:
-        'Python Runtime、Near 桌面与 Enterprise 共用能力核心，部署路径各自独立。',
+        'SDK、Near 桌面与员工门户进入同一套 Python Runtime。身份、策略、配额和审计由企业网关单独承担。',
       getStarted: '开始使用',
       viewGithub: '在 GitHub 查看',
+      downloadNear: '下载 Near',
+      viewDocs: '阅读文档',
+    },
+    promises: [
+      {
+        title: '三种入口，一个运行时',
+        description: 'SDK、Near 与企业门户共用 Python Runtime，部署路径各自独立。',
+      },
+      {
+        title: '分身与群聊',
+        description: '点名由该分身作答。未点名时 Meta 统筹，任务落在真实会话里。',
+      },
+      {
+        title: '身份与治理',
+        description: '策略、审计、配额留在企业网关，网关不替代 Python Runtime。',
+      },
+      {
+        title: '本机优先，渠道开放',
+        description: 'Near 跑在你的机器上。飞书与微信消息写入当前绑定会话。',
+      },
+    ],
+    map: {
+      title: '产品全景',
+      intro:
+        '开发者、本机工作区和员工门户从不同入口进来。能力集中在 Python Runtime。企业侧的身份、策略、配额和审计由 Go 网关单独承担。',
+      caption: 'Python Runtime 是能力核心。Enterprise 网关负责治理，不替代这套运行时。',
+      columns: [
+        { title: '入口', items: ['SDK', 'Near', '飞书 / 微信', '员工门户'] },
+        { title: '运行时', items: ['Agent', '工具', '记忆', '技能'] },
+        { title: '协作', items: ['分身', '群聊', 'Meta 调度'] },
+        { title: '治理', items: ['身份', '策略', '审计', '配额'] },
+        { title: '资产', items: ['模型', 'MCP', '知识库'] },
+      ],
+    },
+    capabilities: {
+      title: '产品能力',
+      items: [
+        {
+          title: '三种入口，一个运行时',
+          description: 'SDK、Near 窗口和门户聊天汇到同一个 Runtime。',
+        },
+        {
+          title: '分身与群聊',
+          description: '点名成员由该分身作答。工具进度收成一张状态卡。',
+        },
+        {
+          title: '记忆、技能、知识库',
+          description: '会话写入工作区记忆，技能按会话启用，文档检索进当前回答。',
+        },
+        {
+          title: '策略、审计、配额',
+          description: '拦截原因贴近用户语义。审计按人和会话检索，Token 按次计量。',
+        },
+      ],
+    },
+    scenes: {
+      title: '使用方式',
+      items: [
+        {
+          title: '开发者嵌入',
+          description: '装上 Runtime，用 SDK 或 agx serve 在本机跑起来。',
+          tags: [
+            { title: '安装即用', detail: 'pip install agenticx' },
+            { title: '本机服务', detail: 'agx serve' },
+            { title: '文档入口', detail: 'SDK 与 Studio' },
+          ],
+        },
+        {
+          title: '本机 Near',
+          description: '多窗格、分身、群聊、终端和语音焦点，默认连接本机 Runtime。',
+          tags: [
+            { title: '本地优先', detail: '数据留在本机' },
+            { title: '分身群聊', detail: 'Meta 统筹接话' },
+            { title: '飞书微信', detail: '消息进当前会话' },
+          ],
+        },
+        {
+          title: '企业门户',
+          description: '员工聊天、管理台和 Go 网关，覆盖策略、审计、配额与模型中继。',
+          tags: [
+            { title: '员工门户', detail: '聊天与模型选择' },
+            { title: '管理台', detail: '身份与策略' },
+            { title: '网关', detail: '审计与配额' },
+          ],
+        },
+      ],
+    },
+    trust: {
+      title: '安全与计量',
+      items: [
+        {
+          title: '密钥留在本机或网关',
+          description: '桌面与 Runtime 使用本机配置。企业调用经网关转发，不把密钥写进对话正文。',
+        },
+        {
+          title: '策略可拦截可脱敏',
+          description: '拦截与警告分开计算。脱敏是替换占位符，后续追问按当次请求重新评估。',
+        },
+        {
+          title: '审计按人和会话检索',
+          description: '网关记录每次调用，可按时间、人员和会话查看。',
+        },
+        {
+          title: 'Token 按次计量',
+          description: '模型调用回写用量。门户与管理台读同一份记录。',
+        },
+      ],
     },
     stack: {
       title: '产品形态',

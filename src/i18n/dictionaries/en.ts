@@ -210,12 +210,119 @@ export default {
         'One agent stack across the Python Runtime, Near Desktop, and Enterprise. Local-first workspace, enterprise compliance gateway.',
     },
     hero: {
-      titleLine1: 'One agent stack',
-      titleLine2: 'three product forms',
+      titleLine1: 'One agent platform',
+      titleLine2: 'Local workspace, runtime,\nand enterprise governance',
       subtitle:
-        'Python Runtime, Near Desktop, and Enterprise share one capability core with independent deploy paths.',
+        'The SDK, Near Desktop, and the employee portal share one Python Runtime. Identity, policy, quota, and audit stay on the enterprise gateway.',
       getStarted: 'Get Started',
       viewGithub: 'View on GitHub',
+      downloadNear: 'Download Near',
+      viewDocs: 'Read the docs',
+    },
+    promises: [
+      {
+        title: 'Three doors, one runtime',
+        description: 'SDK, Near, and the enterprise portal share the Python Runtime, with separate deploy paths.',
+      },
+      {
+        title: 'Avatars and group chat',
+        description: 'A named avatar answers directly. Otherwise Meta coordinates, in a real session.',
+      },
+      {
+        title: 'Identity and governance',
+        description: 'Policy, audit, and quota stay on the enterprise gateway. The gateway does not replace the Python Runtime.',
+      },
+      {
+        title: 'Local-first, open channels',
+        description: 'Near runs on your machine. Feishu and WeChat messages land in the bound session.',
+      },
+    ],
+    map: {
+      title: 'Product map',
+      intro:
+        'Developers, the local workspace, and the employee portal enter from different doors. Capabilities sit in the Python Runtime. Identity, policy, quota, and audit are handled by the Go gateway.',
+      caption: 'The Python Runtime is the capability core. The Enterprise gateway governs it and does not replace it.',
+      columns: [
+        { title: 'Entry', items: ['SDK', 'Near', 'Feishu / WeChat', 'Employee portal'] },
+        { title: 'Runtime', items: ['Agent', 'Tools', 'Memory', 'Skills'] },
+        { title: 'Collaboration', items: ['Avatars', 'Group chat', 'Meta dispatch'] },
+        { title: 'Governance', items: ['Identity', 'Policy', 'Audit', 'Quota'] },
+        { title: 'Assets', items: ['Models', 'MCP', 'Knowledge'] },
+      ],
+    },
+    capabilities: {
+      title: 'Capabilities',
+      items: [
+        {
+          title: 'Three doors, one runtime',
+          description: 'SDK snippets, the Near window, and portal chat meet in the same Runtime.',
+        },
+        {
+          title: 'Avatars and group chat',
+          description: 'A named member answers. Tool progress folds into one status card.',
+        },
+        {
+          title: 'Memory, skills, knowledge',
+          description: 'Sessions write workspace memory, skills enable per session, and documents enter the reply.',
+        },
+        {
+          title: 'Policy, audit, quota',
+          description: 'A block states the reason in user language. Audit is searchable by person and session. Tokens are metered per turn.',
+        },
+      ],
+    },
+    scenes: {
+      title: 'Ways to use it',
+      items: [
+        {
+          title: 'Embed as a developer',
+          description: 'Install the Runtime and run it locally with the SDK or agx serve.',
+          tags: [
+            { title: 'Install', detail: 'pip install agenticx' },
+            { title: 'Local server', detail: 'agx serve' },
+            { title: 'Docs', detail: 'SDK and Studio' },
+          ],
+        },
+        {
+          title: 'Near on your machine',
+          description: 'Multi-pane chat, avatars, group chat, terminal, and Voice Focus, wired to the local Runtime.',
+          tags: [
+            { title: 'Local-first', detail: 'Data stays on device' },
+            { title: 'Group chat', detail: 'Meta coordinates' },
+            { title: 'Feishu / WeChat', detail: 'Messages join the session' },
+          ],
+        },
+        {
+          title: 'Enterprise portal',
+          description: 'Employee chat, the admin console, and the Go gateway for policy, audit, quota, and model relay.',
+          tags: [
+            { title: 'Employee portal', detail: 'Chat and model choice' },
+            { title: 'Admin console', detail: 'Identity and policy' },
+            { title: 'Gateway', detail: 'Audit and quota' },
+          ],
+        },
+      ],
+    },
+    trust: {
+      title: 'Safety and metering',
+      items: [
+        {
+          title: 'Keys stay local or on the gateway',
+          description: 'Desktop and the Runtime read local config. Enterprise calls relay through the gateway, without writing keys into the transcript.',
+        },
+        {
+          title: 'Block and redact stay distinct',
+          description: 'A warning is not a block. Redaction replaces the match. The next turn is evaluated on its own.',
+        },
+        {
+          title: 'Audit by person and session',
+          description: 'The gateway records each call and can be filtered by time, person, and session.',
+        },
+        {
+          title: 'Tokens metered per turn',
+          description: 'Model calls write usage back. The portal and admin console read the same record.',
+        },
+      ],
     },
     stack: {
       title: 'Product forms',
