@@ -20,7 +20,7 @@ Use Flow when **in-process Python methods** should form a graph (\`@start\` / \`
 
 **What you should see.** In a script: returned state. In docs: a pipeline you can point at. In Near: nothing unless you wrap the Flow yourself.
 
-![Decorator pipeline fetch → analyze → router](/docs/svg/flow-pipeline.svg)
+![Decorator pipeline fetch → analyze → router](/docs/svg/flow-pipeline.svg?v=3)
 
 *Diagram: \`@start\` / \`@listen\` / \`@router\` — a process graph, not a chat pane.*
 
@@ -194,7 +194,7 @@ from agenticx.core.workflow_engine import WorkflowEngine, WorkflowGraph
 
 **你会看到。** 脚本里是返回的状态。文档里是一张能指着讲的流水线。Near 里不会自动出现，除非你自己把 Flow 包进去。
 
-![装饰器流水线 fetch → analyze → router](/docs/svg/flow-pipeline.svg)
+![装饰器流水线 fetch → analyze → router](/docs/svg/flow-pipeline.svg?v=3)
 
 *示意图：\`@start\` / \`@listen\` / \`@router\` —— 进程内的图，不是聊天窗格。*
 
