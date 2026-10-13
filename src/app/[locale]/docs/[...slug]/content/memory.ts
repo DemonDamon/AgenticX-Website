@@ -23,7 +23,7 @@ Memory is how an agent keeps identity, recent work, and a bounded window. Near's
 
 **What you should see.** Workspace panel highlighting \`MEMORY.md\`. The next answer uses the nickname without you repeating it. Session title stays the persisted Chinese title, not a raw \`session_id\`.
 
-![Workspace memory file and a recall chip in chat](/docs/cases/memory-workspace.png)
+![Workspace memory file open in English](/docs/cases/memory-workspace-en.png)
 
 *Near workspace with \`MEMORY.md\` open. The file holds the preference the next turn can recall.*
 
@@ -224,7 +224,7 @@ memory:
 
 **你会看到。** 工作区面板高亮 \`MEMORY.md\`。下一轮回答直接用称呼，不用你再重复。会话标题保持已落盘的中文标题，而不是裸 \`session_id\`。
 
-![工作区记忆文件与对话中的召回](/docs/cases/memory-workspace.png)
+![工作区记忆文件与对话中的召回](/docs/cases/memory-workspace-zh.png)
 
 *真实界面：工作区打开 \`MEMORY.md\`，里面是已记下的偏好。*
 
