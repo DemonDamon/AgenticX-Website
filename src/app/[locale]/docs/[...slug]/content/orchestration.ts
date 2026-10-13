@@ -26,9 +26,9 @@ Two complementary APIs:
 
 **What you should see.** One researcher thread, one progress card, a final answer. \`delegate_to_avatar\` runs in that avatar’s real session so history is on the avatar, not a shadow spawn.
 
-![Group chat @-routing to one avatar](/docs/cases/group-route.png)
+![Group chat: an English @, then that member answers in English](/docs/cases/group-route-en.png)
 
-*Illustration: one @, one foldable card, reply to the human.*
+*Near group chat: the question and the member’s answer are both in English.*
 
 SDK graphs (\`Workflow\` / Flow) are for in-process pipelines. They are not how Near group chat is wired.
 
@@ -168,9 +168,9 @@ results = plan.execute()
 
 **你会看到。** 研究员一条线、一张进度卡、最终回答。\`delegate_to_avatar\` 跑在该分身真实 session，历史留在分身侧，不是影子 spawn。
 
-![群聊 @ 路由到一个分身](/docs/cases/group-route.png)
+![群聊：中文 @，该成员用中文回答](/docs/cases/group-route-zh.png)
 
-*界面示意：一次 @、一张可折叠卡、对用户说话。*
+*真实界面：中文提问，被 @ 的成员用中文回答。*
 
 SDK 里的图（\`Workflow\` / Flow）是进程内流水线，不是 Near 群聊的接线方式。
 
