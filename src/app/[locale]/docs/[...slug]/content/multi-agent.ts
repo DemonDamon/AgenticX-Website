@@ -6,7 +6,7 @@ export const multiAgentContent = {
 
 Use this when **more than one identity** must work on a task. Near group chat and Studio sub-agents are the product path. A Python script that calls \`AgentExecutor.run\` twice is just two sequential jobs — that is not a team.
 
-![Meta routes mention, delegate, or spawn](/docs/svg/multi-agent-route-en.svg?v=5)
+![Meta routes mention, delegate, or spawn](/docs/svg/multi-agent-route-en.svg?v=6)
 
 *Diagram: Meta routes @mention, delegate_to_avatar, or spawn_subagent.*
 
@@ -69,7 +69,7 @@ Related: [Orchestration](/docs/concepts/orchestration), [Flow](/docs/concepts/fl
 
 需要**多个身份**一起干活时才看本页。产品主路径是 Near 群聊和 Studio 子智能体。脚本里连续两次 \`AgentExecutor.run\` 只是两个串行任务，不算团队。
 
-![Meta 路由提及、委派或拉起子智能体](/docs/svg/multi-agent-route-zh.svg?v=5)
+![Meta 路由提及、委派或拉起子智能体](/docs/svg/multi-agent-route-zh.svg?v=6)
 
 *示意图：Meta 路由 @提及、delegate_to_avatar 或 spawn_subagent。*
 

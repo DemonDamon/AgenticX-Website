@@ -7,7 +7,7 @@ export const extensionsContent = {
 
 Extensions add **knowledge and procedures** (skills), **external tools** (MCP), or a packaged mix (AGX Bundle). They do not replace \`STUDIO_TOOLS\` and they are not a second Agent Runtime.
 
-![Scan and guard before skill_use or MCP](/docs/svg/extensions-bundle-en.svg?v=5)
+![Scan and guard before skill_use or MCP](/docs/svg/extensions-bundle-en.svg?v=6)
 
 *Diagram: scan and guard before skill_use; bundles can also install MCP.*
 
@@ -343,7 +343,7 @@ Then search in **Settings → 技能 → 浏览市场**.
 
 扩展补的是**知识与流程**（技能）、**外部工具**（MCP），或打包组合（AGX Bundle）。它们不替代 \`STUDIO_TOOLS\`，也不是第二套 Agent Runtime。
 
-![先扫描门禁，再 skill_use 或 MCP](/docs/svg/extensions-bundle-zh.svg?v=5)
+![先扫描门禁，再 skill_use 或 MCP](/docs/svg/extensions-bundle-zh.svg?v=6)
 
 *示意图：先扫描和门禁再 skill_use；Bundle 也可以带上 MCP。*
 

@@ -6,7 +6,7 @@ export const faqContent = {
 
 Pick a form first, then a page. Most “it disappeared” bugs are a wrong process (\`agx studio\` vs \`agx serve\`) or a wrong session file.
 
-![Pick SDK, Near, or Enterprise](/docs/svg/faq-doors-en.svg?v=5)
+![Pick SDK, Near, or Enterprise](/docs/svg/faq-doors-en.svg?v=6)
 
 *Diagram: pick SDK, Near, or Enterprise — they are different processes.*
 
@@ -123,7 +123,7 @@ Open an issue on [GitHub Issues](https://github.com/DemonDamon/AgenticX/issues).
 
 先选形态再选文档。多数「突然没了」是进程选错（\`agx studio\` vs \`agx serve\`）或会话文件看错。
 
-![在 SDK、Near 或 Enterprise 里选一扇门](/docs/svg/faq-doors-zh.svg?v=5)
+![在 SDK、Near 或 Enterprise 里选一扇门](/docs/svg/faq-doors-zh.svg?v=6)
 
 *示意图：先选 SDK、Near 或 Enterprise——它们是不同进程。*
 

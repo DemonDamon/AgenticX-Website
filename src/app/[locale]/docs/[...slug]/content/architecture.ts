@@ -14,7 +14,7 @@ AgenticX is one capability core with three product forms on top:
 
 Near and Enterprise share abstractions. Their current deploy paths are independent. The Gateway is compliance and model relay, not a full Agent Runtime.
 
-![One capability core with three product doors](/docs/svg/architecture-forms-en.svg?v=5)
+![One capability core with three product doors](/docs/svg/architecture-forms-en.svg?v=6)
 
 *Diagram: SDK, Near, and Enterprise start different processes; only Near runs AgentRuntime.*
 
@@ -29,7 +29,7 @@ Near and Enterprise share abstractions. Their current deploy paths are independe
 
 The Runtime itself is still easiest to read as five layers, from the user interface down to platform services.
 
-![Five layers from UI to platform services](/docs/svg/architecture-layers-en.svg?v=5)
+![Five layers from UI to platform services](/docs/svg/architecture-layers-en.svg?v=6)
 
 *Diagram: UI → Studio → core loop → protocols → ~/.agenticx platform files.*
 
@@ -155,7 +155,7 @@ AgenticX 是一套能力核心，上面叠三种产品形态：
 
 Near 与 Enterprise 共用抽象，当前部署路径彼此独立。网关是合规与模型中继，不是完整的 Agent Runtime。
 
-![一套能力核心、三扇产品门](/docs/svg/architecture-forms-zh.svg?v=5)
+![一套能力核心、三扇产品门](/docs/svg/architecture-forms-zh.svg?v=6)
 
 *示意图：SDK、Near、Enterprise 启动的是不同进程；只有 Near 跑 AgentRuntime。*
 
@@ -170,7 +170,7 @@ Near 与 Enterprise 共用抽象，当前部署路径彼此独立。网关是合
 
 Runtime 内部仍可按五层来读，从用户界面到平台服务。
 
-![从界面到平台的五层](/docs/svg/architecture-layers-zh.svg?v=5)
+![从界面到平台的五层](/docs/svg/architecture-layers-zh.svg?v=6)
 
 *示意图：界面 → Studio → 核心循环 → 协议 → ~/.agenticx 平台文件。*
 

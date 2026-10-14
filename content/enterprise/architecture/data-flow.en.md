@@ -8,7 +8,7 @@ This document describes data flow for a complete chat request and related subsys
 
 ## 1. Chat completions main path
 
-![Chat request through the gateway](/docs/svg/ent-chat-seq-en.svg?v=5)
+![Chat request through the gateway](/docs/svg/ent-chat-seq-en.svg?v=6)
 
 *Diagram: portal forwards to the gateway for quota and policy; a block is a business error; allow calls upstream then writes audit and usage.*
 
@@ -25,7 +25,7 @@ Gateway handles inference, policy, audit, and metering only.
 
 ## 2. Model visibility
 
-![Visible models versus callable upstreams](/docs/svg/ent-visibility-en.svg?v=5)
+![Visible models versus callable upstreams](/docs/svg/ent-visibility-en.svg?v=6)
 
 *Diagram: admin writes providers and visible-model rows; portal filters the dropdown by JWT; the gateway reads callable upstreams separately.*
 
@@ -35,7 +35,7 @@ Portal controls **which model IDs users see**; gateway controls **which upstream
 
 ## 3. Policy publish flow
 
-![Only published rules enter the snapshot](/docs/svg/ent-policy-publish-en.svg?v=5)
+![Only published rules enter the snapshot](/docs/svg/ent-policy-publish-en.svg?v=6)
 
 *Diagram: only status=active rules enter the snapshot; the gateway hot-reloads from a remote URL or local file.*
 
@@ -47,7 +47,7 @@ Test endpoint: `POST /api/policy/test` merges form preview with DB rules.
 
 ## 4. Audit dual-write
 
-![Audit dual-write](/docs/svg/ent-audit-dual-en.svg?v=5)
+![Audit dual-write](/docs/svg/ent-audit-dual-en.svg?v=6)
 
 *Diagram: JSONL must succeed; Postgres is best-effort; failures land in .pg-pending and backfill on boot.*
 
@@ -62,7 +62,7 @@ IAM admin audit lives in a **separate table** `audit_events`.
 
 ## 5. Token metering
 
-![Token metering](/docs/svg/ent-metering-en.svg?v=5)
+![Token metering](/docs/svg/ent-metering-en.svg?v=6)
 
 *Diagram: the gateway writes usage_records; admin queries and exports; the portal can show a token chip from SSE usage.*
 
@@ -74,7 +74,7 @@ Quotas: `enterprise_runtime_token_quotas` → gateway `quota.Tracker`. Currently
 
 When `GATEWAY_CHANNEL_REGISTRY=on`:
 
-![Channel relay](/docs/svg/ent-channel-en.svg?v=5)
+![Channel relay](/docs/svg/ent-channel-en.svg?v=6)
 
 *Diagram: admin writes channels; the gateway polls about every 5s; Picker selects; Executor retries the upstream.*
 
@@ -84,7 +84,7 @@ See [runbooks/gateway-channel-relay.md](../runbooks/gateway-channel-relay.md).
 
 ## 7. SSO login flow (OIDC example)
 
-![OIDC login](/docs/svg/ent-sso-en.svg?v=5)
+![OIDC login](/docs/svg/ent-sso-en.svg?v=6)
 
 *Diagram: SSO click → start → IdP authorize → callback token exchange → JIT upsert and cookie.*
 

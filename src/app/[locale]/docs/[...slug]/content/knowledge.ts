@@ -8,7 +8,7 @@ Near's knowledge panel manages **brains**: a document brain for \`knowledge_sear
 
 The Python \`KnowledgeBase\` helper below is the library API (\`agenticx/memory/knowledge_base.py\`). Studio ingest goes through \`agenticx/studio/kb/\` and \`LiteParseAdapter\`. Do not treat them as one object.
 
-![Parse, chunk, embed, then knowledge_search](/docs/svg/knowledge-ingest-en.svg?v=5)
+![Parse, chunk, embed, then knowledge_search](/docs/svg/knowledge-ingest-en.svg?v=6)
 
 *Diagram: LiteParse → chunk → embed ≤10 → Chroma; repo index is a second path.*
 
@@ -149,7 +149,7 @@ Near 知识库面板管的是**脑**：文档脑走 \`knowledge_search\`，代�
 
 下面的 Python \`KnowledgeBase\` 是库 API（\`agenticx/memory/knowledge_base.py\`）。Studio 入库走 \`agenticx/studio/kb/\` 和 \`LiteParseAdapter\`。不要把它们当成同一个对象。
 
-![解析、分块、向量化，再 knowledge_search](/docs/svg/knowledge-ingest-zh.svg?v=5)
+![解析、分块、向量化，再 knowledge_search](/docs/svg/knowledge-ingest-zh.svg?v=6)
 
 *示意图：LiteParse → 分块 → embedding≤10 → Chroma；仓库索引是另一条路。*
 

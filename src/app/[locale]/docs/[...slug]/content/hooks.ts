@@ -8,7 +8,7 @@ Hooks intercept LLM and tool calls without forking the runtime. Use them for gua
 
 Two layers:
 
-![Hook lifecycle with a confirm side door](/docs/svg/hooks-lifecycle-en.svg?v=5)
+![Hook lifecycle with a confirm side door](/docs/svg/hooks-lifecycle-en.svg?v=6)
 
 *Diagram: pre_tool_guard only runs if tool:before_call is dispatched.*
 
@@ -149,7 +149,7 @@ runtime.hooks.register(DenyShellHook(), priority=100)
 
 两层：
 
-![钩子生命周期与确认岔路](/docs/svg/hooks-lifecycle-zh.svg?v=5)
+![钩子生命周期与确认岔路](/docs/svg/hooks-lifecycle-zh.svg?v=6)
 
 *示意图：只有真正派发了 tool:before_call，pre_tool_guard 才会拦。*
 

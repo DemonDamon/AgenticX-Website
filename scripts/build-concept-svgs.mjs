@@ -31,91 +31,307 @@ function text(x, y, value, opts = {}) {
   return `<text x="${x}" y="${y}" fill="${fill}" font-family="${mono ? MONO : FONT}" font-size="${size}" font-weight="${weight}" text-anchor="${anchor}">${esc(value)}</text>`;
 }
 
+const TONES = {
+  indigo: '#6366f1',
+  sky: '#0ea5e9',
+  emerald: '#10b981',
+  amber: '#f59e0b',
+  violet: '#8b5cf6',
+  rose: '#f43f5e',
+  slate: '#64748b',
+};
+const TONE_ORDER = ['indigo', 'sky', 'violet', 'emerald', 'amber', 'rose'];
+
 const CARD_FILL = 'var(--background)';
 const CARD_STROKE = 'var(--border)';
-const CANVAS_FILL = 'color-mix(in oklab, var(--muted) 42%, var(--background))';
-const CHIP_FILL = 'color-mix(in oklab, var(--muted) 65%, var(--background))';
+const CANVAS_FILL = 'color-mix(in oklab, var(--muted) 32%, var(--background))';
+const CHIP_FILL = 'color-mix(in oklab, var(--muted) 72%, var(--background))';
 
-function rect(x, y, w, h, { fill = CARD_FILL, rx = 14, stroke = CARD_STROKE, sw = 1 } = {}) {
-  return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}"/>`;
+function pickTone( { tone, kicker = '', title = '', n = 0 }, idx = 0) {
+  if (tone && TONES[tone]) return TONES[tone];
+  const s = `${kicker} ${title}`.toLowerCase();
+  if (/router|branch|分支|条件|warn|gate|门禁|质量|picker|route|挑选/.test(s)) return TONES.amber;
+  if (/guard|confirm|block|危险|确认|拦截|cooldown|冷却|error|retry|重试|stall|停滞/.test(s)) return TONES.rose;
+  if (/publish|final|done|已落地|shipped|输出|结果|result|complete|sse|commit|提交|系统提示|system prompt/.test(s))
+    return TONES.emerald;
+  if (/llm|model|模型|memory|记忆|agent|智能体|meta|embed|向量/.test(s)) return TONES.violet;
+  if (/http|api|serve|studio|fast|mcp|channel|portal|gateway|网关|network|网络|disk|磁盘|pg|postgres|sqlite|yaml/.test(s))
+    return TONES.sky;
+  const i = (n ? n - 1 : idx) % TONE_ORDER.length;
+  return TONES[TONE_ORDER[i]];
 }
 
-function arrow(x1, y1, x2, y2) {
+function rect(x, y, w, h, { fill = CARD_FILL, rx = 12, stroke = CARD_STROKE, sw = 1, dash = '' } = {}) {
+  const d = dash ? ` stroke-dasharray="${dash}"` : '';
+  return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}"${d}/>`;
+}
+
+function portDot(x, y, color = 'var(--muted-foreground)') {
+  return `<circle cx="${Number(x).toFixed(1)}" cy="${Number(y).toFixed(1)}" r="3" fill="var(--background)" stroke="${color}" stroke-width="1.6"/>`;
+}
+
+function arrowHead(x2, y2, ux, uy, color = 'var(--muted-foreground)') {
+  const px = -uy;
+  const py = ux;
+  const size = 6.5;
+  const wing = 3.5;
+  const bx = x2 - ux * size;
+  const by = y2 - uy * size;
+  const n = (v) => Number(v).toFixed(2);
+  return `<path d="M${n(bx + px * wing)} ${n(by + py * wing)} L${n(x2)} ${n(y2)} L${n(bx - px * wing)} ${n(by - py * wing)} Z" fill="${color}"/>`;
+}
+
+function arrow(x1, y1, x2, y2, { color = 'var(--muted-foreground)', startDot = true } = {}) {
   const dx = x2 - x1;
   const dy = y2 - y1;
   const len = Math.hypot(dx, dy) || 1;
   const ux = dx / len;
   const uy = dy / len;
-  const px = -uy;
-  const py = ux;
-  const size = 6;
-  const bx = x2 - ux * size;
-  const by = y2 - uy * size;
-  const wing = 3.4;
+  const bx = x2 - ux * 5;
+  const by = y2 - uy * 5;
   const n = (v) => Number(v).toFixed(2);
   return [
-    `<path d="M${n(x1)} ${n(y1)} L${n(bx)} ${n(by)}" fill="none" stroke="var(--muted-foreground)" stroke-width="1.25" stroke-linecap="round"/>`,
-    `<path d="M${n(bx + px * wing)} ${n(by + py * wing)} L${n(x2)} ${n(y2)} L${n(bx - px * wing)} ${n(by - py * wing)}" fill="none" stroke="var(--muted-foreground)" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>`,
+    `<path d="M${n(x1)} ${n(y1)} L${n(bx)} ${n(by)}" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round"/>`,
+    startDot ? portDot(x1, y1, color) : '',
+    arrowHead(x2, y2, ux, uy, color),
   ].join('');
 }
 
-function vArrow(x, y1, y2) {
-  return arrow(x, y1, x, y2);
+function vArrow(x, y1, y2, opts) {
+  return arrow(x, y1, x, y2, opts);
 }
 
-function hArrow(x1, y, x2) {
-  return arrow(x1, y, x2, y);
+function hArrow(x1, y, x2, opts) {
+  return arrow(x1, y, x2, y, opts);
 }
 
-function pill(cx, cy, label, { minW = 72 } = {}) {
-  const w = Math.max(minW, 16 + [...label].length * 7.4);
-  const h = 24;
-  const x = cx - w / 2;
-  const y = cy - h / 2;
-  return `${rect(x, y, w, h, { fill: CHIP_FILL, rx: 12, stroke: CARD_STROKE })}${text(cx, cy + 4, label, {
+function orthoArrow(points, { color = 'var(--muted-foreground)', startDot = true, dash = '' } = {}) {
+  if (points.length < 2) return '';
+  const n = (v) => Number(v).toFixed(1);
+  let d = `M${n(points[0][0])} ${n(points[0][1])}`;
+  for (let i = 1; i < points.length - 1; i++) {
+    const [x0, y0] = points[i - 1];
+    const [x1, y1] = points[i];
+    const [x2, y2] = points[i + 1];
+    const v1x = x1 - x0;
+    const v1y = y1 - y0;
+    const v2x = x2 - x1;
+    const v2y = y2 - y1;
+    const l1 = Math.hypot(v1x, v1y) || 1;
+    const l2 = Math.hypot(v2x, v2y) || 1;
+    const r = Math.min(8, l1 / 2.2, l2 / 2.2);
+    const sx = x1 - (v1x / l1) * r;
+    const sy = y1 - (v1y / l1) * r;
+    const ex = x1 + (v2x / l2) * r;
+    const ey = y1 + (v2y / l2) * r;
+    d += ` L${n(sx)} ${n(sy)} Q${n(x1)} ${n(y1)} ${n(ex)} ${n(ey)}`;
+  }
+  const [px, py] = points[points.length - 2];
+  const [ex, ey] = points[points.length - 1];
+  const dx = ex - px;
+  const dy = ey - py;
+  const len = Math.hypot(dx, dy) || 1;
+  const ux = dx / len;
+  const uy = dy / len;
+  d += ` L${n(ex - ux * 4.5)} ${n(ey - uy * 4.5)}`;
+  const dashAttr = dash ? ` stroke-dasharray="${dash}"` : '';
+  return [
+    `<path d="${d}" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round"${dashAttr}/>`,
+    startDot ? portDot(points[0][0], points[0][1], color) : '',
+    arrowHead(ex, ey, ux, uy, color),
+  ].join('');
+}
+
+function fanOutBus(srcX, srcY, targets, { midY, color = 'var(--muted-foreground)' } = {}) {
+  const my = midY ?? Math.round((srcY + targets[0][1]) / 2);
+  return [
+    ...targets.map(([tx, ty], idx) =>
+      orthoArrow(
+        [
+          [srcX, srcY],
+          [srcX, my],
+          [tx, my],
+          [tx, ty],
+        ],
+        { color, startDot: idx === 0 },
+      ),
+    ),
+  ].join('');
+}
+
+function fanInBus(sources, dstX, dstY, { midY, color = 'var(--muted-foreground)' } = {}) {
+  const my = midY ?? Math.round((sources[0][1] + dstY) / 2);
+  return sources
+    .map(([sx, sy]) =>
+      orthoArrow(
+        [
+          [sx, sy],
+          [sx, my],
+          [dstX, my],
+          [dstX, dstY],
+        ],
+        { color, startDot: true },
+      ),
+    )
+    .join('');
+}
+
+function snakeConnect(x1, y1, x2, y2, { color = 'var(--muted-foreground)' } = {}) {
+  const my = Math.round((y1 + y2) / 2);
+  return orthoArrow(
+    [
+      [x1, y1],
+      [x1, my],
+      [x2, my],
+      [x2, y2],
+    ],
+    { color, startDot: true },
+  );
+}
+
+function charWidth(str) {
+  let w = 0;
+  for (const ch of String(str)) {
+    w += ch.charCodeAt(0) > 255 ? 12.2 : 6.8;
+  }
+  return w;
+}
+
+function pill(cx, cy, label, { minW = 68, tone } = {}) {
+  const c = tone && TONES[tone] ? TONES[tone] : null;
+  const w = Math.max(minW, Math.ceil(18 + charWidth(label)));
+  const h = 22;
+  const x = Math.round(cx - w / 2);
+  const y = Math.round(cy - h / 2);
+  const fill = c ? `color-mix(in oklab, ${c} 14%, var(--background))` : CHIP_FILL;
+  const stroke = c ? `color-mix(in oklab, ${c} 42%, var(--border))` : CARD_STROKE;
+  const textFill = c ? `color-mix(in oklab, ${c} 82%, var(--foreground))` : 'var(--foreground)';
+  return `${rect(x, y, w, h, { fill, rx: 11, stroke, sw: 1.1 })}${text(cx, cy + 4, label, {
     size: 11,
-    weight: 500,
-    fill: 'var(--foreground)',
+    weight: 600,
+    fill: textFill,
     anchor: 'middle',
+    mono: /^[@a-z0-9_.:/-]+$/i.test(label),
   })}`;
 }
 
-function badge(x, y, n) {
-  return text(x, y + 14, String(n).padStart(2, '0'), {
-    size: 12,
-    weight: 600,
-    fill: 'var(--muted-foreground)',
-    mono: true,
-  });
+function badge(x, y, n, color = TONES.indigo) {
+  const label = String(n).padStart(2, '0');
+  return [
+    `<rect x="${x}" y="${y}" width="26" height="18" rx="6" fill="color-mix(in oklab, ${color} 18%, var(--background))" stroke="color-mix(in oklab, ${color} 42%, var(--border))" stroke-width="1"/>`,
+    text(x + 13, y + 12.5, label, {
+      size: 10.5,
+      weight: 700,
+      fill: `color-mix(in oklab, ${color} 84%, var(--foreground))`,
+      anchor: 'middle',
+      mono: true,
+    }),
+  ].join('');
 }
 
-function nodeCard(x, y, w, h, { n, title, lines = [], kicker } = {}) {
-  const parts = [rect(x, y, w, h)];
-  if (n) parts.push(badge(x + 16, y + 12, n));
-  const titleX = n ? x + 46 : x + 16;
-  if (kicker) {
-    parts.push(text(titleX, y + 22, kicker, { size: 11, fill: 'var(--muted-foreground)' }));
-    parts.push(text(titleX, y + 44, title, { size: 15, weight: 600 }));
-  } else {
-    parts.push(text(titleX, y + 30, title, { size: 15, weight: 600 }));
+function nodeCard(x, y, w, h, { n, title, lines = [], kicker, tone } = {}, idx = 0) {
+  const color = pickTone({ tone, kicker, title, n }, idx);
+  const strokeColor = `color-mix(in oklab, ${color} 34%, var(--border))`;
+  const bandFill = `color-mix(in oklab, ${color} 10%, var(--background))`;
+  const compact = h <= 64 && lines.length === 0;
+
+  if (compact) {
+    return [
+      `<g filter="url(#card-shadow)">`,
+      rect(x, y, w, h, { rx: 12, stroke: strokeColor, sw: 1.2 }),
+      `<rect x="${x + 1}" y="${y + 10}" width="3.5" height="${Math.max(18, h - 20)}" rx="1.75" fill="${color}"/>`,
+      `</g>`,
+      n
+        ? badge(x + 16, Math.round(y + (h - 18) / 2), n, color)
+        : `<circle cx="${x + 20}" cy="${Math.round(y + h / 2)}" r="4" fill="${color}"/>`,
+      text(x + (n ? 50 : 34), Math.round(y + h / 2 + 5), title, { size: 13.5, weight: 600 }),
+    ].join('');
   }
-  lines.forEach((line, i) => {
+
+  const bandH = 28;
+  const parts = [
+    `<g filter="url(#card-shadow)">`,
+    rect(x, y, w, h, { rx: 12, stroke: strokeColor, sw: 1.2 }),
+    `<path d="M${x + 12} ${y + 0.6} H${x + w - 12} Q${x + w - 0.6} ${y + 0.6} ${x + w - 0.6} ${y + 12} V${y + bandH} H${x + 0.6} V${y + 12} Q${x + 0.6} ${y + 0.6} ${x + 12} ${y + 0.6} Z" fill="${bandFill}"/>`,
+    `<line x1="${x + 1}" y1="${y + bandH}" x2="${x + w - 1}" y2="${y + bandH}" stroke="color-mix(in oklab, ${color} 22%, var(--border))" stroke-width="1"/>`,
+    `</g>`,
+  ];
+
+  if (n) {
+    parts.push(badge(x + 12, y + 5, n, color));
+  } else {
+    parts.push(`<circle cx="${x + 18}" cy="${y + 14}" r="3.8" fill="${color}"/>`);
+  }
+
+  const kickerText = kicker || (n ? `STEP ${String(n).padStart(2, '0')}` : '');
+  if (kickerText) {
     parts.push(
-      text(x + 16, y + (kicker ? 68 : 56) + i * 18, line, {
-        size: 12,
-        fill: 'var(--muted-foreground)',
-        mono: /^(~\/|[A-Za-z_][\w./-]*[./_][\w./-]*|agx |127\.|@|tool:)/.test(line),
+      text(n ? x + 44 : x + 28, y + 18, kickerText, {
+        size: 11,
+        weight: 600,
+        fill: `color-mix(in oklab, ${color} 78%, var(--foreground))`,
+        mono: /^[@a-z0-9_.:/-]+$/i.test(kickerText),
       }),
     );
+  }
+
+  parts.push(text(x + 14, y + 49, title, { size: 15, weight: 650 }));
+
+  lines.forEach((line, i) => {
+    const ly = y + 70 + i * 20;
+    const isCode = /^(~\/|[A-Za-z_][\w./-]*[./_:=][\w./-]*|agx |127\.|@|tool:|POST |GET |<|status=)/.test(line);
+    if (isCode) {
+      const chipW = Math.min(w - 28, Math.ceil(14 + charWidth(line)));
+      parts.push(
+        rect(x + 14, ly - 12, chipW, 17, {
+          fill: `color-mix(in oklab, ${color} 8%, var(--muted))`,
+          rx: 5,
+          stroke: `color-mix(in oklab, ${color} 22%, var(--border))`,
+          sw: 0.8,
+        }),
+      );
+      parts.push(
+        text(x + 20, ly, line, {
+          size: 11.2,
+          weight: 500,
+          fill: 'var(--foreground)',
+          mono: true,
+        }),
+      );
+    } else {
+      parts.push(
+        `<circle cx="${x + 18}" cy="${ly - 4}" r="2" fill="color-mix(in oklab, ${color} 65%, var(--muted-foreground))"/>`,
+      );
+      parts.push(
+        text(x + 26, ly, line, {
+          size: 12,
+          fill: 'var(--muted-foreground)',
+        }),
+      );
+    }
   });
   return parts.join('');
 }
 
 function header(width, { eyebrow, title, subtitle }) {
+  const ew = Math.max(76, Math.ceil(26 + charWidth(eyebrow)));
   return [
-    text(28, 32, eyebrow, { size: 12, fill: 'var(--muted-foreground)' }),
-    text(28, 58, title, { size: 22, weight: 600 }),
-    subtitle ? text(28, 82, subtitle, { size: 13, fill: 'var(--muted-foreground)' }) : '',
+    rect(24, 16, ew, 20, {
+      fill: `color-mix(in oklab, ${TONES.indigo} 12%, var(--background))`,
+      rx: 10,
+      stroke: `color-mix(in oklab, ${TONES.indigo} 35%, var(--border))`,
+      sw: 1,
+    }),
+    `<circle cx="34" cy="26" r="3" fill="${TONES.indigo}"/>`,
+    text(42, 30, eyebrow, {
+      size: 10.5,
+      weight: 600,
+      fill: `color-mix(in oklab, ${TONES.indigo} 82%, var(--foreground))`,
+      mono: /^[a-z0-9_./:-]+$/i.test(eyebrow),
+    }),
+    text(24, 58, title, { size: 20, weight: 700 }),
+    subtitle ? text(24, 79, subtitle, { size: 12.5, fill: 'var(--muted-foreground)' }) : '',
+    `<line x1="24" y1="92" x2="${width - 24}" y2="92" stroke="var(--border)" stroke-width="1"/>`,
   ].join('');
 }
 
@@ -150,15 +366,24 @@ function wrapLines(note, max = 44) {
 }
 
 function footer(width, height, note) {
-  const lines = wrapLines(note, 52);
-  return lines
-    .map((line, i) =>
-      text(24, height - 16 - (lines.length - 1 - i) * 16, line, {
-        size: 12,
+  const lines = wrapLines(note, 54);
+  const boxH = lines.length * 16 + 14;
+  const boxY = height - boxH - 12;
+  return [
+    rect(24, boxY, width - 48, boxH, {
+      fill: `color-mix(in oklab, var(--muted) 55%, var(--background))`,
+      rx: 8,
+      stroke: 'var(--border)',
+      sw: 0.9,
+    }),
+    `<rect x="24" y="${boxY + 5}" width="3" height="${boxH - 10}" rx="1.5" fill="${TONES.indigo}"/>`,
+    ...lines.map((line, i) =>
+      text(38, boxY + 18 + i * 16, line, {
+        size: 11.5,
         fill: 'var(--muted-foreground)',
       }),
-    )
-    .join('');
+    ),
+  ].join('');
 }
 
 function rowCards(items, { y, x = 24, width = 800, h = 148, gap = 14, arrows = true } = {}) {
@@ -168,8 +393,8 @@ function rowCards(items, { y, x = 24, width = 800, h = 148, gap = 14, arrows = t
     .map((item, i) => {
       const cx = x + i * (cw + gap);
       return [
-        arrows && i > 0 ? hArrow(cx - gap + 1, y + h / 2, cx - 2) : '',
-        nodeCard(cx, y, cw, h, item),
+        arrows && i > 0 ? hArrow(cx - gap + 2, y + Math.round(h / 2), cx - 2) : '',
+        nodeCard(cx, y, cw, h, item, i),
       ].join('');
     })
     .join('');
@@ -180,7 +405,16 @@ function wrapSvg(width, height, title, desc, body) {
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" role="img" aria-labelledby="title desc">
   <title id="title">${esc(title)}</title>
   <desc id="desc">${esc(desc)}</desc>
-  <rect width="${width}" height="${height}" rx="18" fill="${CANVAS_FILL}"/>
+  <defs>
+    <pattern id="dot-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1" fill="color-mix(in oklab, var(--foreground) 12%, transparent)"/>
+    </pattern>
+    <filter id="card-shadow" x="-4%" y="-4%" width="108%" height="112%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.06"/>
+    </filter>
+  </defs>
+  <rect width="${width}" height="${height}" rx="16" fill="${CANVAS_FILL}" stroke="var(--border)" stroke-width="1"/>
+  <rect width="${width}" height="${height}" rx="16" fill="url(#dot-grid)"/>
   ${body}
 </svg>
 `;
@@ -188,25 +422,25 @@ function wrapSvg(width, height, title, desc, body) {
 
 function architectureForms(L) {
   const w = 800;
-  const h = 540;
+  const h = 550;
   const body = [
     header(w, L.header),
     rowCards(
       [
-        { n: 1, title: L.sdk.title, kicker: L.sdk.kicker, lines: L.sdk.lines },
-        { n: 2, title: L.near.title, kicker: L.near.kicker, lines: L.near.lines },
-        { n: 3, title: L.ent.title, kicker: L.ent.kicker, lines: L.ent.lines },
+        { n: 1, title: L.sdk.title, kicker: L.sdk.kicker, lines: L.sdk.lines, tone: 'indigo' },
+        { n: 2, title: L.near.title, kicker: L.near.kicker, lines: L.near.lines, tone: 'sky' },
+        { n: 3, title: L.ent.title, kicker: L.ent.kicker, lines: L.ent.lines, tone: 'violet' },
       ],
-      { y: 108, width: w, h: 156, arrows: false },
+      { y: 108, width: w, h: 152, arrows: false },
     ),
-    vArrow(148, 264, 292),
-    vArrow(400, 264, 292),
-    vArrow(652, 264, 292),
+    vArrow(144, 260, 292, { color: TONES.indigo }),
+    vArrow(400, 260, 292, { color: TONES.sky }),
+    vArrow(655, 260, 292, { color: TONES.violet }),
     rowCards(
       [
-        { title: L.core.title, kicker: L.core.kicker, lines: L.core.lines },
-        { title: L.studio.title, kicker: L.studio.kicker, lines: L.studio.lines },
-        { title: L.gw.title, kicker: L.gw.kicker, lines: L.gw.lines },
+        { title: L.core.title, kicker: L.core.kicker, lines: L.core.lines, tone: 'indigo' },
+        { title: L.studio.title, kicker: L.studio.kicker, lines: L.studio.lines, tone: 'sky' },
+        { title: L.gw.title, kicker: L.gw.kicker, lines: L.gw.lines, tone: 'violet' },
       ],
       { y: 292, width: w, h: 148, arrows: false },
     ),
@@ -217,30 +451,46 @@ function architectureForms(L) {
 
 function architectureLayers(L) {
   const w = 800;
-  const h = 680;
+  const h = 690;
+  const layerTones = ['indigo', 'sky', 'violet', 'emerald', 'amber'];
   const rows = L.layers
     .map((layer, i) => {
       const y = 108 + i * 102;
-      let chipX = 74;
+      const color = TONES[layerTones[i % layerTones.length]];
+      let chipX = 430;
       const chips = layer.chips
         .map((chip) => {
-          const cw = Math.max(96, 20 + [...chip].length * 7.4);
-          const mark = `${rect(chipX, y + 58, cw, 24, { fill: CHIP_FILL, rx: 12 })}${text(
-            chipX + cw / 2,
-            y + 74,
-            chip,
-            { size: 11, weight: 500, fill: 'var(--foreground)', anchor: 'middle' },
-          )}`;
+          const cw = Math.max(92, Math.ceil(22 + charWidth(chip)));
+          const mark = `${rect(chipX, y + 31, cw, 26, {
+            fill: `color-mix(in oklab, ${color} 12%, var(--background))`,
+            rx: 8,
+            stroke: `color-mix(in oklab, ${color} 36%, var(--border))`,
+            sw: 1,
+          })}${text(chipX + cw / 2, y + 48, chip, {
+            size: 11.5,
+            weight: 600,
+            fill: `color-mix(in oklab, ${color} 82%, var(--foreground))`,
+            anchor: 'middle',
+            mono: /^[A-Za-z0-9_. /~-]+$/.test(chip),
+          })}`;
           chipX += cw + 10;
           return mark;
         })
         .join('');
       return [
-        rect(24, y, 752, 90, { rx: 14 }),
-        badge(40, y + 12, i + 1),
-        text(74, y + 30, layer.title, { size: 16, weight: 600 }),
-        text(74, y + 48, layer.sub, { size: 12, fill: 'var(--muted-foreground)' }),
+        `<g filter="url(#card-shadow)">`,
+        rect(24, y, 752, 88, {
+          rx: 12,
+          stroke: `color-mix(in oklab, ${color} 35%, var(--border))`,
+          sw: 1.2,
+        }),
+        `<rect x="25" y="${y + 10}" width="4" height="68" rx="2" fill="${color}"/>`,
+        `</g>`,
+        badge(42, y + 18, i + 1, color),
+        text(78, y + 32, layer.title, { size: 15.5, weight: 700 }),
+        text(78, y + 56, layer.sub, { size: 12, fill: 'var(--muted-foreground)' }),
         chips,
+        i < L.layers.length - 1 ? vArrow(220, y + 88, y + 102, { color }) : '',
       ].join('');
     })
     .join('');
@@ -250,7 +500,7 @@ function architectureLayers(L) {
 
 function nearBoot(L) {
   const w = 800;
-  const h = 528;
+  const h = 540;
   const top = L.steps.slice(0, 3).map((step, i) => ({
     n: i + 1,
     title: step.title,
@@ -265,13 +515,19 @@ function nearBoot(L) {
   }));
   const body = [
     header(w, L.header),
-    rowCards(top, { y: 108, width: w, h: 140 }),
-    vArrow(400, 248, 268),
-    rowCards(bottom, { y: 268, width: w, h: 128 }),
-    rect(24, 412, 752, 68, { rx: 12 }),
-    text(40, 434, L.disk.title, { size: 13, weight: 600 }),
-    ...wrapLines(L.disk.line, 52).map((line, i) =>
-      text(40, 454 + i * 16, line, { size: 12, fill: 'var(--muted-foreground)' }),
+    rowCards(top, { y: 108, width: w, h: 136 }),
+    snakeConnect(655, 244, 212, 268, { color: TONES.sky }),
+    rowCards(bottom, { y: 268, width: w, h: 126 }),
+    rect(24, 410, 752, 62, {
+      rx: 10,
+      fill: `color-mix(in oklab, ${TONES.amber} 10%, var(--background))`,
+      stroke: `color-mix(in oklab, ${TONES.amber} 38%, var(--border))`,
+      sw: 1.1,
+    }),
+    `<circle cx="40" cy="431" r="4" fill="${TONES.amber}"/>`,
+    text(52, 435, L.disk.title, { size: 13, weight: 700 }),
+    ...wrapLines(L.disk.line, 58).map((line, i) =>
+      text(52, 454 + i * 16, line, { size: 11.8, fill: 'var(--muted-foreground)' }),
     ),
     footer(w, h, L.note),
   ];
@@ -280,29 +536,43 @@ function nearBoot(L) {
 
 function agentLoop(L) {
   const w = 800;
-  const h = 560;
+  const h = 570;
   const body = [
     header(w, L.header),
     rowCards(
       [
-        { n: 1, title: L.user.title, kicker: L.user.kicker, lines: L.user.lines },
-        { n: 2, title: L.sanit.title, kicker: L.sanit.kicker, lines: L.sanit.lines },
-        { n: 3, title: L.compact.title, kicker: L.compact.kicker, lines: L.compact.lines },
+        { n: 1, title: L.user.title, kicker: L.user.kicker, lines: L.user.lines, tone: 'indigo' },
+        { n: 2, title: L.sanit.title, kicker: L.sanit.kicker, lines: L.sanit.lines, tone: 'sky' },
+        { n: 3, title: L.compact.title, kicker: L.compact.kicker, lines: L.compact.lines, tone: 'violet' },
       ],
-      { y: 108, width: w, h: 140 },
+      { y: 108, width: w, h: 136 },
     ),
-    vArrow(400, 248, 268),
+    snakeConnect(655, 244, 212, 272, { color: TONES.violet }),
     rowCards(
       [
-        { n: 4, title: L.llm.title, kicker: L.llm.kicker, lines: L.llm.lines },
-        { n: 5, title: L.tools.title, kicker: L.tools.kicker, lines: L.tools.lines },
+        { n: 4, title: L.llm.title, kicker: L.llm.kicker, lines: L.llm.lines, tone: 'violet' },
+        { n: 5, title: L.tools.title, kicker: L.tools.kicker, lines: L.tools.lines, tone: 'amber' },
       ],
-      { y: 268, width: w, h: 140 },
+      { y: 272, width: w, h: 136 },
     ),
-    pill(400, 258, L.loopLabel, { minW: 90 }),
-    vArrow(400, 408, 428),
-    rect(24, 428, 752, 44, { rx: 12 }),
-    text(400, 456, L.final, { size: 14, weight: 600, anchor: 'middle' }),
+    orthoArrow(
+      [
+        [588, 272],
+        [588, 256],
+        [280, 256],
+        [280, 272],
+      ],
+      { color: TONES.amber, dash: '4 3' },
+    ),
+    pill(434, 256, L.loopLabel, { minW: 88, tone: 'amber' }),
+    vArrow(212, 408, 432, { color: TONES.emerald }),
+    rect(24, 432, 752, 44, {
+      rx: 12,
+      fill: `color-mix(in oklab, ${TONES.emerald} 12%, var(--background))`,
+      stroke: `color-mix(in oklab, ${TONES.emerald} 42%, var(--border))`,
+      sw: 1.2,
+    }),
+    text(400, 459, L.final, { size: 13.5, weight: 700, anchor: 'middle', mono: true }),
     footer(w, h, L.note),
   ];
   return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
@@ -310,20 +580,24 @@ function agentLoop(L) {
 
 function toolsDispatch(L) {
   const w = 800;
-  const h = 470;
+  const h = 485;
   const body = [
     header(w, L.header),
-    nodeCard(236, 108, 328, 86, { n: 1, title: L.llm.title, lines: L.llm.lines }),
-    vArrow(400, 194, 214),
-    nodeCard(200, 214, 400, 78, { n: 2, title: L.dispatch.title, lines: L.dispatch.lines }),
-    vArrow(400, 292, 316),
+    nodeCard(236, 106, 328, 86, { n: 1, title: L.llm.title, kicker: 'Model', lines: L.llm.lines, tone: 'violet' }),
+    vArrow(400, 192, 212, { color: TONES.violet }),
+    nodeCard(200, 212, 400, 82, { n: 2, title: L.dispatch.title, kicker: 'Router', lines: L.dispatch.lines, tone: 'indigo' }),
+    fanOutBus(400, 294, [
+      [144, 320],
+      [400, 320],
+      [655, 320],
+    ], { color: TONES.sky }),
     rowCards(
       [
-        { title: L.studio.title, lines: L.studio.lines },
-        { title: L.mcp.title, lines: L.mcp.lines },
-        { title: L.skill.title, lines: L.skill.lines },
+        { title: L.studio.title, kicker: 'Builtin', lines: L.studio.lines, tone: 'sky' },
+        { title: L.mcp.title, kicker: 'Protocol', lines: L.mcp.lines, tone: 'emerald' },
+        { title: L.skill.title, kicker: 'Markdown', lines: L.skill.lines, tone: 'amber' },
       ],
-      { y: 316, width: w, h: 88, arrows: false },
+      { y: 320, width: w, h: 92, arrows: false },
     ),
     footer(w, h, L.note),
   ];
@@ -332,24 +606,31 @@ function toolsDispatch(L) {
 
 function memoryRecall(L) {
   const w = 800;
-  const h = 460;
+  const h = 475;
   const body = [
     header(w, L.header),
     rowCards(
       [
-        { n: 1, title: L.files.title, kicker: L.files.kicker, lines: L.files.lines },
-        { n: 2, title: L.hist.title, kicker: L.hist.kicker, lines: L.hist.lines },
+        { n: 1, title: L.files.title, kicker: L.files.kicker, lines: L.files.lines, tone: 'violet' },
+        { n: 2, title: L.hist.title, kicker: L.hist.kicker, lines: L.hist.lines, tone: 'sky' },
       ],
-      { y: 108, width: w, h: 136, arrows: false },
+      { y: 108, width: w, h: 132, arrows: false },
     ),
-    vArrow(216, 244, 268),
-    vArrow(584, 244, 268),
+    fanInBus(
+      [
+        [212, 240],
+        [588, 240],
+      ],
+      212,
+      268,
+      { color: TONES.indigo },
+    ),
     rowCards(
       [
-        { n: 3, title: L.merge.title, kicker: L.merge.kicker, lines: L.merge.lines },
-        { n: 4, title: L.prompt.title, kicker: L.prompt.kicker, lines: L.prompt.lines },
+        { n: 3, title: L.merge.title, kicker: L.merge.kicker, lines: L.merge.lines, tone: 'indigo' },
+        { n: 4, title: L.prompt.title, kicker: L.prompt.kicker, lines: L.prompt.lines, tone: 'emerald' },
       ],
-      { y: 268, width: w, h: 136 },
+      { y: 268, width: w, h: 132 },
     ),
     footer(w, h, L.note),
   ];
@@ -358,26 +639,34 @@ function memoryRecall(L) {
 
 function orchestrationBranch(L) {
   const w = 800;
-  const h = 460;
+  const h = 475;
   const body = [
     header(w, L.header),
     rowCards(
       [
-        { n: 1, title: L.fetch.title, kicker: L.fetch.kicker, lines: L.fetch.lines },
-        { n: 2, title: L.analyze.title, kicker: L.analyze.kicker, lines: L.analyze.lines },
+        { n: 1, title: L.fetch.title, kicker: L.fetch.kicker, lines: L.fetch.lines, tone: 'indigo' },
+        { n: 2, title: L.analyze.title, kicker: L.analyze.kicker, lines: L.analyze.lines, tone: 'amber' },
       ],
       { y: 108, width: w, h: 128 },
     ),
-    vArrow(400, 236, 260),
+    fanOutBus(
+      588,
+      236,
+      [
+        [212, 266],
+        [588, 266],
+      ],
+      { midY: 251, color: TONES.amber },
+    ),
     rowCards(
       [
-        { n: 3, title: L.publish.title, kicker: L.publish.kicker, lines: L.publish.lines },
-        { n: 4, title: L.review.title, kicker: L.review.kicker, lines: L.review.lines },
+        { n: 3, title: L.publish.title, kicker: L.publish.kicker, lines: L.publish.lines, tone: 'emerald' },
+        { n: 4, title: L.review.title, kicker: L.review.kicker, lines: L.review.lines, tone: 'rose' },
       ],
-      { y: 260, width: w, h: 120, arrows: false },
+      { y: 266, width: w, h: 120, arrows: false },
     ),
-    pill(216, 250, L.high, { minW: 72 }),
-    pill(584, 250, L.low, { minW: 72 }),
+    pill(310, 251, L.high, { minW: 68, tone: 'emerald' }),
+    pill(588, 251, L.low, { minW: 68, tone: 'rose' }),
     footer(w, h, L.note),
   ];
   return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
@@ -385,24 +674,32 @@ function orchestrationBranch(L) {
 
 function flowDecorators(L) {
   const w = 800;
-  const h = 440;
+  const h = 460;
   const body = [
     header(w, L.header),
     rowCards(
       [
-        { n: 1, title: L.start.title, kicker: '@start', lines: L.start.lines },
-        { n: 2, title: L.listen.title, kicker: '@listen', lines: L.listen.lines },
-        { n: 3, title: L.router.title, kicker: '@router', lines: L.router.lines },
+        { n: 1, title: L.start.title, kicker: '@start', lines: L.start.lines, tone: 'indigo' },
+        { n: 2, title: L.listen.title, kicker: '@listen', lines: L.listen.lines, tone: 'sky' },
+        { n: 3, title: L.router.title, kicker: '@router', lines: L.router.lines, tone: 'amber' },
       ],
       { y: 108, width: w, h: 132 },
     ),
-    vArrow(400, 240, 264),
+    fanOutBus(
+      655,
+      240,
+      [
+        [212, 268],
+        [588, 268],
+      ],
+      { midY: 254, color: TONES.amber },
+    ),
     rowCards(
       [
-        { title: L.a.title, lines: L.a.lines },
-        { title: L.b.title, lines: L.b.lines },
+        { title: L.a.title, kicker: '@listen("A")', lines: L.a.lines, tone: 'emerald' },
+        { title: L.b.title, kicker: '@listen("B")', lines: L.b.lines, tone: 'violet' },
       ],
-      { y: 264, width: w, h: 100, arrows: false },
+      { y: 268, width: w, h: 104, arrows: false },
     ),
     footer(w, h, L.note),
   ];
@@ -411,21 +708,21 @@ function flowDecorators(L) {
 
 function llmConfig(L) {
   const w = 800;
-  const h = 460;
+  const h = 475;
   const body = [
     header(w, L.header),
     rowCards(
       [
-        { n: 1, title: L.ui.title, kicker: L.ui.kicker, lines: L.ui.lines },
-        { n: 2, title: L.yaml.title, kicker: L.yaml.kicker, lines: L.yaml.lines },
+        { n: 1, title: L.ui.title, kicker: L.ui.kicker, lines: L.ui.lines, tone: 'indigo' },
+        { n: 2, title: L.yaml.title, kicker: L.yaml.kicker, lines: L.yaml.lines, tone: 'sky' },
       ],
-      { y: 108, width: w, h: 132 },
+      { y: 108, width: w, h: 128 },
     ),
-    vArrow(400, 240, 260),
+    snakeConnect(588, 236, 212, 260, { color: TONES.sky }),
     rowCards(
       [
-        { n: 3, title: L.provider.title, kicker: L.provider.kicker, lines: L.provider.lines },
-        { n: 4, title: L.up.title, kicker: L.up.kicker, lines: L.up.lines },
+        { n: 3, title: L.provider.title, kicker: L.provider.kicker, lines: L.provider.lines, tone: 'violet' },
+        { n: 4, title: L.up.title, kicker: L.up.kicker, lines: L.up.lines, tone: 'emerald' },
       ],
       { y: 260, width: w, h: 120 },
     ),
@@ -436,26 +733,26 @@ function llmConfig(L) {
 
 function hooksLifecycle(L) {
   const w = 800;
-  const h = 500;
+  const h = 515;
   const body = [
     header(w, L.header),
     rowCards(
       [
-        { n: 1, title: L.start.title, kicker: L.start.kicker, lines: L.start.lines },
-        { n: 2, title: L.before.title, kicker: L.before.kicker, lines: L.before.lines },
+        { n: 1, title: L.start.title, kicker: L.start.kicker, lines: L.start.lines, tone: 'indigo' },
+        { n: 2, title: L.before.title, kicker: L.before.kicker, lines: L.before.lines, tone: 'amber' },
       ],
-      { y: 108, width: w, h: 120 },
+      { y: 108, width: w, h: 118 },
     ),
-    vArrow(400, 228, 248),
+    snakeConnect(588, 226, 212, 248, { color: TONES.amber }),
     rowCards(
       [
-        { n: 3, title: L.tool.title, kicker: L.tool.kicker, lines: L.tool.lines },
-        { n: 4, title: L.after.title, kicker: L.after.kicker, lines: L.after.lines },
+        { n: 3, title: L.tool.title, kicker: L.tool.kicker, lines: L.tool.lines, tone: 'sky' },
+        { n: 4, title: L.after.title, kicker: L.after.kicker, lines: L.after.lines, tone: 'emerald' },
       ],
-      { y: 248, width: w, h: 110 },
+      { y: 248, width: w, h: 112 },
     ),
-    vArrow(216, 358, 378),
-    nodeCard(24, 378, 752, 58, { title: `${L.confirm.title}  ·  ${L.confirm.lines[0] ?? ''}` }),
+    vArrow(212, 360, 382, { color: TONES.rose }),
+    nodeCard(24, 382, 752, 54, { title: `${L.confirm.title}  ·  ${L.confirm.lines[0] ?? ''}`, tone: 'rose' }),
     footer(w, h, L.note),
   ];
   return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
@@ -463,35 +760,35 @@ function hooksLifecycle(L) {
 
 function skillsLifecycle(L) {
   const w = 800;
-  const h = 590;
+  const h = 610;
   const body = [
     header(w, L.header),
-    text(24, 108, L.trackA, { size: 12, weight: 600, fill: 'var(--muted-foreground)' }),
+    text(26, 110, L.trackA, { size: 11.5, weight: 700, fill: TONES.indigo }),
     rowCards(
       [
-        { n: 1, title: L.scan.title, lines: L.scan.lines },
-        { n: 2, title: L.guard.title, lines: L.guard.lines },
+        { n: 1, title: L.scan.title, kicker: 'Discovery', lines: L.scan.lines, tone: 'indigo' },
+        { n: 2, title: L.guard.title, kicker: 'Guard', lines: L.guard.lines, tone: 'rose' },
       ],
       { y: 118, width: w, h: 100 },
     ),
-    vArrow(216, 218, 232),
+    snakeConnect(588, 218, 212, 236, { color: TONES.rose }),
     rowCards(
       [
-        { n: 3, title: L.visible.title, lines: L.visible.lines },
-        { n: 4, title: L.use.title, lines: L.use.lines },
+        { n: 3, title: L.visible.title, kicker: 'Catalog', lines: L.visible.lines, tone: 'sky' },
+        { n: 4, title: L.use.title, kicker: 'Runtime', lines: L.use.lines, tone: 'emerald' },
       ],
-      { y: 232, width: w, h: 92 },
+      { y: 236, width: w, h: 96 },
     ),
-    nodeCard(24, 338, 368, 52, { title: L.blocked.title, lines: L.blocked.lines }),
-    text(24, 410, L.trackB, { size: 12, weight: 600, fill: 'var(--muted-foreground)' }),
+    nodeCard(24, 344, 752, 48, { title: `${L.blocked.title}  ·  ${L.blocked.lines[0] ?? ''}`, tone: 'rose' }),
+    text(26, 414, L.trackB, { size: 11.5, weight: 700, fill: TONES.violet }),
     rowCards(
       [
-        { title: L.observe.title, lines: L.observe.lines },
-        { title: L.review.title, lines: L.review.lines },
-        { title: L.gate.title, lines: L.gate.lines },
-        { title: L.create.title, lines: L.create.lines },
+        { title: L.observe.title, kicker: 'Capture', lines: L.observe.lines, tone: 'sky' },
+        { title: L.review.title, kicker: 'Hook', lines: L.review.lines, tone: 'violet' },
+        { title: L.gate.title, kicker: '5 checks', lines: L.gate.lines, tone: 'amber' },
+        { title: L.create.title, kicker: 'Persist', lines: L.create.lines, tone: 'emerald' },
       ],
-      { y: 420, width: w, h: 108 },
+      { y: 422, width: w, h: 108 },
     ),
     footer(w, h, L.note),
   ];
@@ -500,34 +797,43 @@ function skillsLifecycle(L) {
 
 function longrunCycle(L) {
   const w = 800;
-  const h = 530;
+  const h = 545;
   const body = [
     header(w, L.header),
     rowCards(
       [
-        { n: 1, title: L.src.title, kicker: L.src.kicker, lines: L.src.lines },
-        { n: 2, title: L.orch.title, kicker: L.orch.kicker, lines: L.orch.lines },
+        { n: 1, title: L.src.title, kicker: L.src.kicker, lines: L.src.lines, tone: 'indigo' },
+        { n: 2, title: L.orch.title, kicker: L.orch.kicker, lines: L.orch.lines, tone: 'sky' },
       ],
-      { y: 108, width: w, h: 120 },
+      { y: 108, width: w, h: 118 },
     ),
-    vArrow(400, 228, 248),
+    snakeConnect(588, 226, 212, 248, { color: TONES.sky }),
     rowCards(
       [
-        { n: 3, title: L.ws.title, kicker: L.ws.kicker, lines: L.ws.lines },
-        { n: 4, title: L.impl.title, lines: L.impl.lines },
+        { n: 3, title: L.ws.title, kicker: L.ws.kicker, lines: L.ws.lines, tone: 'violet' },
+        { n: 4, title: L.impl.title, kicker: 'Execute', lines: L.impl.lines, tone: 'indigo' },
       ],
       { y: 248, width: w, h: 110 },
     ),
-    vArrow(400, 358, 376),
+    fanOutBus(
+      588,
+      358,
+      [
+        [144, 380],
+        [400, 380],
+        [655, 380],
+      ],
+      { midY: 369, color: TONES.amber },
+    ),
     rowCards(
       [
-        { n: 5, title: L.stall.title, lines: L.stall.lines },
-        { title: L.verify.title, lines: L.verify.lines },
-        { title: L.commit.title, lines: L.commit.lines },
+        { n: 5, title: L.stall.title, kicker: 'Watchdog', lines: L.stall.lines, tone: 'rose' },
+        { title: L.verify.title, kicker: 'Check', lines: L.verify.lines, tone: 'amber' },
+        { title: L.commit.title, kicker: 'Done', lines: L.commit.lines, tone: 'emerald' },
       ],
-      { y: 376, width: w, h: 92, arrows: false },
+      { y: 380, width: w, h: 96 },
     ),
-    pill(400, 368, L.retry, { minW: 72 }),
+    pill(272, 369, L.retry, { minW: 68, tone: 'rose' }),
     footer(w, h, L.note),
   ];
   return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
@@ -535,26 +841,35 @@ function longrunCycle(L) {
 
 function introPath(L) {
   const w = 800;
-  const h = 430;
+  const h = 445;
   const body = [
     header(w, L.header),
     rowCards(
       [
-        { n: 1, title: L.you.title, kicker: L.you.kicker },
-        { n: 2, title: L.door.title, kicker: L.door.kicker },
-        { n: 3, title: L.studio.title, kicker: L.studio.kicker },
-        { n: 4, title: L.rt.title, kicker: L.rt.kicker },
+        { n: 1, title: L.you.title, kicker: L.you.kicker, tone: 'indigo' },
+        { n: 2, title: L.door.title, kicker: L.door.kicker, tone: 'sky' },
+        { n: 3, title: L.studio.title, kicker: L.studio.kicker, tone: 'violet' },
+        { n: 4, title: L.rt.title, kicker: L.rt.kicker, tone: 'emerald' },
       ],
-      { y: 108, width: w, h: 108 },
+      { y: 108, width: w, h: 104 },
     ),
-    vArrow(400, 216, 236),
+    fanOutBus(
+      686,
+      212,
+      [
+        [144, 240],
+        [400, 240],
+        [655, 240],
+      ],
+      { midY: 226, color: TONES.emerald },
+    ),
     rowCards(
       [
-        { title: L.tools.title, lines: L.tools.lines },
-        { title: L.llm.title, lines: L.llm.lines },
-        { title: L.mem.title, lines: L.mem.lines },
+        { title: L.tools.title, kicker: 'Act', lines: L.tools.lines, tone: 'amber' },
+        { title: L.llm.title, kicker: 'Model', lines: L.llm.lines, tone: 'violet' },
+        { title: L.mem.title, kicker: 'Context', lines: L.mem.lines, tone: 'sky' },
       ],
-      { y: 236, width: w, h: 112, arrows: false },
+      { y: 240, width: w, h: 112, arrows: false },
     ),
     footer(w, h, L.note),
   ];
@@ -563,18 +878,25 @@ function introPath(L) {
 
 function installPaths(L) {
   const w = 800;
-  const h = 430;
+  const h = 440;
   const body = [
     header(w, L.header),
-    nodeCard(236, 108, 328, 80, { n: 1, title: L.pip.title, lines: L.pip.lines }),
-    vArrow(300, 188, 208),
-    vArrow(500, 188, 208),
+    nodeCard(236, 108, 328, 84, { n: 1, title: L.pip.title, kicker: 'PyPI', lines: L.pip.lines, tone: 'indigo' }),
+    fanOutBus(
+      400,
+      192,
+      [
+        [212, 218],
+        [588, 218],
+      ],
+      { midY: 205, color: TONES.indigo },
+    ),
     rowCards(
       [
-        { n: 2, title: L.cli.title, kicker: L.cli.kicker, lines: L.cli.lines },
-        { n: 3, title: L.sdk.title, kicker: L.sdk.kicker, lines: L.sdk.lines },
+        { n: 2, title: L.cli.title, kicker: L.cli.kicker, lines: L.cli.lines, tone: 'sky' },
+        { n: 3, title: L.sdk.title, kicker: L.sdk.kicker, lines: L.sdk.lines, tone: 'emerald' },
       ],
-      { y: 208, width: w, h: 120, arrows: false },
+      { y: 218, width: w, h: 124, arrows: false },
     ),
     footer(w, h, L.note),
   ];
@@ -583,26 +905,26 @@ function installPaths(L) {
 
 function quickstartPaths(L) {
   const w = 800;
-  const h = 430;
+  const h = 445;
   const body = [
     header(w, L.header),
-    text(24, 108, L.trackA, { size: 12, weight: 600, fill: 'var(--muted-foreground)' }),
+    text(26, 110, L.trackA, { size: 11.5, weight: 700, fill: TONES.indigo }),
     rowCards(
       [
-        { n: 1, title: L.a.title, lines: L.a.lines },
-        { n: 2, title: L.b.title, lines: L.b.lines },
-        { n: 3, title: L.c.title, lines: L.c.lines },
+        { n: 1, title: L.a.title, lines: L.a.lines, tone: 'indigo' },
+        { n: 2, title: L.b.title, lines: L.b.lines, tone: 'violet' },
+        { n: 3, title: L.c.title, lines: L.c.lines, tone: 'emerald' },
       ],
-      { y: 118, width: w, h: 100 },
+      { y: 118, width: w, h: 102 },
     ),
-    text(24, 240, L.trackB, { size: 12, weight: 600, fill: 'var(--muted-foreground)' }),
+    text(26, 242, L.trackB, { size: 11.5, weight: 700, fill: TONES.sky }),
     rowCards(
       [
-        { n: 1, title: L.d.title, lines: L.d.lines },
-        { n: 2, title: L.e.title, lines: L.e.lines },
-        { n: 3, title: L.f.title, lines: L.f.lines },
+        { n: 1, title: L.d.title, lines: L.d.lines, tone: 'sky' },
+        { n: 2, title: L.e.title, lines: L.e.lines, tone: 'amber' },
+        { n: 3, title: L.f.title, lines: L.f.lines, tone: 'emerald' },
       ],
-      { y: 250, width: w, h: 100 },
+      { y: 250, width: w, h: 102 },
     ),
     footer(w, h, L.note),
   ];
@@ -611,21 +933,31 @@ function quickstartPaths(L) {
 
 function configYaml(L) {
   const w = 800;
-  const h = 430;
+  const h = 445;
   const body = [
     header(w, L.header),
-    nodeCard(24, 108, 752, 78, { n: 1, title: L.yaml.title, kicker: L.yaml.kicker, lines: L.yaml.lines }),
-    vArrow(400, 186, 206),
+    nodeCard(24, 108, 752, 82, { n: 1, title: L.yaml.title, kicker: L.yaml.kicker, lines: L.yaml.lines, tone: 'indigo' }),
+    fanOutBus(
+      400,
+      190,
+      [
+        [113, 218],
+        [304, 218],
+        [495, 218],
+        [686, 218],
+      ],
+      { midY: 204, color: TONES.indigo },
+    ),
     rowCards(
       [
-        { title: L.serve.title, lines: L.serve.lines },
-        { title: L.runtime.title, lines: L.runtime.lines },
-        { title: L.providers.title, lines: L.providers.lines },
-        { title: L.skills.title, lines: L.skills.lines },
+        { title: L.serve.title, kicker: 'Boot', lines: L.serve.lines, tone: 'sky' },
+        { title: L.runtime.title, kicker: 'Limits', lines: L.runtime.lines, tone: 'violet' },
+        { title: L.providers.title, kicker: 'Models', lines: L.providers.lines, tone: 'emerald' },
+        { title: L.skills.title, kicker: 'Paths', lines: L.skills.lines, tone: 'amber' },
       ],
-      { y: 206, width: w, h: 120, arrows: false },
+      { y: 218, width: w, h: 120, arrows: false },
     ),
-    pill(616, 196, L.env, { minW: 88 }),
+    pill(616, 204, L.env, { minW: 88, tone: 'amber' }),
     footer(w, h, L.note),
   ];
   return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
@@ -633,26 +965,26 @@ function configYaml(L) {
 
 function firstAgentLoop(L) {
   const w = 800;
-  const h = 430;
+  const h = 445;
   const body = [
     header(w, L.header),
     rowCards(
       [
-        { n: 1, title: L.topic.title, lines: L.topic.lines },
-        { n: 2, title: L.task.title, lines: L.task.lines },
-        { n: 3, title: L.exec.title, lines: L.exec.lines },
+        { n: 1, title: L.topic.title, lines: L.topic.lines, tone: 'indigo' },
+        { n: 2, title: L.task.title, lines: L.task.lines, tone: 'sky' },
+        { n: 3, title: L.exec.title, lines: L.exec.lines, tone: 'violet' },
       ],
-      { y: 108, width: w, h: 110 },
+      { y: 108, width: w, h: 108 },
     ),
-    vArrow(400, 218, 238),
+    snakeConnect(655, 216, 212, 244, { color: TONES.violet }),
     rowCards(
       [
-        { n: 4, title: L.llm.title, lines: L.llm.lines },
-        { n: 5, title: L.tools.title, lines: L.tools.lines },
+        { n: 4, title: L.llm.title, lines: L.llm.lines, tone: 'emerald' },
+        { n: 5, title: L.tools.title, lines: L.tools.lines, tone: 'amber' },
       ],
-      { y: 238, width: w, h: 100 },
+      { y: 244, width: w, h: 104 },
     ),
-    pill(400, 228, L.loop, { minW: 90 }),
+    pill(400, 232, L.loop, { minW: 88, tone: 'amber' }),
     footer(w, h, L.note),
   ];
   return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
@@ -660,24 +992,33 @@ function firstAgentLoop(L) {
 
 function multiAgentRoute(L) {
   const w = 800;
-  const h = 440;
+  const h = 455;
   const body = [
     header(w, L.header),
     rowCards(
       [
-        { n: 1, title: L.user.title, kicker: L.user.kicker },
-        { n: 2, title: L.meta.title, kicker: L.meta.kicker, lines: L.meta.lines },
+        { n: 1, title: L.user.title, kicker: L.user.kicker, tone: 'indigo' },
+        { n: 2, title: L.meta.title, kicker: L.meta.kicker, lines: L.meta.lines, tone: 'violet' },
       ],
-      { y: 108, width: w, h: 100 },
+      { y: 108, width: w, h: 104 },
     ),
-    vArrow(400, 208, 228),
+    fanOutBus(
+      588,
+      212,
+      [
+        [144, 240],
+        [400, 240],
+        [655, 240],
+      ],
+      { midY: 226, color: TONES.violet },
+    ),
     rowCards(
       [
-        { title: L.mention.title, kicker: L.mention.kicker, lines: L.mention.lines },
-        { title: L.delegate.title, kicker: L.delegate.kicker, lines: L.delegate.lines },
-        { title: L.spawn.title, kicker: L.spawn.kicker, lines: L.spawn.lines },
+        { title: L.mention.title, kicker: L.mention.kicker, lines: L.mention.lines, tone: 'emerald' },
+        { title: L.delegate.title, kicker: L.delegate.kicker, lines: L.delegate.lines, tone: 'sky' },
+        { title: L.spawn.title, kicker: L.spawn.kicker, lines: L.spawn.lines, tone: 'amber' },
       ],
-      { y: 228, width: w, h: 118, arrows: false },
+      { y: 240, width: w, h: 118, arrows: false },
     ),
     footer(w, h, L.note),
   ];
@@ -686,25 +1027,25 @@ function multiAgentRoute(L) {
 
 function studioSse(L) {
   const w = 800;
-  const h = 440;
+  const h = 455;
   const body = [
     header(w, L.header),
     rowCards(
       [
-        { n: 1, title: L.ui.title, kicker: L.ui.kicker, lines: L.ui.lines },
-        { n: 2, title: L.main.title, kicker: L.main.kicker, lines: L.main.lines },
-        { n: 3, title: L.api.title, kicker: L.api.kicker, lines: L.api.lines },
+        { n: 1, title: L.ui.title, kicker: L.ui.kicker, lines: L.ui.lines, tone: 'indigo' },
+        { n: 2, title: L.main.title, kicker: L.main.kicker, lines: L.main.lines, tone: 'sky' },
+        { n: 3, title: L.api.title, kicker: L.api.kicker, lines: L.api.lines, tone: 'violet' },
       ],
-      { y: 108, width: w, h: 118 },
+      { y: 108, width: w, h: 114 },
     ),
-    vArrow(400, 226, 246),
+    snakeConnect(655, 222, 144, 248, { color: TONES.violet }),
     rowCards(
       [
-        { n: 4, title: L.sm.title, lines: L.sm.lines },
-        { n: 5, title: L.ar.title, lines: L.ar.lines },
-        { n: 6, title: L.sse.title, lines: L.sse.lines },
+        { n: 4, title: L.sm.title, lines: L.sm.lines, tone: 'sky' },
+        { n: 5, title: L.ar.title, lines: L.ar.lines, tone: 'indigo' },
+        { n: 6, title: L.sse.title, lines: L.sse.lines, tone: 'emerald' },
       ],
-      { y: 246, width: w, h: 110 },
+      { y: 248, width: w, h: 110 },
     ),
     footer(w, h, L.note),
   ];
@@ -713,27 +1054,27 @@ function studioSse(L) {
 
 function knowledgeIngest(L) {
   const w = 800;
-  const h = 450;
+  const h = 465;
   const body = [
     header(w, L.header),
     rowCards(
       [
-        { n: 1, title: L.files.title, lines: L.files.lines },
-        { n: 2, title: L.parse.title, lines: L.parse.lines },
-        { n: 3, title: L.chunk.title, lines: L.chunk.lines },
+        { n: 1, title: L.files.title, lines: L.files.lines, tone: 'indigo' },
+        { n: 2, title: L.parse.title, lines: L.parse.lines, tone: 'sky' },
+        { n: 3, title: L.chunk.title, lines: L.chunk.lines, tone: 'violet' },
       ],
       { y: 108, width: w, h: 100 },
     ),
-    vArrow(400, 208, 228),
+    snakeConnect(655, 208, 144, 232, { color: TONES.violet }),
     rowCards(
       [
-        { n: 4, title: L.embed.title, lines: L.embed.lines },
-        { n: 5, title: L.store.title, lines: L.store.lines },
-        { n: 6, title: L.search.title, lines: L.search.lines },
+        { n: 4, title: L.embed.title, lines: L.embed.lines, tone: 'violet' },
+        { n: 5, title: L.store.title, lines: L.store.lines, tone: 'amber' },
+        { n: 6, title: L.search.title, lines: L.search.lines, tone: 'emerald' },
       ],
-      { y: 228, width: w, h: 100 },
+      { y: 232, width: w, h: 100 },
     ),
-    nodeCard(24, 344, 752, 56, { title: `${L.code.title}  ·  ${L.code.lines[0] ?? ''}` }),
+    nodeCard(24, 346, 752, 50, { title: `${L.code.title}  ·  ${L.code.lines[0] ?? ''}`, tone: 'sky' }),
     footer(w, h, L.note),
   ];
   return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
@@ -741,25 +1082,34 @@ function knowledgeIngest(L) {
 
 function extensionsBundle(L) {
   const w = 800;
-  const h = 440;
+  const h = 455;
   const body = [
     header(w, L.header),
     rowCards(
       [
-        { n: 1, title: L.scan.title, lines: L.scan.lines },
-        { n: 2, title: L.guard.title, lines: L.guard.lines },
-        { n: 3, title: L.list.title, lines: L.list.lines },
+        { n: 1, title: L.scan.title, lines: L.scan.lines, tone: 'indigo' },
+        { n: 2, title: L.guard.title, lines: L.guard.lines, tone: 'rose' },
+        { n: 3, title: L.list.title, lines: L.list.lines, tone: 'sky' },
       ],
-      { y: 108, width: w, h: 110 },
+      { y: 108, width: w, h: 108 },
     ),
-    vArrow(400, 218, 238),
+    fanOutBus(
+      655,
+      216,
+      [
+        [144, 242],
+        [400, 242],
+        [655, 242],
+      ],
+      { midY: 229, color: TONES.sky },
+    ),
     rowCards(
       [
-        { title: L.use.title, kicker: L.use.kicker, lines: L.use.lines },
-        { title: L.prompt.title, kicker: L.prompt.kicker, lines: L.prompt.lines },
-        { title: L.mcp.title, kicker: L.mcp.kicker, lines: L.mcp.lines },
+        { title: L.use.title, kicker: L.use.kicker, lines: L.use.lines, tone: 'emerald' },
+        { title: L.prompt.title, kicker: L.prompt.kicker, lines: L.prompt.lines, tone: 'violet' },
+        { title: L.mcp.title, kicker: L.mcp.kicker, lines: L.mcp.lines, tone: 'amber' },
       ],
-      { y: 238, width: w, h: 118, arrows: false },
+      { y: 242, width: w, h: 118, arrows: false },
     ),
     footer(w, h, L.note),
   ];
@@ -768,19 +1118,19 @@ function extensionsBundle(L) {
 
 function deployServe(L) {
   const w = 800;
-  const h = 400;
+  const h = 410;
   const body = [
     header(w, L.header),
     rowCards(
       [
-        { n: 1, title: L.client.title, lines: L.client.lines },
-        { n: 2, title: L.serve.title, lines: L.serve.lines },
-        { n: 3, title: L.app.title, lines: L.app.lines },
-        { n: 4, title: L.disk.title, lines: L.disk.lines },
+        { n: 1, title: L.client.title, lines: L.client.lines, tone: 'indigo' },
+        { n: 2, title: L.serve.title, lines: L.serve.lines, tone: 'sky' },
+        { n: 3, title: L.app.title, lines: L.app.lines, tone: 'violet' },
+        { n: 4, title: L.disk.title, lines: L.disk.lines, tone: 'emerald' },
       ],
       { y: 108, width: w, h: 130 },
     ),
-    pill(400, 250, L.proxy, { minW: 100 }),
+    pill(304, 256, L.proxy, { minW: 100, tone: 'amber' }),
     footer(w, h, L.note),
   ];
   return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
@@ -788,24 +1138,31 @@ function deployServe(L) {
 
 function apiExecutor(L) {
   const w = 800;
-  const h = 400;
+  const h = 415;
   const body = [
     header(w, L.header),
     rowCards(
       [
-        { n: 1, title: L.agent.title, lines: L.agent.lines },
-        { n: 2, title: L.task.title, lines: L.task.lines },
+        { n: 1, title: L.agent.title, kicker: 'Core', lines: L.agent.lines, tone: 'indigo' },
+        { n: 2, title: L.task.title, kicker: 'Core', lines: L.task.lines, tone: 'sky' },
       ],
-      { y: 108, width: w, h: 100, arrows: false },
+      { y: 108, width: w, h: 104, arrows: false },
     ),
-    vArrow(216, 208, 228),
-    vArrow(584, 208, 228),
+    fanInBus(
+      [
+        [212, 212],
+        [588, 212],
+      ],
+      212,
+      236,
+      { color: TONES.violet },
+    ),
     rowCards(
       [
-        { n: 3, title: L.exec.title, kicker: L.exec.kicker, lines: L.exec.lines },
-        { n: 4, title: L.result.title, kicker: L.result.kicker, lines: L.result.lines },
+        { n: 3, title: L.exec.title, kicker: L.exec.kicker, lines: L.exec.lines, tone: 'violet' },
+        { n: 4, title: L.result.title, kicker: L.result.kicker, lines: L.result.lines, tone: 'emerald' },
       ],
-      { y: 228, width: w, h: 100 },
+      { y: 236, width: w, h: 104 },
     ),
     footer(w, h, L.note),
   ];
@@ -814,16 +1171,16 @@ function apiExecutor(L) {
 
 function cliCommands(L) {
   const w = 800;
-  const h = 360;
+  const h = 370;
   const body = [
     header(w, L.header),
     rowCards(
       [
-        { n: 1, title: L.serve.title, kicker: L.serve.kicker, lines: L.serve.lines },
-        { n: 2, title: L.studio.title, kicker: L.studio.kicker, lines: L.studio.lines },
-        { n: 3, title: L.feishu.title, kicker: L.feishu.kicker, lines: L.feishu.lines },
+        { n: 1, title: L.serve.title, kicker: L.serve.kicker, lines: L.serve.lines, tone: 'indigo' },
+        { n: 2, title: L.studio.title, kicker: L.studio.kicker, lines: L.studio.lines, tone: 'amber' },
+        { n: 3, title: L.feishu.title, kicker: L.feishu.kicker, lines: L.feishu.lines, tone: 'emerald' },
       ],
-      { y: 108, width: w, h: 160, arrows: false },
+      { y: 108, width: w, h: 156, arrows: false },
     ),
     footer(w, h, L.note),
   ];
@@ -832,18 +1189,27 @@ function cliCommands(L) {
 
 function faqDoors(L) {
   const w = 800;
-  const h = 420;
+  const h = 425;
   const body = [
     header(w, L.header),
-    nodeCard(236, 108, 328, 72, { n: 1, title: L.q.title }),
-    vArrow(400, 180, 200),
+    nodeCard(236, 108, 328, 60, { n: 1, title: L.q.title, tone: 'indigo' }),
+    fanOutBus(
+      400,
+      168,
+      [
+        [144, 198],
+        [400, 198],
+        [655, 198],
+      ],
+      { midY: 183, color: TONES.indigo },
+    ),
     rowCards(
       [
-        { title: L.sdk.title, kicker: L.sdk.kicker, lines: L.sdk.lines },
-        { title: L.desk.title, kicker: L.desk.kicker, lines: L.desk.lines },
-        { title: L.ent.title, kicker: L.ent.kicker, lines: L.ent.lines },
+        { title: L.sdk.title, kicker: L.sdk.kicker, lines: L.sdk.lines, tone: 'indigo' },
+        { title: L.desk.title, kicker: L.desk.kicker, lines: L.desk.lines, tone: 'sky' },
+        { title: L.ent.title, kicker: L.ent.kicker, lines: L.ent.lines, tone: 'violet' },
       ],
-      { y: 200, width: w, h: 140, arrows: false },
+      { y: 198, width: w, h: 140, arrows: false },
     ),
     footer(w, h, L.note),
   ];
@@ -852,17 +1218,17 @@ function faqDoors(L) {
 
 function changelogArc(L) {
   const w = 800;
-  const h = 340;
+  const h = 350;
   const body = [
     header(w, L.header),
     rowCards(
       [
-        { n: 1, title: L.a.title, lines: L.a.lines },
-        { n: 2, title: L.b.title, lines: L.b.lines },
-        { n: 3, title: L.c.title, lines: L.c.lines },
-        { n: 4, title: L.d.title, lines: L.d.lines },
+        { n: 1, title: L.a.title, kicker: 'Foundation', lines: L.a.lines, tone: 'indigo' },
+        { n: 2, title: L.b.title, kicker: 'Desktop', lines: L.b.lines, tone: 'sky' },
+        { n: 3, title: L.c.title, kicker: 'Release', lines: L.c.lines, tone: 'emerald' },
+        { n: 4, title: L.d.title, kicker: 'Horizon', lines: L.d.lines, tone: 'amber' },
       ],
-      { y: 108, width: w, h: 150 },
+      { y: 108, width: w, h: 148 },
     ),
     footer(w, h, L.note),
   ];
@@ -871,18 +1237,27 @@ function changelogArc(L) {
 
 function roadmapNext(L) {
   const w = 800;
-  const h = 360;
+  const h = 395;
   const body = [
     header(w, L.header),
-    nodeCard(24, 108, 752, 72, { n: 1, title: L.done.title, lines: L.done.lines }),
-    vArrow(400, 180, 200),
+    nodeCard(24, 108, 752, 82, { n: 1, title: L.done.title, kicker: 'Shipped', lines: L.done.lines, tone: 'emerald' }),
+    fanOutBus(
+      400,
+      190,
+      [
+        [144, 218],
+        [400, 218],
+        [655, 218],
+      ],
+      { midY: 204, color: TONES.amber },
+    ),
     rowCards(
       [
-        { title: L.m12.title, lines: L.m12.lines },
-        { title: L.m18.title, lines: L.m18.lines },
-        { title: L.cluster.title, lines: L.cluster.lines },
+        { title: L.m12.title, kicker: 'Planned', lines: L.m12.lines, tone: 'amber' },
+        { title: L.m18.title, kicker: 'Planned', lines: L.m18.lines, tone: 'violet' },
+        { title: L.cluster.title, kicker: 'Planned', lines: L.cluster.lines, tone: 'sky' },
       ],
-      { y: 200, width: w, h: 88, arrows: false },
+      { y: 218, width: w, h: 92, arrows: false },
     ),
     footer(w, h, L.note),
   ];
@@ -891,24 +1266,24 @@ function roadmapNext(L) {
 
 function guidesMap(L) {
   const w = 800;
-  const h = 400;
+  const h = 415;
   const body = [
     header(w, L.header),
     rowCards(
       [
-        { n: 1, title: L.a.title, lines: L.a.lines },
-        { n: 2, title: L.b.title, lines: L.b.lines },
-        { n: 3, title: L.c.title, lines: L.c.lines },
+        { n: 1, title: L.a.title, lines: L.a.lines, tone: 'indigo' },
+        { n: 2, title: L.b.title, lines: L.b.lines, tone: 'violet' },
+        { n: 3, title: L.c.title, lines: L.c.lines, tone: 'sky' },
       ],
-      { y: 108, width: w, h: 110, arrows: false },
+      { y: 108, width: w, h: 108, arrows: false },
     ),
     rowCards(
       [
-        { n: 4, title: L.d.title, lines: L.d.lines },
-        { n: 5, title: L.e.title, lines: L.e.lines },
-        { n: 6, title: L.f.title, lines: L.f.lines },
+        { n: 4, title: L.d.title, lines: L.d.lines, tone: 'emerald' },
+        { n: 5, title: L.e.title, lines: L.e.lines, tone: 'amber' },
+        { n: 6, title: L.f.title, lines: L.f.lines, tone: 'rose' },
       ],
-      { y: 232, width: w, h: 110, arrows: false },
+      { y: 230, width: w, h: 108, arrows: false },
     ),
     footer(w, h, L.note),
   ];
@@ -917,70 +1292,99 @@ function guidesMap(L) {
 
 function apiMap(L) {
   const w = 800;
-  const h = 400;
+  const h = 415;
   const body = [
     header(w, L.header),
-    nodeCard(24, 108, 752, 80, { n: 1, title: L.sdk.title, kicker: L.sdk.kicker, lines: L.sdk.lines }),
-    vArrow(400, 188, 208),
+    nodeCard(24, 108, 752, 82, { n: 1, title: L.sdk.title, kicker: L.sdk.kicker, lines: L.sdk.lines, tone: 'indigo' }),
+    fanOutBus(
+      400,
+      190,
+      [
+        [144, 216],
+        [400, 216],
+        [655, 216],
+      ],
+      { midY: 203, color: TONES.indigo },
+    ),
     rowCards(
       [
-        { title: L.agents.title, lines: L.agents.lines },
-        { title: L.concepts.title, lines: L.concepts.lines },
-        { title: L.runtime.title, lines: L.runtime.lines },
+        { title: L.agents.title, kicker: 'Reference', lines: L.agents.lines, tone: 'emerald' },
+        { title: L.concepts.title, kicker: 'Docs', lines: L.concepts.lines, tone: 'sky' },
+        { title: L.runtime.title, kicker: 'Chat loop', lines: L.runtime.lines, tone: 'violet' },
       ],
-      { y: 208, width: w, h: 120, arrows: false },
+      { y: 216, width: w, h: 116, arrows: false },
     ),
     footer(w, h, L.note),
   ];
   return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
 }
 
-function twoColSteps(items, { y, width = 800, x = 24, h = 86, gap = 10 } = {}) {
-  const colW = Math.floor((width - x * 2 - 16) / 2);
+function twoColSteps(items, { y, width = 800, x = 24, h = 86, gap = 12 } = {}) {
+  const colW = Math.floor((width - x * 2 - 20) / 2);
   const mid = Math.ceil(items.length / 2);
-  return items
-    .map((item, i) => {
-      const col = i < mid ? 0 : 1;
-      const row = i < mid ? i : i - mid;
-      const cx = x + col * (colW + 16);
-      const cy = y + row * (h + gap);
-      return nodeCard(cx, cy, colW, h, item);
-    })
-    .join('');
+  const parts = [];
+  items.forEach((item, i) => {
+    const col = i < mid ? 0 : 1;
+    const row = i < mid ? i : i - mid;
+    const cx = x + col * (colW + 20);
+    const cy = y + row * (h + gap);
+    parts.push(nodeCard(cx, cy, colW, h, item, i));
+    if (row > 0) {
+      parts.push(vArrow(cx + Math.round(colW / 2), cy - gap + 1, cy - 1));
+    }
+  });
+  if (items.length > mid) {
+    const leftBotY = y + (mid - 1) * (h + gap) + Math.round(h / 2);
+    const rightTopY = y + Math.round(h / 2);
+    parts.push(
+      orthoArrow(
+        [
+          [x + colW, leftBotY],
+          [x + colW + 10, leftBotY],
+          [x + colW + 10, rightTopY],
+          [x + colW + 20, rightTopY],
+        ],
+        { color: TONES.indigo, dash: '3 3' },
+      ),
+    );
+  }
+  return parts.join('');
 }
 
 function entTopo(L) {
   const w = 800;
-  const h = 560;
+  const h = 570;
   const body = [
     header(w, L.header),
     rowCards(
       [
-        { n: 1, title: L.emp.title, kicker: L.emp.kicker, lines: L.emp.lines },
-        { n: 2, title: L.adm.title, kicker: L.adm.kicker, lines: L.adm.lines },
+        { n: 1, title: L.emp.title, kicker: L.emp.kicker, lines: L.emp.lines, tone: 'indigo' },
+        { n: 2, title: L.adm.title, kicker: L.adm.kicker, lines: L.adm.lines, tone: 'violet' },
       ],
       { y: 108, width: w, h: 88, arrows: false },
     ),
-    vArrow(220, 196, 220),
-    vArrow(580, 196, 220),
+    vArrow(144, 196, 222, { color: TONES.indigo }),
+    vArrow(400, 196, 222, { color: TONES.violet }),
+    hArrow(265, 281, 279, { color: TONES.sky }),
+    hArrow(520, 281, 535, { color: TONES.amber }),
     rowCards(
       [
-        { title: L.portal.title, kicker: L.portal.kicker, lines: L.portal.lines },
-        { title: L.console.title, kicker: L.console.kicker, lines: L.console.lines },
-        { title: L.gw.title, kicker: L.gw.kicker, lines: L.gw.lines },
+        { title: L.portal.title, kicker: L.portal.kicker, lines: L.portal.lines, tone: 'indigo' },
+        { title: L.console.title, kicker: L.console.kicker, lines: L.console.lines, tone: 'violet' },
+        { title: L.gw.title, kicker: L.gw.kicker, lines: L.gw.lines, tone: 'amber' },
       ],
-      { y: 220, width: w, h: 118, arrows: false },
+      { y: 222, width: w, h: 118, arrows: false },
     ),
-    vArrow(148, 338, 360),
-    vArrow(400, 338, 360),
-    vArrow(652, 338, 360),
+    vArrow(144, 340, 364, { color: TONES.sky }),
+    vArrow(400, 340, 364, { color: TONES.sky }),
+    vArrow(655, 340, 364, { color: TONES.emerald }),
     rowCards(
       [
-        { title: L.pg.title, kicker: L.pg.kicker, lines: L.pg.lines },
-        { title: L.redis.title, kicker: L.redis.kicker, lines: L.redis.lines },
-        { title: L.up.title, kicker: L.up.kicker, lines: L.up.lines },
+        { title: L.pg.title, kicker: L.pg.kicker, lines: L.pg.lines, tone: 'sky' },
+        { title: L.redis.title, kicker: L.redis.kicker, lines: L.redis.lines, tone: 'rose' },
+        { title: L.up.title, kicker: L.up.kicker, lines: L.up.lines, tone: 'emerald' },
       ],
-      { y: 360, width: w, h: 118, arrows: false },
+      { y: 364, width: w, h: 118, arrows: false },
     ),
     footer(w, h, L.note),
   ];
@@ -989,19 +1393,19 @@ function entTopo(L) {
 
 function entChatSeq(L) {
   const w = 800;
-  const h = 560;
+  const h = 575;
   const body = [
     header(w, L.header),
     twoColSteps(
       [
-        { n: 1, title: L.s1.title, lines: L.s1.lines },
-        { n: 2, title: L.s2.title, lines: L.s2.lines },
-        { n: 3, title: L.s3.title, lines: L.s3.lines },
-        { n: 4, title: L.s4.title, lines: L.s4.lines },
-        { n: 5, title: L.s5.title, lines: L.s5.lines },
-        { n: 6, title: L.s6.title, lines: L.s6.lines },
-        { n: 7, title: L.s7.title, lines: L.s7.lines },
-        { n: 8, title: L.s8.title, lines: L.s8.lines },
+        { n: 1, title: L.s1.title, lines: L.s1.lines, tone: 'indigo' },
+        { n: 2, title: L.s2.title, lines: L.s2.lines, tone: 'sky' },
+        { n: 3, title: L.s3.title, lines: L.s3.lines, tone: 'violet' },
+        { n: 4, title: L.s4.title, lines: L.s4.lines, tone: 'indigo' },
+        { n: 5, title: L.s5.title, lines: L.s5.lines, tone: 'amber' },
+        { n: 6, title: L.s6.title, lines: L.s6.lines, tone: 'rose' },
+        { n: 7, title: L.s7.title, lines: L.s7.lines, tone: 'violet' },
+        { n: 8, title: L.s8.title, lines: L.s8.lines, tone: 'emerald' },
       ],
       { y: 108, width: w, h: 88 },
     ),
@@ -1012,23 +1416,23 @@ function entChatSeq(L) {
 
 function entFour(L) {
   const w = 800;
-  const h = 420;
+  const h = 435;
   const body = [
     header(w, L.header),
     rowCards(
       [
-        { n: 1, title: L.a.title, lines: L.a.lines },
-        { n: 2, title: L.b.title, lines: L.b.lines },
+        { n: 1, title: L.a.title, lines: L.a.lines, tone: 'indigo' },
+        { n: 2, title: L.b.title, lines: L.b.lines, tone: 'sky' },
       ],
       { y: 108, width: w, h: 110 },
     ),
-    vArrow(400, 218, 238),
+    snakeConnect(588, 218, 212, 242, { color: TONES.sky }),
     rowCards(
       [
-        { n: 3, title: L.c.title, lines: L.c.lines },
-        { n: 4, title: L.d.title, lines: L.d.lines },
+        { n: 3, title: L.c.title, lines: L.c.lines, tone: 'violet' },
+        { n: 4, title: L.d.title, lines: L.d.lines, tone: 'emerald' },
       ],
-      { y: 238, width: w, h: 110 },
+      { y: 242, width: w, h: 110 },
     ),
     footer(w, h, L.note),
   ];
@@ -1037,16 +1441,16 @@ function entFour(L) {
 
 function entThree(L) {
   const w = 800;
-  const h = 340;
+  const h = 350;
   const body = [
     header(w, L.header),
     rowCards(
       [
-        { n: 1, title: L.a.title, lines: L.a.lines },
-        { n: 2, title: L.b.title, lines: L.b.lines },
-        { n: 3, title: L.c.title, lines: L.c.lines },
+        { n: 1, title: L.a.title, lines: L.a.lines, tone: 'indigo' },
+        { n: 2, title: L.b.title, lines: L.b.lines, tone: 'sky' },
+        { n: 3, title: L.c.title, lines: L.c.lines, tone: 'emerald' },
       ],
-      { y: 108, width: w, h: 148 },
+      { y: 108, width: w, h: 144 },
     ),
     footer(w, h, L.note),
   ];
@@ -1055,24 +1459,24 @@ function entThree(L) {
 
 function entFive(L) {
   const w = 800;
-  const h = 440;
+  const h = 450;
   const body = [
     header(w, L.header),
     rowCards(
       [
-        { n: 1, title: L.a.title, lines: L.a.lines },
-        { n: 2, title: L.b.title, lines: L.b.lines },
-        { n: 3, title: L.c.title, lines: L.c.lines },
+        { n: 1, title: L.a.title, lines: L.a.lines, tone: 'indigo' },
+        { n: 2, title: L.b.title, lines: L.b.lines, tone: 'sky' },
+        { n: 3, title: L.c.title, lines: L.c.lines, tone: 'violet' },
       ],
       { y: 108, width: w, h: 110 },
     ),
-    vArrow(400, 218, 238),
+    snakeConnect(655, 218, 212, 242, { color: TONES.violet }),
     rowCards(
       [
-        { n: 4, title: L.d.title, lines: L.d.lines },
-        { n: 5, title: L.e.title, lines: L.e.lines },
+        { n: 4, title: L.d.title, lines: L.d.lines, tone: 'amber' },
+        { n: 5, title: L.e.title, lines: L.e.lines, tone: 'emerald' },
       ],
-      { y: 238, width: w, h: 118 },
+      { y: 242, width: w, h: 118 },
     ),
     footer(w, h, L.note),
   ];
@@ -1081,17 +1485,17 @@ function entFive(L) {
 
 function entSso(L) {
   const w = 800;
-  const h = 470;
+  const h = 485;
   const body = [
     header(w, L.header),
     twoColSteps(
       [
-        { n: 1, title: L.s1.title, lines: L.s1.lines },
-        { n: 2, title: L.s2.title, lines: L.s2.lines },
-        { n: 3, title: L.s3.title, lines: L.s3.lines },
-        { n: 4, title: L.s4.title, lines: L.s4.lines },
-        { n: 5, title: L.s5.title, lines: L.s5.lines },
-        { n: 6, title: L.s6.title, lines: L.s6.lines },
+        { n: 1, title: L.s1.title, lines: L.s1.lines, tone: 'indigo' },
+        { n: 2, title: L.s2.title, lines: L.s2.lines, tone: 'sky' },
+        { n: 3, title: L.s3.title, lines: L.s3.lines, tone: 'violet' },
+        { n: 4, title: L.s4.title, lines: L.s4.lines, tone: 'amber' },
+        { n: 5, title: L.s5.title, lines: L.s5.lines, tone: 'indigo' },
+        { n: 6, title: L.s6.title, lines: L.s6.lines, tone: 'emerald' },
       ],
       { y: 108, width: w, h: 92 },
     ),
@@ -1102,19 +1506,19 @@ function entSso(L) {
 
 function entGwChat(L) {
   const w = 800;
-  const h = 560;
+  const h = 575;
   const body = [
     header(w, L.header),
     twoColSteps(
       [
-        { n: 1, title: L.s1.title, lines: L.s1.lines },
-        { n: 2, title: L.s2.title, lines: L.s2.lines },
-        { n: 3, title: L.s3.title, lines: L.s3.lines },
-        { n: 4, title: L.s4.title, lines: L.s4.lines },
-        { n: 5, title: L.s5.title, lines: L.s5.lines },
-        { n: 6, title: L.s6.title, lines: L.s6.lines },
-        { n: 7, title: L.s7.title, lines: L.s7.lines },
-        { n: 8, title: L.s8.title, lines: L.s8.lines },
+        { n: 1, title: L.s1.title, lines: L.s1.lines, tone: 'indigo' },
+        { n: 2, title: L.s2.title, lines: L.s2.lines, tone: 'sky' },
+        { n: 3, title: L.s3.title, lines: L.s3.lines, tone: 'rose' },
+        { n: 4, title: L.s4.title, lines: L.s4.lines, tone: 'amber' },
+        { n: 5, title: L.s5.title, lines: L.s5.lines, tone: 'violet' },
+        { n: 6, title: L.s6.title, lines: L.s6.lines, tone: 'sky' },
+        { n: 7, title: L.s7.title, lines: L.s7.lines, tone: 'indigo' },
+        { n: 8, title: L.s8.title, lines: L.s8.lines, tone: 'emerald' },
       ],
       { y: 108, width: w, h: 88 },
     ),
@@ -1125,27 +1529,38 @@ function entGwChat(L) {
 
 function entSchema(L) {
   const w = 800;
-  const h = 520;
+  const h = 535;
   const body = [
     header(w, L.header),
-    nodeCard(24, 108, 752, 78, { n: 1, title: L.tenant.title, kicker: L.tenant.kicker, lines: L.tenant.lines }),
-    vArrow(400, 186, 206),
-    rowCards(
+    nodeCard(24, 108, 752, 80, { n: 1, title: L.tenant.title, kicker: L.tenant.kicker, lines: L.tenant.lines, tone: 'indigo' }),
+    fanOutBus(
+      400,
+      188,
       [
-        { title: L.iam.title, kicker: L.iam.kicker, lines: L.iam.lines },
-        { title: L.chat.title, kicker: L.chat.kicker, lines: L.chat.lines },
-        { title: L.policy.title, kicker: L.policy.kicker, lines: L.policy.lines },
+        [144, 212],
+        [400, 212],
+        [655, 212],
       ],
-      { y: 206, width: w, h: 118, arrows: false },
+      { midY: 200, color: TONES.indigo },
     ),
-    vArrow(400, 324, 344),
     rowCards(
       [
-        { title: L.runtime.title, kicker: L.runtime.kicker, lines: L.runtime.lines },
-        { title: L.audit.title, kicker: L.audit.kicker, lines: L.audit.lines },
-        { title: L.chan.title, kicker: L.chan.kicker, lines: L.chan.lines },
+        { title: L.iam.title, kicker: L.iam.kicker, lines: L.iam.lines, tone: 'sky' },
+        { title: L.chat.title, kicker: L.chat.kicker, lines: L.chat.lines, tone: 'violet' },
+        { title: L.policy.title, kicker: L.policy.kicker, lines: L.policy.lines, tone: 'amber' },
       ],
-      { y: 344, width: w, h: 110, arrows: false },
+      { y: 212, width: w, h: 116, arrows: false },
+    ),
+    vArrow(144, 328, 350, { color: TONES.sky }),
+    vArrow(400, 328, 350, { color: TONES.violet }),
+    vArrow(655, 328, 350, { color: TONES.amber }),
+    rowCards(
+      [
+        { title: L.runtime.title, kicker: L.runtime.kicker, lines: L.runtime.lines, tone: 'emerald' },
+        { title: L.audit.title, kicker: L.audit.kicker, lines: L.audit.lines, tone: 'rose' },
+        { title: L.chan.title, kicker: L.chan.kicker, lines: L.chan.lines, tone: 'sky' },
+      ],
+      { y: 350, width: w, h: 112, arrows: false },
     ),
     footer(w, h, L.note),
   ];
@@ -1154,18 +1569,27 @@ function entSchema(L) {
 
 function entMcp(L) {
   const w = 800;
-  const h = 440;
+  const h = 450;
   const body = [
     header(w, L.header),
-    nodeCard(24, 108, 752, 72, { n: 1, title: L.route.title, kicker: L.route.kicker, lines: L.route.lines }),
-    vArrow(400, 180, 200),
+    nodeCard(24, 108, 752, 78, { n: 1, title: L.route.title, kicker: L.route.kicker, lines: L.route.lines, tone: 'indigo' }),
+    fanOutBus(
+      400,
+      186,
+      [
+        [144, 212],
+        [400, 212],
+        [655, 212],
+      ],
+      { midY: 199, color: TONES.indigo },
+    ),
     rowCards(
       [
-        { title: L.reg.title, kicker: L.reg.kicker, lines: L.reg.lines },
-        { title: L.back.title, kicker: L.back.kicker, lines: L.back.lines },
-        { title: L.tr.title, kicker: L.tr.kicker, lines: L.tr.lines },
+        { title: L.reg.title, kicker: L.reg.kicker, lines: L.reg.lines, tone: 'sky' },
+        { title: L.back.title, kicker: L.back.kicker, lines: L.back.lines, tone: 'violet' },
+        { title: L.tr.title, kicker: L.tr.kicker, lines: L.tr.lines, tone: 'emerald' },
       ],
-      { y: 200, width: w, h: 148, arrows: false },
+      { y: 212, width: w, h: 144, arrows: false },
     ),
     footer(w, h, L.note),
   ];
@@ -1174,24 +1598,85 @@ function entMcp(L) {
 
 function entKeypool(L) {
   const w = 800;
-  const h = 440;
+  const h = 450;
   const body = [
     header(w, L.header),
     rowCards(
       [
-        { n: 1, title: L.a.title, lines: L.a.lines },
-        { n: 2, title: L.b.title, lines: L.b.lines },
-        { n: 3, title: L.c.title, lines: L.c.lines },
+        { n: 1, title: L.a.title, lines: L.a.lines, tone: 'indigo' },
+        { n: 2, title: L.b.title, lines: L.b.lines, tone: 'sky' },
+        { n: 3, title: L.c.title, lines: L.c.lines, tone: 'emerald' },
       ],
-      { y: 108, width: w, h: 118 },
+      { y: 108, width: w, h: 116 },
     ),
-    vArrow(400, 226, 246),
+    snakeConnect(655, 224, 212, 248, { color: TONES.rose }),
     rowCards(
       [
-        { n: 4, title: L.d.title, lines: L.d.lines },
-        { n: 5, title: L.e.title, lines: L.e.lines },
+        { n: 4, title: L.d.title, lines: L.d.lines, tone: 'amber' },
+        { n: 5, title: L.e.title, lines: L.e.lines, tone: 'rose' },
       ],
-      { y: 246, width: w, h: 118 },
+      { y: 248, width: w, h: 116 },
+    ),
+    footer(w, h, L.note),
+  ];
+  return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
+}
+
+function flowPipelineDiagram(L) {
+  const w = 800;
+  const h = 340;
+  const body = [
+    header(w, L.header),
+    nodeCard(24, 118, 168, 112, { n: 1, kicker: '@start', title: 'fetch', lines: [L.s1], tone: 'indigo' }),
+    hArrow(192, 174, 216, { color: TONES.indigo }),
+    nodeCard(216, 118, 168, 112, { n: 2, kicker: '@listen', title: 'analyze', lines: [L.s2], tone: 'sky' }),
+    hArrow(384, 174, 408, { color: TONES.sky }),
+    nodeCard(408, 118, 168, 112, { n: 3, kicker: '@router', title: 'branch', lines: [L.s3], tone: 'amber' }),
+    orthoArrow(
+      [
+        [576, 152],
+        [596, 152],
+        [596, 134],
+        [616, 134],
+      ],
+      { color: TONES.emerald },
+    ),
+    orthoArrow(
+      [
+        [576, 196],
+        [596, 196],
+        [596, 216],
+        [616, 216],
+      ],
+      { color: TONES.violet },
+    ),
+    nodeCard(616, 102, 160, 68, { kicker: '@listen("NONEMPTY")', title: 'publish', tone: 'emerald' }),
+    nodeCard(616, 182, 160, 68, { kicker: '@listen("EMPTY")', title: 'review', tone: 'violet' }),
+    footer(w, h, L.note),
+  ];
+  return wrapSvg(w, h, L.header.title, L.desc, body.join(''));
+}
+
+function longrunStateDiagram(L) {
+  const w = 800;
+  const h = 360;
+  const body = [
+    header(w, L.header),
+    nodeCard(24, 112, 224, 152, {
+      kicker: 'TaskWorkspace',
+      title: 'feature-login/',
+      lines: ['project_state', L.l1, L.l2],
+      tone: 'violet',
+    }),
+    hArrow(248, 188, 272, { color: TONES.violet }),
+    rowCards(
+      [
+        { n: 1, title: 'init', kicker: 'Phase 1', lines: [L.p1], tone: 'indigo' },
+        { n: 2, title: 'implement', kicker: 'Phase 2', lines: [L.p2], tone: 'sky' },
+        { n: 3, title: 'verify', kicker: 'Phase 3', lines: [L.p3], tone: 'amber' },
+        { n: 4, title: 'commit', kicker: 'Phase 4', lines: [L.p4], tone: 'emerald' },
+      ],
+      { x: 272, y: 126, width: 776, h: 124, gap: 10 },
     ),
     footer(w, h, L.note),
   ];
@@ -2296,6 +2781,66 @@ const copy = {
       note: 'PAT 是另一类密钥：Bearer agx-pat-…，库内只存 SHA-256。吊销后 LRU 缓存最长约 60 秒仍可能接受旧 Token。',
     },
   },
+  'flow-pipeline': {
+    fn: flowPipelineDiagram,
+    en: {
+      header: {
+        eyebrow: 'Flow pipeline',
+        title: '@start → @listen → @router',
+        subtitle: 'An in-process decorator graph, not a chat pane.',
+      },
+      desc: '@start fetch, @listen analyze, then @router to publish or review.',
+      s1: 'Collect raw data',
+      s2: 'Transform payload',
+      s3: 'Return route label',
+      note: 'kickoff() / kickoff_async() runs inside your Python process and never writes messages.json.',
+    },
+    zh: {
+      header: {
+        eyebrow: 'Flow 流水线',
+        title: '@start → @listen → @router',
+        subtitle: '进程内装饰器图，不是聊天窗格。',
+      },
+      desc: '@start 抓取、@listen 分析，再由 @router 分支到 publish 或 review。',
+      s1: '拉取原始数据',
+      s2: '加工处理载荷',
+      s3: '返回路由标签',
+      note: 'kickoff() / kickoff_async() 在你的 Python 进程内执行，不会写入 messages.json。',
+    },
+  },
+  'longrun-state': {
+    fn: longrunStateDiagram,
+    en: {
+      header: {
+        eyebrow: 'Long-run',
+        title: 'project_state in an isolated directory',
+        subtitle: 'Each task keeps its own directory. State stays on disk after a crash.',
+      },
+      desc: 'An isolated task directory and project_state moving init, implement, verify, commit.',
+      l1: 'Path escapes rejected',
+      l2: 'Retries keep directory',
+      p1: 'start',
+      p2: 'build',
+      p3: 'check',
+      p4: 'commit',
+      note: 'After a crash or restart, the same feature directory and project_state remain on disk for auditing or resume.',
+    },
+    zh: {
+      header: {
+        eyebrow: '长周期',
+        title: '隔离目录上的 project_state',
+        subtitle: '每个任务自己的目录。状态写在磁盘上，崩溃后仍可接着审计。',
+      },
+      desc: '隔离任务目录上的 project_state 按初始化、实现、校验、提交推进。',
+      l1: '路径逃逸会被拒绝',
+      l2: '重试不覆盖这份目录',
+      p1: '初始化',
+      p2: '实现',
+      p3: '校验',
+      p4: '提交',
+      note: '进程崩溃或重启后，同一功能目录与 project_state 仍留在磁盘上，可直接审计或续跑。',
+    },
+  },
 };
 
 mkdirSync(outDir, { recursive: true });
@@ -2306,6 +2851,9 @@ for (const [stem, spec] of Object.entries(copy)) {
     const file = join(outDir, `${stem}-${locale}.svg`);
     writeFileSync(file, svg);
     count += 1;
+  }
+  if (stem === 'flow-pipeline' || stem === 'longrun-state') {
+    writeFileSync(join(outDir, `${stem}.svg`), spec.fn(spec.zh));
   }
 }
 console.log(`wrote ${count} svgs → ${outDir}`);

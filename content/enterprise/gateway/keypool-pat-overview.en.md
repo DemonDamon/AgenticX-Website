@@ -2,7 +2,7 @@
 
 Upstream key rotation, quota checks, and PAT access are three complementary paths. Upstream keys are not stored as plaintext. PATs store only a SHA-256 hash. Quotas are enforced by `quota.Tracker`.
 
-![Key pool rotation and cooldown](/docs/svg/ent-keypool-en.svg?v=5)
+![Key pool rotation and cooldown](/docs/svg/ent-keypool-en.svg?v=6)
 
 *Diagram: a Channel lists env var names; Resolve skips empty or cooling refs; three retryable failures start a 60s cooldown.*
 

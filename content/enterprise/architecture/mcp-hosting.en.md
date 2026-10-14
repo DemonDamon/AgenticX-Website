@@ -4,7 +4,7 @@ Location: `enterprise/apps/gateway/internal/mcphost/` — protocol, registry, ba
 
 It shares the LLM process and middleware chain (auth → policy stage `mcp_tool` → quota → audit) with a separate handler branch. Off by default. See [gateway/mcp-hosting-overview.md](../gateway/mcp-hosting-overview.md).
 
-![MCP Host components](/docs/svg/ent-mcp-en.svg?v=5)
+![MCP Host components](/docs/svg/ent-mcp-en.svg?v=6)
 
 *Diagram: `/mcp/{server}/*` enters Host, then splits into Registry, Backend, and Transport.*
 

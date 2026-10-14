@@ -2,7 +2,7 @@
 
 网关进程内嵌 MCP Server 托管（`enterprise/apps/gateway/internal/mcphost`），与聊天主线共用 **auth → 策略阶段 `mcp_tool` → quota → audit**。默认关闭：未把 `GATEWAY_MCP_HOSTING` 设为 `on` / `1` / `true` 时不挂 MCP 路由，行为与未接入前一致。
 
-![MCP 托管：Registry、Backend、Transport](/docs/svg/ent-mcp-zh.svg?v=5)
+![MCP 托管：Registry、Backend、Transport](/docs/svg/ent-mcp-zh.svg?v=6)
 
 *示意图：同一 Go 进程里，Host 解析 Registry / 授权 / backend，再走 Streamable HTTP 或 SSE。*
 

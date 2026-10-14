@@ -6,7 +6,7 @@ export const changelogContent = {
 
 Shipped capabilities vs planned work. Version-by-version notes stay on [GitHub Releases](https://github.com/DemonDamon/AgenticX/releases).
 
-![Shipped milestone arc](/docs/svg/changelog-arc-en.svg?v=5)
+![Shipped milestone arc](/docs/svg/changelog-arc-en.svg?v=6)
 
 *Diagram: core milestones, then Near/Studio, then v0.5 brains / long-run.*
 
@@ -47,7 +47,7 @@ Avatar and group chat, MCP Hub, hierarchical memory, Studio SSE, and the Desktop
 
 已落地能力与规划项对照。逐版本说明仍以 [GitHub Releases](https://github.com/DemonDamon/AgenticX/releases) 为准。
 
-![已落地里程碑弧](/docs/svg/changelog-arc-zh.svg?v=5)
+![已落地里程碑弧](/docs/svg/changelog-arc-zh.svg?v=6)
 
 *示意图：先核心里程碑，再 Near/Studio，再 v0.5 多脑 / 长周期。*
 

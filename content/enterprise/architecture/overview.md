@@ -14,7 +14,7 @@ AgenticX Enterprise 面向企业客户，提供：
 
 ## 2. 组件拓扑
 
-![三端应用与数据面](/docs/svg/ent-topo-zh.svg?v=5)
+![三端应用与数据面](/docs/svg/ent-topo-zh.svg?v=6)
 
 *示意图：员工打 portal :3000，管理员打 admin :3001，聊天转发到 gateway :8088，共用 Postgres。*
 

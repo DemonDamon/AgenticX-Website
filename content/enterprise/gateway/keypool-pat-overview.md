@@ -2,7 +2,7 @@
 
 Channel 上游 Key 轮转、配额检查、PAT 直连是三条 complementary 能力。Key 明文不入库；PAT 只存 SHA-256；配额由网关 `quota.Tracker` 执行。
 
-![Key Pool 轮转与冷却](/docs/svg/ent-keypool-zh.svg?v=5)
+![Key Pool 轮转与冷却](/docs/svg/ent-keypool-zh.svg?v=6)
 
 *示意图：Channel 配置环境变量名，Resolve 跳过空值与冷却，可重试失败三次后冷却 60 秒。*
 

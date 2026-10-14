@@ -106,7 +106,7 @@ Triggered automatically by `bootstrap.sh` and `start-dev.sh` (local DB only); id
 
 ## 3. ER relationships
 
-![Table relationships with tenants as the root](/docs/svg/ent-schema-en.svg?v=5)
+![Table relationships with tenants as the root](/docs/svg/ent-schema-en.svg?v=6)
 
 *Diagram: tenants own IAM, chat, policy, runtime, audit, and Channel; departments can nest; users own sessions.*
 

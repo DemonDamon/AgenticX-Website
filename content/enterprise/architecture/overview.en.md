@@ -14,7 +14,7 @@ The moat is three-tier integration with Machi Desktop (cloud governance + on-dev
 
 ## 2. Component topology
 
-![Three apps and one data plane](/docs/svg/ent-topo-en.svg?v=5)
+![Three apps and one data plane](/docs/svg/ent-topo-en.svg?v=6)
 
 *Diagram: employees hit portal :3000, admins hit admin :3001, chat forwards to gateway :8088, all sharing Postgres.*
 

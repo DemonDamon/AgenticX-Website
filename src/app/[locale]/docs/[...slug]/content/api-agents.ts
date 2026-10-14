@@ -6,7 +6,7 @@ export const apiAgentsContent = {
 
 This page is the **SDK** surface in \`agenticx.core\`. Near / Studio chat uses \`AgentRuntime\`, not this executor. Source lives under \`agenticx/core/\`, not \`agenticx/agents/\`.
 
-![AgentExecutor run returns a dict](/docs/svg/api-executor-en.svg?v=5)
+![AgentExecutor run returns a dict](/docs/svg/api-executor-en.svg?v=6)
 
 *Diagram: AgentExecutor(llm_provider=).run(agent=, task=) returns a dict.*
 
@@ -103,7 +103,7 @@ See [Tools](/docs/concepts/tools) and [Agent runtime](/docs/concepts/agent).
 
 本页是 \`agenticx.core\` 的 **SDK** 面。Near / Studio 对话走 \`AgentRuntime\`，不走这个执行器。源码在 \`agenticx/core/\`，不是 \`agenticx/agents/\`。
 
-![AgentExecutor.run 返回 dict](/docs/svg/api-executor-zh.svg?v=5)
+![AgentExecutor.run 返回 dict](/docs/svg/api-executor-zh.svg?v=6)
 
 *示意图：AgentExecutor(llm_provider=).run(agent=, task=) 返回 dict。*
 

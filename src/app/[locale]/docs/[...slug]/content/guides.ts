@@ -6,7 +6,7 @@ export const guidesContent = {
 
 These pages are **first successful runs**. Concepts explain the loop; a guide is the shortest path that actually works.
 
-![Six how-to pages](/docs/svg/guides-map-en.svg?v=5)
+![Six how-to pages](/docs/svg/guides-map-en.svg?v=6)
 
 *Diagram: each guide does one job — SDK agent, routing, Studio, knowledge, extensions, or deploy.*
 
@@ -30,7 +30,7 @@ These pages are **first successful runs**. Concepts explain the loop; a guide is
 
 这些页是**第一次跑通**。概念页讲循环；指南是最短的能用路径。
 
-![六篇 HOWTO](/docs/svg/guides-map-zh.svg?v=5)
+![六篇 HOWTO](/docs/svg/guides-map-zh.svg?v=6)
 
 *示意图：每篇指南只做一件事——SDK 智能体、路由、Studio、知识库、扩展或部署。*
 

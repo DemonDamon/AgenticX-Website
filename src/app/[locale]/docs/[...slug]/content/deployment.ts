@@ -6,7 +6,7 @@ export const deploymentContent = {
 
 Near's default is **local** \`agx serve\`. Treat remote/HA as an extra path, not the product default. There is no \`agenticx.server:app\` module — the FastAPI app is \`create_studio_app()\` in \`agenticx.studio.server\`.
 
-![Clients hit agx serve; state stays in ~/.agenticx](/docs/svg/deploy-serve-en.svg?v=5)
+![Clients hit agx serve; state stays in ~/.agenticx](/docs/svg/deploy-serve-en.svg?v=6)
 
 *Diagram: clients hit agx serve; optional Nginx; state stays in ~/.agenticx.*
 
@@ -95,7 +95,7 @@ See [Studio](/docs/guides/studio), [Configuration](/docs/getting-started/configu
 
 Near 默认是**本机** \`agx serve\`。远程 / 高可用是额外路径，不是产品默认。没有 \`agenticx.server:app\` 模块——FastAPI 应用是 \`agenticx.studio.server\` 里的 \`create_studio_app()\`。
 
-![客户端打 agx serve；状态留在 ~/.agenticx](/docs/svg/deploy-serve-zh.svg?v=5)
+![客户端打 agx serve；状态留在 ~/.agenticx](/docs/svg/deploy-serve-zh.svg?v=6)
 
 *示意图：客户端打 agx serve；Nginx 可选；状态留在 ~/.agenticx。*
 
