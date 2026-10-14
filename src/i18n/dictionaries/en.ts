@@ -219,6 +219,21 @@ export default {
       downloadNear: 'Download Near',
       viewDocs: 'Read the docs',
     },
+    motion: {
+      heroLive: 'Local runtime connected',
+      terminal: {
+        ready: 'Studio ready',
+        host: '127.0.0.1',
+      },
+      route: {
+        user: '@researcher look at this diff',
+        meta: 'Meta · routed to researcher',
+        reply: 'The auth branch still needs a regression.',
+        tool: 'knowledge_search',
+        busy: 'searching',
+        done: 'done',
+      },
+    },
     promises: [
       {
         title: 'Three doors, one runtime',

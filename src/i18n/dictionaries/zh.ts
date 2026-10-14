@@ -214,6 +214,21 @@ export default {
       downloadNear: '下载 Near',
       viewDocs: '阅读文档',
     },
+    motion: {
+      heroLive: '本机 Runtime 已连接',
+      terminal: {
+        ready: 'Studio 已就绪',
+        host: '127.0.0.1',
+      },
+      route: {
+        user: '@研究员 看一下这个 diff',
+        meta: 'Meta · 路由到研究员',
+        reply: '鉴权分支还缺一条回归。',
+        tool: 'knowledge_search',
+        busy: '检索中',
+        done: '已完成',
+      },
+    },
     promises: [
       {
         title: '三种入口，一个运行时',

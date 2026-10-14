@@ -15,6 +15,7 @@ import { Button } from '@/components/ui/button';
 import { HeroBackdrop } from '@/components/bits/hero-backdrop';
 import { DiagramFigure } from '@/components/diagram-figure';
 import { NearDownloadButtons, NearDownloadNote } from '@/components/near-download-buttons';
+import { SceneCard } from '@/components/home/runtime-motion';
 import { SecurityAdvisoryBanner } from '@/components/security-advisory-banner';
 import { SiteMark } from '@/components/site-mark';
 import { SiteNav } from '@/components/site-nav';
@@ -47,7 +48,6 @@ export function HomePageContent() {
     '/diagrams/scenes/team.jpg',
     '/diagrams/scenes/enterprise.jpg',
   ];
-
   return (
     <div className="min-h-screen bg-background text-foreground">
       <SiteNav active="home" />
@@ -91,12 +91,18 @@ export function HomePageContent() {
                 <NearDownloadNote className="mt-4 text-sm text-muted-foreground" />
               </div>
               <div className="lg:col-span-5">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/hero/near-desktop.png"
-                  alt={locale === 'en' ? 'Near Desktop' : 'Near 桌面'}
-                  className="block w-full rounded-2xl border border-border bg-card shadow-[0_18px_48px_rgba(15,23,42,0.18)]"
-                />
+                <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-[0_18px_48px_rgba(15,23,42,0.18)]">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/hero/near-desktop.png"
+                    alt={locale === 'en' ? 'Near Desktop' : 'Near 桌面'}
+                    className="block w-full"
+                  />
+                </div>
+                <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
+                  <span className="agx-live-dot" />
+                  {home.motion.heroLive}
+                </div>
               </div>
             </div>
 
@@ -165,22 +171,12 @@ export function HomePageContent() {
             <h2 className="mb-10 text-center text-3xl font-semibold tracking-tight">{home.scenes.title}</h2>
             <div className="grid gap-6 md:grid-cols-3">
               {home.scenes.items.map((scene, index) => (
-                <article key={scene.title} className="overflow-hidden rounded-3xl border border-border bg-card">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={sceneArt[index]} alt={scene.title} className="aspect-video w-full object-cover" />
-                  <div className="p-6">
-                    <h3 className="text-xl font-medium">{scene.title}</h3>
-                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{scene.description}</p>
-                    <div className="mt-6 space-y-2">
-                      {scene.tags.map((tag) => (
-                        <div key={tag.title} className="flex items-center justify-between gap-3 rounded-xl border border-border bg-background px-3 py-2">
-                          <div className="text-sm font-medium">{tag.title}</div>
-                          <div className="text-right text-xs text-muted-foreground">{tag.detail}</div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </article>
+                <SceneCard
+                  key={scene.title}
+                  scene={scene}
+                  artSrc={sceneArt[index] ?? sceneArt[0]!}
+                  index={index}
+                />
               ))}
             </div>
           </div>
