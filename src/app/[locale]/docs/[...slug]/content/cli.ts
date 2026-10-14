@@ -6,7 +6,7 @@ export const cliContent = {
 
 \`agx\` is the Typer CLI in \`agenticx/cli/main.py\`. Daily commands are \`serve\`, \`studio\`, \`config\`, \`skills\`, \`hooks\`, \`feishu\`. Scaffold groups (\`project\` / \`agent\` / \`workflow\`) exist — run \`agx --help\` for the live list.
 
-![agx serve, studio, and feishu](/docs/svg/cli-commands-en.svg?v=2)
+![agx serve, studio, and feishu](/docs/svg/cli-commands-en.svg?v=5)
 
 *Diagram: agx serve is HTTP; agx studio is a REPL; feishu talks to serve.*
 
@@ -161,7 +161,7 @@ agx hooks disable user-prompt-submit
 
 \`agx\` 是 \`agenticx/cli/main.py\` 里的 Typer CLI。日常命令是 \`serve\`、\`studio\`、\`config\`、\`skills\`、\`hooks\`、\`feishu\`。脚手架分组（\`project\` / \`agent\` / \`workflow\`）也在——以 \`agx --help\` 为准。
 
-![agx serve、studio 与飞书](/docs/svg/cli-commands-zh.svg?v=2)
+![agx serve、studio 与飞书](/docs/svg/cli-commands-zh.svg?v=5)
 
 *示意图：agx serve 是 HTTP；agx studio 是 REPL；飞书挂在 serve 上。*
 

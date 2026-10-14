@@ -8,7 +8,7 @@ export const studioContent = {
 
 \`agx serve\` starts this HTTP API. \`agx studio\` starts the **terminal REPL**. They are different commands.
 
-![Near renderer to Studio FastAPI and back on SSE](/docs/svg/studio-sse-en.svg?v=2)
+![Near renderer to Studio FastAPI and back on SSE](/docs/svg/studio-sse-en.svg?v=5)
 
 *Diagram: Near renderer ↔ Electron ↔ Studio FastAPI ↔ AgentRuntime SSE.*
 
@@ -125,7 +125,7 @@ Meta-Agent system prompts incorporate files under \`~/.agenticx/workspace/\`:
 
 \`agx serve\` 启动这套 HTTP API。\`agx studio\` 启动的是**终端 REPL**。两条命令不是一回事。
 
-![Near 渲染进程到 Studio FastAPI，再经 SSE 回来](/docs/svg/studio-sse-zh.svg?v=2)
+![Near 渲染进程到 Studio FastAPI，再经 SSE 回来](/docs/svg/studio-sse-zh.svg?v=5)
 
 *示意图：Near 渲染进程 ↔ Electron ↔ Studio FastAPI ↔ AgentRuntime SSE。*
 

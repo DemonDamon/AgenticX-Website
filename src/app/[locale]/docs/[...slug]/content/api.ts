@@ -6,7 +6,7 @@ export const apiContent = {
 
 The **Agents** page is a field-level SDK reference for \`agenticx.core\`. Near chat does **not** use \`AgentExecutor\`. It uses \`AgentRuntime.run_turn\`.
 
-![SDK types versus the chat loop](/docs/svg/api-map-en.svg?v=2)
+![SDK types versus the chat loop](/docs/svg/api-map-en.svg?v=5)
 
 *Diagram: construct AgentExecutor in your process; Near / Studio still run AgentRuntime.*
 
@@ -31,7 +31,7 @@ See also [Agent runtime](/docs/concepts/agent) and [CLI](/docs/cli).
 
 **Agents** 页是 \`agenticx.core\` 的字段级 SDK 参考。Near 对话**不走** \`AgentExecutor\`，走 \`AgentRuntime.run_turn\`。
 
-![SDK 类型与对话循环](/docs/svg/api-map-zh.svg?v=2)
+![SDK 类型与对话循环](/docs/svg/api-map-zh.svg?v=5)
 
 *示意图：在你的进程里构造 AgentExecutor；Near / Studio 仍然跑 AgentRuntime。*
 

@@ -19,7 +19,7 @@ AgenticX is a **local-first agent stack**. One Python capability core powers thr
 
 ## How a request moves
 
-![How a request moves through Near or the SDK](/docs/svg/intro-path-en.svg?v=2)
+![How a request moves through Near or the SDK](/docs/svg/intro-path-en.svg?v=5)
 
 *Diagram: Near or SDK talks to Studio, then AgentRuntime calls tools, models, and memory.*
 
@@ -65,7 +65,7 @@ AgenticX 是一套**本地优先**的智能体技术栈。一套 Python 能力�
 
 ## 一次请求怎么走
 
-![一轮请求如何经过 Near 或 SDK](/docs/svg/intro-path-zh.svg?v=2)
+![一轮请求如何经过 Near 或 SDK](/docs/svg/intro-path-zh.svg?v=5)
 
 *示意图：Near 或 SDK 连上 Studio，再由 AgentRuntime 调用工具、模型和记忆。*
 

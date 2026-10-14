@@ -43,7 +43,7 @@ apps/gateway/
 
 ## 请求处理顺序（Chat）
 
-![handleChatCompletions 顺序](/docs/svg/ent-gw-chat-zh.svg?v=2)
+![handleChatCompletions 顺序](/docs/svg/ent-gw-chat-zh.svg?v=5)
 
 *示意图：JWT → 配额 → 请求策略 → 路由或 Channel → 上游 → 响应/流式二次评估 → 审计 → 计量。*
 
@@ -68,7 +68,7 @@ apps/gateway/
 
 启用：`GATEWAY_CHANNEL_REGISTRY=on`
 
-![Channel 中继](/docs/svg/ent-channel-zh.svg?v=2)
+![Channel 中继](/docs/svg/ent-channel-zh.svg?v=5)
 
 *示意图：Admin CRUD 写入 gateway_channels，网关刷新 Registry 后按权重挑选并重试上游。*
 

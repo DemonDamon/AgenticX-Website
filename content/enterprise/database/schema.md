@@ -106,7 +106,7 @@ pnpm -C enterprise migrate:legacy-runtime
 
 ## 3. ER 关系
 
-![租户为根的表关系](/docs/svg/ent-schema-zh.svg?v=2)
+![租户为根的表关系](/docs/svg/ent-schema-zh.svg?v=5)
 
 *示意图：tenants 拥有 IAM、聊天、策略、运行时、审计和 Channel；部门可嵌套；用户拥有会话。*
 

@@ -6,7 +6,7 @@ export const flowContent = {
 
 Use Flow when **in-process Python methods** should form a graph (\`@start\` / \`@listen\` / \`@router\`). Use \`WorkflowEngine\` when you want a configuration-driven graph. Neither replaces a Near chat turn — that is \`AgentRuntime\`.
 
-![Flow decorators: start, listen, router](/docs/svg/flow-decorators-en.svg?v=2)
+![Flow decorators: start, listen, router](/docs/svg/flow-decorators-en.svg?v=5)
 
 *Diagram: kickoff() stays in your process and does not write messages.json.*
 
@@ -20,7 +20,7 @@ Use Flow when **in-process Python methods** should form a graph (\`@start\` / \`
 
 **What you should see.** In a script: returned state. In docs: a pipeline you can point at. In Near: nothing unless you wrap the Flow yourself.
 
-![Decorator pipeline fetch → analyze → router](/docs/svg/flow-pipeline-en.svg?v=4)
+![Decorator pipeline fetch → analyze → router](/docs/svg/flow-pipeline-en.svg?v=5)
 
 *Diagram: \`@start\` / \`@listen\` / \`@router\` — a process graph, not a chat pane.*
 
@@ -180,7 +180,7 @@ from agenticx.core.workflow_engine import WorkflowEngine, WorkflowGraph
 
 进程内 Python 方法要成图时用 Flow（\`@start\` / \`@listen\` / \`@router\`）。要配置驱动的图用 \`WorkflowEngine\`。两者都不替代 Near 对话轮次——那是 \`AgentRuntime\`。
 
-![Flow 装饰器：start、listen、router](/docs/svg/flow-decorators-zh.svg?v=2)
+![Flow 装饰器：start、listen、router](/docs/svg/flow-decorators-zh.svg?v=5)
 
 *示意图：kickoff() 留在你的进程里，不会写 messages.json。*
 
@@ -194,7 +194,7 @@ from agenticx.core.workflow_engine import WorkflowEngine, WorkflowGraph
 
 **你会看到。** 脚本里是返回的状态。文档里是一张能指着讲的流水线。Near 里不会自动出现，除非你自己把 Flow 包进去。
 
-![装饰器流水线 fetch → analyze → router](/docs/svg/flow-pipeline-zh.svg?v=4)
+![装饰器流水线 fetch → analyze → router](/docs/svg/flow-pipeline-zh.svg?v=5)
 
 *示意图：\`@start\` / \`@listen\` / \`@router\` —— 进程内的图，不是聊天窗格。*
 

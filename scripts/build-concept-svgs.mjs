@@ -32,17 +32,31 @@ function text(x, y, value, opts = {}) {
 }
 
 const CARD_FILL = 'var(--background)';
-const CARD_STROKE = 'color-mix(in oklab, var(--border) 35%, var(--foreground) 28%)';
-const CANVAS_FILL = 'color-mix(in oklab, var(--muted) 82%, var(--foreground) 18%)';
-const CHIP_FILL = 'color-mix(in oklab, var(--muted) 70%, var(--foreground) 10%)';
-const ACCENT = 'var(--foreground)';
+const CARD_STROKE = 'var(--border)';
+const CANVAS_FILL = 'color-mix(in oklab, var(--muted) 42%, var(--background))';
+const CHIP_FILL = 'color-mix(in oklab, var(--muted) 65%, var(--background))';
 
-function rect(x, y, w, h, { fill = CARD_FILL, rx = 12, stroke = CARD_STROKE, sw = 1.4 } = {}) {
+function rect(x, y, w, h, { fill = CARD_FILL, rx = 14, stroke = CARD_STROKE, sw = 1 } = {}) {
   return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}"/>`;
 }
 
 function arrow(x1, y1, x2, y2) {
-  return `<path d="M${x1} ${y1} L${x2} ${y2}" fill="none" stroke="var(--muted-foreground)" stroke-width="1.5" marker-end="url(#arrow)"/>`;
+  const dx = x2 - x1;
+  const dy = y2 - y1;
+  const len = Math.hypot(dx, dy) || 1;
+  const ux = dx / len;
+  const uy = dy / len;
+  const px = -uy;
+  const py = ux;
+  const size = 6;
+  const bx = x2 - ux * size;
+  const by = y2 - uy * size;
+  const wing = 3.4;
+  const n = (v) => Number(v).toFixed(2);
+  return [
+    `<path d="M${n(x1)} ${n(y1)} L${n(bx)} ${n(by)}" fill="none" stroke="var(--muted-foreground)" stroke-width="1.25" stroke-linecap="round"/>`,
+    `<path d="M${n(bx + px * wing)} ${n(by + py * wing)} L${n(x2)} ${n(y2)} L${n(bx - px * wing)} ${n(by - py * wing)}" fill="none" stroke="var(--muted-foreground)" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>`,
+  ].join('');
 }
 
 function vArrow(x, y1, y2) {
@@ -67,21 +81,18 @@ function pill(cx, cy, label, { minW = 72 } = {}) {
 }
 
 function badge(x, y, n) {
-  return `${rect(x, y, 22, 22, { fill: 'var(--foreground)', rx: 7, stroke: 'none' })}${text(
-    x + 11,
-    y + 16,
-    String(n),
-    { size: 12, weight: 600, fill: 'var(--background)', anchor: 'middle' },
-  )}`;
+  return text(x, y + 14, String(n).padStart(2, '0'), {
+    size: 12,
+    weight: 600,
+    fill: 'var(--muted-foreground)',
+    mono: true,
+  });
 }
 
 function nodeCard(x, y, w, h, { n, title, lines = [], kicker } = {}) {
-  const parts = [
-    rect(x, y, w, h),
-    `<rect x="${x}" y="${y + 10}" width="3" height="${Math.max(24, h - 20)}" rx="1.5" fill="${ACCENT}"/>`,
-  ];
-  if (n) parts.push(badge(x + 14, y + 14, n));
-  const titleX = n ? x + 44 : x + 16;
+  const parts = [rect(x, y, w, h)];
+  if (n) parts.push(badge(x + 16, y + 12, n));
+  const titleX = n ? x + 46 : x + 16;
   if (kicker) {
     parts.push(text(titleX, y + 22, kicker, { size: 11, fill: 'var(--muted-foreground)' }));
     parts.push(text(titleX, y + 44, title, { size: 15, weight: 600 }));
@@ -169,12 +180,7 @@ function wrapSvg(width, height, title, desc, body) {
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" role="img" aria-labelledby="title desc">
   <title id="title">${esc(title)}</title>
   <desc id="desc">${esc(desc)}</desc>
-  <defs>
-    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-      <path d="M0 1.6 L10 5 L0 8.4 z" fill="var(--muted-foreground)"/>
-    </marker>
-  </defs>
-  <rect width="${width}" height="${height}" rx="16" fill="${CANVAS_FILL}"/>
+  <rect width="${width}" height="${height}" rx="18" fill="${CANVAS_FILL}"/>
   ${body}
 </svg>
 `;
@@ -231,7 +237,6 @@ function architectureLayers(L) {
         .join('');
       return [
         rect(24, y, 752, 90, { rx: 14 }),
-        `<rect x="24" y="${y + 10}" width="3" height="70" rx="1.5" fill="${ACCENT}"/>`,
         badge(40, y + 12, i + 1),
         text(74, y + 30, layer.title, { size: 16, weight: 600 }),
         text(74, y + 48, layer.sub, { size: 12, fill: 'var(--muted-foreground)' }),

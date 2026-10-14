@@ -8,7 +8,7 @@ Use this when a coding job is **longer than one chat turn**: it must survive pol
 
 Do **not** turn this on for a short SDK \`AgentExecutor.run\`. That path does not need \`longrun\` or \`project_state\`.
 
-![Long-run isolate, stall, retry, then commit](/docs/svg/longrun-cycle-en.svg?v=2)
+![Long-run isolate, stall, retry, then commit](/docs/svg/longrun-cycle-en.svg?v=5)
 
 *Diagram: each job keeps its own directory and a disk project_state.*
 
@@ -37,7 +37,7 @@ Shipped sources include a manual queue, cron, and project-feature source. Treat 
 
 **What you should see.** A progress card that names the phase, not a static hourglass. After a crash, the same feature directory and state file are still there to audit.
 
-![Isolated long-run workspace and project_state](/docs/svg/longrun-state-en.svg?v=4)
+![Isolated long-run workspace and project_state](/docs/svg/longrun-state-en.svg?v=5)
 
 *Diagram: one task directory, and \`project_state\` moving init → implement → verify → commit.*
 
@@ -57,7 +57,7 @@ Shipped sources include a manual queue, cron, and project-feature source. Treat 
 
 短 SDK 调用走 \`AgentExecutor.run\` 即可，**不必**上 \`longrun\` 或 \`project_state\`。
 
-![长周期：隔离、停滞、重试，然后提交](/docs/svg/longrun-cycle-zh.svg?v=2)
+![长周期：隔离、停滞、重试，然后提交](/docs/svg/longrun-cycle-zh.svg?v=5)
 
 *示意图：每个任务自己的目录，加上磁盘上的 project_state。*
 
@@ -86,7 +86,7 @@ Shipped sources include a manual queue, cron, and project-feature source. Treat 
 
 **你会看到。** 进度卡写出当前阶段，不是静止沙漏。崩溃后同一功能目录和状态文件还在，可以审计。
 
-![长周期隔离目录与 project_state](/docs/svg/longrun-state-zh.svg?v=4)
+![长周期隔离目录与 project_state](/docs/svg/longrun-state-zh.svg?v=5)
 
 *示意图：一个任务目录，\`project_state\` 按初始化 → 实现 → 校验 → 提交往下走。*
 

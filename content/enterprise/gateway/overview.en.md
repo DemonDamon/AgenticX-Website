@@ -43,7 +43,7 @@ apps/gateway/
 
 ## Chat request processing order
 
-![handleChatCompletions order](/docs/svg/ent-gw-chat-en.svg?v=2)
+![handleChatCompletions order](/docs/svg/ent-gw-chat-en.svg?v=5)
 
 *Diagram: JWT → quota → request policy → route or channel → upstream → response/stream second pass → audit → metering.*
 
@@ -68,7 +68,7 @@ Route values: `local`, `private-cloud`, `third-party` (aligned with provider tab
 
 Enable with: `GATEWAY_CHANNEL_REGISTRY=on`
 
-![Channel relay](/docs/svg/ent-channel-en.svg?v=2)
+![Channel relay](/docs/svg/ent-channel-en.svg?v=5)
 
 *Diagram: admin CRUD writes gateway_channels; the gateway refreshes the registry, picks by weight, and retries the upstream.*
 

@@ -8,7 +8,7 @@ A skill is a folder with \`SKILL.md\`. The runtime can list, scan, patch, versio
 
 Use skills when you want a reusable procedure in the tool loop. Do not expect a skill to run just because the model mentioned \`mdfind\` in prose.
 
-![Skill load guard and post-session quality gate](/docs/svg/skills-lifecycle-en.svg?v=2)
+![Skill load guard and post-session quality gate](/docs/svg/skills-lifecycle-en.svg?v=5)
 
 *Diagram: two tracks — this session’s visible set, then optional learning.*
 
@@ -77,7 +77,7 @@ AGX Bundles can ship skills together with MCP servers, avatars, and memory templ
 
 要把可复用流程放进工具循环时用技能。不要因为模型在正文里写了 \`mdfind\` 就认为技能已经跑过。
 
-![技能加载门禁与会后质量门](/docs/svg/skills-lifecycle-zh.svg?v=2)
+![技能加载门禁与会后质量门](/docs/svg/skills-lifecycle-zh.svg?v=5)
 
 *示意图：两条轨——本会话可见集，以及可选的自进化。*
 

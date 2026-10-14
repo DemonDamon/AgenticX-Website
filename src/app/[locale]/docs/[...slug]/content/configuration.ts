@@ -8,7 +8,7 @@ The live file is \`~/.agenticx/config.yaml\`. Near settings write here. Studio a
 
 Use this page when you need a provider, tool-round cap, or skill scan path. You do not need every section to start.
 
-![config.yaml and env vars feed serve and providers](/docs/svg/config-yaml-en.svg?v=2)
+![config.yaml and env vars feed serve and providers](/docs/svg/config-yaml-en.svg?v=5)
 
 *Diagram: ~/.agenticx/config.yaml plus env vars drive serve, runtime, providers, and skills.*
 
@@ -140,7 +140,7 @@ tools:
 
 只在需要配供应商、工具轮次上限或技能扫描路径时改。不是每一节都要填。
 
-![config.yaml 与环境变量驱动 serve 和供应商](/docs/svg/config-yaml-zh.svg?v=2)
+![config.yaml 与环境变量驱动 serve 和供应商](/docs/svg/config-yaml-zh.svg?v=5)
 
 *示意图：~/.agenticx/config.yaml 加上环境变量，驱动 serve、运行时、供应商和技能。*
 

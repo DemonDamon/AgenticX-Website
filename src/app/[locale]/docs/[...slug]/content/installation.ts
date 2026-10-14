@@ -8,7 +8,7 @@ Install the **Python package** first. Near Desktop embeds the same backend; the 
 
 ## What you are installing
 
-![One pip install gives CLI and SDK](/docs/svg/install-paths-en.svg?v=2)
+![One pip install gives CLI and SDK](/docs/svg/install-paths-en.svg?v=5)
 
 *Diagram: the CLI starts agx serve for Near; the SDK embeds in your Python process.*
 
@@ -82,7 +82,7 @@ npm i -g @llamaindex/liteparse
 
 ## 你在装什么
 
-![一次 pip 安装同时给出 CLI 和 SDK](/docs/svg/install-paths-zh.svg?v=2)
+![一次 pip 安装同时给出 CLI 和 SDK](/docs/svg/install-paths-zh.svg?v=5)
 
 *示意图：CLI 拉起 agx serve 给 Near；SDK 嵌进你的 Python 进程。*
 

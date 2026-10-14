@@ -11,7 +11,7 @@ Two complementary APIs:
 - **Graph workflows** — explicit DAG (\`Workflow\`, \`Node\`, \`Edge\`)
 - **Flow decorators** — a Python pipeline (\`@flow\`, \`@step\`); see [Flow](/docs/concepts/flow)
 
-![In-process workflow branches on confidence](/docs/svg/orchestration-branch-en.svg?v=2)
+![In-process workflow branches on confidence](/docs/svg/orchestration-branch-en.svg?v=5)
 
 *Diagram: SDK graph only. Near group chat uses group_router, not this constructor.*
 
@@ -153,7 +153,7 @@ results = plan.execute()
 - **图工作流** — 显式 DAG（\`Workflow\`、\`Node\`、\`Edge\`）
 - **Flow 装饰器** — Python 流水线（\`@flow\`、\`@step\`）；见 [Flow](/docs/concepts/flow)
 
-![进程内工作流按置信度分支](/docs/svg/orchestration-branch-zh.svg?v=2)
+![进程内工作流按置信度分支](/docs/svg/orchestration-branch-zh.svg?v=5)
 
 *示意图：这是 SDK 图。Near 群聊走 group_router，不是这个构造。*
 

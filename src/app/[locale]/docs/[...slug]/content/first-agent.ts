@@ -6,7 +6,7 @@ export const firstAgentContent = {
 
 Build a research agent that takes a topic, calls tools, and returns a structured report. This is the **SDK** path: \`Agent\` + \`Task\` + \`AgentExecutor\`. For Near chat, start \`agx serve\` instead — see [Quickstart](/docs/getting-started/quickstart).
 
-![SDK research loop from topic to report](/docs/svg/first-agent-loop-en.svg?v=2)
+![SDK research loop from topic to report](/docs/svg/first-agent-loop-en.svg?v=5)
 
 *Diagram: Task into AgentExecutor.run; tool_calls loop until a text report.*
 
@@ -128,7 +128,7 @@ print(result)
 
 做一个研究型智能体：接收主题、调用工具、产出结构化报告。这是 **SDK** 路径：\`Agent\` + \`Task\` + \`AgentExecutor\`。Near 聊天请走 \`agx serve\`，见 [快速上手](/docs/getting-started/quickstart)。
 
-![从主题到报告的 SDK 研究环](/docs/svg/first-agent-loop-zh.svg?v=2)
+![从主题到报告的 SDK 研究环](/docs/svg/first-agent-loop-zh.svg?v=5)
 
 *示意图：Task 进入 AgentExecutor.run；tool_calls 回环直到文本报告。*
 

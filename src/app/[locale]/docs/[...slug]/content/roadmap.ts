@@ -6,7 +6,7 @@ export const roadmapContent = {
 
 This map is a **module index**, not a promise that every adapter is production-complete. Studio still does not send every operation through one \`SafetyLayer\`. Cluster / HA Runtime and a default Edge Agent path are planned, not the current Near or Enterprise default.
 
-![Shipped versus planned work](/docs/svg/roadmap-next-en.svg?v=2)
+![Shipped versus planned work](/docs/svg/roadmap-next-en.svg?v=5)
 
 *Diagram: shipped core vs planned M12, M18, and cluster runtime.*
 
@@ -63,7 +63,7 @@ Want to help build these features? See [CONTRIBUTING.md](https://github.com/Demo
 
 这张表是**模块索引**，不表示每个适配器都已生产完备。Studio 尚未把每次操作都送进完整 \`SafetyLayer\`。集群 / 高可用 Runtime 与默认 Edge Agent 仍在规划，不是当前 Near 或 Enterprise 的默认路径。
 
-![已落地与规划中的工作](/docs/svg/roadmap-next-zh.svg?v=2)
+![已落地与规划中的工作](/docs/svg/roadmap-next-zh.svg?v=5)
 
 *示意图：已落地核心，对比规划中的 M12、M18 和集群 Runtime。*
 

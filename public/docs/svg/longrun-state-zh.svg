@@ -7,12 +7,12 @@
       <path d="M0 1.6 L10 5 L0 8.4 z" fill="var(--muted-foreground)"/>
     </marker>
   </defs>
-  <rect width="920" height="300" rx="16" fill="color-mix(in oklab, var(--muted) 82%, var(--foreground) 18%)"/>
+  <rect width="920" height="300" rx="18" fill="color-mix(in oklab, var(--muted) 42%, var(--background))"/>
   <text x="28" y="36" fill="var(--muted-foreground)" font-family="'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC', ui-sans-serif, system-ui, sans-serif" font-size="12">Long-run</text>
   <text x="28" y="64" fill="var(--foreground)" font-family="'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC', ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600">隔离目录上的 project_state</text>
   <text x="28" y="88" fill="var(--muted-foreground)" font-family="'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC', ui-sans-serif, system-ui, sans-serif" font-size="13">每个任务自己的目录。状态写在磁盘上，崩溃后仍可接着审计。</text>
 
-  <rect x="28" y="112" width="250" height="148" rx="12" fill="var(--background)" stroke="color-mix(in oklab, var(--border) 35%, var(--foreground) 28%)" stroke-width="1.4"/>
+  <rect x="28" y="112" width="250" height="148" rx="12" fill="var(--background)" stroke="var(--border)" stroke-width="1"/>
   <text x="44" y="140" fill="var(--muted-foreground)" font-family="'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC', ui-sans-serif, system-ui, sans-serif" font-size="12">TaskWorkspace</text>
   <text x="44" y="168" fill="var(--foreground)" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="600">feature-login/</text>
   <text x="44" y="194" fill="var(--muted-foreground)" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="13">project_state</text>
@@ -22,22 +22,22 @@
   <path d="M278 186 H318" fill="none" stroke="var(--muted-foreground)" stroke-width="1.5" marker-end="url(#arrow)"/>
 
   <g font-family="'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC', ui-sans-serif, system-ui, sans-serif">
-    <rect x="328" y="128" width="130" height="116" rx="12" fill="var(--background)" stroke="color-mix(in oklab, var(--border) 35%, var(--foreground) 28%)" stroke-width="1.4"/>
+    <rect x="328" y="128" width="130" height="116" rx="12" fill="var(--background)" stroke="var(--border)" stroke-width="1"/>
     <text x="344" y="160" fill="var(--muted-foreground)" font-size="12">1</text>
     <text x="344" y="188" fill="var(--foreground)" font-size="16" font-weight="600">init</text>
     <text x="344" y="214" fill="var(--muted-foreground)" font-size="12">初始化</text>
 
-    <rect x="474" y="128" width="130" height="116" rx="12" fill="var(--background)" stroke="color-mix(in oklab, var(--border) 35%, var(--foreground) 28%)" stroke-width="1.4"/>
+    <rect x="474" y="128" width="130" height="116" rx="12" fill="var(--background)" stroke="var(--border)" stroke-width="1"/>
     <text x="490" y="160" fill="var(--muted-foreground)" font-size="12">2</text>
     <text x="490" y="188" fill="var(--foreground)" font-size="16" font-weight="600">implement</text>
     <text x="490" y="214" fill="var(--muted-foreground)" font-size="12">实现</text>
 
-    <rect x="620" y="128" width="120" height="116" rx="12" fill="var(--background)" stroke="color-mix(in oklab, var(--border) 35%, var(--foreground) 28%)" stroke-width="1.4"/>
+    <rect x="620" y="128" width="120" height="116" rx="12" fill="var(--background)" stroke="var(--border)" stroke-width="1"/>
     <text x="636" y="160" fill="var(--muted-foreground)" font-size="12">3</text>
     <text x="636" y="188" fill="var(--foreground)" font-size="16" font-weight="600">verify</text>
     <text x="636" y="214" fill="var(--muted-foreground)" font-size="12">校验</text>
 
-    <rect x="756" y="128" width="136" height="116" rx="12" fill="var(--background)" stroke="color-mix(in oklab, var(--border) 35%, var(--foreground) 28%)" stroke-width="1.4"/>
+    <rect x="756" y="128" width="136" height="116" rx="12" fill="var(--background)" stroke="var(--border)" stroke-width="1"/>
     <text x="772" y="160" fill="var(--muted-foreground)" font-size="12">4</text>
     <text x="772" y="188" fill="var(--foreground)" font-size="16" font-weight="600">commit</text>
     <text x="772" y="214" fill="var(--muted-foreground)" font-size="12">提交</text>

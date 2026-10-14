@@ -2,7 +2,7 @@
 
 Product semantics (endpoints, scopes, what is not shipped): [gateway/mcp-hosting-overview.md](../gateway/mcp-hosting-overview.md). This page is enablement, verification, and the admin entry.
 
-![MCP hosting components](/docs/svg/ent-mcp-en.svg?v=2)
+![MCP hosting components](/docs/svg/ent-mcp-en.svg?v=5)
 
 *Diagram: when the flag is on, Registry / Backend / Transport share the gateway process.*
 

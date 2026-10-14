@@ -4,7 +4,7 @@
 
 与 LLM 主线共用进程与中间件链（auth → policy stage `mcp_tool` → quota → audit），handler 独立分支。默认关闭，见 [gateway/mcp-hosting-overview.md](../gateway/mcp-hosting-overview.md)。
 
-![MCP Host 组件](/docs/svg/ent-mcp-zh.svg?v=2)
+![MCP Host 组件](/docs/svg/ent-mcp-zh.svg?v=5)
 
 *示意图：`/mcp/{server}/*` 进入 Host，再拆成 Registry、Backend、Transport。*
 

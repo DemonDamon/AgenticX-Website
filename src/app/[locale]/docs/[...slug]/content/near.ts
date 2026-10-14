@@ -12,7 +12,7 @@ Use Near when you want multi-pane chat, avatars, group chat, a workspace, a term
 
 ## Boot path
 
-![Near boot path from app to AgentRuntime](/docs/svg/near-boot-en.svg?v=2)
+![Near boot path from app to AgentRuntime](/docs/svg/near-boot-en.svg?v=5)
 
 *Diagram: spawn local agx serve, write port/token, then REST + SSE.*
 
@@ -74,7 +74,7 @@ Near 是**桌面工作区**。技术栈是 Electron + React + Zustand + Vite。�
 
 ## 启动链路
 
-![Near 从应用到 AgentRuntime 的启动链路](/docs/svg/near-boot-zh.svg?v=2)
+![Near 从应用到 AgentRuntime 的启动链路](/docs/svg/near-boot-zh.svg?v=5)
 
 *示意图：拉起本机 agx serve，写入端口 / 令牌，再走 REST + SSE。*
 

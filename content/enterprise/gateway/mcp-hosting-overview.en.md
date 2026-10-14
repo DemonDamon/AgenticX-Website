@@ -2,7 +2,7 @@
 
 The gateway embeds MCP server hosting (`enterprise/apps/gateway/internal/mcphost`) and shares the chat middleware chain: **auth → policy stage `mcp_tool` → quota → audit**. It is off by default. Routes are not mounted unless `GATEWAY_MCP_HOSTING` is `on` / `1` / `true`.
 
-![MCP hosting: Registry, Backend, Transport](/docs/svg/ent-mcp-en.svg?v=2)
+![MCP hosting: Registry, Backend, Transport](/docs/svg/ent-mcp-en.svg?v=5)
 
 *Diagram: in the same Go process, Host resolves the registry, entitlement, and backend, then serves Streamable HTTP or SSE.*
 

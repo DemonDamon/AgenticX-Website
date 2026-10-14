@@ -14,7 +14,7 @@ Two valid first runs. Pick one. They are not the same loop.
 !!! note "Do not mix constructor arguments"
     \`AgentExecutor\` takes \`llm_provider=\`, not \`llm=\` or \`agent=\`. You pass the agent into \`run(agent=, task=)\`.
 
-![SDK executor versus Studio SSE](/docs/svg/quickstart-paths-en.svg?v=2)
+![SDK executor versus Studio SSE](/docs/svg/quickstart-paths-en.svg?v=5)
 
 *Diagram: two first runs — AgentExecutor.run returns a dict; Studio streams SSE.*
 
@@ -98,7 +98,7 @@ Use this to check that the provider config works before opening the desktop UI.
 !!! note "不要混构造参数"
     \`AgentExecutor\` 收 \`llm_provider=\`，不是 \`llm=\` 或 \`agent=\`。智能体要传给 \`run(agent=, task=)\`。
 
-![SDK 执行器与 Studio SSE](/docs/svg/quickstart-paths-zh.svg?v=2)
+![SDK 执行器与 Studio SSE](/docs/svg/quickstart-paths-zh.svg?v=5)
 
 *示意图：两条第一次运行——AgentExecutor.run 返回 dict；Studio 推 SSE。*
 
